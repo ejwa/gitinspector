@@ -84,9 +84,10 @@ class Changes:
 		                     "-C {0} --date=short".format("-C" if hard else ""))
 		commit = None
 		found_valid_extension = False
+		lines = f.readlines()
 
-		for i in f.readlines():
-			if Commit.is_commit_line(i):
+		for i in lines:
+			if Commit.is_commit_line(i) or i == lines[-1]:
 				if found_valid_extension:
 					self.commits.append(commit)
 
