@@ -22,7 +22,7 @@ import os
 def run(directory, command):
 	previous_directory = os.getcwd()
 	os.chdir(directory)
-	f = os.popen(command)
+	result = os.popen(command)
 	os.chdir(previous_directory)
 
-	return f
+	return result

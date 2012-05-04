@@ -25,8 +25,6 @@ There is NO WARRANTY, to the extent permitted by law.
 
 Written by Adam Waldenberg."""
 
-import sys
-
 __version__ = "0.0.1"
 
 def output():

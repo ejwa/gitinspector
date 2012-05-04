@@ -42,7 +42,7 @@ class Runner:
 		terminal.skip_escapes(self.skipescapes)
 		changes.output(self.repo, self.hard)
 
-		if changes.changes.get_commits():
+		if changes.get(self.repo, self.hard).get_commits():
 			blame.output(self.repo, self.hard)
 
 			if self.timeline == True:
@@ -56,39 +56,40 @@ class Runner:
 						print i,
 
 if __name__ == "__main__":
-	r = Runner()
+	__run__ = Runner()
 
 	try:
-		opts, args = getopt.gnu_getopt(sys.argv[1:], "f:hHlTwx", ["file-types=", "hard", "help", "list-file-types", "tda367", "timeline", "version"])
+		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "f:hHlTwx", ["file-types=", "hard", "help",
+		                                                     "list-file-types", "tda367", "timeline", "version"])
 	except getopt.error, msg:
 		print sys.argv[0], "\b:", msg
 		print "Try `", sys.argv[0], "--help' for more information."
 		sys.exit(2)
-	for o, a in opts:
+	for o, a in __opts__:
 		if o in("-h", "--help"):
 			help.output()
 			sys.exit(0)
 		elif o in("-f", "--file-types"):
-			extensions.set(a)
+			extensions.define(a)
 		elif o in("-H", "--hard"):
-			r.hard = True
+			__run__.hard = True
 		elif o in("-l", "--list-file-types"):
-			r.list_file_types = True
+			__run__.list_file_types = True
 		elif o in("--version"):
 			version.output()
 			sys.exit(0)
 		elif o in("--tda367"):
-			r.list_file_types = True
-			r.tda367 = True
-			r.timeline = True
-			r.useweeks = True
+			__run__.list_file_types = True
+			__run__.tda367 = True
+			__run__.timeline = True
+			__run__.useweeks = True
 		elif o in("-T", "--timeline"):
-			r.timeline = True
+			__run__.timeline = True
 		elif o in("-w"):
-			r.useweeks = True
+			__run__.useweeks = True
 		elif o in("-x"):
-			r.skipescapes = True
-	for arg in args:
-		r.repo = arg
+			__run__.skipescapes = True
+	for arg in __args__:
+		__run__.repo = arg
 
-	r.output()
+	__run__.output()

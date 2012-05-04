@@ -25,13 +25,14 @@ import terminal
 class Blame:
 	def __init__(self, repo, hard):
 		self.blames = {}
-		f = sysrun.run(repo, "git ls-tree --name-only -r HEAD")
+		ls_tree_r = sysrun.run(repo, "git ls-tree --name-only -r HEAD")
 
-		for i in f.readlines():
+		for i in ls_tree_r.readlines():
 			if FileDiff.is_valid_extension(i):
-				g = sysrun.run(repo, "git blame -w {0} \"".format("-C -M" if hard else "") + i.strip() + "\"")
+				git_blame_r = sysrun.run(repo, "git blame -w {0} \"".format("-C -M" if hard else "") +
+				                               i.strip() + "\"")
 
-				for j in g.readlines():
+				for j in git_blame_r.readlines():
 					if Blame.is_blame_line(j):
 						author = Blame.get_author(j)
 
@@ -46,15 +47,15 @@ class Blame:
 
 	@staticmethod
 	def get_author(string):
-		g = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
-		return re.sub("[^\w ]", "", g.group(1)).strip()
+		author = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
+		return re.sub("[^\w ]", "", author.group(1)).strip()
 
 def output(repo, hard):
-	b = Blame(repo, hard)
+	blame = Blame(repo, hard)
 
 	print "\nBelow is the number of rows from each author that have survived and"
 	print "are still intact in the current revision:\n"
 	terminal.printb("Author".ljust(21) + "      Rows")
-	for i in sorted(b.blames.items()):
+	for i in sorted(blame.blames.items()):
 		print i[0].ljust(20)[0:20],
 		print str(i[1]).rjust(10)

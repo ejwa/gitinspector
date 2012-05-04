@@ -34,20 +34,20 @@ class FileDiff:
 
 	@staticmethod
 	def is_filediff_line(string):
-		s = string.split("|")
-		return s.__len__() == 2 and s[1].find("Bin") == -1
+		string = string.split("|")
+		return string.__len__() == 2 and string[1].find("Bin") == -1
 
 	@staticmethod
 	def get_extension(string):
-		s = string.split("|")[0].strip().strip("{}")
-		return os.path.splitext(s)[1][1:]
+		string = string.split("|")[0].strip().strip("{}")
+		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def is_valid_extension(string):
-		s = FileDiff.get_extension(string)
+		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
-			if s == i:
+			if extension == i:
 				return True
 		return False
 
@@ -80,11 +80,11 @@ class AuthorInfo:
 class Changes:
 	def __init__(self, repo, hard):
 		self.commits = []
-		f = sysrun.run(repo, "git log --pretty='%ad|%t|%aN|%s' --stat=100000 --no-merges --ignore-space-change " +
-		                     "-C {0} --date=short".format("-C" if hard else ""))
+		git_log_r = sysrun.run(repo, "git log --pretty='%ad|%t|%aN|%s' --stat=100000 --no-merges --ignore-space-change " +
+		                       "-C {0} --date=short".format("-C" if hard else ""))
 		commit = None
 		found_valid_extension = False
-		lines = f.readlines()
+		lines = git_log_r.readlines()
 
 		for i in lines:
 			if Commit.is_commit_line(i) or i == lines[-1]:
@@ -105,7 +105,8 @@ class Changes:
 	def get_commits(self):
 		return self.commits
 
-	def __modify_authorinfo__(self, authors, key, commit):
+	@staticmethod
+	def __modify_authorinfo__(authors, key, commit):
 		if authors.get(key, None) == None:
 			authors[key] = AuthorInfo()
 
@@ -117,29 +118,29 @@ class Changes:
 	def get_authorinfo_list(self):
 		authors = {}
 		for i in self.commits:
-			self.__modify_authorinfo__(authors, i.author, i)
+			Changes.__modify_authorinfo__(authors, i.author, i)
 
 		return authors
 
 	def get_authordateinfo_list(self):
 		authors = {}
 		for i in self.commits:
-			self.__modify_authorinfo__(authors, (i.date, i.author), i)
+			Changes.__modify_authorinfo__(authors, (i.date, i.author), i)
 
 		return authors
 
-changes = None
+__changes__ = None
 
 def get(repo, hard):
-	global changes
-	if changes == None:
-		changes = Changes(repo, hard)
+	global __changes__
+	if __changes__ == None:
+		__changes__ = Changes(repo, hard)
 
-	return changes
+	return __changes__
 
 def output(repo, hard):
 	get(repo, hard)
-	authorinfo_list = changes.get_authorinfo_list()
+	authorinfo_list = get(repo, hard).get_authorinfo_list()
 	total_changes = 0.0
 
 	for i in authorinfo_list:

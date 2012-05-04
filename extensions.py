@@ -18,20 +18,19 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 __default_extensions__ = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
-extensions = __default_extensions__
-located_extensions = set()
+__extensions__ = __default_extensions__
+__located_extensions__ = set()
 
 def get():
-	return extensions
+	return __extensions__
 
-def set(string):
-	global extensions
-	extensions = string.split(",")
+def define(string):
+	global __extensions__
+	__extensions__ = string.split(",")
 
 def add_located(string):
 	if len(string) > 0:
-		global located_extensions
-		located_extensions.add(string)
+		__located_extensions__.add(string)
 
 def get_located():
-	return located_extensions
+	return __located_extensions__

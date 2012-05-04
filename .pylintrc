@@ -1,0 +1,14 @@
+[REPORTS]
+include-ids=yes
+comment=yes
+
+[MESSAGES CONTROL]
+disable=C0111,W0232,W0603,W0702
+
+
+[DESIGN]
+min-public-methods=0
+
+[FORMAT]
+max-line-length=130
+indent-string='\t'

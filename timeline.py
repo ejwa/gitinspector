@@ -42,17 +42,18 @@ class TimelineData:
 				self.entries[key].insertions += i[1].insertions
 				self.entries[key].deletions += i[1].deletions
 
-		for p in self.get_periods():
+		for period in self.get_periods():
 			total_insertions = 0
 			total_deletions = 0
 
-			for a in self.get_authors():
-				e = self.entries.get((a, p), None)
-				if e != None:
-					total_insertions += e.insertions
-					total_deletions += e.deletions
+			for author in self.get_authors():
+				entry = self.entries.get((author, period), None)
+				if entry != None:
+					total_insertions += entry.insertions
+					total_deletions += entry.deletions
 
-			self.total_changes_by_period[p] = (total_insertions, total_deletions, total_insertions + total_deletions)
+			self.total_changes_by_period[period] = (total_insertions, total_deletions,
+			                                        total_insertions + total_deletions)
 
 	def get_periods(self):
 		return sorted(set([i[1] for i in self.entries]))
@@ -62,8 +63,6 @@ class TimelineData:
 
 	def get_author_signs_in_period(self, author, period, multiplier):
 		authorinfo = self.entries.get((author, period), None)
-		insertions = float(self.total_changes_by_period[period][0])
-		deletions = float(self.total_changes_by_period[period][1])
 		total = float(self.total_changes_by_period[period][2])
 
 		if authorinfo:
@@ -78,11 +77,11 @@ class TimelineData:
 
 		while True:
 			for i in self.entries:
-				e = self.entries.get(i)
+				entry = self.entries.get(i)
 
 				if period == i[1]:
-					deletions = e.deletions / float(self.total_changes_by_period[i[1]][2])
-					if multiplier * (e.insertions + e.deletions) / float(self.total_changes_by_period[i[1]][2]) > max_width:
+					changes_in_period = float(self.total_changes_by_period[i[1]][2])
+					if multiplier * (entry.insertions + entry.deletions) / changes_in_period > max_width:
 						return multiplier
 
 					multiplier += 0.25
@@ -90,21 +89,21 @@ class TimelineData:
 	def is_author_in_period(self, period, author):
 		return self.entries.get((author, period), None) != None
 
-def __output_row__(changes, timeline_data, periods, names):
-	print "\n" + terminal.bold + "Author".ljust(20),
+def __output_row__(timeline_data, periods, names):
+	print "\n" + terminal.__bold__ + "Author".ljust(20),
 	
-	for p in periods:
-		print p.rjust(10),
+	for period in periods:
+		print period.rjust(10),
 
-	print terminal.normal
+	print terminal.__normal__
 
-	for n in names:
-		print n.ljust(20)[0:20],
-		for p in periods:
-			multiplier = timeline_data.get_multiplier(p, 9)
-			signs = timeline_data.get_author_signs_in_period(n, p, multiplier)
+	for name in names:
+		print name.ljust(20)[0:20],
+		for period in periods:
+			multiplier = timeline_data.get_multiplier(period, 9)
+			signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
 			signs_str = (signs[1] * "-" + signs[0] * "+")
-			print ("." if timeline_data.is_author_in_period(p, n) and len(signs_str) == 0 else signs_str).rjust(10),
+			print ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str).rjust(10),
 		print ""
 
 def output(changes, useweeks):
@@ -118,4 +117,4 @@ def output(changes, useweeks):
 		max_periods_per_row = (width - 21) / 11
 
 		for i in range(0, len(periods), max_periods_per_row):
-			__output_row__(changes, timeline_data, periods[i:i+max_periods_per_row], names)
+			__output_row__(timeline_data, periods[i:i+max_periods_per_row], names)
