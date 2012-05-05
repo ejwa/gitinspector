@@ -35,7 +35,7 @@ class FileDiff:
 	@staticmethod
 	def is_filediff_line(string):
 		string = string.split("|")
-		return string.__len__() == 2 and string[1].find("Bin") == -1
+		return string.__len__() == 2 and string[1].find("Bin") == -1 and ('+' in string[1] or '-' in string[1])
 
 	@staticmethod
 	def get_extension(string):
