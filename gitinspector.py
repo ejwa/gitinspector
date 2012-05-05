@@ -33,13 +33,12 @@ class Runner:
 		self.hard = False
 		self.list_file_types = False
 		self.repo = "."
-		self.skipescapes = False
 		self.tda367 = False
 		self.timeline = False
 		self.useweeks = False
 
 	def output(self):
-		terminal.skip_escapes(self.skipescapes)
+		terminal.skip_escapes(not sys.stdout.isatty())
 		changes.output(self.repo, self.hard)
 
 		if changes.get(self.repo, self.hard).get_commits():
@@ -59,7 +58,7 @@ if __name__ == "__main__":
 	__run__ = Runner()
 
 	try:
-		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "f:hHlTwx", ["file-types=", "hard", "help",
+		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "f:hHlTw", ["file-types=", "hard", "help",
 		                                                     "list-file-types", "tda367", "timeline", "version"])
 	except getopt.error, msg:
 		print sys.argv[0], "\b:", msg
@@ -87,8 +86,6 @@ if __name__ == "__main__":
 			__run__.timeline = True
 		elif o in("-w"):
 			__run__.useweeks = True
-		elif o in("-x"):
-			__run__.skipescapes = True
 	for arg in __args__:
 		__run__.repo = arg
 

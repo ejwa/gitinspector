@@ -38,7 +38,6 @@ Mandatory arguments to long options are mandatory for short options too.
                                  for things such as documentation (RAD/SDD)
   -w                           show all statistical information in weeks
                                  instead of in months
-  -x                           skip printing of escape characters
   -h, --help                   display this help and exit
       --version                output version information and exit
 
