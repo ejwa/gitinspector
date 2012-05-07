@@ -23,6 +23,7 @@ specified, the current directory is used. If multiple directories are
 given, information will be fetched from the last directory specified.
 
 Mandatory arguments to long options are mandatory for short options too.
+  -c, --checkout-missing       try to checkout any missing files
   -f, --file-types=EXTENSIONS  a comma separated list of file extensions to
                                  include when computing statistics. The
                                  default extensions used are:

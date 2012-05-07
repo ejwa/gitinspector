@@ -23,6 +23,7 @@ import changes
 import extensions
 import getopt
 import help
+import missing
 import sys
 import terminal
 import timeline
@@ -47,6 +48,8 @@ class Runner:
 			if self.timeline == True:
 				timeline.output(changes.get(self.repo, self.hard), self.useweeks)
 
+			missing.output()
+
 			if self.list_file_types == True:
 				ex = extensions.get_located()
 				if (ex):
@@ -58,14 +61,16 @@ if __name__ == "__main__":
 	__run__ = Runner()
 
 	try:
-		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "f:hHlTw", ["file-types=", "hard", "help",
-		                                                     "list-file-types", "tda367", "timeline", "version"])
+		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:hHlTw", ["checkout-missing", "file-types=", "hard",
+		                                                     "help", "list-file-types", "tda367", "timeline", "version"])
 	except getopt.error, msg:
 		print sys.argv[0], "\b:", msg
 		print "Try `", sys.argv[0], "--help' for more information."
 		sys.exit(2)
 	for o, a in __opts__:
-		if o in("-h", "--help"):
+		if o in("-c", "--checkout-missing"):
+			missing.set_checkout_missing(True)
+		elif o in("-h", "--help"):
 			help.output()
 			sys.exit(0)
 		elif o in("-f", "--file-types"):
