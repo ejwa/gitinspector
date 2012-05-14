@@ -26,3 +26,11 @@ def run(directory, command):
 	os.chdir(previous_directory)
 
 	return result
+
+def open_file(directory, file_name):
+	previous_directory = os.getcwd()
+	os.chdir(directory)
+	file_r = open(file_name, "r")
+	os.chdir(previous_directory)
+
+	return file_r

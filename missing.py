@@ -18,7 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import sysrun
+import system
 
 __checkout_missing__ = False
 __missing_files__ =  set()
@@ -31,7 +31,7 @@ def add(repo, file_name):
 
 	if not exists:
 		if __checkout_missing__:
-			sysrun.run(repo, "git checkout \"" + file_name.strip() + "\"")
+			system.run(repo, "git checkout \"" + file_name.strip() + "\"")
 		else:
 			__missing_files__.add(file_name)
 			return True

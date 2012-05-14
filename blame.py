@@ -21,7 +21,7 @@ from changes import FileDiff
 import comment
 import missing
 import re
-import sysrun
+import system
 import terminal
 
 class BlameEntry:
@@ -31,13 +31,13 @@ class BlameEntry:
 class Blame:
 	def __init__(self, repo, hard):
 		self.blames = {}
-		ls_tree_r = sysrun.run(repo, "git ls-tree --name-only -r HEAD")
+		ls_tree_r = system.run(repo, "git ls-tree --name-only -r HEAD")
 
 		for i in ls_tree_r.readlines():
 			if FileDiff.is_valid_extension(i):
 				if not missing.add(repo, i.strip()):
-					git_blame_r = sysrun.run(repo, "git blame -w {0} \"".format("-C -M" if hard else "") +
-					                               i.strip() + "\"")
+					git_blame_r = system.run(repo, "git blame -w {0} \"".format("-C -M" if hard else "") +
+					                         i.strip() + "\"")
 					is_inside_comment = False
 
 					for j in git_blame_r.readlines():
