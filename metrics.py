@@ -20,7 +20,6 @@
 from changes import FileDiff
 import comment
 import missing
-import os
 import system
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py": 500, "glsl": 1000,
