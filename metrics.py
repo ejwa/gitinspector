@@ -61,7 +61,7 @@ def output(repo, hard):
 	metrics = Metrics(repo, hard)
 
 	if not metrics.eloc:
-		print "\nNo metrics violations were found the repository."
+		print "\nNo metrics violations were found in the repository."
 	else:
 		print "\nThe following files are suspiciously big (in order of severity):"
 		for i in sorted(set([(j, i) for (i, j) in metrics.eloc.items()]), reverse = True):
