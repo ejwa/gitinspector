@@ -31,10 +31,12 @@ Mandatory arguments to long options are mandatory for short options too.
   -H, --hard                   look harder for duplicates of rows and files
   -l, --list-file-types        list all the file extensions available in the
                                  current branch of the repository
+  -m  --metrics                include checks for certain metrics during the
+                                 analysis of commits.
   -T, --timeline               show commit timeline, including author names
       --tda367                 show statistics and information in a way that
                                  is formatted for the course TDA367/DIT211
-                                 this is currently the same as -lTw, but
+                                 this is currently the same as -lmTw, but
                                  will later include some additional searches
                                  for things such as documentation (RAD/SDD)
   -w                           show all statistical information in weeks
