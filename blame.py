@@ -48,13 +48,13 @@ class Blame:
 							if self.blames.get(author, None) == None:
 								self.blames[author] = BlameEntry()
 
-							if comment.is_comment_begining(FileDiff.get_extension(i), content):
+							if comment.has_comment_begining(FileDiff.get_extension(i), content):
 								is_inside_comment = True
 
 							if comment.is_comment(FileDiff.get_extension(i), content) or is_inside_comment:
 								self.blames[author].comments += 1
 
-							if comment.is_comment_end(FileDiff.get_extension(i), content):
+							if comment.has_comment_end(FileDiff.get_extension(i), content):
 								is_inside_comment = False
 
 							self.blames[author].rows += 1
