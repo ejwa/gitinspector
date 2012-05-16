@@ -56,11 +56,7 @@ class Runner:
 			missing.output()
 
 			if self.list_file_types:
-				ex = extensions.get_located()
-				if (ex):
-					print "\nThe extensions below were found in the repository history:"
-					for i in extensions.get_located():
-						print i,
+				extensions.output()
 
 if __name__ == "__main__":
 	__run__ = Runner()
