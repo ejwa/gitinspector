@@ -27,9 +27,9 @@ __comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "py
                "rb": "#", "js": "//", "sql": "--"}
 
 def is_comment(extension, string):
-	if __comment_begining__.get(extension, None) != None and string.strip().startswith(__comment__[extension]):
+	if __comment_begining__.get(extension, None) != None and string.strip().startswith(__comment_begining__[extension]):
 		return True
-	if __comment_end__.get(extension, None) != None and string.strip().endswith(__comment__[extension]):
+	if __comment_end__.get(extension, None) != None and string.strip().endswith(__comment_end__[extension]):
 		return True
 	if __comment__.get(extension, None) != None and string.strip().startswith(__comment__[extension]):
 		return True
@@ -37,7 +37,7 @@ def is_comment(extension, string):
 	return False
 
 def has_comment_begining(extension, string):
-	if __comment_begining__.get(extension, None) != None:
+	if __comment_begining__.get(extension, None) != None and string.find(__comment_end__[extension], 2) == -1:
 		return string.find(__comment_begining__[extension]) != -1
 	else:
 		return False

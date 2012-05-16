@@ -46,14 +46,13 @@ class Metrics:
 		eloc_counter = 0
 
 		for j in file_r.readlines():
-			if comment.has_comment_begining(extension, j):
+			if is_inside_comment and comment.has_comment_end(extension, j):
+				is_inside_comment = False
+			elif comment.has_comment_begining(extension, j):
 				is_inside_comment = True
 
-			if not comment.is_comment(extension, j) and not is_inside_comment:
+			if not is_inside_comment and not comment.is_comment(extension, j):
 				eloc_counter += 1
-
-			if comment.has_comment_end(extension, j):
-				is_inside_comment = False
 
 		return eloc_counter
 
