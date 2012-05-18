@@ -36,7 +36,7 @@ class Blame:
 		for i in ls_tree_r.readlines():
 			if FileDiff.is_valid_extension(i):
 				if not missing.add(repo, i.strip()):
-					git_blame_r = system.run(repo, "git blame -w {0} \"".format("-C -M" if hard else "") +
+					git_blame_r = system.run(repo, "git blame -w {0} \"".format("-C -C -M" if hard else "") +
 					                         i.strip() + "\"")
 					is_inside_comment = False
 

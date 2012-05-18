@@ -81,7 +81,7 @@ class Changes:
 	def __init__(self, repo, hard):
 		self.commits = []
 		git_log_r = system.run(repo, "git log --pretty='%ad|%t|%aN|%s' --stat=100000 --no-merges -w " +
-		                       "-C {0} --date=short".format("-C" if hard else ""))
+		                       "{0} --date=short".format("-C -C -M" if hard else ""))
 		commit = None
 		found_valid_extension = False
 		lines = git_log_r.readlines()
