@@ -22,6 +22,7 @@ import comment
 import missing
 import re
 import system
+import sys
 import terminal
 
 class BlameEntry:
@@ -32,12 +33,13 @@ class Blame:
 	def __init__(self, repo, hard):
 		self.blames = {}
 		ls_tree_r = system.run(repo, "git ls-tree --name-only -r HEAD")
+		lines = ls_tree_r.readlines()
 
-		for i in ls_tree_r.readlines():
-			if FileDiff.is_valid_extension(i):
-				if not missing.add(repo, i.strip()):
+		for i,row in enumerate(lines):
+			if FileDiff.is_valid_extension(row):
+				if not missing.add(repo, row.strip()):
 					git_blame_r = system.run(repo, "git blame -w {0} \"".format("-C -C -M" if hard else "") +
-					                         i.strip() + "\"")
+					                         row.strip() + "\"")
 					is_inside_comment = False
 
 					for j in git_blame_r.readlines():
@@ -48,17 +50,27 @@ class Blame:
 							if self.blames.get(author, None) == None:
 								self.blames[author] = BlameEntry()
 
-							if comment.is_comment(FileDiff.get_extension(i), content):
+							if comment.is_comment(FileDiff.get_extension(row), content):
 								self.blames[author].comments += 1
 							if is_inside_comment:
-								if comment.has_comment_end(FileDiff.get_extension(i), content):
+								if comment.has_comment_end(FileDiff.get_extension(row), content):
 									is_inside_comment = False
 								else:
 									self.blames[author].comments += 1
-							elif comment.has_comment_begining(FileDiff.get_extension(i), content):
+							elif comment.has_comment_begining(FileDiff.get_extension(row), content):
 								is_inside_comment = True
 
 							self.blames[author].rows += 1
+
+					if hard:
+						Blame.output_progress(i, len(lines))
+
+	@staticmethod
+	def output_progress(pos, length):
+		if sys.stdout.isatty():
+			terminal.clear_row()
+			print "\bChecking how many rows belong to each author (Progress): " + str(100 * pos / length) + "%",
+			sys.stdout.flush()
 
 	@staticmethod
 	def is_blame_line(string):
@@ -75,9 +87,13 @@ class Blame:
 		return content.group(1).lstrip()
 
 def output(repo, hard):
+	print ""
 	blame = Blame(repo, hard)
 
-	print "\nBelow is the number of rows from each author that have survived and"
+	if hard:
+		terminal.clear_row()
+
+	print "\bBelow is the number of rows from each author that have survived and"
 	print "are still intact in the current revision:\n"
 	terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
 	for i in sorted(blame.blames.items()):
