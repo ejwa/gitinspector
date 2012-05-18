@@ -28,11 +28,12 @@ Mandatory arguments to long options are mandatory for short options too.
                                  include when computing statistics. The
                                  default extensions used are:
                                  {1}
-  -H, --hard                   look harder for duplicates of rows and files
+  -H, --hard                   track rows and look for duplicates harder;
+                                 this can be quite slow with big repositories
   -l, --list-file-types        list all the file extensions available in the
                                  current branch of the repository
   -m  --metrics                include checks for certain metrics during the
-                                 analysis of commits.
+                                 analysis of commits
   -T, --timeline               show commit timeline, including author names
       --tda367                 show statistics and information in a way that
                                  is formatted for the course TDA367/DIT211
