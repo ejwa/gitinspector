@@ -25,6 +25,7 @@ import getopt
 import help
 import metrics
 import missing
+import os
 import sys
 import terminal
 import timeline
@@ -42,21 +43,25 @@ class Runner:
 
 	def output(self):
 		terminal.skip_escapes(not sys.stdout.isatty())
-		changes.output(self.repo, self.hard)
+		previous_directory = os.getcwd()
+		os.chdir(self.repo)
+		changes.output(self.hard)
 
-		if changes.get(self.repo, self.hard).get_commits():
-			blame.output(self.repo, self.hard)
+		if changes.get(self.hard).get_commits():
+			blame.output(self.hard)
 
 			if self.timeline:
-				timeline.output(changes.get(self.repo, self.hard), self.useweeks)
+				timeline.output(changes.get(self.hard), self.useweeks)
 
 			if self.include_metrics:
-				metrics.output(self.repo, self.hard)
+				metrics.output()
 
 			missing.output()
 
 			if self.list_file_types:
 				extensions.output()
+
+		os.chdir(previous_directory)
 
 if __name__ == "__main__":
 	__run__ = Runner()

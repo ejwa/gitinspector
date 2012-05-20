@@ -20,7 +20,6 @@
 import extensions
 import os
 import re
-import system
 import terminal
 
 class FileDiff:
@@ -78,10 +77,10 @@ class AuthorInfo:
 	commits = 0
 
 class Changes:
-	def __init__(self, repo, hard):
+	def __init__(self, hard):
 		self.commits = []
-		git_log_r = system.run(repo, "git log --pretty='%ad|%t|%aN|%s' --stat=100000 --no-merges -w " +
-		                       "{0} --date=short".format("-C -C -M" if hard else ""))
+		git_log_r = os.popen("git log --pretty='%ad|%t|%aN|%s' --stat=100000 --no-merges -w " +
+		                     "{0} --date=short".format("-C -C -M" if hard else ""))
 		commit = None
 		found_valid_extension = False
 		lines = git_log_r.readlines()
@@ -131,16 +130,16 @@ class Changes:
 
 __changes__ = None
 
-def get(repo, hard):
+def get(hard):
 	global __changes__
 	if __changes__ == None:
-		__changes__ = Changes(repo, hard)
+		__changes__ = Changes(hard)
 
 	return __changes__
 
-def output(repo, hard):
-	get(repo, hard)
-	authorinfo_list = get(repo, hard).get_authorinfo_list()
+def output(hard):
+	get(hard)
+	authorinfo_list = get(hard).get_authorinfo_list()
 	total_changes = 0.0
 
 	for i in authorinfo_list:

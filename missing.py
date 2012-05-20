@@ -18,20 +18,14 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import system
 
 __checkout_missing__ = False
 __missing_files__ =  set()
 
-def add(repo, file_name):
-	previous_directory = os.getcwd()
-	os.chdir(repo)
-	exists = os.path.exists(file_name)
-	os.chdir(previous_directory)
-
-	if not exists:
+def add(file_name):
+	if not os.path.exists(file_name):
 		if __checkout_missing__:
-			system.run(repo, "git checkout \"" + file_name.strip() + "\"")
+			os.popen("git checkout \"" + file_name.strip() + "\"")
 		else:
 			__missing_files__.add(file_name)
 			return True

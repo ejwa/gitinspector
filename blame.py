@@ -21,8 +21,8 @@ from changes import FileDiff
 import comment
 import missing
 import multiprocessing
+import os
 import re
-import system
 import sys
 import terminal
 import threading
@@ -31,28 +31,27 @@ class BlameEntry:
 	rows = 0
 	comments = 0
 
-thread_lock = threading.BoundedSemaphore(1) # multiprocessing.cpu_count())
-blame_lock = threading.Lock()
+__thread_lock__ = threading.BoundedSemaphore(multiprocessing.cpu_count())
+__blame_lock__ = threading.Lock()
 
 class BlameThread(threading.Thread):
-	def __init__(self, repo, blame_string, extension, blames):
-		thread_lock.acquire() # Lock controlling the number of threads running
+	def __init__(self, blame_string, extension, blames):
+		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
-		self.repo = repo
 		self.blame_string = blame_string
 		self.extension = extension
 		self.blames = blames
 
 	def run(self):
-		git_blame_r = system.run(self.repo, self.blame_string)
+		git_blame_r = os.popen(self.blame_string)
 		is_inside_comment = False
 
 		for j in git_blame_r.readlines():
 			if Blame.is_blame_line(j):
 				author = Blame.get_author(j)
 				content = Blame.get_content(j)
-				blame_lock.acquire() # Global lock used to protect calls from here...
+				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
 				if self.blames.get(author, None) == None:
 					self.blames[author] = BlameEntry()
@@ -68,25 +67,29 @@ class BlameThread(threading.Thread):
 					is_inside_comment = True
 
 				self.blames[author].rows += 1
-				blame_lock.release() # ...to here.
+				__blame_lock__.release() # ...to here.
 
-		thread_lock.release() # Lock controlling the number of threads running
+		__thread_lock__.release() # Lock controlling the number of threads running
 
 class Blame:
-	def __init__(self, repo, hard):
+	def __init__(self, hard):
 		self.blames = {}
-		ls_tree_r = system.run(repo, "git ls-tree --name-only -r HEAD")
+		ls_tree_r = os.popen("git ls-tree --name-only -r HEAD")
 		lines = ls_tree_r.readlines()
 
-		for i,row in enumerate(lines):
+		for i, row in enumerate(lines):
 			if FileDiff.is_valid_extension(row):
-				if not missing.add(repo, row.strip()):
+				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
-					thread = BlameThread(repo, blame_string, FileDiff.get_extension(row), self.blames)
-					thread.run() # change to start() to enable threads.
+					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames)
+					thread.start()
 
 					if hard:
 						Blame.output_progress(i, len(lines))
+
+		# Make sure all threads have completed.
+		for i in range(0, multiprocessing.cpu_count()):
+			__thread_lock__.acquire()
 
 	@staticmethod
 	def output_progress(pos, length):
@@ -109,9 +112,9 @@ class Blame:
 		content = re.search(" \d+\)(.*)", string)
 		return content.group(1).lstrip()
 
-def output(repo, hard):
+def output(hard):
 	print ""
-	blame = Blame(repo, hard)
+	blame = Blame(hard)
 
 	if hard:
 		terminal.clear_row()

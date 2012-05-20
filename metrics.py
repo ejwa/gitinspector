@@ -20,20 +20,20 @@
 from changes import FileDiff
 import comment
 import missing
-import system
+import os
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
 class Metrics:
-	def __init__(self, repo, hard):
+	def __init__(self):
 		self.eloc = {}
-		ls_tree_r = system.run(repo, "git ls-tree --name-only -r HEAD")
+		ls_tree_r = os.popen("git ls-tree --name-only -r HEAD")
 
 		for i in ls_tree_r.readlines():
 			if FileDiff.is_valid_extension(i):
-				if not missing.add(repo, i.strip()):
-					file_r = system.open_file(repo, i.strip())
+				if not missing.add(i.strip()):
+					file_r = open(i.strip(), "r")
 					extension = FileDiff.get_extension(i)
 					lines = Metrics.get_eloc(file_r, extension)
 
@@ -56,8 +56,8 @@ class Metrics:
 
 		return eloc_counter
 
-def output(repo, hard):
-	metrics = Metrics(repo, hard)
+def output():
+	metrics = Metrics()
 
 	if not metrics.eloc:
 		print "\nNo metrics violations were found in the repository."
