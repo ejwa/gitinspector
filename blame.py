@@ -20,14 +20,57 @@
 from changes import FileDiff
 import comment
 import missing
+import multiprocessing
 import re
 import system
 import sys
 import terminal
+import threading
 
 class BlameEntry:
 	rows = 0
 	comments = 0
+
+thread_lock = threading.BoundedSemaphore(1) # multiprocessing.cpu_count())
+blame_lock = threading.Lock()
+
+class BlameThread(threading.Thread):
+	def __init__(self, repo, blame_string, extension, blames):
+		thread_lock.acquire() # Lock controlling the number of threads running
+		threading.Thread.__init__(self)
+
+		self.repo = repo
+		self.blame_string = blame_string
+		self.extension = extension
+		self.blames = blames
+
+	def run(self):
+		git_blame_r = system.run(self.repo, self.blame_string)
+		is_inside_comment = False
+
+		for j in git_blame_r.readlines():
+			if Blame.is_blame_line(j):
+				author = Blame.get_author(j)
+				content = Blame.get_content(j)
+				blame_lock.acquire() # Global lock used to protect calls from here...
+
+				if self.blames.get(author, None) == None:
+					self.blames[author] = BlameEntry()
+
+				if comment.is_comment(self.extension, content):
+					self.blames[author].comments += 1
+				if is_inside_comment:
+					if comment.has_comment_end(self.extension, content):
+						is_inside_comment = False
+					else:
+						self.blames[author].comments += 1
+				elif comment.has_comment_begining(self.extension, content):
+					is_inside_comment = True
+
+				self.blames[author].rows += 1
+				blame_lock.release() # ...to here.
+
+		thread_lock.release() # Lock controlling the number of threads running
 
 class Blame:
 	def __init__(self, repo, hard):
@@ -38,29 +81,9 @@ class Blame:
 		for i,row in enumerate(lines):
 			if FileDiff.is_valid_extension(row):
 				if not missing.add(repo, row.strip()):
-					git_blame_r = system.run(repo, "git blame -w {0} \"".format("-C -C -M" if hard else "") +
-					                         row.strip() + "\"")
-					is_inside_comment = False
-
-					for j in git_blame_r.readlines():
-						if Blame.is_blame_line(j):
-							author = Blame.get_author(j)
-							content = Blame.get_content(j)
-
-							if self.blames.get(author, None) == None:
-								self.blames[author] = BlameEntry()
-
-							if comment.is_comment(FileDiff.get_extension(row), content):
-								self.blames[author].comments += 1
-							if is_inside_comment:
-								if comment.has_comment_end(FileDiff.get_extension(row), content):
-									is_inside_comment = False
-								else:
-									self.blames[author].comments += 1
-							elif comment.has_comment_begining(FileDiff.get_extension(row), content):
-								is_inside_comment = True
-
-							self.blames[author].rows += 1
+					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
+					thread = BlameThread(repo, blame_string, FileDiff.get_extension(row), self.blames)
+					thread.run() # change to start() to enable threads.
 
 					if hard:
 						Blame.output_progress(i, len(lines))
