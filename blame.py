@@ -82,6 +82,7 @@ class Blame:
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames)
+					thread.daemon = True
 					thread.start()
 
 					if hard:
