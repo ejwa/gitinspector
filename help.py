@@ -37,12 +37,11 @@ Mandatory arguments to long options are mandatory for short options too.
   -T, --timeline               show commit timeline, including author names
       --tda367                 show statistics and information in a way that
                                  is formatted for the course TDA367/DIT211;
-                                 this is the same as calling the same as -lmTw
+                                 this is the same as supplying -lmTw
   -w                           show all statistical information in weeks
                                  instead of in months
-  -x                           an exclusion pattern describing file names that
+  -x, --exclude=PATTERN        an exclusion pattern describing file names that
                                  should be excluded from the statistics
-
   -h, --help                   display this help and exit
       --version                output version information and exit
 
