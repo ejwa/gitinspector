@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 import extensions
+import filtering
 import os
 import re
 import terminal
@@ -40,6 +41,11 @@ class FileDiff:
 	def get_extension(string):
 		string = string.split("|")[0].strip().strip("{}")
 		return os.path.splitext(string)[1][1:]
+
+	@staticmethod
+	def get_filename(string):
+		string = string.split("|")[0].strip().strip("{}")
+		return string.strip()
 
 	@staticmethod
 	def is_valid_extension(string):
@@ -93,7 +99,7 @@ class Changes:
 				found_valid_extension = False
 				commit = Commit(i)
 
-			if FileDiff.is_filediff_line(i):
+			if FileDiff.is_filediff_line(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				extensions.add_located(FileDiff.get_extension(i))
 
 				if FileDiff.is_valid_extension(i):

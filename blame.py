@@ -19,6 +19,7 @@
 
 from changes import FileDiff
 import comment
+import filtering
 import missing
 import multiprocessing
 import os
@@ -78,7 +79,7 @@ class Blame:
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
-			if FileDiff.is_valid_extension(row):
+			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames)

@@ -21,6 +21,7 @@
 import blame
 import changes
 import extensions
+import filtering
 import getopt
 import help
 import metrics
@@ -57,6 +58,7 @@ class Runner:
 				metrics.output()
 
 			missing.output()
+			filtering.output()
 
 			if self.list_file_types:
 				extensions.output()
@@ -67,8 +69,8 @@ if __name__ == "__main__":
 	__run__ = Runner()
 
 	try:
-		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:hHlmTw", ["checkout-missing", "file-types=", "hard",
-		                                                     "help", "list-file-types", "metrics","tda367", "timeline",
+		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:hHlmTwx:", ["checkout-missing", "exclude=", "file-types=",
+		                                                     "hard", "help", "list-file-types", "metrics","tda367", "timeline",
 		                                                     "version"])
 	except getopt.error, msg:
 		print sys.argv[0], "\b:", msg
@@ -101,6 +103,8 @@ if __name__ == "__main__":
 			__run__.timeline = True
 		elif o in("-w"):
 			__run__.useweeks = True
+		elif o in("-x", "--exclude"):
+			filtering.add(a)
 	for arg in __args__:
 		__run__.repo = arg
 

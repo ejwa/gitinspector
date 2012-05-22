@@ -19,6 +19,7 @@
 
 from changes import FileDiff
 import comment
+import filtering
 import missing
 import os
 
@@ -31,13 +32,13 @@ class Metrics:
 		ls_tree_r = os.popen("git ls-tree --name-only -r HEAD")
 
 		for i in ls_tree_r.readlines():
-			if FileDiff.is_valid_extension(i):
+			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				if not missing.add(i.strip()):
 					file_r = open(i.strip(), "r")
 					extension = FileDiff.get_extension(i)
 					lines = Metrics.get_eloc(file_r, extension)
 
-					if __metric_eloc__[extension] < lines:
+					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
 						self.eloc[i.strip()] = lines
 
 	@staticmethod
