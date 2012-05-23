@@ -28,11 +28,13 @@ import sys
 import terminal
 import threading
 
+NUM_THREADS = multiprocessing.cpu_count()
+
 class BlameEntry:
 	rows = 0
 	comments = 0
 
-__thread_lock__ = threading.BoundedSemaphore(multiprocessing.cpu_count())
+__thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
 
 class BlameThread(threading.Thread):
@@ -90,7 +92,7 @@ class Blame:
 						Blame.output_progress(i, len(lines))
 
 		# Make sure all threads have completed.
-		for i in range(0, multiprocessing.cpu_count()):
+		for i in range(0, NUM_THREADS):
 			__thread_lock__.acquire()
 
 	@staticmethod
