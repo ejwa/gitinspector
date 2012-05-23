@@ -19,6 +19,7 @@
 
 import os
 import platform
+import sys
 
 __bold__ =  "\033[1m"
 __normal__ =  "\033[0;0m"
@@ -41,19 +42,6 @@ def __get_size_windows__():
 		sizey = bottom - top + 1
 		return sizex, sizey
 	else:
-		return None
-
-def __get_size_tput__():
-	try:
-		import subprocess
-		proc = subprocess.Popen(["tput", "cols"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
-		output = proc.communicate(input = None)
-		cols = int(output[0])
-		proc = subprocess.Popen(["tput", "lines"], stdin = subprocess.PIPE, stdout = subprocess.PIPE)
-		output = proc.communicate(input = None)
-		rows = int(output[0])
-		return (cols, rows)
-	except:
 		return None
 
 def __get_size_linux__():
@@ -97,16 +85,12 @@ def printb(string):
 	print __bold__ + string + __normal__
 
 def get_size():
-	current_os = platform.system()
-	tuple_xy = None
+	if sys.stdout.isatty():
+		current_os = platform.system()
 
-	if current_os == 'Windows':
-		tuple_xy = __get_size_windows__()
-	if tuple_xy is None:
-		tuple_xy = __get_size_tput__()
-	if current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
-		tuple_xy = __get_size_linux__()
-	if tuple_xy is None:
-		tuple_xy = (80, 25)
+		if current_os == 'Windows':
+			return __get_size_windows__()
+		elif current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
+			return __get_size_linux__()
 
-	return tuple_xy
+	return (80, 25)
