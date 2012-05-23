@@ -115,7 +115,9 @@ class Changes:
 		if authors.get(key, None) == None:
 			authors[key] = AuthorInfo()
 
-		authors[key].commits += 1
+		if commit.get_filediffs():
+			authors[key].commits += 1
+
 		for j in commit.get_filediffs():
 			authors[key].insertions += j.insertions
 			authors[key].deletions += j.deletions
