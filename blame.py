@@ -120,7 +120,7 @@ def output(hard):
 	print ""
 	blame = Blame(hard)
 
-	if hard:
+	if hard and sys.stdout.isatty():
 		terminal.clear_row()
 
 	print "\bBelow is the number of rows from each author that have survived and"
