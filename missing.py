@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import terminal
 
 __checkout_missing__ = False
 __missing_files__ =  set()
@@ -42,4 +43,5 @@ def output():
 		print "either checkout manually using git or use the -c option in gitinspector:"
 
 		for missing in __missing_files__:
-			print missing
+			(width, _) = terminal.get_size()
+			print  "...%s" % missing[-width+3:] if len(missing) > width else missing

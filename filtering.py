@@ -47,4 +47,5 @@ def output():
 		print "specified exclusion patterns:"
 
 		for i in __filtered_files__:
-			print i
+			(width, _) = terminal.get_size()
+			print  "...%s" % i[-width+3:] if len(i) > width else i
