@@ -146,7 +146,6 @@ def get(hard):
 	return __changes__
 
 def output(hard):
-	get(hard)
 	authorinfo_list = get(hard).get_authorinfo_list()
 	total_changes = 0.0
 

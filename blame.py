@@ -38,13 +38,14 @@ __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
 
 class BlameThread(threading.Thread):
-	def __init__(self, blame_string, extension, blames):
+	def __init__(self, blame_string, extension, blames, filename):
 		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
 		self.blame_string = blame_string
 		self.extension = extension
 		self.blames = blames
+		self.filename = filename
 
 	def run(self):
 		git_blame_r = os.popen(self.blame_string)
@@ -56,20 +57,20 @@ class BlameThread(threading.Thread):
 				content = Blame.get_content(j)
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
-				if self.blames.get(author, None) == None:
-					self.blames[author] = BlameEntry()
+				if self.blames.get((author, self.filename), None) == None:
+					self.blames[(author, self.filename)] = BlameEntry()
 
 				if comment.is_comment(self.extension, content):
-					self.blames[author].comments += 1
+					self.blames[(author, self.filename)].comments += 1
 				if is_inside_comment:
 					if comment.has_comment_end(self.extension, content):
 						is_inside_comment = False
 					else:
-						self.blames[author].comments += 1
+						self.blames[(author, self.filename)].comments += 1
 				elif comment.has_comment_begining(self.extension, content):
 					is_inside_comment = True
 
-				self.blames[author].rows += 1
+				self.blames[(author, self.filename)].rows += 1
 				__blame_lock__.release() # ...to here.
 
 		__thread_lock__.release() # Lock controlling the number of threads running
@@ -84,7 +85,7 @@ class Blame:
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
-					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames)
+					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
 					thread.start()
 
@@ -116,17 +117,37 @@ class Blame:
 		content = re.search(" \d+\)(.*)", string)
 		return content.group(1).lstrip()
 
+	def get_summed_blames(self):
+		summed_blames = {}
+		for i in self.blames.items():
+			if summed_blames.get(i[0][0], None) == None:
+				summed_blames[i[0][0]] = BlameEntry()
+
+			summed_blames[i[0][0]].rows += i[1].rows
+			summed_blames[i[0][0]].comments += i[1].comments
+
+		return summed_blames
+
+__blame__ = None
+
+def get(hard):
+	global __blame__
+	if __blame__ == None:
+		__blame__ = Blame(hard)
+
+	return __blame__
+
 def output(hard):
 	print ""
-	blame = Blame(hard)
+	get(hard)
 
 	if hard and sys.stdout.isatty():
 		terminal.clear_row()
 
-	print "\bBelow is the number of rows from each author that have survived and"
+	print "{0}Below is the number of rows from each author that have survived and".format("\b" if sys.stdout.isatty() else "")
 	print "are still intact in the current revision:\n"
 	terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
-	for i in sorted(blame.blames.items()):
+	for i in sorted(__blame__.get_summed_blames().items()):
 		print i[0].ljust(20)[0:20],
 		print str(i[1].rows).rjust(10),
 		print "{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15)

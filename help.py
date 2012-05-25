@@ -34,10 +34,12 @@ Mandatory arguments to long options are mandatory for short options too.
                                  current branch of the repository
   -m  --metrics                include checks for certain metrics during the
                                  analysis of commits
+  -r  --responsibilities       show which files the different authors seem
+                                 most responsible for
   -T, --timeline               show commit timeline, including author names
       --tda367                 show statistics and information in a way that
                                  is formatted for the course TDA367/DIT211;
-                                 this is the same as supplying -lmTw
+                                 this is the same as supplying -lmrTw
   -w                           show all statistical information in weeks
                                  instead of in months
   -x, --exclude=PATTERN        an exclusion pattern describing file names that
