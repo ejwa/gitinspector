@@ -43,7 +43,8 @@ Mandatory arguments to long options are mandatory for short options too.
   -w                           show all statistical information in weeks
                                  instead of in months
   -x, --exclude=PATTERN        an exclusion pattern describing file names that
-                                 should be excluded from the statistics
+                                 should be excluded from the statistics; can
+                                 be specified multiple times
   -h, --help                   display this help and exit
       --version                output version information and exit
 
