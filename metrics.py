@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from changes import FileDiff
 import comment
 import filtering
@@ -61,8 +62,8 @@ def output():
 	metrics = Metrics()
 
 	if not metrics.eloc:
-		print "\nNo metrics violations were found in the repository."
+		print("\nNo metrics violations were found in the repository.")
 	else:
-		print "\nThe following files are suspiciously big (in order of severity):"
+		print("\nThe following files are suspiciously big (in order of severity):")
 		for i in sorted(set([(j, i) for (i, j) in metrics.eloc.items()]), reverse = True):
-			print i[1] + " (" + str(i[0]) + " eloc)"
+			print(i[1] + " (" + str(i[0]) + " eloc)")

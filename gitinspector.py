@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import blame
 import changes
 import extensions
@@ -77,9 +78,9 @@ if __name__ == "__main__":
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:hHlmrTwx:", ["checkout-missing", "exclude=",
 		                                                     "file-types=", "hard", "help", "list-file-types", "metrics",
 		                                                     "responsibilities", "tda367", "timeline", "version"])
-	except getopt.error, msg:
-		print sys.argv[0], "\b:", msg
-		print "Try `", sys.argv[0], "--help' for more information."
+	except getopt.error as msg:
+		print(sys.argv[0], "\b:", msg)
+		print("Try `", sys.argv[0], "--help' for more information.")
 		sys.exit(2)
 	for o, a in __opts__:
 		if o in("-c", "--checkout-missing"):

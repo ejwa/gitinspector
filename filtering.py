@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import terminal
 
 __filters__ = []
@@ -43,9 +44,9 @@ def set_filtered(file_name):
 
 def output():
 	if __filtered_files__:
-		print  "\nThe following files were excluded from the statistics due to the"
-		print "specified exclusion patterns:"
+		print("\nThe following files were excluded from the statistics due to the")
+		print("specified exclusion patterns:")
 
 		for i in __filtered_files__:
 			(width, _) = terminal.get_size()
-			print  "...%s" % i[-width+3:] if len(i) > width else i
+			print("...%s" % i[-width+3:] if len(i) > width else i)

@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from changes import FileDiff
 import comment
 import filtering
@@ -100,7 +101,7 @@ class Blame:
 	def output_progress(pos, length):
 		if sys.stdout.isatty():
 			terminal.clear_row()
-			print "\bChecking how many rows belong to each author (Progress): " + str(100 * pos / length) + "%",
+			print("\bChecking how many rows belong to each author (Progress): {0:.0f}%".format(100 * pos / length), end="")
 			sys.stdout.flush()
 
 	@staticmethod
@@ -138,16 +139,16 @@ def get(hard):
 	return __blame__
 
 def output(hard):
-	print ""
+	print("")
 	get(hard)
 
 	if hard and sys.stdout.isatty():
 		terminal.clear_row()
 
-	print "{0}Below is the number of rows from each author that have survived and".format("\b" if sys.stdout.isatty() else "")
-	print "are still intact in the current revision:\n"
+	print("Below are the number of rows from each author that have survived and")
+	print("are still intact in the current revision:\n")
 	terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
 	for i in sorted(__blame__.get_summed_blames().items()):
-		print i[0].ljust(20)[0:20],
-		print str(i[1].rows).rjust(10),
-		print "{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15)
+		print(i[0].ljust(20)[0:20], end=" ")
+		print(str(i[1].rows).rjust(10), end=" ")
+		print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15))

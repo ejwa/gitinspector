@@ -55,8 +55,9 @@ more information.
 gitinspector requires that the git executable is available in your PATH.
 Report gitinspector bugs to gitinspector@ejwa.se."""
 
+from __future__ import print_function
 from extensions import __default_extensions__
 import sys
 
 def output():
-	print __doc__.format(sys.argv[0], ",".join(__default_extensions__))
+	print(__doc__.format(sys.argv[0], ",".join(__default_extensions__)))

@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import datetime
 import terminal
 
@@ -90,31 +91,32 @@ class TimelineData:
 		return self.entries.get((author, period), None) != None
 
 def __output_row__(timeline_data, periods, names):
-	print "\n" + terminal.__bold__ + "Author".ljust(20),
+	print("\n" + terminal.__bold__ + "Author".ljust(20), end=" ")
 	
 	for period in periods:
-		print period.rjust(10),
+		print(period.rjust(10), end=" ")
 
-	print terminal.__normal__
+	print(terminal.__normal__)
 
 	for name in names:
-		print name.ljust(20)[0:20],
+		print(name.ljust(20)[0:20], end=" ")
 		for period in periods:
 			multiplier = timeline_data.get_multiplier(period, 9)
 			signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
 			signs_str = (signs[1] * "-" + signs[0] * "+")
-			print ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str).rjust(10),
-		print ""
+			print (("." if timeline_data.is_author_in_period(period, name) and
+			               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
+		print("")
 
 def output(changes, useweeks):
 	if changes.get_commits():
-		print "\nThe following history timeline has been gathered from the repository:"
+		print("\nThe following history timeline has been gathered from the repository:")
 
 		timeline_data = TimelineData(changes, useweeks)
 		periods = timeline_data.get_periods()
 		names = timeline_data.get_authors()
 		(width, _) = terminal.get_size()
-		max_periods_per_row = (width - 21) / 11
+		max_periods_per_row = int((width - 21) / 11)
 
 		for i in range(0, len(periods), max_periods_per_row):
 			__output_row__(timeline_data, periods[i:i+max_periods_per_row], names)

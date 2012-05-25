@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import os
 import platform
 import sys
@@ -72,7 +73,7 @@ def __get_size_linux__():
 	return int(size[1]), int(size[0])
 
 def clear_row():
-	print "\b" * 200,
+	print("\b" * 200, end="")
 
 def skip_escapes(skip):
 	if skip:
@@ -82,7 +83,7 @@ def skip_escapes(skip):
 		__normal__ = ""
 
 def printb(string):
-	print __bold__ + string + __normal__
+	print(__bold__ + string + __normal__)
 
 def get_size():
 	if sys.stdout.isatty():

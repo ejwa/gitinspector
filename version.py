@@ -25,7 +25,9 @@ There is NO WARRANTY, to the extent permitted by law.
 
 Written by Adam Waldenberg."""
 
+from __future__ import print_function
+
 __version__ = "0.0.1"
 
 def output():
-	print __doc__.format(__version__)
+	print(__doc__.format(__version__))

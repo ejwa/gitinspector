@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import os
 import terminal
 
@@ -38,10 +39,10 @@ def set_checkout_missing(checkout):
 
 def output():
 	if __missing_files__:
-		print "\nThe following files were missing in the repository and were therefore not"
-		print "completely included in the statistical analysis. To include them, you can"
-		print "either checkout manually using git or use the -c option in gitinspector:"
+		print("\nThe following files were missing in the repository and were therefore not")
+		print("completely included in the statistical analysis. To include them, you can")
+		print("either checkout manually using git or use the -c option in gitinspector:")
 
 		for missing in __missing_files__:
 			(width, _) = terminal.get_size()
-			print  "...%s" % missing[-width+3:] if len(missing) > width else missing
+			print("...%s" % missing[-width+3:] if len(missing) > width else missing)

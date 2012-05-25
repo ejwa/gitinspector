@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import blame
 import terminal
 
@@ -37,20 +38,20 @@ class Responsibilities:
 		return sorted(author_blames.items())
 
 def output(hard):
-	print "\nThe following repsonsibilties, by author, were found in the current"
-	print "revision of the repository (comments are exluded from the line count,"
-	print "if possible):"
+	print("\nThe following repsonsibilties, by author, were found in the current")
+	print("revision of the repository (comments are exluded from the line count,")
+	print("if possible):")
 
 	for i in sorted(set(i[0] for i in blame.get(hard).blames)):
-		print "\n" + i, "is mostly responsible for:"
+		print("\n" + i, "is mostly responsible for:")
 		responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(hard, i)), reverse=True)
 
 		for j, entry in enumerate(responsibilities):
 			(width, _) = terminal.get_size()
 			width -= 7
 
-			print str(entry[0]).rjust(6),
-			print "...%s" % entry[1][-width+3:] if len(entry[1]) > width else entry[1]
+			print(str(entry[0]).rjust(6), end=" ")
+			print("...%s" % entry[1][-width+3:] if len(entry[1]) > width else entry[1])
 
 			if j >= 9:
 				break

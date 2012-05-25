@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import extensions
 import filtering
 import os
@@ -154,18 +155,18 @@ def output(hard):
 		total_changes += authorinfo_list.get(i).deletions
 
 	if authorinfo_list:
-		print "The following historical commit information, by author, was found in the"
-		print "repository:\n"
+		print("The following historical commit information, by author, was found in")
+		print("the repository:\n")
 		terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
 
 		for i in sorted(authorinfo_list):
 			authorinfo = authorinfo_list.get(i)
 			percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-			print i.ljust(20)[0:20],
-			print str(authorinfo.commits).rjust(7),
-			print str(authorinfo.insertions).rjust(12),
-			print str(authorinfo.deletions).rjust(11),
-			print "{0:.2f}".format(percentage).rjust(14)
+			print(i.ljust(20)[0:20], end=" ")
+			print(str(authorinfo.commits).rjust(7), end=" ")
+			print(str(authorinfo.insertions).rjust(12), end=" ")
+			print(str(authorinfo.deletions).rjust(11), end=" ")
+			print("{0:.2f}".format(percentage).rjust(14))
 	else:
-		print "No commited files with the specified extensions were found."
+		print("No commited files with the specified extensions were found.")

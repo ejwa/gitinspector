@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 import terminal
 
 __default_extensions__ = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
@@ -36,11 +37,12 @@ def add_located(string):
 
 def output():
 	if __located_extensions__:
-		print "\nThe extensions below were found in the repository history"
-		print "(extensions used during statistical analysis are marked):"
+		print("\nThe extensions below were found in the repository history")
+		print("(extensions used during statistical analysis are marked):")
 
 		for i in __located_extensions__:
 			if i in __extensions__:
-				print "[" + terminal.__bold__ + i + terminal.__normal__ + "]",
+				print("[" + terminal.__bold__ + i + terminal.__normal__ + "]", end=" ")
 			else:
-				print i,
+				print (i, end=" ")
+		print("")
