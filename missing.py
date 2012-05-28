@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 import os
+import subprocess
 import terminal
 
 __checkout_missing__ = False
@@ -27,7 +28,7 @@ __missing_files__ =  set()
 def add(file_name):
 	if not os.path.exists(file_name):
 		if __checkout_missing__:
-			os.popen("git checkout \"" + file_name.strip() + "\"")
+			subprocess.call("git checkout \"" + file_name.strip() + "\"")
 		else:
 			__missing_files__.add(file_name)
 			return True

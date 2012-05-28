@@ -23,8 +23,8 @@ import comment
 import filtering
 import missing
 import multiprocessing
-import os
 import re
+import subprocess
 import sys
 import terminal
 import threading
@@ -49,10 +49,11 @@ class BlameThread(threading.Thread):
 		self.filename = filename
 
 	def run(self):
-		git_blame_r = os.popen(self.blame_string)
+		git_blame_r = subprocess.Popen(self.blame_string, shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 		is_inside_comment = False
 
 		for j in git_blame_r.readlines():
+			j = j.decode("utf-8", errors="replace")
 			if Blame.is_blame_line(j):
 				author = Blame.get_author(j)
 				content = Blame.get_content(j)
@@ -74,15 +75,17 @@ class BlameThread(threading.Thread):
 				self.blames[(author, self.filename)].rows += 1
 				__blame_lock__.release() # ...to here.
 
+		git_blame_r.close()
 		__thread_lock__.release() # Lock controlling the number of threads running
 
 class Blame:
 	def __init__(self, hard):
 		self.blames = {}
-		ls_tree_r = os.popen("git ls-tree --name-only -r HEAD")
+		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
+			row = row.decode("utf-8", errors="replace")
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""

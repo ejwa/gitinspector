@@ -20,8 +20,9 @@
 from __future__ import print_function
 import extensions
 import filtering
-import os
 import re
+import os
+import subprocess
 import terminal
 
 class FileDiff:
@@ -86,13 +87,15 @@ class AuthorInfo:
 class Changes:
 	def __init__(self, hard):
 		self.commits = []
-		git_log_r = os.popen("git log --pretty='%ad|%t|%aN|%s' --stat=100000,8192 --no-merges -w " +
-		                     "{0} --date=short".format("-C -C -M" if hard else ""))
+		git_log_r = subprocess.Popen("git log --pretty='%ad|%t|%aN|%s' --stat=100000,8192 --no-merges -w " +
+		                             "{0} --date=short".format("-C -C -M" if hard else ""),
+		                             shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 		commit = None
 		found_valid_extension = False
 		lines = git_log_r.readlines()
 
 		for i in lines:
+			i = i.decode("utf-8", errors="replace")
 			if Commit.is_commit_line(i) or i == lines[-1]:
 				if found_valid_extension:
 					self.commits.append(commit)

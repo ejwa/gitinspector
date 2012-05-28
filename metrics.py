@@ -22,7 +22,7 @@ from changes import FileDiff
 import comment
 import filtering
 import missing
-import os
+import subprocess
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
@@ -30,12 +30,13 @@ __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py"
 class Metrics:
 	def __init__(self):
 		self.eloc = {}
-		ls_tree_r = os.popen("git ls-tree --name-only -r HEAD")
+		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
+			i = i.decode("utf-8", errors="replace")
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				if not missing.add(i.strip()):
-					file_r = open(i.strip(), "r")
+					file_r = open(i.strip(), "rb")
 					extension = FileDiff.get_extension(i)
 					lines = Metrics.get_eloc(file_r, extension)
 
@@ -48,6 +49,7 @@ class Metrics:
 		eloc_counter = 0
 
 		for j in file_r.readlines():
+			j = j.decode("utf-8", errors="replace")
 			if is_inside_comment and comment.has_comment_end(extension, j):
 				is_inside_comment = False
 			elif comment.has_comment_begining(extension, j):
