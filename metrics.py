@@ -33,7 +33,7 @@ class Metrics:
 		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
-			i = i.decode("utf-8", errors="replace")
+			i = i.decode("utf-8", "replace")
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				if not missing.add(i.strip()):
 					file_r = open(i.strip(), "rb")
@@ -49,7 +49,7 @@ class Metrics:
 		eloc_counter = 0
 
 		for j in file_r.readlines():
-			j = j.decode("utf-8", errors="replace")
+			j = j.decode("utf-8", "replace")
 			if is_inside_comment and comment.has_comment_end(extension, j):
 				is_inside_comment = False
 			elif comment.has_comment_begining(extension, j):

@@ -53,7 +53,7 @@ class BlameThread(threading.Thread):
 		is_inside_comment = False
 
 		for j in git_blame_r.readlines():
-			j = j.decode("utf-8", errors="replace")
+			j = j.decode("utf-8", "replace")
 			if Blame.is_blame_line(j):
 				author = Blame.get_author(j)
 				content = Blame.get_content(j)
@@ -85,7 +85,7 @@ class Blame:
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
-			row = row.decode("utf-8", errors="replace")
+			row = row.decode("utf-8", "replace")
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""

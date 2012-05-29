@@ -95,7 +95,7 @@ class Changes:
 		lines = git_log_r.readlines()
 
 		for i in lines:
-			i = i.decode("utf-8", errors="replace")
+			i = i.decode("utf-8", "replace")
 			if Commit.is_commit_line(i) or i == lines[-1]:
 				if found_valid_extension:
 					self.commits.append(commit)
