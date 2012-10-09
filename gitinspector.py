@@ -41,7 +41,7 @@ class Runner:
 		self.list_file_types = False
 		self.repo = "."
 		self.responsibilities = False
-		self.tda367 = False
+		self.grading = False
 		self.timeline = False
 		self.useweeks = False
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 	try:
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:hHlmrTwx:", ["checkout-missing", "exclude=",
 		                                                     "file-types=", "hard", "help", "list-file-types", "metrics",
-		                                                     "responsibilities", "tda367", "timeline", "version"])
+		                                                     "responsibilities", "grading", "timeline", "version"])
 	except getopt.error as msg:
 		print(sys.argv[0], "\b:", msg)
 		print("Try `", sys.argv[0], "--help' for more information.")
@@ -101,11 +101,11 @@ if __name__ == "__main__":
 		elif o in("--version"):
 			version.output()
 			sys.exit(0)
-		elif o in("--tda367"):
+		elif o in("--grading"):
 			__run__.include_metrics = True
 			__run__.list_file_types = True
 			__run__.responsibilities = True
-			__run__.tda367 = True
+			__run__.grading = True
 			__run__.timeline = True
 			__run__.useweeks = True
 		elif o in("-T", "--timeline"):
