@@ -28,6 +28,9 @@ Mandatory arguments to long options are mandatory for short options too.
                                  include when computing statistics. The
                                  default extensions used are:
                                  {1}
+      --grading                show statistics and information in a way that
+                                 is formatted for grading of student projects;
+                                 this is the same as supplying -lmrTw
   -H, --hard                   track rows and look for duplicates harder;
                                  this can be quite slow with big repositories
   -l, --list-file-types        list all the file extensions available in the
@@ -37,9 +40,6 @@ Mandatory arguments to long options are mandatory for short options too.
   -r  --responsibilities       show which files the different authors seem
                                  most responsible for
   -T, --timeline               show commit timeline, including author names
-      --tda367                 show statistics and information in a way that
-                                 is formatted for the course TDA367/DIT211;
-                                 this is the same as supplying -lmrTw
   -w                           show all statistical information in weeks
                                  instead of in months
   -x, --exclude=PATTERN        an exclusion pattern describing file names that
