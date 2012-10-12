@@ -28,6 +28,9 @@ Mandatory arguments to long options are mandatory for short options too.
                                  include when computing statistics. The
                                  default extensions used are:
                                  {1}
+  -F, --format=FORMAT          define in which format output should be
+                                 generated; the default format is 'txt' and
+                                 the available formats are: {2}
       --grading                show statistics and information in a way that
                                  is formatted for grading of student projects;
                                  this is the same as supplying -lmrTw
@@ -57,7 +60,8 @@ Report gitinspector bugs to gitinspector@ejwa.se."""
 
 from __future__ import print_function
 from extensions import __default_extensions__
+from format import __available_formats__
 import sys
 
 def output():
-	print(__doc__.format(sys.argv[0], ",".join(__default_extensions__)))
+	print(__doc__.format(sys.argv[0], ",".join(__default_extensions__), ",".join(__available_formats__)))
