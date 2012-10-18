@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+import os
 import terminal
 
 __available_formats__ = ["html", "text", "xml"]
@@ -32,6 +33,14 @@ def select(format):
 	__selected_format__ = format
 
 	return format in __available_formats__
-
-def output():
-	print("Currently nothing")
+ 
+def call_output_function(html_function, text_function, xml_function, *parameters):
+	if __selected_format__ == "html":
+		template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "html.template")
+		file_r = open(template_path, "rb")
+		template = file_r.read().decode("utf-8", "replace")
+		html_function(template, parameters)
+	elif __selected_format__ == "text":
+		text_function(parameters)
+	else:
+		xml_function("<gitinspector>{0}</gitinspector>", parameters)
