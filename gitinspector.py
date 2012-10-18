@@ -100,7 +100,7 @@ if __name__ == "__main__":
 			elif o in("-r", "--responsibilities"):
 				__run__.responsibilities = True
 			elif o in("--version"):
-				version.output()
+				format.call_output_function(version.output_html, version.output_text, version.output_xml)
 				sys.exit(0)
 			elif o in("--grading"):
 				__run__.include_metrics = True

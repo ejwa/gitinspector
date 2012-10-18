@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-"""gitinspector {0}
-Copyright © 2012 Ejwa Software. All rights reserved.
+"""Copyright © 2012 Ejwa Software. All rights reserved.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
@@ -29,5 +28,13 @@ from __future__ import print_function
 
 __version__ = "0.1.0"
 
-def output():
-	print(__doc__.format(__version__))
+def output_html(string, _):
+	print("HTML output not yet supported.")
+
+def output_text(_):
+	print("gitinspector {0}\n".format(__version__) + __doc__)
+
+def output_xml(string, _):
+	license_text = "\t\t" + __doc__.replace("\n", "\n\t\t")
+	print(string.format("\n\t<version>" + __version__ + "</version>\n" +
+	                    "\t<license-text>\n" + license_text + "\n\t</license-text>\n"))
