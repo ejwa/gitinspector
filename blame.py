@@ -27,6 +27,7 @@ import re
 import subprocess
 import sys
 import terminal
+import textwrap
 import threading
 
 NUM_THREADS = multiprocessing.cpu_count()
@@ -141,17 +142,36 @@ def get(hard):
 
 	return __blame__
 
-def output(hard):
+__blame_info_text__ = "Below are the number of rows from each author that have survived and are still intact in the current revision"
+
+def output_html(hard):
+	print("HTML output not yet supported.")
+
+def output_text(hard):
 	print("")
 	get(hard)
 
 	if hard and sys.stdout.isatty():
 		terminal.clear_row()
 
-	print("Below are the number of rows from each author that have survived and")
-	print("are still intact in the current revision:\n")
+	print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
 	terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
 	for i in sorted(__blame__.get_summed_blames().items()):
 		print(i[0].ljust(20)[0:20], end=" ")
 		print(str(i[1].rows).rjust(10), end=" ")
 		print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15))
+
+def output_xml(hard):
+	get(hard)
+
+	message_xml = "\t\t<message>" + __blame_info_text__ + "</message>\n"
+	blame_xml = ""
+
+	for i in sorted(__blame__.get_summed_blames().items()):
+		name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+		rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
+		percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
+		                              "</percentage-in-comments>\n")
+		blame_xml += "\t\t\t<author>\n" + name_xml + rows_xml + percentage_in_comments_xml + "\t\t\t</author>\n"
+
+	print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")
