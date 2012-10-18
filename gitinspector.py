@@ -50,7 +50,7 @@ class Runner:
 		terminal.skip_escapes(not sys.stdout.isatty())
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
-		changes.output(self.hard)
+		format.call_output_function(changes.output_html, changes.output_text, changes.output_xml, self.hard)
 
 		if changes.get(self.hard).get_commits():
 			blame.output(self.hard)

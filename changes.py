@@ -24,6 +24,7 @@ import re
 import os
 import subprocess
 import terminal
+import textwrap
 
 class FileDiff:
 	def __init__(self, string):
@@ -149,7 +150,12 @@ def get(hard):
 
 	return __changes__
 
-def output(hard):
+__historical_info_text__ = "The following historical commit information, by author, was found in the repository"
+
+def output_html(string, hard):
+	print("HTML output not yet supported.")
+
+def output_text(hard):
 	authorinfo_list = get(hard).get_authorinfo_list()
 	total_changes = 0.0
 
@@ -158,8 +164,7 @@ def output(hard):
 		total_changes += authorinfo_list.get(i).deletions
 
 	if authorinfo_list:
-		print("The following historical commit information, by author, was found in")
-		print("the repository:\n")
+		print(textwrap.fill(__historical_info_text__, width=terminal.get_size()[0]))
 		terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
 
 		for i in sorted(authorinfo_list):
@@ -173,3 +178,32 @@ def output(hard):
 			print("{0:.2f}".format(percentage).rjust(14))
 	else:
 		print("No commited files with the specified extensions were found.")
+
+def output_xml(string, hard):
+	authorinfo_list = get(hard).get_authorinfo_list()
+	total_changes = 0.0
+
+	for i in authorinfo_list:
+		total_changes += authorinfo_list.get(i).insertions
+		total_changes += authorinfo_list.get(i).deletions
+
+	if authorinfo_list:
+		message_xml = "\t\t<message>" + __historical_info_text__ + "</message>\n"
+		changes_xml = ""
+
+		for i in sorted(authorinfo_list):
+			authorinfo = authorinfo_list.get(i)
+			percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+
+			name_xml = "\t\t\t\t<name>" + i + "</name>\n"
+			commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
+			insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
+			deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
+			percentage_xml = "\t\t\t\t<percentage-of-changes>" + "{0:.2f}".format(percentage) + "</percentage-of-changes>\n"
+
+			changes_xml += ("\t\t\t<author>\n" + name_xml + commits_xml + insertions_xml +
+			                deletions_xml + percentage_xml + "\t\t\t</author>\n")
+
+		print(string.format("\n\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>\n"))
+	else:
+		print(string.format("<changes>" + "No commited files with the specified extensions were found." + "</changes>"))
