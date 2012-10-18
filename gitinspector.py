@@ -50,10 +50,11 @@ class Runner:
 		terminal.skip_escapes(not sys.stdout.isatty())
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
+		format.output_header()
 		format.call_output_function(changes.output_html, changes.output_text, changes.output_xml, self.hard)
 
 		if changes.get(self.hard).get_commits():
-			blame.output(self.hard)
+			format.call_output_function(blame.output_html, blame.output_text, blame.output_xml, self.hard)
 
 			if self.timeline:
 				timeline.output(changes.get(self.hard), self.useweeks)
@@ -70,6 +71,7 @@ class Runner:
 			if self.list_file_types:
 				extensions.output()
 
+		format.output_footer()
 		os.chdir(previous_directory)
 
 if __name__ == "__main__":

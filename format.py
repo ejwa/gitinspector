@@ -33,6 +33,22 @@ def select(format):
 	__selected_format__ = format
 
 	return format in __available_formats__
+
+def output_header():
+	if __selected_format__ == "html":
+		pass
+	elif __selected_format__ == "text":
+		pass
+	else:
+		print("<gitinspector>")
+
+def output_footer():
+	if __selected_format__ == "html":
+		pass
+	elif __selected_format__ == "text":
+		pass
+	else:
+		print("</gitinspector>")
  
 def call_output_function(html_function, text_function, xml_function, *parameters):
 	if __selected_format__ == "html":
