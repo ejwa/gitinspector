@@ -34,7 +34,7 @@ def output_html(string, _):
 def output_text(_):
 	print("gitinspector {0}\n".format(__version__) + __doc__)
 
-def output_xml(string, _):
+def output_xml(_):
 	license_text = "\t\t" + __doc__.replace("\n", "\n\t\t")
 	print(string.format("\n\t<version>" + __version__ + "</version>\n" +
 	                    "\t<license-text>\n" + license_text + "\n\t</license-text>\n"))

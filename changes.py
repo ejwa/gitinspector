@@ -179,7 +179,7 @@ def output_text(hard):
 	else:
 		print("No commited files with the specified extensions were found.")
 
-def output_xml(string, hard):
+def output_xml(hard):
 	authorinfo_list = get(hard).get_authorinfo_list()
 	total_changes = 0.0
 
@@ -204,6 +204,7 @@ def output_xml(string, hard):
 			changes_xml += ("\t\t\t<author>\n" + name_xml + commits_xml + insertions_xml +
 			                deletions_xml + percentage_xml + "\t\t\t</author>\n")
 
-		print(string.format("\n\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>\n"))
+		print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
 	else:
-		print(string.format("<changes>" + "No commited files with the specified extensions were found." + "</changes>"))
+		print("\t<changes>\n\t\t<exception>" + "No commited files with the specified extensions were found." +
+		      "</exception>\n\t</changes>")

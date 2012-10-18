@@ -39,8 +39,8 @@ def call_output_function(html_function, text_function, xml_function, *parameters
 		template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "html.template")
 		file_r = open(template_path, "rb")
 		template = file_r.read().decode("utf-8", "replace")
-		html_function(template, parameters)
+		html_function(template, *parameters)
 	elif __selected_format__ == "text":
-		text_function(parameters)
+		text_function(*parameters)
 	else:
-		xml_function("<gitinspector>{0}</gitinspector>", parameters)
+		xml_function(*parameters)
