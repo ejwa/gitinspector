@@ -164,7 +164,7 @@ def output_text(hard):
 		total_changes += authorinfo_list.get(i).deletions
 
 	if authorinfo_list:
-		print(textwrap.fill(__historical_info_text__, width=terminal.get_size()[0]))
+		print(textwrap.fill(__historical_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
 		terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
 
 		for i in sorted(authorinfo_list):
