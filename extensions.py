@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 import terminal
+import textwrap
 
 __default_extensions__ = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
 __extensions__ = __default_extensions__
@@ -35,10 +36,15 @@ def add_located(string):
 	if len(string) > 0:
 		__located_extensions__.add(string)
 
-def output():
+__extensions_info_text__ = "The extensions below were found in the repository history"
+
+def output_html():
+	print("HTML output not yet supported.")
+
+def output_text():
 	if __located_extensions__:
-		print("\nThe extensions below were found in the repository history")
-		print("(extensions used during statistical analysis are marked):")
+		print("\n" + textwrap.fill(__extensions_info_text__ + "\n(extensions used during statistical analysis are marked):",
+		      width=terminal.get_size()[0]))
 
 		for i in __located_extensions__:
 			if i in __extensions__:
@@ -46,3 +52,18 @@ def output():
 			else:
 				print (i, end=" ")
 		print("")
+
+def output_xml():
+	if __located_extensions__:
+		message_xml = "\t\t<message>" + __extensions_info_text__ + "</message>\n"
+		used_extensions_xml = ""
+		unused_extensions_xml = ""
+
+		for i in __located_extensions__:
+			if i in __extensions__:
+				used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
+			else:
+				unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
+
+		print("\t<extensions>\n" + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
+		      "\t\t<unused>\n" + unused_extensions_xml + "\t\t</unused>\n" + "\t</extensions>")

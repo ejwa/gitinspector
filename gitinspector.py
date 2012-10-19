@@ -69,7 +69,7 @@ class Runner:
 			filtering.output()
 
 			if self.list_file_types:
-				extensions.output()
+				format.call_output_function(extensions.output_html, extensions.output_text, extensions.output_xml)
 
 		format.output_footer()
 		os.chdir(previous_directory)
