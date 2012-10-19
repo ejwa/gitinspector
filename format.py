@@ -34,6 +34,10 @@ def select(format):
 
 	return format in __available_formats__
 
+def is_interactive_format():
+	global __selected_format__
+	return __selected_format__ == "text"
+
 def output_header():
 	if __selected_format__ == "html":
 		pass

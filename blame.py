@@ -21,6 +21,7 @@ from __future__ import print_function
 from changes import FileDiff
 import comment
 import filtering
+import format
 import missing
 import multiprocessing
 import re
@@ -103,7 +104,7 @@ class Blame:
 
 	@staticmethod
 	def output_progress(pos, length):
-		if sys.stdout.isatty():
+		if sys.stdout.isatty() and format.is_interactive_format():
 			terminal.clear_row()
 			print("\bChecking how many rows belong to each author (Progress): {0:.0f}%".format(100 * pos / length), end="")
 			sys.stdout.flush()
