@@ -57,7 +57,8 @@ class Runner:
 			format.call_output_function(blame.output_html, blame.output_text, blame.output_xml, self.hard)
 
 			if self.timeline:
-				timeline.output(changes.get(self.hard), self.useweeks)
+				format.call_output_function(timeline.output_html, timeline.output_text, timeline.output_xml,
+				                            changes.get(self.hard), self.useweeks)
 
 			if self.include_metrics:
 				metrics.output()
