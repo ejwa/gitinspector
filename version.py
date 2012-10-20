@@ -31,7 +31,7 @@ __version__ = "0.1.0"
 def output_html(string, _):
 	print("HTML output not yet supported.")
 
-def output_text(_):
+def output_text():
 	print("gitinspector {0}\n".format(__version__) + __doc__)
 
 def output_xml():
