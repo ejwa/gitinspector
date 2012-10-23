@@ -60,12 +60,34 @@ class Metrics:
 
 		return eloc_counter
 
-def output():
+__eloc_info_text__ = "The following files are suspiciously big (in order of severity)"
+__metrics_missing_info_text__ = "No metrics violations were found in the repository"
+
+def output_html():
+	print("HTML output not yet supported.")
+
+def output_text():
 	metrics = Metrics()
 
 	if not metrics.eloc:
-		print("\nNo metrics violations were found in the repository.")
+		print("\n" + __metrics_missing_info_text__ + ".")
 	else:
-		print("\nThe following files are suspiciously big (in order of severity):")
+		print("\n" + __eloc_info_text__ + ":")
 		for i in sorted(set([(j, i) for (i, j) in metrics.eloc.items()]), reverse = True):
 			print(i[1] + " (" + str(i[0]) + " eloc)")
+
+def output_xml():
+	metrics = Metrics()
+
+	if not metrics.eloc:
+		print("\t<metrics>\n\t\t<message>" + __metrics_missing_info_text__ + "</message>\n\t</metrics>")
+	else:
+		eloc_xml = ""
+		for i in sorted(set([(j, i) for (i, j) in metrics.eloc.items()]), reverse = True):
+			eloc_xml += "\t\t\t\t\t<violation>\n"
+			eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+			eloc_xml += "\t\t\t\t\t\t<lines-of-code>" + str(i[0]) + "</lines-of-code>\n"
+			eloc_xml += "\t\t\t\t\t</violation>\n"
+
+		print("\t\t<metrics>\n\t\t\t<eloc>\n\t\t\t\t<message>" + __eloc_info_text__ +
+		      "</message>\n\t\t\t\t<violations>\n" + eloc_xml + "\t\t\t\t</violations>\n\t\t\t</eloc>\n\t\t</metrics>")

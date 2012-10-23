@@ -61,7 +61,7 @@ class Runner:
 				                            changes.get(self.hard), self.useweeks)
 
 			if self.include_metrics:
-				metrics.output()
+				format.call_output_function(metrics.output_html, metrics.output_text, metrics.output_xml)
 
 			if self.responsibilities:
 				responsibilities.output(self.hard)
