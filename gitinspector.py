@@ -64,7 +64,8 @@ class Runner:
 				format.call_output_function(metrics.output_html, metrics.output_text, metrics.output_xml)
 
 			if self.responsibilities:
-				responsibilities.output(self.hard)
+				format.call_output_function(responsibilities.output_html, responsibilities.output_text,
+				                            responsibilities.output_xml, self.hard)
 
 			missing.output()
 			filtering.output()

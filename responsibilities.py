@@ -20,6 +20,7 @@
 from __future__ import print_function
 import blame
 import terminal
+import textwrap
 
 class ResponsibiltyEntry:
 	blames = {}
@@ -37,10 +38,14 @@ class Responsibilities:
 
 		return sorted(author_blames.items())
 
-def output(hard):
-	print("\nThe following repsonsibilties, by author, were found in the current")
-	print("revision of the repository (comments are exluded from the line count,")
-	print("if possible):")
+__responsibilities_info_text__ = ("The following repsonsibilties, by author, were found in the current "
+                                  "revision of the repository (comments are exluded from the line count, "
+                                  "if possible)")
+def output_html(hard):
+	print("HTML output not yet supported.")
+
+def output_text(hard):
+	print("\n" + textwrap.fill(__responsibilities_info_text__ + ":", width=terminal.get_size()[0]))
 
 	for i in sorted(set(i[0] for i in blame.get(hard).blames)):
 		print("\n" + i, "is mostly responsible for:")
@@ -55,3 +60,24 @@ def output(hard):
 
 			if j >= 9:
 				break
+
+def output_xml(hard):
+	message_xml = "\t\t<message>" + __responsibilities_info_text__ + "</message>\n"
+	resp_xml = ""
+
+	for i in sorted(set(i[0] for i in blame.get(hard).blames)):
+		resp_xml += "\t\t\t<author>\n"
+		resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
+		resp_xml += "\t\t\t\t<files>\n"
+		responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(hard, i)), reverse=True)
+
+		for j, entry in enumerate(responsibilities):
+			resp_xml += "\t\t\t\t\t<file>\n"
+			resp_xml += "\t\t\t\t\t\t<name>" + entry[1] + "</name>\n"
+			resp_xml += "\t\t\t\t\t\t<rows>" + str(entry[0]) + "</rows>\n"
+			resp_xml += "\t\t\t\t\t</file>\n"
+
+		resp_xml += "\t\t\t\t</files>\n"
+		resp_xml += "\t\t\t</author>\n"
+
+	print("\t<responsibilities>\n" + message_xml + "\t\t<authors>\n" + resp_xml + "\t\t</authors>\n\t</responsibilities>")
