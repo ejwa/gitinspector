@@ -152,7 +152,7 @@ def get(hard):
 
 __historical_info_text__ = "The following historical commit information, by author, was found in the repository"
 
-def output_html(string, hard):
+def output_html(hard):
 	print("HTML output not yet supported.")
 
 def output_text(hard):

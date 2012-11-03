@@ -20,6 +20,7 @@
 from __future__ import print_function
 import os
 import terminal
+import version
 
 __available_formats__ = ["html", "text", "xml"]
 __default_format__ = __available_formats__[1]
@@ -38,9 +39,15 @@ def is_interactive_format():
 	global __selected_format__
 	return __selected_format__ == "text"
 
+def __output_html_template__(name, *parameters):
+		template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
+		file_r = open(template_path, "rb")
+		template = file_r.read().decode("utf-8", "replace")
+		print(template.format(*parameters))
+
 def output_header():
 	if __selected_format__ == "html":
-		pass
+		__output_html_template__("html/html.header", version.__version__)
 	elif __selected_format__ == "text":
 		pass
 	else:
@@ -48,7 +55,7 @@ def output_header():
 
 def output_footer():
 	if __selected_format__ == "html":
-		pass
+		__output_html_template__("html/html.footer")
 	elif __selected_format__ == "text":
 		pass
 	else:
@@ -56,10 +63,7 @@ def output_footer():
  
 def call_output_function(html_function, text_function, xml_function, *parameters):
 	if __selected_format__ == "html":
-		template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "html.template")
-		file_r = open(template_path, "rb")
-		template = file_r.read().decode("utf-8", "replace")
-		html_function(template, *parameters)
+		html_function(*parameters)
 	elif __selected_format__ == "text":
 		text_function(*parameters)
 	else:
