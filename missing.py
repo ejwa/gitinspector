@@ -21,6 +21,7 @@ from __future__ import print_function
 import os
 import subprocess
 import terminal
+import textwrap
 
 __checkout_missing__ = False
 __missing_files__ =  set()
@@ -38,12 +39,27 @@ def set_checkout_missing(checkout):
 	global __checkout_missing__
 	__checkout_missing__ = checkout
 
-def output():
+__missing_info_text__ = ("The following files were missing in the repository and were therefore not "
+                         "completely included in the statistical analysis. To include them, you can "
+                         "either checkout manually using git or use the -c option in gitinspector")
+
+def output_html():
+	print("HTML output not yet supported.")
+
+def output_text():
 	if __missing_files__:
-		print("\nThe following files were missing in the repository and were therefore not")
-		print("completely included in the statistical analysis. To include them, you can")
-		print("either checkout manually using git or use the -c option in gitinspector:")
+		print("\n" + textwrap.fill(__missing_info_text__ + ":", width=terminal.get_size()[0]))
 
 		for missing in __missing_files__:
 			(width, _) = terminal.get_size()
 			print("...%s" % missing[-width+3:] if len(missing) > width else missing)
+
+def output_xml():
+	if __missing_files__:
+		message_xml = "\t\t<message>" + __missing_info_text__ + "</message>\n"
+		missing_xml = ""
+
+		for missing in __missing_files__:
+			missing_xml += "\t\t\t<file>" + missing + "</file>\n"
+
+		print("\t<missing>\n" + message_xml + "\t\t<files>\n" + missing_xml + "\t\t</files>\n\t</missing>")
