@@ -68,7 +68,7 @@ class Runner:
 				                            responsibilities.output_xml, self.hard)
 
 			missing.output()
-			filtering.output()
+			format.call_output_function(filtering.output_html, filtering.output_text, filtering.output_xml)
 
 			if self.list_file_types:
 				format.call_output_function(extensions.output_html, extensions.output_text, extensions.output_xml)
