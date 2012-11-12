@@ -18,9 +18,11 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+import base64
 import os
 import terminal
 import version
+import zipfile
 
 __available_formats__ = ["html", "text", "xml"]
 __default_format__ = __available_formats__[1]
@@ -39,26 +41,37 @@ def is_interactive_format():
 	global __selected_format__
 	return __selected_format__ == "text"
 
-def __output_html_template__(name, *parameters):
-		template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
-		file_r = open(template_path, "rb")
-		template = file_r.read().decode("utf-8", "replace")
-		print(template.format(*parameters))
+def __output_html_template__(name):
+	template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
+	file_r = open(template_path, "rb")
+	return file_r.read().decode("utf-8", "replace")
+
+def __get_zip_file_content__(name):
+	zip_file = zipfile.ZipFile("html/flot.zip", "r")
+	content = zip_file.read(name)
+	zip_file.close()
+	return content
 
 def output_header():
 	if __selected_format__ == "html":
-		__output_html_template__("html/html.header", version.__version__)
-	elif __selected_format__ == "text":
-		pass
-	else:
+		html_header = __output_html_template__("html/html.header")
+		jquery_js = __get_zip_file_content__("jquery.js")
+		flot_js = __get_zip_file_content__("jquery.flot.js")
+
+		logo_file = open("html/gitinspector_piclet.png", "rb")
+		logo = logo_file.read()
+		logo_file.close()
+		logo = base64.b64encode(logo)
+
+		print(html_header.format(version.__version__, jquery_js, flot_js, logo))
+	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 
 def output_footer():
 	if __selected_format__ == "html":
-		__output_html_template__("html/html.footer")
-	elif __selected_format__ == "text":
-		pass
-	else:
+		html_footer = __output_html_template__("html/html.footer")
+		print(html_footer)
+	elif __selected_format__ == "xml":
 		print("</gitinspector>")
  
 def call_output_function(html_function, text_function, xml_function, *parameters):
