@@ -143,7 +143,8 @@ def get(hard):
 
 	return __blame__
 
-__blame_info_text__ = "Below are the number of rows from each author that have survived and are still intact in the current revision"
+__blame_info_text__ = ("Below are the number of rows from each author that have survived and are still "
+                       "intact in the current revision")
 
 def output_html(hard):
 	print("HTML output not yet supported.")

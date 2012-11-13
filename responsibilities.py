@@ -77,6 +77,9 @@ def output_xml(hard):
 			resp_xml += "\t\t\t\t\t\t<rows>" + str(entry[0]) + "</rows>\n"
 			resp_xml += "\t\t\t\t\t</file>\n"
 
+			if j >= 9:
+				break
+
 		resp_xml += "\t\t\t\t</files>\n"
 		resp_xml += "\t\t\t</author>\n"
 

@@ -39,7 +39,6 @@ def select(format):
 	return format in __available_formats__
 
 def is_interactive_format():
-	global __selected_format__
 	return __selected_format__ == "text"
 
 def __output_html_template__(name):
@@ -55,7 +54,7 @@ def __get_zip_file_content__(name):
 
 def output_header():
 	if __selected_format__ == "html":
-		base = basedir.get_basedir();
+		base = basedir.get_basedir()
 		html_header = __output_html_template__(base + "/html/html.header")
 		jquery_js = __get_zip_file_content__("jquery.js")
 		flot_js = __get_zip_file_content__("jquery.flot.js")
