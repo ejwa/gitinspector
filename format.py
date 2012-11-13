@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 import base64
+import basedir
 import os
 import terminal
 import version
@@ -47,18 +48,19 @@ def __output_html_template__(name):
 	return file_r.read().decode("utf-8", "replace")
 
 def __get_zip_file_content__(name):
-	zip_file = zipfile.ZipFile("html/flot.zip", "r")
+	zip_file = zipfile.ZipFile(basedir.get_basedir() + "/html/flot.zip", "r")
 	content = zip_file.read(name)
 	zip_file.close()
 	return content
 
 def output_header():
 	if __selected_format__ == "html":
-		html_header = __output_html_template__("html/html.header")
+		base = basedir.get_basedir();
+		html_header = __output_html_template__(base + "/html/html.header")
 		jquery_js = __get_zip_file_content__("jquery.js")
 		flot_js = __get_zip_file_content__("jquery.flot.js")
 
-		logo_file = open("html/gitinspector_piclet.png", "rb")
+		logo_file = open(base + "/html/gitinspector_piclet.png", "rb")
 		logo = logo_file.read()
 		logo_file.close()
 		logo = base64.b64encode(logo)
