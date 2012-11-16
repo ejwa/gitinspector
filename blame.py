@@ -147,7 +147,45 @@ __blame_info_text__ = ("Below are the number of rows from each author that have 
                        "intact in the current revision")
 
 def output_html(hard):
-	print("HTML output not yet supported.")
+	get(hard)
+
+	message_xml = "<p>" + __blame_info_text__ + ".</p>\n"
+	blame_xml = "<div class=\"statistics\"><table class=\"git\">"
+	blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
+	blame_xml += "<tbody>"
+	chart_data = ""
+	blames = sorted(__blame__.get_summed_blames().items())
+	total_blames = 0
+
+	for i in blames:
+		total_blames += i[1].rows
+
+	for i, entry in enumerate(blames):
+		blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
+		blame_xml += "<td>" + entry[0] + "</td>"
+		blame_xml += "<td>" + str(entry[1].rows) + "</td>"
+		blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
+		blame_xml += "</tr>"
+		chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+
+		if blames[-1] != entry:
+			chart_data += ", "
+
+	blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
+	blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
+
+	blame_xml += "<script type=\"text/javascript\">"
+	blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
+	blame_xml += "        series: {"
+	blame_xml += "            pie: {"
+	blame_xml += "                innerRadius: 0.4,"
+	blame_xml += "                show: true"
+	blame_xml += "            }"
+	blame_xml += "        }"
+	blame_xml += "    });"
+	blame_xml += "</script>"
+
+	print(message_xml + blame_xml)
 
 def output_text(hard):
 	print("")
