@@ -149,8 +149,8 @@ __blame_info_text__ = ("Below are the number of rows from each author that have 
 def output_html(hard):
 	get(hard)
 
-	message_xml = "<p>" + __blame_info_text__ + ".</p>\n"
-	blame_xml = "<div class=\"statistics\"><table class=\"git\">"
+	blame_xml = "<div class=\"box statistics\">"
+	blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table class=\"git\">"
 	blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
 	blame_xml += "<tbody>"
 	chart_data = ""
@@ -172,7 +172,7 @@ def output_html(hard):
 			chart_data += ", "
 
 	blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
-	blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
+	blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div></div>"
 
 	blame_xml += "<script type=\"text/javascript\">"
 	blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
@@ -185,7 +185,7 @@ def output_html(hard):
 	blame_xml += "    });"
 	blame_xml += "</script>"
 
-	print(message_xml + blame_xml)
+	print(blame_xml)
 
 def output_text(hard):
 	print("")
