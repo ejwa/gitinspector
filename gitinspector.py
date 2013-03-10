@@ -29,6 +29,7 @@ import help
 import metrics
 import missing
 import os
+import outputable
 import responsibilities
 import sys
 import terminal
@@ -51,27 +52,25 @@ class Runner:
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
 		format.output_header()
-		format.call_output_function(changes.output_html, changes.output_text, changes.output_xml, self.hard)
+		outputable.output(changes.ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			format.call_output_function(blame.output_html, blame.output_text, blame.output_xml, self.hard)
+			outputable.output(blame.BlameOutput(self.hard))
 
 			if self.timeline:
-				format.call_output_function(timeline.output_html, timeline.output_text, timeline.output_xml,
-				                            changes.get(self.hard), self.useweeks)
+				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))
 
 			if self.include_metrics:
-				format.call_output_function(metrics.output_html, metrics.output_text, metrics.output_xml)
+				outputable.output(metrics.Metrics())
 
 			if self.responsibilities:
-				format.call_output_function(responsibilities.output_html, responsibilities.output_text,
-				                            responsibilities.output_xml, self.hard)
+				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard))
 
-			format.call_output_function(missing.output_html, missing.output_text, missing.output_xml)
-			format.call_output_function(filtering.output_html, filtering.output_text, filtering.output_xml)
+			outputable.output(missing.Missing())
+			outputable.output(filtering.Filtering())
 
 			if self.list_file_types:
-				format.call_output_function(extensions.output_html, extensions.output_text, extensions.output_xml)
+				outputable.output(extensions.Extensions())
 
 		format.output_footer()
 		os.chdir(previous_directory)

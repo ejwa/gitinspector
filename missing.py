@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import os
 import subprocess
 import terminal
@@ -43,23 +44,21 @@ __missing_info_text__ = ("The following files were missing in the repository and
                          "completely included in the statistical analysis. To include them, you can "
                          "either checkout manually using git or use the -c option in gitinspector")
 
-def output_html():
-	print("HTML output not yet supported.")
+class Missing(Outputable):
+	def output_text(self):
+		if __missing_files__:
+			print("\n" + textwrap.fill(__missing_info_text__ + ":", width=terminal.get_size()[0]))
 
-def output_text():
-	if __missing_files__:
-		print("\n" + textwrap.fill(__missing_info_text__ + ":", width=terminal.get_size()[0]))
+			for missing in __missing_files__:
+				(width, _) = terminal.get_size()
+				print("...%s" % missing[-width+3:] if len(missing) > width else missing)
 
-		for missing in __missing_files__:
-			(width, _) = terminal.get_size()
-			print("...%s" % missing[-width+3:] if len(missing) > width else missing)
+	def output_xml(self):
+		if __missing_files__:
+			message_xml = "\t\t<message>" + __missing_info_text__ + "</message>\n"
+			missing_xml = ""
 
-def output_xml():
-	if __missing_files__:
-		message_xml = "\t\t<message>" + __missing_info_text__ + "</message>\n"
-		missing_xml = ""
+			for missing in __missing_files__:
+				missing_xml += "\t\t\t<file>" + missing + "</file>\n"
 
-		for missing in __missing_files__:
-			missing_xml += "\t\t\t<file>" + missing + "</file>\n"
-
-		print("\t<missing>\n" + message_xml + "\t\t<files>\n" + missing_xml + "\t\t</files>\n\t</missing>")
+			print("\t<missing>\n" + message_xml + "\t\t<files>\n" + missing_xml + "\t\t</files>\n\t</missing>")

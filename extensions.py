@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import terminal
 import textwrap
 
@@ -38,32 +39,30 @@ def add_located(string):
 
 __extensions_info_text__ = "The extensions below were found in the repository history"
 
-def output_html():
-	print("HTML output not yet supported.")
+class Extensions(Outputable):
+	def output_text(self):
+		if __located_extensions__:
+			print("\n" + textwrap.fill(__extensions_info_text__ + "\n(extensions used during statistical analysis are marked):",
+			      width=terminal.get_size()[0]))
 
-def output_text():
-	if __located_extensions__:
-		print("\n" + textwrap.fill(__extensions_info_text__ + "\n(extensions used during statistical analysis are marked):",
-		      width=terminal.get_size()[0]))
+			for i in __located_extensions__:
+				if i in __extensions__:
+					print("[" + terminal.__bold__ + i + terminal.__normal__ + "]", end=" ")
+				else:
+					print (i, end=" ")
+			print("")
 
-		for i in __located_extensions__:
-			if i in __extensions__:
-				print("[" + terminal.__bold__ + i + terminal.__normal__ + "]", end=" ")
-			else:
-				print (i, end=" ")
-		print("")
+	def output_xml(self):
+		if __located_extensions__:
+			message_xml = "\t\t<message>" + __extensions_info_text__ + "</message>\n"
+			used_extensions_xml = ""
+			unused_extensions_xml = ""
 
-def output_xml():
-	if __located_extensions__:
-		message_xml = "\t\t<message>" + __extensions_info_text__ + "</message>\n"
-		used_extensions_xml = ""
-		unused_extensions_xml = ""
+			for i in __located_extensions__:
+				if i in __extensions__:
+					used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
+				else:
+					unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
 
-		for i in __located_extensions__:
-			if i in __extensions__:
-				used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
-			else:
-				unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
-
-		print("\t<extensions>\n" + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
-		      "\t\t<unused>\n" + unused_extensions_xml + "\t\t</unused>\n" + "\t</extensions>")
+			print("\t<extensions>\n" + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
+			      "\t\t<unused>\n" + unused_extensions_xml + "\t\t</unused>\n" + "\t</extensions>")

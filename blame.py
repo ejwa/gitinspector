@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 from changes import FileDiff
 import comment
 import filtering
@@ -146,72 +147,77 @@ def get(hard):
 __blame_info_text__ = ("Below are the number of rows from each author that have survived and are still "
                        "intact in the current revision")
 
-def output_html(hard):
-	get(hard)
+class BlameOutput(Outputable):
+	def __init__(self, hard):
+		self.hard = hard
+		Outputable.__init__(self)
 
-	blame_xml = "<div class=\"box statistics\">"
-	blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table class=\"git\">"
-	blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
-	blame_xml += "<tbody>"
-	chart_data = ""
-	blames = sorted(__blame__.get_summed_blames().items())
-	total_blames = 0
+	def output_html(self):
+		get(self.hard)
 
-	for i in blames:
-		total_blames += i[1].rows
+		blame_xml = "<div class=\"statistics right\"><div class=\"box\">"
+		blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table class=\"git\">"
+		blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
+		blame_xml += "<tbody>"
+		chart_data = ""
+		blames = sorted(__blame__.get_summed_blames().items())
+		total_blames = 0
 
-	for i, entry in enumerate(blames):
-		blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
-		blame_xml += "<td>" + entry[0] + "</td>"
-		blame_xml += "<td>" + str(entry[1].rows) + "</td>"
-		blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
-		blame_xml += "</tr>"
-		chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+		for i in blames:
+			total_blames += i[1].rows
 
-		if blames[-1] != entry:
-			chart_data += ", "
+		for i, entry in enumerate(blames):
+			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
+			blame_xml += "<td>" + entry[0] + "</td>"
+			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
+			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
+			blame_xml += "</tr>"
+			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(100.0 * entry[1].rows / total_blames))
 
-	blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
-	blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div></div>"
+			if blames[-1] != entry:
+				chart_data += ", "
 
-	blame_xml += "<script type=\"text/javascript\">"
-	blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
-	blame_xml += "        series: {"
-	blame_xml += "            pie: {"
-	blame_xml += "                innerRadius: 0.4,"
-	blame_xml += "                show: true"
-	blame_xml += "            }"
-	blame_xml += "        }"
-	blame_xml += "    });"
-	blame_xml += "</script>"
+		blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
+		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div></div></div>"
 
-	print(blame_xml)
+		blame_xml += "<script type=\"text/javascript\">"
+		blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
+		blame_xml += "        series: {"
+		blame_xml += "            pie: {"
+		blame_xml += "                innerRadius: 0.4,"
+		blame_xml += "                show: true"
+		blame_xml += "            }"
+		blame_xml += "        }"
+		blame_xml += "    });"
+		blame_xml += "</script>"
 
-def output_text(hard):
-	print("")
-	get(hard)
+		print(blame_xml)
 
-	if hard and sys.stdout.isatty():
-		terminal.clear_row()
+	def output_text(self):
+		print("")
+		get(self.hard)
 
-	print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-	terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
-	for i in sorted(__blame__.get_summed_blames().items()):
-		print(i[0].ljust(20)[0:20], end=" ")
-		print(str(i[1].rows).rjust(10), end=" ")
-		print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15))
+		if self.hard and sys.stdout.isatty():
+			terminal.clear_row()
 
-def output_xml(hard):
-	get(hard)
+		print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
+		terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
+		for i in sorted(__blame__.get_summed_blames().items()):
+			print(i[0].ljust(20)[0:20], end=" ")
+			print(str(i[1].rows).rjust(10), end=" ")
+			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15))
 
-	message_xml = "\t\t<message>" + __blame_info_text__ + "</message>\n"
-	blame_xml = ""
+	def output_xml(self):
+		get(self.hard)
 
-	for i in sorted(__blame__.get_summed_blames().items()):
-		name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
-		rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
-		percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
-		                              "</percentage-in-comments>\n")
-		blame_xml += "\t\t\t<author>\n" + name_xml + rows_xml + percentage_in_comments_xml + "\t\t\t</author>\n"
+		message_xml = "\t\t<message>" + __blame_info_text__ + "</message>\n"
+		blame_xml = ""
 
-	print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")
+		for i in sorted(__blame__.get_summed_blames().items()):
+			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
+			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
+			                              "</percentage-in-comments>\n")
+			blame_xml += "\t\t\t<author>\n" + name_xml + rows_xml + percentage_in_comments_xml + "\t\t\t</author>\n"
+
+		print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")

@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import extensions
 import filtering
 import re
@@ -151,60 +152,98 @@ def get(hard):
 	return __changes__
 
 __historical_info_text__ = "The following historical commit information, by author, was found in the repository"
+__no_commited_files__ = "No commited files with the specified extensions were found"
 
-def output_html(hard):
-	print("HTML output not yet supported.")
+class ChangesOutput(Outputable):
+	def __init__(self, hard):
+		self.hard = hard
+		Outputable.__init__(self)
 
-def output_text(hard):
-	authorinfo_list = get(hard).get_authorinfo_list()
-	total_changes = 0.0
+	def output_html(self):
+		authorinfo_list = get(self.hard).get_authorinfo_list()
+		total_changes = 0.0
+		changes_xml = "<div class=\"statistics right\"><div class=\"box\">"
 
-	for i in authorinfo_list:
-		total_changes += authorinfo_list.get(i).insertions
-		total_changes += authorinfo_list.get(i).deletions
+		for i in authorinfo_list:
+			total_changes += authorinfo_list.get(i).insertions
+			total_changes += authorinfo_list.get(i).deletions
 
-	if authorinfo_list:
-		print(textwrap.fill(__historical_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
+		if authorinfo_list:
+			changes_xml += "<p>" + __historical_info_text__ + ".</p><div><table class=\"git\">"
+			changes_xml += ("<thead><tr> <th>Author</th> <th>Commits</th> <th>Insertions</th> <th>Deletions</th>" +
+			               "<th>% of changes</th> </tr></thead>")
+			changes_xml += "<tbody>"
 
-		for i in sorted(authorinfo_list):
-			authorinfo = authorinfo_list.get(i)
-			percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+			for i, entry in enumerate(sorted(authorinfo_list)):
+				authorinfo = authorinfo_list.get(entry)
+				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-			print(i.ljust(20)[0:20], end=" ")
-			print(str(authorinfo.commits).rjust(7), end=" ")
-			print(str(authorinfo.insertions).rjust(12), end=" ")
-			print(str(authorinfo.deletions).rjust(11), end=" ")
-			print("{0:.2f}".format(percentage).rjust(14))
-	else:
-		print("No commited files with the specified extensions were found.")
+				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
+				changes_xml += "<td>" + entry + "</td>"
+				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
+				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
+				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
+				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
+				changes_xml += "</tr>"
 
-def output_xml(hard):
-	authorinfo_list = get(hard).get_authorinfo_list()
-	total_changes = 0.0
+			changes_xml += ("<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td>" +
+			               "</tr></tfoot></tbody></table>")
+			changes_xml += "</div>"
+		else:
+			changes_xml += "<p>" + __no_commited_files__ + ".</p>"
 
-	for i in authorinfo_list:
-		total_changes += authorinfo_list.get(i).insertions
-		total_changes += authorinfo_list.get(i).deletions
+		changes_xml += "</div></div>"
+		print(changes_xml)
 
-	if authorinfo_list:
-		message_xml = "\t\t<message>" + __historical_info_text__ + "</message>\n"
-		changes_xml = ""
+	def output_text(self):
+		authorinfo_list = get(self.hard).get_authorinfo_list()
+		total_changes = 0.0
 
-		for i in sorted(authorinfo_list):
-			authorinfo = authorinfo_list.get(i)
-			percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+		for i in authorinfo_list:
+			total_changes += authorinfo_list.get(i).insertions
+			total_changes += authorinfo_list.get(i).deletions
 
-			name_xml = "\t\t\t\t<name>" + i + "</name>\n"
-			commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
-			insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
-			deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
-			percentage_xml = "\t\t\t\t<percentage-of-changes>" + "{0:.2f}".format(percentage) + "</percentage-of-changes>\n"
+		if authorinfo_list:
+			print(textwrap.fill(__historical_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
+			terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
 
-			changes_xml += ("\t\t\t<author>\n" + name_xml + commits_xml + insertions_xml +
-			                deletions_xml + percentage_xml + "\t\t\t</author>\n")
+			for i in sorted(authorinfo_list):
+				authorinfo = authorinfo_list.get(i)
+				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-		print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
-	else:
-		print("\t<changes>\n\t\t<exception>" + "No commited files with the specified extensions were found." +
-		      "</exception>\n\t</changes>")
+				print(i.ljust(20)[0:20], end=" ")
+				print(str(authorinfo.commits).rjust(7), end=" ")
+				print(str(authorinfo.insertions).rjust(12), end=" ")
+				print(str(authorinfo.deletions).rjust(11), end=" ")
+				print("{0:.2f}".format(percentage).rjust(14))
+		else:
+			print(__no_commited_files__ + ".")
+
+	def output_xml(self):
+		authorinfo_list = get(self.hard).get_authorinfo_list()
+		total_changes = 0.0
+
+		for i in authorinfo_list:
+			total_changes += authorinfo_list.get(i).insertions
+			total_changes += authorinfo_list.get(i).deletions
+
+		if authorinfo_list:
+			message_xml = "\t\t<message>" + __historical_info_text__ + "</message>\n"
+			changes_xml = ""
+
+			for i in sorted(authorinfo_list):
+				authorinfo = authorinfo_list.get(i)
+				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+
+				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
+				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
+				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
+				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
+				percentage_xml = "\t\t\t\t<percentage-of-changes>" + "{0:.2f}".format(percentage) + "</percentage-of-changes>\n"
+
+				changes_xml += ("\t\t\t<author>\n" + name_xml + commits_xml + insertions_xml +
+				                deletions_xml + percentage_xml + "\t\t\t</author>\n")
+
+			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
+		else:
+			print("\t<changes>\n\t\t<exception>" + __no_commited_files__ + "</exception>\n\t</changes>")

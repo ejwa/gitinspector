@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import datetime
 import terminal
 import textwrap
@@ -93,9 +94,6 @@ class TimelineData:
 
 __timeline_info_text__ = "The following history timeline has been gathered from the repository"
 
-def output_html(changes, useweeks):
-	print("HTML output not yet supported.")
-
 def __output_row__text__(timeline_data, periods, names):
 	print("\n" + terminal.__bold__ + "Author".ljust(20), end=" ")
 	
@@ -114,45 +112,51 @@ def __output_row__text__(timeline_data, periods, names):
 			               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 		print("")
 
-def output_text(changes, useweeks):
-	if changes.get_commits():
-		print("\n" + textwrap.fill(__timeline_info_text__ + ":", width=terminal.get_size()[0]))
+class Timeline(Outputable):
+	def __init__(self, changes, useweeks):
+		self.changes = changes
+		self.useweeks = useweeks
+		Outputable.__init__(self)
 
-		timeline_data = TimelineData(changes, useweeks)
-		periods = timeline_data.get_periods()
-		names = timeline_data.get_authors()
-		(width, _) = terminal.get_size()
-		max_periods_per_row = int((width - 21) / 11)
+	def output_text(self):
+		if self.changes.get_commits():
+			print("\n" + textwrap.fill(__timeline_info_text__ + ":", width=terminal.get_size()[0]))
 
-		for i in range(0, len(periods), max_periods_per_row):
-			__output_row__text__(timeline_data, periods[i:i+max_periods_per_row], names)
+			timeline_data = TimelineData(self.changes, self.useweeks)
+			periods = timeline_data.get_periods()
+			names = timeline_data.get_authors()
+			(width, _) = terminal.get_size()
+			max_periods_per_row = int((width - 21) / 11)
 
-def output_xml(changes, useweeks):
-	if changes.get_commits():
-		message_xml = "\t\t<message>" + __timeline_info_text__ + "</message>\n"
-		timeline_xml = ""
-		periods_xml = "\t\t<periods length=\"{0}\">\n".format("week" if useweeks else "month")
+			for i in range(0, len(periods), max_periods_per_row):
+				__output_row__text__(timeline_data, periods[i:i+max_periods_per_row], names)
 
-		timeline_data = TimelineData(changes, useweeks)
-		periods = timeline_data.get_periods()
-		names = timeline_data.get_authors()
+	def output_xml(self):
+		if self.changes.get_commits():
+			message_xml = "\t\t<message>" + __timeline_info_text__ + "</message>\n"
+			timeline_xml = ""
+			periods_xml = "\t\t<periods length=\"{0}\">\n".format("week" if self.useweeks else "month")
 
-		for period in periods:
-			name_xml = "\t\t\t\t<name>" + str(period) + "</name>\n"
-			authors_xml = ""
+			timeline_data = TimelineData(self.changes, self.useweeks)
+			periods = timeline_data.get_periods()
+			names = timeline_data.get_authors()
 
-			for name in names:
-				authors_xml += "\t\t\t\t<authors>\n"
-				multiplier = timeline_data.get_multiplier(period, 24)
-				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
-				signs_str = (signs[1] * "-" + signs[0] * "+")
+			for period in periods:
+				name_xml = "\t\t\t\t<name>" + str(period) + "</name>\n"
+				authors_xml = ""
 
-				if not len(signs_str) == 0:
-					authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name + "</name>\n"
-					authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
+				for name in names:
+					authors_xml += "\t\t\t\t<authors>\n"
+					multiplier = timeline_data.get_multiplier(period, 24)
+					signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+					signs_str = (signs[1] * "-" + signs[0] * "+")
 
-				authors_xml += "\t\t\t\t</authors>\n"
+					if not len(signs_str) == 0:
+						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name + "</name>\n"
+						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 
-			timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + "\t\t\t</period>\n"
+					authors_xml += "\t\t\t\t</authors>\n"
 
-		print("\t<timeline>\n" + message_xml + periods_xml + timeline_xml + "\t\t</periods>\n\t</timeline>")
+				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + "\t\t\t</period>\n"
+
+			print("\t<timeline>\n" + message_xml + periods_xml + timeline_xml + "\t\t</periods>\n\t</timeline>")

@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import blame
 import terminal
 import textwrap
@@ -41,46 +42,49 @@ class Responsibilities:
 __responsibilities_info_text__ = ("The following repsonsibilties, by author, were found in the current "
                                   "revision of the repository (comments are exluded from the line count, "
                                   "if possible)")
-def output_html(hard):
-	print("HTML output not yet supported.")
 
-def output_text(hard):
-	print("\n" + textwrap.fill(__responsibilities_info_text__ + ":", width=terminal.get_size()[0]))
+class ResponsibilitiesOutput(Outputable):
+	def __init__(self, hard):
+		self.hard = hard
+		Outputable.__init__(self)
 
-	for i in sorted(set(i[0] for i in blame.get(hard).blames)):
-		print("\n" + i, "is mostly responsible for:")
-		responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(hard, i)), reverse=True)
+	def output_text(self):
+		print("\n" + textwrap.fill(__responsibilities_info_text__ + ":", width=terminal.get_size()[0]))
 
-		for j, entry in enumerate(responsibilities):
-			(width, _) = terminal.get_size()
-			width -= 7
+		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+			print("\n" + i, "is mostly responsible for:")
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 
-			print(str(entry[0]).rjust(6), end=" ")
-			print("...%s" % entry[1][-width+3:] if len(entry[1]) > width else entry[1])
+			for j, entry in enumerate(responsibilities):
+				(width, _) = terminal.get_size()
+				width -= 7
 
-			if j >= 9:
-				break
+				print(str(entry[0]).rjust(6), end=" ")
+				print("...%s" % entry[1][-width+3:] if len(entry[1]) > width else entry[1])
 
-def output_xml(hard):
-	message_xml = "\t\t<message>" + __responsibilities_info_text__ + "</message>\n"
-	resp_xml = ""
+				if j >= 9:
+					break
 
-	for i in sorted(set(i[0] for i in blame.get(hard).blames)):
-		resp_xml += "\t\t\t<author>\n"
-		resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
-		resp_xml += "\t\t\t\t<files>\n"
-		responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(hard, i)), reverse=True)
+	def output_xml(self):
+		message_xml = "\t\t<message>" + __responsibilities_info_text__ + "</message>\n"
+		resp_xml = ""
 
-		for j, entry in enumerate(responsibilities):
-			resp_xml += "\t\t\t\t\t<file>\n"
-			resp_xml += "\t\t\t\t\t\t<name>" + entry[1] + "</name>\n"
-			resp_xml += "\t\t\t\t\t\t<rows>" + str(entry[0]) + "</rows>\n"
-			resp_xml += "\t\t\t\t\t</file>\n"
+		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+			resp_xml += "\t\t\t<author>\n"
+			resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
+			resp_xml += "\t\t\t\t<files>\n"
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 
-			if j >= 9:
-				break
+			for j, entry in enumerate(responsibilities):
+				resp_xml += "\t\t\t\t\t<file>\n"
+				resp_xml += "\t\t\t\t\t\t<name>" + entry[1] + "</name>\n"
+				resp_xml += "\t\t\t\t\t\t<rows>" + str(entry[0]) + "</rows>\n"
+				resp_xml += "\t\t\t\t\t</file>\n"
 
-		resp_xml += "\t\t\t\t</files>\n"
-		resp_xml += "\t\t\t</author>\n"
+				if j >= 9:
+					break
 
-	print("\t<responsibilities>\n" + message_xml + "\t\t<authors>\n" + resp_xml + "\t\t</authors>\n\t</responsibilities>")
+			resp_xml += "\t\t\t\t</files>\n"
+			resp_xml += "\t\t\t</author>\n"
+
+		print("\t<responsibilities>\n" + message_xml + "\t\t<authors>\n" + resp_xml + "\t\t</authors>\n\t</responsibilities>")

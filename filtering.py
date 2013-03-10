@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from outputable import Outputable
 import terminal
 import textwrap
 
@@ -46,23 +47,21 @@ def set_filtered(file_name):
 __filtering_info_text__ = ("The following files were excluded from the statistics due to the"
                            "specified exclusion patterns")
 
-def output_html():
-	print("HTML output not yet supported.")
+class Filtering(Outputable):
+	def output_text(self):
+		if __filtered_files__:
+			print("\n" + textwrap.fill(__filtering_info_text__ + ":", width=terminal.get_size()[0]))
 
-def output_text():
-	if __filtered_files__:
-		print("\n" + textwrap.fill(__filtering_info_text__ + ":", width=terminal.get_size()[0]))
+			for i in __filtered_files__:
+				(width, _) = terminal.get_size()
+				print("...%s" % i[-width+3:] if len(i) > width else i)
 
-		for i in __filtered_files__:
-			(width, _) = terminal.get_size()
-			print("...%s" % i[-width+3:] if len(i) > width else i)
+	def output_xml(self):
+		if __filtered_files__:
+			message_xml = "\t\t<message>" + __filtering_info_text__ + "</message>\n"
+			filtering_xml = ""
 
-def output_xml():
-	if __filtered_files__:
-		message_xml = "\t\t<message>" + __filtering_info_text__ + "</message>\n"
-		filtering_xml = ""
+			for i in __filtered_files__:
+				filtering_xml += "\t\t\t<file>" + i + "</file>\n"
 
-		for i in __filtered_files__:
-			filtering_xml += "\t\t\t<file>" + i + "</file>\n"
-
-		print("\t<filering>\n" + message_xml + "\t\t<files>\n" + filtering_xml + "\t\t</files>\n\t</filtering>")
+			print("\t<filering>\n" + message_xml + "\t\t<files>\n" + filtering_xml + "\t\t</files>\n\t</filtering>")
