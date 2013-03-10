@@ -28,13 +28,5 @@ from __future__ import print_function
 
 __version__ = "0.1.0"
 
-def output_html(string, _):
-	print("HTML output not yet supported.")
-
-def output_text():
+def output():
 	print("gitinspector {0}\n".format(__version__) + __doc__)
-
-def output_xml():
-	license_text = "\t\t" + __doc__.replace("\n", "\n\t\t")
-	print("\t<version>" + __version__ + "</version>\n" +
-	      "\t<license-text>\n" + license_text + "\n\t</license-text>")
