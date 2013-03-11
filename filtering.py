@@ -48,6 +48,17 @@ __filtering_info_text__ = ("The following files were excluded from the statistic
                            "specified exclusion patterns")
 
 class Filtering(Outputable):
+	def output_html(self):
+		if __filtered_files__:
+			filtering_xml = "<div><div class=\"box\">"
+			filtering_xml += "<p>" + __filtering_info_text__ + "."+ "</p>"
+
+			for i in __filtered_files__:
+				filtering_xml += "<p>" + i + "</p>"
+
+			filtering_xml += "</p></div></div>"
+			print(filtering_xml)
+
 	def output_text(self):
 		if __filtered_files__:
 			print("\n" + textwrap.fill(__filtering_info_text__ + ":", width=terminal.get_size()[0]))
