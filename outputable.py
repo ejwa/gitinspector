@@ -22,13 +22,13 @@ import format
 
 class Outputable(object):
 	def output_html(self):
-		print("HTML output not yet supported in " + self + ".")
+		print("HTML output not yet supported in \"" + self.__class__.__name__ + "\".")
 
 	def output_text(self):
-		print("Text output not yet supported in " + self + ".")
+		print("Text output not yet supported in \"" + self.__class__.__name__ + "\".")
 
 	def output_xml(self):
-		print("XML output not yet supported in " + self + ".")
+		print("XML output not yet supported in \"" + self.__class__.__name__ + "\".")
 
 def output(outputable):
 	if format.get_selected() == "html":
