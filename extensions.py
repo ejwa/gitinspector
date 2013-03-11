@@ -40,6 +40,21 @@ def add_located(string):
 __extensions_info_text__ = "The extensions below were found in the repository history"
 
 class Extensions(Outputable):
+	def output_html(self):
+		if __located_extensions__:
+			extensions_xml = "<div><div class=\"box\">"
+			extensions_xml += "<p>" + __extensions_info_text__ + "(extensions used during statistical analysis are marked)."+ "</p><p>"
+
+			for i in __located_extensions__:
+				if i in __extensions__:
+					extensions_xml += "<strong>" + i + "</strong>"
+				else:
+					extensions_xml += i
+				extensions_xml += "&nbsp;"
+
+			extensions_xml += "</p></div></div>"
+			print(extensions_xml)
+
 	def output_text(self):
 		if __located_extensions__:
 			print("\n" + textwrap.fill(__extensions_info_text__ + "\n(extensions used during statistical analysis are marked):",
