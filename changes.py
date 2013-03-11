@@ -162,7 +162,7 @@ class ChangesOutput(Outputable):
 	def output_html(self):
 		authorinfo_list = get(self.hard).get_authorinfo_list()
 		total_changes = 0.0
-		changes_xml = "<div class=\"statistics right\"><div class=\"box\">"
+		changes_xml = "<div><div class=\"box\">"
 
 		for i in authorinfo_list:
 			total_changes += authorinfo_list.get(i).insertions

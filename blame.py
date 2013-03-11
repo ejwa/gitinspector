@@ -155,7 +155,7 @@ class BlameOutput(Outputable):
 	def output_html(self):
 		get(self.hard)
 
-		blame_xml = "<div class=\"statistics right\"><div class=\"box\">"
+		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table class=\"git\">"
 		blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
 		blame_xml += "<tbody>"
