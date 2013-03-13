@@ -69,6 +69,9 @@
 				width: 40%;
 				font-size: x-small;
 			}}
+			p.error {{
+				color: #700;
+			}}
 		</style>
 	</head>
 	<body>

@@ -45,6 +45,17 @@ __missing_info_text__ = ("The following files were missing in the repository and
                          "either checkout manually using git or use the -c option in gitinspector")
 
 class Missing(Outputable):
+	def output_html(self):
+		if __missing_files__:
+			missing_xml = "<div><div class=\"box\">"
+			missing_xml += "<p>" + __missing_info_text__ + ".</p>"
+
+			for missing in __missing_files__:
+					missing_xml += "<p class=\"error\">" + missing + "</p>"
+
+			missing_xml += "</div></div>"
+			print(missing_xml)
+
 	def output_text(self):
 		if __missing_files__:
 			print("\n" + textwrap.fill(__missing_info_text__ + ":", width=terminal.get_size()[0]))
