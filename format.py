@@ -70,6 +70,7 @@ def output_header():
 		print(html_header.format(version.__version__, jquery_js, flot_js, pie_js, logo))
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
+		print("\t<version>" + version.__version__ + "</version>")
 
 def output_footer():
 	if __selected_format__ == "html":
