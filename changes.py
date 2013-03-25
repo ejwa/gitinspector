@@ -163,6 +163,7 @@ class ChangesOutput(Outputable):
 		authorinfo_list = get(self.hard).get_authorinfo_list()
 		total_changes = 0.0
 		changes_xml = "<div><div class=\"box\">"
+		chart_data = ""
 
 		for i in authorinfo_list:
 			total_changes += authorinfo_list.get(i).insertions
@@ -185,10 +186,25 @@ class ChangesOutput(Outputable):
 				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
 				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
 				changes_xml += "</tr>"
+				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry, "{0:.2f}".format(percentage))
+
+				if sorted(authorinfo_list)[-1] != entry:
+					chart_data += ", "
 
 			changes_xml += ("<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td>" +
 			               "</tr></tfoot></tbody></table>")
-			changes_xml += "</div>"
+			changes_xml += "<div class=\"chart\" id=\"changes_chart\"></div></div>"
+
+			changes_xml += "<script type=\"text/javascript\">"
+			changes_xml += "    $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
+			changes_xml += "        series: {"
+			changes_xml += "            pie: {"
+			changes_xml += "                innerRadius: 0.4,"
+			changes_xml += "                show: true"
+			changes_xml += "            }"
+			changes_xml += "        }"
+			changes_xml += "    });"
+			changes_xml += "</script>"
 		else:
 			changes_xml += "<p>" + __no_commited_files__ + ".</p>"
 
