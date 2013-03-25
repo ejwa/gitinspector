@@ -43,7 +43,7 @@ class Extensions(Outputable):
 	def output_html(self):
 		if __located_extensions__:
 			extensions_xml = "<div><div class=\"box\">"
-			extensions_xml += "<p>" + __extensions_info_text__ + "(extensions used during statistical analysis are marked)."+ "</p><p>"
+			extensions_xml += "<p>" + __extensions_info_text__ + "&nbsp;(extensions used during statistical analysis are marked).</p><p>"
 
 			for i in __located_extensions__:
 				if i in __extensions__:
@@ -79,5 +79,5 @@ class Extensions(Outputable):
 				else:
 					unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
 
-			print("\t<extensions>\n" + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
+			print("\t<extensions>\n" + message_xml + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
 			      "\t\t<unused>\n" + unused_extensions_xml + "\t\t</unused>\n" + "\t</extensions>")
