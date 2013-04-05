@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 #
-# Copyright © 2012 Ejwa Software. All rights reserved.
+# Copyright © 2012-2013 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #

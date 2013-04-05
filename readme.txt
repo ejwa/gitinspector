@@ -1,4 +1,4 @@
-Copyright © 2012 Ejwa Software. All rights reserved.
+Copyright © 2012-2013 Ejwa Software. All rights reserved.
 
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under

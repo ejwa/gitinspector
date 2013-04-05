@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012 Ejwa Software. All rights reserved.
+# Copyright © 2012-2013 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-"""Copyright © 2012 Ejwa Software. All rights reserved.
+"""Copyright © 2012-2013 Ejwa Software. All rights reserved.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.
