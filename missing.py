@@ -51,7 +51,7 @@ class Missing(Outputable):
 			missing_xml += "<p>" + __missing_info_text__ + ".</p>"
 
 			for missing in __missing_files__:
-					missing_xml += "<p class=\"error\">" + missing + "</p>"
+				missing_xml += "<p class=\"error\">" + missing + "</p>"
 
 			missing_xml += "</div></div>"
 			print(missing_xml)
