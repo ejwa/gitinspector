@@ -56,7 +56,7 @@ class Filtering(Outputable):
 			for i in __filtered_files__:
 				filtering_xml += "<p>" + i + "</p>"
 
-			filtering_xml += "</p></div></div>"
+			filtering_xml += "</div></div>"
 			print(filtering_xml)
 
 	def output_text(self):
