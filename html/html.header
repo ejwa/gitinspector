@@ -45,6 +45,9 @@
 				font-size: small;
 				width: 60%;
 			}}
+			table.full {{
+				width: 100%;
+			}}
 			table.git th, table.git tfoot tr td {{
 				padding: 0.3em;
 				background-color: #ddcece;
@@ -57,6 +60,17 @@
 			}}
 			table.git td {{
 				padding: 0.4em;
+				height: 1em;
+			}}
+			table.git td div.insert {{
+				background-color: #7a7;
+			}}
+			table.git td div.remove {{
+				background-color: #c66;
+			}}
+			table.git td div.insert, table.git td div.remove {{
+				height: 100%;
+				float: left;
 			}}
 			table.git tr.odd {{
 				background-color: #dbdbdb;

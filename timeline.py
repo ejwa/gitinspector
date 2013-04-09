@@ -123,6 +123,35 @@ def __output_row__text__(timeline_data, periods, names):
 
 	print("")
 
+def __output_row__html__(timeline_data, periods, names):
+	timeline_xml = "<table class=\"git full\"><thead><tr><th>Author</th>"
+
+	for period in periods:
+		timeline_xml += "<th>" + str(period) + "</th>"
+
+	timeline_xml += "</tr></thead><tbody>"
+
+	for i, name in enumerate(names):
+		timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
+		timeline_xml += "<td>" + name + "</td>"
+		for period in periods:
+			multiplier = timeline_data.get_multiplier(period, 14)
+			signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+			signs_str = (signs[1] * "<div class=\"remove\">&nbsp;</div>" + signs[0] * "<div class=\"insert\">&nbsp;</div>")
+
+			timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str)
+			timeline_xml += "</td>"
+		timeline_xml += "</tr>"
+
+	timeline_xml += "<tfoot><tr><td><strong>Modified Rows:</strong></td>"
+
+	for period in periods:
+		total_changes = timeline_data.get_total_changes_in_period(period)
+		timeline_xml += "<td>" + str(total_changes[2]) + "</td>"
+
+	timeline_xml += "</tr></tfoot></tbody></table>"
+	print(timeline_xml)
+
 class Timeline(Outputable):
 	def __init__(self, changes, useweeks):
 		self.changes = changes
@@ -141,6 +170,23 @@ class Timeline(Outputable):
 
 			for i in range(0, len(periods), max_periods_per_row):
 				__output_row__text__(timeline_data, periods[i:i+max_periods_per_row], names)
+
+	def output_html(self):
+		if self.changes.get_commits():
+			timeline_data = TimelineData(self.changes, self.useweeks)
+			periods = timeline_data.get_periods()
+			names = timeline_data.get_authors()
+			max_periods_per_row = 8
+
+			timeline_xml = "<div><div class=\"box\">"
+			timeline_xml += "<p>" + __timeline_info_text__ + ".</p>"
+			print(timeline_xml)
+
+			for i in range(0, len(periods), max_periods_per_row):
+				__output_row__html__(timeline_data, periods[i:i+max_periods_per_row], names)
+
+			timeline_xml = "</div></div>"
+			print(timeline_xml)
 
 	def output_xml(self):
 		if self.changes.get_commits():
