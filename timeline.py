@@ -61,6 +61,9 @@ class TimelineData:
 	def get_periods(self):
 		return sorted(set([i[1] for i in self.entries]))
 
+	def get_total_changes_in_period(self, period):
+		return self.total_changes_by_period[period]
+
 	def get_authors(self):
 		return sorted(set([i[0] for i in self.entries]))
 
@@ -112,6 +115,14 @@ def __output_row__text__(timeline_data, periods, names):
 			               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 		print("")
 
+	print(terminal.__bold__  + "Modified Rows:".ljust(20) + terminal.__normal__, end=" ")
+
+	for period in periods:
+		total_changes = timeline_data.get_total_changes_in_period(period)
+		print("" + str(total_changes[2]).rjust(10), end=" ")
+
+	print("")
+
 class Timeline(Outputable):
 	def __init__(self, changes, useweeks):
 		self.changes = changes
@@ -157,6 +168,8 @@ class Timeline(Outputable):
 
 					authors_xml += "\t\t\t\t</authors>\n"
 
-				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + "\t\t\t</period>\n"
+				modified_rows_xml = "\t\t\t\t<modified_rows>" + \
+				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "</modified_rows>\n"
+				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + modified_rows_xml + "\t\t\t</period>\n"
 
 			print("\t<timeline>\n" + message_xml + periods_xml + timeline_xml + "\t\t</periods>\n\t</timeline>")
