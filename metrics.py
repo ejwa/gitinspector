@@ -75,6 +75,20 @@ class Metrics(Outputable):
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
 				print(i[1] + " (" + str(i[0]) + " eloc)")
 
+	def output_html(self):
+		metrics_logic = MetricsLogic()
+		metrics_xml = "<div><div class=\"box\">"
+
+		if not metrics_logic.eloc:
+			metrics_xml += "<p>" + __metrics_missing_info_text__ + ".</p>"
+		else:
+			metrics_xml += "<p>" + __eloc_info_text__ + ".</p>"
+			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
+				metrics_xml += "<p>" + i[1] + " (" + str(i[0]) + " eloc)</p>"
+
+		metrics_xml += "</div></div>"
+		print(metrics_xml)
+
 	def output_xml(self):
 		metrics_logic = MetricsLogic()
 
