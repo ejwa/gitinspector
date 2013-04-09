@@ -178,8 +178,7 @@ class BlameOutput(Outputable):
 				chart_data += ", "
 
 		blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
-		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div></div></div>"
-
+		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
 		blame_xml += "        series: {"
@@ -189,7 +188,7 @@ class BlameOutput(Outputable):
 		blame_xml += "            }"
 		blame_xml += "        }"
 		blame_xml += "    });"
-		blame_xml += "</script>"
+		blame_xml += "</script></div></div>"
 
 		print(blame_xml)
 
