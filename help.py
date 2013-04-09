@@ -33,7 +33,7 @@ Mandatory arguments to long options are mandatory for short options too.
                                  the available formats are: {2}
       --grading                show statistics and information in a way that
                                  is formatted for grading of student projects;
-                                 this is the same as supplying -lmrTw
+                                 this is the same as supplying -HlmrTw
   -H, --hard                   track rows and look for duplicates harder;
                                  this can be quite slow with big repositories
   -l, --list-file-types        list all the file extensions available in the

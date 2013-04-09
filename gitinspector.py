@@ -110,6 +110,7 @@ if __name__ == "__main__":
 				__run__.list_file_types = True
 				__run__.responsibilities = True
 				__run__.grading = True
+				__run__.hard = True
 				__run__.timeline = True
 				__run__.useweeks = True
 			elif o in("-T", "--timeline"):
