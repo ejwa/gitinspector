@@ -65,6 +65,23 @@ class ResponsibilitiesOutput(Outputable):
 				if j >= 9:
 					break
 
+	def output_html(self):
+		resp_xml = "<div><div class=\"box\">"
+		resp_xml += "<p>" + __responsibilities_info_text__ + ".</p>"
+
+		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+			resp_xml += "<h3>" + i + "is mostly responsible for</h3>"
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
+
+			for j, entry in enumerate(responsibilities):
+				resp_xml += "<p>" + entry[1] + " (" + str(entry[0]) + " eloc)</p>"
+
+				if j >= 9:
+					break
+
+		resp_xml += "</div></div>"
+		print(resp_xml)
+
 	def output_xml(self):
 		message_xml = "\t\t<message>" + __responsibilities_info_text__ + "</message>\n"
 		resp_xml = ""
