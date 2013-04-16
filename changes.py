@@ -26,6 +26,7 @@ import os
 import subprocess
 import terminal
 import textwrap
+import sys
 
 class FileDiff:
 	def __init__(self, string):
@@ -43,13 +44,14 @@ class FileDiff:
 
 	@staticmethod
 	def get_extension(string):
-		string = string.split("|")[0].strip().strip("{}")
+		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
+		string = string.decode("string_escape").strip()
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def get_filename(string):
-		string = string.split("|")[0].strip().strip("{}")
-		return string.strip()
+		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
+		return string.decode("string_escape").strip()
 
 	@staticmethod
 	def is_valid_extension(string):
