@@ -29,7 +29,7 @@ Mandatory arguments to long options are mandatory for short options too.
                                  default extensions used are:
                                  {1}
   -F, --format=FORMAT          define in which format output should be
-                                 generated; the default format is 'txt' and
+                                 generated; the default format is 'text' and
                                  the available formats are: {2}
       --grading                show statistics and information in a way that
                                  is formatted for grading of student projects;
