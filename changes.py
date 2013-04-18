@@ -91,7 +91,7 @@ class AuthorInfo:
 class Changes:
 	def __init__(self, hard):
 		self.commits = []
-		git_log_r = subprocess.Popen("git log --pretty='%ad|%t|%aN|%s' --stat=100000,8192 --no-merges -w " +
+		git_log_r = subprocess.Popen("git log --pretty=\"%ad|%t|%aN|%s\" --stat=100000,8192 --no-merges -w " +
 		                             "{0} --date=short".format("-C -C -M" if hard else ""),
 		                             shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 		commit = None
