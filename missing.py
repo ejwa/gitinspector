@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from outputable import Outputable
+import interval
 import os
 import subprocess
 import terminal
@@ -28,7 +29,7 @@ __checkout_missing__ = False
 __missing_files__ =  set()
 
 def add(file_name):
-	if not os.path.exists(file_name):
+	if not interval.has_interval() and not os.path.exists(file_name):
 		if __checkout_missing__:
 			subprocess.call("git checkout \"" + file_name.strip() + "\"", shell=True)
 		else:

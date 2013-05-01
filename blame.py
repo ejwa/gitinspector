@@ -23,6 +23,7 @@ from changes import FileDiff
 import comment
 import filtering
 import format
+import interval
 import missing
 import multiprocessing
 import re
@@ -84,15 +85,18 @@ class BlameThread(threading.Thread):
 class Blame:
 	def __init__(self, hard):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
+		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
+		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
 			row = row.decode("utf-8", "replace").strip().strip("\"").strip("'")
 			row = row.decode("string_escape").strip()
+
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
-					blame_string = "git blame -w {0} \"".format("-C -C -M" if hard else "") + row.strip() + "\""
+					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
+					               interval.get_ref() + " -- \"" + row.strip() + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
 					thread.start()

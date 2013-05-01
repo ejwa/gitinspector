@@ -26,6 +26,7 @@ import filtering
 import format
 import getopt
 import help
+import interval
 import metrics
 import missing
 import os
@@ -81,8 +82,8 @@ if __name__ == "__main__":
 	try:
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:F:hHlmrTwx:", ["checkout-missing", "exclude=",
 		                                                     "file-types=", "format=", "hard", "help", "list-file-types",
-		                                                     "metrics", "responsibilities", "grading", "timeline",
-		                                                     "version"])
+		                                                     "metrics", "responsibilities", "since=", "grading",
+		                                                     "timeline", "until=", "version"])
 		for o, a in __opts__:
 			if o in("-c", "--checkout-missing"):
 				missing.set_checkout_missing(True)
@@ -102,6 +103,8 @@ if __name__ == "__main__":
 				__run__.include_metrics = True
 			elif o in("-r", "--responsibilities"):
 				__run__.responsibilities = True
+			elif o in("--since"):
+				interval.set_since(a)
 			elif o in("--version"):
 				version.output()
 				sys.exit(0)
@@ -115,6 +118,8 @@ if __name__ == "__main__":
 				__run__.useweeks = True
 			elif o in("-T", "--timeline"):
 				__run__.timeline = True
+			elif o in("--until"):
+				interval.set_until(a)
 			elif o in("-w"):
 				__run__.useweeks = True
 			elif o in("-x", "--exclude"):

@@ -21,12 +21,12 @@ from __future__ import print_function
 from outputable import Outputable
 import extensions
 import filtering
+import interval
 import re
 import os
 import subprocess
 import terminal
 import textwrap
-import sys
 
 class FileDiff:
 	def __init__(self, string):
@@ -91,7 +91,8 @@ class AuthorInfo:
 class Changes:
 	def __init__(self, hard):
 		self.commits = []
-		git_log_r = subprocess.Popen("git log --pretty=\"%ad|%t|%aN|%s\" --stat=100000,8192 --no-merges -w " +
+		git_log_r = subprocess.Popen("git log --pretty=\"%ad|%H|%aN|%s\" --stat=100000,8192 --no-merges -w " +
+		                             interval.get_since() + interval.get_until() +
 		                             "{0} --date=short".format("-C -C -M" if hard else ""),
 		                             shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 		commit = None
@@ -114,6 +115,9 @@ class Changes:
 					found_valid_extension = True
 					filediff = FileDiff(i)
 					commit.add_filediff(filediff)
+
+		if interval.has_interval():
+			interval.set_ref(self.commits[0].sha)
 
 	def get_commits(self):
 		return self.commits
