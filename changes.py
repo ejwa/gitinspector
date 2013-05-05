@@ -116,7 +116,7 @@ class Changes:
 					filediff = FileDiff(i)
 					commit.add_filediff(filediff)
 
-		if interval.has_interval():
+		if interval.has_interval() and len(self.commits) > 0:
 			interval.set_ref(self.commits[0].sha)
 
 	def get_commits(self):
