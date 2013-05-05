@@ -86,12 +86,18 @@ def printb(string):
 	print(__bold__ + string + __normal__)
 
 def get_size():
+	width = 0
+	height = 0
+
 	if sys.stdout.isatty():
 		current_os = platform.system()
 
 		if current_os == 'Windows':
-			return __get_size_windows__()
+			(width, height) = __get_size_windows__()
 		elif current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
-			return __get_size_linux__()
+			(width, height) = __get_size_linux__()
+
+	if width > 0 and height > 0:
+		return (width, height)
 
 	return (80, 25)
