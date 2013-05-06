@@ -17,11 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-__comment_begining__ = {"java": "/*", "c": "/*", "cpp": "/*", "h": "/*", "hpp": "/*", "py": "\"\"\"", "glsl": "/*",
-                        "rb": "=begin", "js": "/*", "sql": "/*", "xml": "<!--"}
+__comment_begining__ = {"java": "/*", "c": "/*", "cpp": "/*", "h": "/*", "hpp": "/*", "html": "<!--", "py": "\"\"\"",
+                        "glsl": "/*", "rb": "=begin", "js": "/*", "sql": "/*", "xml": "<!--"}
 
-__comment_end__ = {"java": "*/", "c": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "py": "\"\"\"", "glsl": "*/",
-                   "rb": "=end", "js": "*/", "sql": "*/", "xml": "-->"}
+__comment_end__ = {"java": "*/", "c": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "html": "-->", "py": "\"\"\"",
+                   "glsl": "*/", "rb": "=end", "js": "*/", "sql": "*/", "xml": "-->"}
 
 __comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "pl": "#", "py": "#", "glsl": "//",
                "rb": "#", "js": "//", "sql": "--"}
