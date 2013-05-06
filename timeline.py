@@ -200,20 +200,21 @@ class Timeline(Outputable):
 
 			for period in periods:
 				name_xml = "\t\t\t\t<name>" + str(period) + "</name>\n"
-				authors_xml = ""
+				authors_xml = "\t\t\t\t<authors>\n"
 
 				for name in names:
-					authors_xml += "\t\t\t\t<authors>\n"
-					multiplier = timeline_data.get_multiplier(period, 24)
-					signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
-					signs_str = (signs[1] * "-" + signs[0] * "+")
+					if timeline_data.is_author_in_period(period, name):
+						multiplier = timeline_data.get_multiplier(period, 24)
+						signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+						signs_str = (signs[1] * "-" + signs[0] * "+")
 
-					if not len(signs_str) == 0:
+						if len(signs_str) == 0:
+							signs_str = "."
+
 						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name + "</name>\n"
 						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 
-					authors_xml += "\t\t\t\t</authors>\n"
-
+				authors_xml += "\t\t\t\t</authors>\n"
 				modified_rows_xml = "\t\t\t\t<modified_rows>" + \
 				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "</modified_rows>\n"
 				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + modified_rows_xml + "\t\t\t</period>\n"
