@@ -95,6 +95,12 @@ class TimelineData:
 	def is_author_in_period(self, period, author):
 		return self.entries.get((author, period), None) != None
 
+	def is_author_in_periods(self, periods, author):
+		for period in periods:
+			if self.is_author_in_period(period, author):
+				return True
+		return False
+
 __timeline_info_text__ = "The following history timeline has been gathered from the repository"
 
 def __output_row__text__(timeline_data, periods, names):
@@ -106,14 +112,15 @@ def __output_row__text__(timeline_data, periods, names):
 	print(terminal.__normal__)
 
 	for name in names:
-		print(name.ljust(20)[0:20], end=" ")
-		for period in periods:
-			multiplier = timeline_data.get_multiplier(period, 9)
-			signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
-			signs_str = (signs[1] * "-" + signs[0] * "+")
-			print (("." if timeline_data.is_author_in_period(period, name) and
-			               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
-		print("")
+		if timeline_data.is_author_in_periods(periods, name):
+			print(name.ljust(20)[0:20], end=" ")
+			for period in periods:
+				multiplier = timeline_data.get_multiplier(period, 9)
+				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+				signs_str = (signs[1] * "-" + signs[0] * "+")
+				print (("." if timeline_data.is_author_in_period(period, name) and
+				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
+			print("")
 
 	print(terminal.__bold__  + "Modified Rows:".ljust(20) + terminal.__normal__, end=" ")
 
@@ -130,18 +137,21 @@ def __output_row__html__(timeline_data, periods, names):
 		timeline_xml += "<th>" + str(period) + "</th>"
 
 	timeline_xml += "</tr></thead><tbody>"
+	i = 0
 
-	for i, name in enumerate(names):
-		timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
-		timeline_xml += "<td>" + name + "</td>"
-		for period in periods:
-			multiplier = timeline_data.get_multiplier(period, 14)
-			signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
-			signs_str = (signs[1] * "<div class=\"remove\">&nbsp;</div>" + signs[0] * "<div class=\"insert\">&nbsp;</div>")
+	for name in names:
+		if timeline_data.is_author_in_periods(periods, name):
+			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
+			timeline_xml += "<td>" + name + "</td>"
+			for period in periods:
+				multiplier = timeline_data.get_multiplier(period, 14)
+				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+				signs_str = (signs[1] * "<div class=\"remove\">&nbsp;</div>" + signs[0] * "<div class=\"insert\">&nbsp;</div>")
 
-			timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str)
-			timeline_xml += "</td>"
-		timeline_xml += "</tr>"
+				timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str)
+				timeline_xml += "</td>"
+			timeline_xml += "</tr>"
+			i = i + 1
 
 	timeline_xml += "<tfoot><tr><td><strong>Modified Rows:</strong></td>"
 
