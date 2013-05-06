@@ -97,7 +97,7 @@ def get_size():
 		elif current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
 			(width, height) = __get_size_linux__()
 
-	if width > 0 and height > 0:
+	if width > 0:
 		return (width, height)
 
 	return (80, 25)
