@@ -23,7 +23,7 @@ __comment_begining__ = {"java": "/*", "c": "/*", "cpp": "/*", "h": "/*", "hpp": 
 __comment_end__ = {"java": "*/", "c": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "py": "\"\"\"", "glsl": "*/",
                    "rb": "=end", "js": "*/", "sql": "*/", "xml": "-->"}
 
-__comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "py": "#", "glsl": "//",
+__comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "pl": "#", "py": "#", "glsl": "//",
                "rb": "#", "js": "//", "sql": "--"}
 
 def is_comment(extension, string):
