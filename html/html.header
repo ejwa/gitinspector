@@ -4,6 +4,49 @@
 		<script type="application/javascript">{1}</script>
 		<script type="application/javascript">{2}</script>
 		<script type="application/javascript">{3}</script>
+		<script type="application/javascript">
+			$(document).ready(function() {{
+				var row = 0;
+				var MINOR_AUTHOR_PERCENTAGE = 1.00;
+
+				var colorRows = function() {{
+					$(this).removeClass("odd");
+
+					if (row++ % 2 == 1) {{
+						$(this).addClass("odd");
+					}}
+
+					if(this == $(this).parent().find("tr:visible").get(-1)) {{
+						row = 0;
+					}}
+				}}
+
+				$("table.git tbody tr td:last-child").filter(function() {{
+					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+				}}).parent().hide();
+
+				$("table.git tbody tr:visible").each(colorRows);
+
+				$("table.git tfoot tr td:first-child").filter(function() {{
+					return $(this).parent().parent().parent().find("tbody tr:hidden").length > 0;
+				}}).each(function() {{
+					this.innerHTML = "Show minor authors &or;";
+				}}).hover(function() {{
+					$(this).addClass("hover");
+				}}, function() {{
+					$(this).removeClass("hover");
+				}}).toggle(function() {{
+					this.innerHTML = "Hide minor authors &and;";
+					$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
+				}}, function() {{
+					this.innerHTML = "Show minor authors &or;";
+					$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
+						return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+					}}).parent().hide();
+					$("table.git tbody tr:visible").each(colorRows);
+				}});
+			}});
+		</script>
 		<style type="text/css">
 			body {{
 				background: -webkit-linear-gradient(left, #8f8a9a, #dad2d7, #8f8a9a);
@@ -60,6 +103,13 @@
 			table.git tfoot tr td {{
 				border-radius: 0px 0px 8px 8px;
 				-moz-border-radius: 0px 0px 8px 8px;
+				border: 1px solid #eee;
+				text-align: center;
+			}}
+			table.git tfoot tr td.hover {{
+				background-color: #eddede;
+				border: 1px solid #bbb;
+				cursor: hand;
 			}}
 			table.git td {{
 				padding: 0.4em;
@@ -85,7 +135,7 @@
 				right: 0px;
 				width: 40%;
 				font-size: x-small;
-				height: 240px;
+				max-height: 240px;
 			}}
 			p.error {{
 				color: #700;

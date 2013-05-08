@@ -172,17 +172,20 @@ class BlameOutput(Outputable):
 			total_blames += i[1].rows
 
 		for i, entry in enumerate(blames):
+			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 			blame_xml += "<td>" + entry[0] + "</td>"
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
+			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
-			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], work_percentage)
 
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr></tfoot></tbody></table>"
+		blame_xml += "<tfoot><tr> <td colspan=\"3\">&nbsp;</td> </tr></tfoot></tbody></table>"
 		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
@@ -192,7 +195,7 @@ class BlameOutput(Outputable):
 		blame_xml += "                show: true,"
 		blame_xml += "                combine: {"
 		blame_xml += "                    threshold: 0.01,"
-		blame_xml += "                    label: \"Other Authors\""
+		blame_xml += "                    label: \"Minor Authors\""
 		blame_xml += "                }"
 		blame_xml += "            }"
 		blame_xml += "        }"
