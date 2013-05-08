@@ -20,6 +20,7 @@
 from __future__ import print_function
 from outputable import Outputable
 from changes import FileDiff
+import codecs
 import comment
 import filtering
 import format
@@ -91,7 +92,7 @@ class Blame:
 
 		for i, row in enumerate(lines):
 			row = row.decode("utf-8", "replace").strip().strip("\"").strip("'")
-			row = row.decode("string_escape").strip()
+			row = codecs.getdecoder('unicode_escape')(row.strip())[0]
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):

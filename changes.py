@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from outputable import Outputable
+import codecs
 import extensions
 import filtering
 import interval
@@ -45,13 +46,13 @@ class FileDiff:
 	@staticmethod
 	def get_extension(string):
 		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
-		string = string.decode("string_escape").strip()
+		string = codecs.getdecoder('unicode_escape')(string.strip())[0]
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def get_filename(string):
 		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
-		return string.decode("string_escape").strip()
+		return codecs.getdecoder('unicode_escape')(string.strip())[0]
 
 	@staticmethod
 	def is_valid_extension(string):

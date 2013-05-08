@@ -52,7 +52,7 @@ def __get_zip_file_content__(name):
 	zip_file = zipfile.ZipFile(basedir.get_basedir() + "/html/flot.zip", "r")
 	content = zip_file.read(name)
 	zip_file.close()
-	return content
+	return content.decode("utf-8", "replace")
 
 def output_header():
 	if __selected_format__ == "html":
@@ -67,7 +67,7 @@ def output_header():
 		logo_file.close()
 		logo = base64.b64encode(logo)
 
-		print(html_header.format(version.__version__, jquery_js, flot_js, pie_js, logo))
+		print(html_header.format(version.__version__, jquery_js, flot_js, pie_js, logo.decode("utf-8", "replace")))
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
