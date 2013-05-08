@@ -46,6 +46,7 @@
 			table.git {{
 				font-size: small;
 				width: 60%;
+				padding-right: 5px;
 			}}
 			table.full {{
 				width: 100%;
@@ -81,9 +82,10 @@
 				position: absolute;
 				top: 5px;
 				bottom: 5px;
-				right: 5px;
+				right: 0px;
 				width: 40%;
 				font-size: x-small;
+				height: 240px;
 			}}
 			p.error {{
 				color: #700;

@@ -200,13 +200,16 @@ class ChangesOutput(Outputable):
 			changes_xml += ("<tfoot><tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td>" +
 			               "</tr></tfoot></tbody></table>")
 			changes_xml += "<div class=\"chart\" id=\"changes_chart\"></div></div>"
-
 			changes_xml += "<script type=\"text/javascript\">"
 			changes_xml += "    $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
 			changes_xml += "        series: {"
 			changes_xml += "            pie: {"
 			changes_xml += "                innerRadius: 0.4,"
-			changes_xml += "                show: true"
+			changes_xml += "                show: true,"
+			changes_xml += "                combine: {"
+			changes_xml += "                    threshold: 0.01,"
+			changes_xml += "                    label: \"Other Authors\""
+			changes_xml += "                }"
 			changes_xml += "            }"
 			changes_xml += "        }"
 			changes_xml += "    });"
