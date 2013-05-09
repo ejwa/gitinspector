@@ -23,6 +23,12 @@
 					}}
 				}}
 
+				var filterTimeLine = function() {{
+					$("div#timeline table.git tbody tr").filter(function() {{
+						return $(this).find("td:has(div)").length == 0;
+					}}).hide();
+				}}
+
 				$("table.git tbody tr td:last-child").filter(function() {{
 					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 				}}).parent().hide();
@@ -47,6 +53,26 @@
 					}}).parent().hide();
 					$("table.git tbody tr:visible").each(colorRows);
 				}});
+
+				filterTimeLine();
+
+				if ($("div#timeline table.git tbody tr:hidden").length > 0) {{
+					$("div#timeline table.git tbody tr:visible").each(colorRows);
+					$("div#timeline").prepend("<div class=\"button\">Show rows with minor work &or;</div>");
+
+					$("div#timeline div.button").hover(function() {{
+						$(this).addClass("hover");
+					}}, function() {{
+						$(this).removeClass("hover");
+					}}).toggle(function() {{
+						this.innerHTML = "Hide rows with minor work &and;"
+						$("div#timeline table.git tbody tr").show().each(colorRows);
+					}}, function() {{
+						this.innerHTML = "Show rows with minor work &or;";
+						filterTimeLine();
+						$("div#timeline table.git tbody tr:visible").each(colorRows);
+					}});
+				}}
 			}});
 		</script>
 		<style type="text/css">
@@ -108,11 +134,6 @@
 				border: 1px solid #eee;
 				text-align: center;
 			}}
-			table.git tfoot tr td.hover {{
-				background-color: #eddede;
-				border: 1px solid #bbb;
-				cursor: hand;
-			}}
 			table.git td {{
 				padding: 0.4em;
 				height: 1em;
@@ -141,6 +162,20 @@
 			}}
 			p.error {{
 				color: #700;
+			}}
+			div.button {{
+				border-radius: 8px 8px 8px 8px;
+				-moz-border-radius: 8px 8px 8px 8px;
+				border: 1px solid #eee;
+				float: right;
+				width: auto;
+				padding: 0.5em;
+				background-color: #ddcece;
+			}}
+			table.git tfoot tr td.hover, div.hover {{
+				background-color: #eddede;
+				border: 1px solid #bbb;
+				cursor: hand;
 			}}
 		</style>
 	</head>

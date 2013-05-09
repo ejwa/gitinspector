@@ -188,7 +188,7 @@ class Timeline(Outputable):
 			names = timeline_data.get_authors()
 			max_periods_per_row = 8
 
-			timeline_xml = "<div><div class=\"box\">"
+			timeline_xml = "<div><div id=\"timeline\" class=\"box\">"
 			timeline_xml += "<p>" + __timeline_info_text__ + ".</p>"
 			print(timeline_xml)
 
