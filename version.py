@@ -26,7 +26,7 @@ Written by Adam Waldenberg."""
 
 from __future__ import print_function
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 def output():
 	print("gitinspector {0}\n".format(__version__) + __doc__)
