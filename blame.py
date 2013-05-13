@@ -97,7 +97,7 @@ class Blame:
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row.strip()):
 					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
-					               interval.get_ref() + " -- \"" + row.strip() + "\""
+					               interval.get_since() + interval.get_ref() + " -- \"" + row.strip() + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
 					thread.start()
