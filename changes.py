@@ -45,12 +45,16 @@ class FileDiff:
 
 	@staticmethod
 	def get_extension(string):
+		string = string.encode("utf-8", "replace")
+		string = string.decode("utf-8", "replace")
 		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
 		string = codecs.getdecoder('unicode_escape')(string.strip())[0]
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def get_filename(string):
+		string = string.encode("utf-8", "replace")
+		string = string.decode("utf-8", "replace")
 		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
 		return codecs.getdecoder('unicode_escape')(string.strip())[0]
 
