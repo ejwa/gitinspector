@@ -113,6 +113,7 @@
 			body > div > div > div {{
 				position: relative;
 				width: 100%;
+				min-height: 215px;
 			}}
 			table.git {{
 				font-size: small;
@@ -158,7 +159,7 @@
 				right: 0px;
 				width: 40%;
 				font-size: x-small;
-				max-height: 240px;
+				height: 210px;
 			}}
 			p.error {{
 				color: #700;
@@ -171,6 +172,7 @@
 				width: auto;
 				padding: 0.5em;
 				background-color: #ddcece;
+				min-height: 0;
 			}}
 			table.git tfoot tr td.hover, div.hover {{
 				background-color: #eddede;
