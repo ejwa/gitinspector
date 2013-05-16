@@ -91,13 +91,14 @@ class Blame:
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
-			row = row.decode("utf-8", "replace").strip().strip("\"").strip("'")
-			row = codecs.getdecoder('unicode_escape')(row.strip())[0]
+			row = codecs.getdecoder("unicode_escape")(row.strip())[0]
+			row = row.encode("latin-1", "replace")
+			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-				if not missing.add(row.strip()):
+				if not missing.add(row):
 					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
-					               interval.get_since() + interval.get_ref() + " -- \"" + row.strip() + "\""
+					               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
 					thread.start()

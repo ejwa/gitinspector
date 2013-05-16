@@ -20,6 +20,7 @@
 from __future__ import print_function
 from outputable import Outputable
 from changes import FileDiff
+import codecs
 import comment
 import filtering
 import missing
@@ -34,9 +35,12 @@ class MetricsLogic:
 		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
-			i = i.decode("utf-8", "replace")
+			i = codecs.getdecoder("unicode_escape")(i.strip())[0]
+			i = i.encode("latin-1", "replace")
+			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
+
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-				if not missing.add(i.strip()):
+				if not missing.add(i):
 					file_r = open(i.strip(), "rb")
 					extension = FileDiff.get_extension(i)
 					lines = MetricsLogic.get_eloc(file_r, extension)

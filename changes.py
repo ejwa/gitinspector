@@ -23,7 +23,6 @@ import codecs
 import extensions
 import filtering
 import interval
-import re
 import os
 import subprocess
 import terminal
@@ -45,18 +44,12 @@ class FileDiff:
 
 	@staticmethod
 	def get_extension(string):
-		string = string.encode("utf-8", "replace")
-		string = string.decode("utf-8", "replace")
 		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
-		string = codecs.getdecoder('unicode_escape')(string.strip())[0]
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def get_filename(string):
-		string = string.encode("utf-8", "replace")
-		string = string.decode("utf-8", "replace")
-		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
-		return codecs.getdecoder('unicode_escape')(string.strip())[0]
+		return string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
 
 	@staticmethod
 	def is_valid_extension(string):
@@ -75,7 +68,7 @@ class Commit:
 		if commit_line.__len__() == 4:
 			self.date = commit_line[0]
 			self.sha = commit_line[1]
-			self.author = re.sub("[^\w ]", "", commit_line[2].strip())
+			self.author = commit_line[2].strip()
 			self.message = commit_line[3].strip()
 
 	def add_filediff(self, filediff):
@@ -105,7 +98,10 @@ class Changes:
 		lines = git_log_r.readlines()
 
 		for i in lines:
+			i = codecs.getdecoder("unicode_escape")(i.strip())[0]
+			i = i.encode("latin-1", "replace")
 			i = i.decode("utf-8", "replace")
+
 			if Commit.is_commit_line(i) or i == lines[-1]:
 				if found_valid_extension:
 					self.commits.append(commit)
