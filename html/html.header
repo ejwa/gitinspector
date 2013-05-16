@@ -39,10 +39,6 @@
 					return $(this).parent().parent().parent().find("tbody tr:hidden").length > 0;
 				}}).each(function() {{
 					this.innerHTML = "Show minor authors &or;";
-				}}).hover(function() {{
-					$(this).addClass("hover");
-				}}, function() {{
-					$(this).removeClass("hover");
 				}}).toggle(function() {{
 					this.innerHTML = "Hide minor authors &and;";
 					$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
@@ -60,11 +56,7 @@
 					$("div#timeline table.git tbody tr:visible").each(colorRows);
 					$("div#timeline").prepend("<div class=\"button\">Show rows with minor work &or;</div>");
 
-					$("div#timeline div.button").hover(function() {{
-						$(this).addClass("hover");
-					}}, function() {{
-						$(this).removeClass("hover");
-					}}).toggle(function() {{
+					$("div#timeline div.button").toggle(function() {{
 						this.innerHTML = "Hide rows with minor work &and;"
 						$("div#timeline table.git tbody tr").show().each(colorRows);
 					}}, function() {{
@@ -174,7 +166,7 @@
 				background-color: #ddcece;
 				min-height: 0;
 			}}
-			table.git tfoot tr td.hover, div.hover {{
+			table#changes tfoot tr td:hover, table#blame tfoot tr td:hover, div.button:hover {{
 				background-color: #eddede;
 				border: 1px solid #bbb;
 				cursor: hand;

@@ -181,7 +181,7 @@ class ChangesOutput(Outputable):
 			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
-			changes_xml += "<p>" + __historical_info_text__ + ".</p><div><table class=\"git\">"
+			changes_xml += "<p>" + __historical_info_text__ + ".</p><div><table id=\"changes\" class=\"git\">"
 			changes_xml += ("<thead><tr> <th>Author</th> <th>Commits</th> <th>Insertions</th> <th>Deletions</th>" +
 			               "<th>% of changes</th> </tr></thead>")
 			changes_xml += "<tbody>"
