@@ -50,6 +50,7 @@ class Runner:
 
 	def output(self):
 		terminal.skip_escapes(not sys.stdout.isatty())
+		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
 		format.output_header()

@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+import codecs
 import os
 import platform
 import sys
@@ -101,3 +102,7 @@ def get_size():
 		return (width, height)
 
 	return (80, 25)
+
+def set_stdout_encoding():
+	if not sys.stdout.isatty() and sys.version_info < (3,):
+		sys.stdout = codecs.getwriter('utf-8')(sys.stdout)

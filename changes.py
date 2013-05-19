@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from __future__ import unicode_literals
 from outputable import Outputable
 import codecs
 import extensions
