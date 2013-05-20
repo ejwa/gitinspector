@@ -66,6 +66,7 @@
 				$("table.git tfoot tr td:first-child").filter(function() {{
 					return $(this).parent().parent().parent().find("tbody tr:hidden").length > 0;
 				}}).each(function() {{
+					$(this).addClass("hoverable");
 					this.innerHTML = "Show minor authors &or;";
 				}}).toggle(function() {{
 					this.innerHTML = "Hide minor authors &and;";
@@ -198,7 +199,7 @@
 				min-height: 0;
 			}}
 			table#changes thead tr th:hover, table#blame thead tr th:hover,
-			table#changes tfoot tr td:hover, table#blame tfoot tr td:hover, div.button:hover {{
+			table#changes tfoot tr td.hoverable:hover, table#blame tfoot tr td.hoverable:hover, div.button:hover {{
 				background-color: #eddede;
 				border: 1px solid #bbb;
 				cursor: hand;
