@@ -48,8 +48,8 @@ def __output_html_template__(name):
 	file_r = open(template_path, "rb")
 	return file_r.read().decode("utf-8", "replace")
 
-def __get_zip_file_content__(name):
-	zip_file = zipfile.ZipFile(basedir.get_basedir() + "/html/flot.zip", "r")
+def __get_zip_file_content__(name, fileName="/html/flot.zip"):
+	zip_file = zipfile.ZipFile(basedir.get_basedir() + fileName, "r")
 	content = zip_file.read(name)
 	zip_file.close()
 	return content.decode("utf-8", "replace")
@@ -59,6 +59,7 @@ def output_header():
 		base = basedir.get_basedir()
 		html_header = __output_html_template__(base + "/html/html.header")
 		jquery_js = __get_zip_file_content__("jquery.js")
+		tablesorter_js = __get_zip_file_content__("jquery.tablesorter.min.js", "/html/jquery.tablesorter.min.js.zip")
 		flot_js = __get_zip_file_content__("jquery.flot.js")
 		pie_js = __get_zip_file_content__("jquery.flot.pie.js")
 
@@ -67,7 +68,7 @@ def output_header():
 		logo_file.close()
 		logo = base64.b64encode(logo)
 
-		print(html_header.format(version.__version__, jquery_js, flot_js, pie_js, logo.decode("utf-8", "replace")))
+		print(html_header.format(version.__version__, jquery_js, tablesorter_js, flot_js, pie_js, logo.decode("utf-8", "replace")))
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
