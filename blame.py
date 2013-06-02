@@ -74,8 +74,8 @@ class BlameThread(threading.Thread):
 						is_inside_comment = False
 					else:
 						self.blames[(author, self.filename)].comments += 1
-				elif comment.has_comment_begining(self.extension, content):
-					is_inside_comment = True
+				elif comment.has_comment_begining(self.extension, content) and not comment.has_comment_end(self.extension, content):
+					is_inside_comment = True;
 
 				self.blames[(author, self.filename)].rows += 1
 				__blame_lock__.release() # ...to here.
