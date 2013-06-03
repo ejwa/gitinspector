@@ -98,23 +98,23 @@ class Changes:
 		lines = git_log_r.readlines()
 
 		for i in lines:
-			i = codecs.getdecoder("unicode_escape")(i.strip())[0]
-			i = i.encode("latin-1", "replace")
-			i = i.decode("utf-8", "replace")
+			j = codecs.getdecoder("unicode_escape")(i.strip())[0]
+			j = j.encode("latin-1", "replace")
+			j = j.decode("utf-8", "replace")
 
-			if Commit.is_commit_line(i) or i == lines[-1]:
+			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
 					self.commits.append(commit)
 
 				found_valid_extension = False
-				commit = Commit(i)
+				commit = Commit(j)
 
-			if FileDiff.is_filediff_line(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-				extensions.add_located(FileDiff.get_extension(i))
+			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)):
+				extensions.add_located(FileDiff.get_extension(j))
 
-				if FileDiff.is_valid_extension(i):
+				if FileDiff.is_valid_extension(j):
 					found_valid_extension = True
-					filediff = FileDiff(i)
+					filediff = FileDiff(j)
 					commit.add_filediff(filediff)
 
 		if interval.has_interval() and len(self.commits) > 0:
