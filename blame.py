@@ -124,7 +124,7 @@ class Blame:
 	@staticmethod
 	def get_author(string):
 		author = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
-		return re.sub("[^\w ]", "", author.group(1)).strip()
+		return author.group(1).strip()
 
 	@staticmethod
 	def get_content(string):
