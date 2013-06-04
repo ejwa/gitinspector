@@ -77,6 +77,11 @@ class Runner:
 		format.output_footer()
 		os.chdir(previous_directory)
 
+def __check_python_version__():
+	if sys.version_info < (2,6):
+		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
+		sys.exit("gitinspector requires at leat Python 2.6 to run (version " + python_version + " was found).")
+
 if __name__ == "__main__":
 	__run__ = Runner()
 
@@ -133,4 +138,5 @@ if __name__ == "__main__":
 		print("Try `", sys.argv[0], "--help' for more information.")
 		sys.exit(2)
 
+	__check_python_version__()
 	__run__.output()
