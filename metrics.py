@@ -27,7 +27,7 @@ import interval
 import missing
 import subprocess
 
-__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py": 500, "glsl": 1000,
+__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
 class MetricsLogic:
