@@ -23,6 +23,7 @@ from changes import FileDiff
 import codecs
 import comment
 import filtering
+import interval
 import missing
 import subprocess
 
@@ -32,7 +33,8 @@ __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "py"
 class MetricsLogic:
 	def __init__(self):
 		self.eloc = {}
-		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r HEAD", shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
+		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
+		                             stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
 			i = codecs.getdecoder("unicode_escape")(i.strip())[0]
