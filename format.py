@@ -48,8 +48,8 @@ def __output_html_template__(name):
 	file_r = open(template_path, "rb")
 	return file_r.read().decode("utf-8", "replace")
 
-def __get_zip_file_content__(name, fileName="/html/flot.zip"):
-	zip_file = zipfile.ZipFile(basedir.get_basedir() + fileName, "r")
+def __get_zip_file_content__(name, file_name="/html/flot.zip"):
+	zip_file = zipfile.ZipFile(basedir.get_basedir() + file_name, "r")
 	content = zip_file.read(name)
 	zip_file.close()
 	return content.decode("utf-8", "replace")

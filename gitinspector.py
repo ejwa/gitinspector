@@ -78,7 +78,7 @@ class Runner:
 		os.chdir(previous_directory)
 
 def __check_python_version__():
-	if sys.version_info < (2,6):
+	if sys.version_info < (2, 6):
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
 		sys.exit("gitinspector requires at leat Python 2.6 to run (version " + python_version + " was found).")
 
