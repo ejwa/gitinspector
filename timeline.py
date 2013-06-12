@@ -35,7 +35,7 @@ class TimelineData:
 
 			if useweeks:
 				yearweek = datetime.date(int(i[0][0][0:4]), int(i[0][0][5:7]), int(i[0][0][8:10])).isocalendar()
-				key = (i[0][1], str(yearweek[0]) + "W" + str(yearweek[1]))
+				key = (i[0][1], str(yearweek[0]) + "W" + "{0:02d}".format(yearweek[1]))
 			else:
 				key = (i[0][1], i[0][0][0:7])
 
