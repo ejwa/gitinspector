@@ -82,7 +82,7 @@ def __check_python_version__():
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
 		sys.exit("gitinspector requires at leat Python 2.6 to run (version " + python_version + " was found).")
 
-if __name__ == "__main__":
+def main():
 	__run__ = Runner()
 
 	try:
@@ -140,3 +140,6 @@ if __name__ == "__main__":
 
 	__check_python_version__()
 	__run__.output()
+
+if __name__ == "__main__":
+	main()
