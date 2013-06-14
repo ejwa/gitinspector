@@ -1,1 +1,2 @@
 include gitinspector/html/*
+include *.txt

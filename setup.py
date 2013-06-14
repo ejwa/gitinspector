@@ -20,6 +20,7 @@
 import os
 import sys
 from gitinspector.version import __version__
+from glob import glob
 from setuptools import setup, find_packages
 
 def read(fname):
@@ -45,6 +46,7 @@ setup(
 	],
 	packages = find_packages(),
 	package_data = {"": ["html/*"]},
+	data_files = glob("*.txt"),
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = True
 )
