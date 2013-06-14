@@ -44,6 +44,7 @@ setup(
 		"Topic :: Utilities"
 	],
 	packages = find_packages(),
+	package_data = {"": ["html/*"]},
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = True
 )
