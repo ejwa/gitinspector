@@ -34,7 +34,7 @@ setup(
 	license = "GNU GPL v3",
 	keywords = "analysis analyzer git python statistics stats vc vcs timeline",
 	url = "http://gitinspector.googlecode.com",
-	long_description = read("README.txt"),
+	long_description = read("DESCRIPTION.txt"),
 	classifiers = [
 		"Development Status :: 4 - Beta",
 		"Environment :: Console",
