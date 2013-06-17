@@ -1,4 +1,5 @@
 build
+debian
 dist
 *.egg-info
 *.pyc
