@@ -20,7 +20,6 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 from outputable import Outputable
-import codecs
 import extensions
 import filtering
 import interval
@@ -98,7 +97,7 @@ class Changes:
 		lines = git_log_r.readlines()
 
 		for i in lines:
-			j = codecs.getdecoder("unicode_escape")(i.strip())[0]
+			j = i.strip().decode("unicode_escape", "ignore")
 			j = j.encode("latin-1", "replace")
 			j = j.decode("utf-8", "replace")
 

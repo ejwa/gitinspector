@@ -18,9 +18,9 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from __future__ import unicode_literals
 from outputable import Outputable
 from changes import FileDiff
-import codecs
 import comment
 import filtering
 import interval
@@ -37,7 +37,7 @@ class MetricsLogic:
 		                             stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
-			i = codecs.getdecoder("unicode_escape")(i.strip())[0]
+			i = i.strip().decode("unicode_escape", "ignore")
 			i = i.encode("latin-1", "replace")
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 

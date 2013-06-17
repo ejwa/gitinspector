@@ -21,7 +21,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from outputable import Outputable
 from changes import FileDiff
-import codecs
 import comment
 import filtering
 import format
@@ -92,7 +91,7 @@ class Blame:
 		lines = ls_tree_r.readlines()
 
 		for i, row in enumerate(lines):
-			row = codecs.getdecoder("unicode_escape")(row.strip())[0]
+			row = row.strip().decode("unicode_escape", "ignore")
 			row = row.encode("latin-1", "replace")
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
