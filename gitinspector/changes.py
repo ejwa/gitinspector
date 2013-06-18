@@ -210,6 +210,8 @@ class ChangesOutput(Outputable):
 			changes_xml += "                    label: \"Minor Authors\""
 			changes_xml += "                }"
 			changes_xml += "            }"
+			changes_xml += "        }, grid: {"
+			changes_xml += "            hoverable: true"
 			changes_xml += "        }"
 			changes_xml += "    });"
 			changes_xml += "</script>"

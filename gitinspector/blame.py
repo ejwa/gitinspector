@@ -200,6 +200,8 @@ class BlameOutput(Outputable):
 		blame_xml += "                    label: \"Minor Authors\""
 		blame_xml += "                }"
 		blame_xml += "            }"
+		blame_xml += "        }, grid: {"
+		blame_xml += "            hoverable: true"
 		blame_xml += "        }"
 		blame_xml += "    });"
 		blame_xml += "</script></div></div>"

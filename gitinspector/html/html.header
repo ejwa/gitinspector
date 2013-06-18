@@ -94,6 +94,24 @@
 						$("div#timeline table.git tbody tr:visible").each(colorRows);
 					}});
 				}}
+
+				$("#blame_chart, #changes_chart").bind("plothover", function(event, pos, obj) {{
+					if (obj) {{
+						var selection = "table tbody tr td:contains(\"" + obj.series.label + "\")";
+						var element = $(this).parent().find(selection);
+
+						if (element) {{
+							if (this.hoveredElement && this.hoveredElement.html() != element.parent().html()) {{
+								this.hoveredElement.removeClass("piehover");
+							}}
+
+							element.parent().addClass("piehover");
+							this.hoveredElement = element.parent();
+						}}
+					}} else if (this.hoveredElement) {{
+						this.hoveredElement.removeClass("piehover");
+					}}
+				}});
 			}});
 		</script>
 		<style type="text/css">
@@ -175,6 +193,9 @@
 			}}
 			table.git tr.odd {{
 				background-color: #dbdbdb;
+			}}
+			table.git tr.piehover {{
+				background-color: #dddece;
 			}}
 			div.chart {{
 				position: absolute;
