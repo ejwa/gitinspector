@@ -37,13 +37,14 @@ def add_located(string):
 	if len(string) > 0:
 		__located_extensions__.add(string)
 
-__extensions_info_text__ = "The extensions below were found in the repository history"
+__extensions_info_text__ = _("The extensions below were found in the repository history")
+__extensions_marked_text__ = _("(extensions used during statistical analysis are marked)")
 
 class Extensions(Outputable):
 	def output_html(self):
 		if __located_extensions__:
 			extensions_xml = "<div><div class=\"box\">"
-			extensions_xml += "<p>" + __extensions_info_text__ + " (extensions used during statistical analysis are marked).</p><p>"
+			extensions_xml += "<p>{0} {1}.</p><p>".format(__extensions_info_text__, __extensions_marked_text__)
 
 			for i in __located_extensions__:
 				if i in __extensions__:
@@ -57,7 +58,7 @@ class Extensions(Outputable):
 
 	def output_text(self):
 		if __located_extensions__:
-			print("\n" + textwrap.fill(__extensions_info_text__ + "\n(extensions used during statistical analysis are marked):",
+			print("\n" + textwrap.fill("{0} {1}:".format(__extensions_info_text__, __extensions_marked_text__),
 			      width=terminal.get_size()[0]))
 
 			for i in __located_extensions__:

@@ -19,6 +19,10 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+
+import localization
+localization.init()
+
 import blame
 import changes
 import extensions
@@ -80,7 +84,7 @@ class Runner:
 def __check_python_version__():
 	if sys.version_info < (2, 6):
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
-		sys.exit("gitinspector requires at leat Python 2.6 to run (version " + python_version + " was found).")
+		sys.exit(_("gitinspector requires at leat Python 2.6 to run (version {0} was found).").format(python_version))
 
 def main():
 	__run__ = Runner()
@@ -100,7 +104,7 @@ def main():
 				extensions.define(a)
 			elif o in("-F", "--format"):
 				if not format.select(a):
-					raise format.InvalidFormatError("specified output format not supported.")
+					raise format.InvalidFormatError(_("specified output format not supported."))
 			elif o in("-H", "--hard"):
 				__run__.hard = True
 			elif o in("-l", "--list-file-types"):
@@ -135,7 +139,7 @@ def main():
 
 	except (format.InvalidFormatError, getopt.error) as msg:
 		print(sys.argv[0], "\b:", msg)
-		print("Try `", sys.argv[0], "--help' for more information.")
+		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
 
 	__check_python_version__()

@@ -157,8 +157,8 @@ def get(hard):
 
 	return __changes__
 
-__historical_info_text__ = "The following historical commit information, by author, was found in the repository"
-__no_commited_files__ = "No commited files with the specified extensions were found"
+__historical_info_text__ = _("The following historical commit information, by author, was found in the repository")
+__no_commited_files_text__ = _("No commited files with the specified extensions were found")
 
 class ChangesOutput(Outputable):
 	def __init__(self, hard):
@@ -177,9 +177,9 @@ class ChangesOutput(Outputable):
 
 		if authorinfo_list:
 			changes_xml += "<p>" + __historical_info_text__ + ".</p><div><table id=\"changes\" class=\"git\">"
-			changes_xml += ("<thead><tr> <th>Author</th> <th>Commits</th> <th>Insertions</th> <th>Deletions</th>" +
-			               "<th>% of changes</th> </tr></thead>")
-			changes_xml += "<tbody>"
+			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
+			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
+			changes_xml += "</tr></thead><tbody>"
 
 			for i, entry in enumerate(sorted(authorinfo_list)):
 				authorinfo = authorinfo_list.get(entry)
@@ -207,7 +207,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "                show: true,"
 			changes_xml += "                combine: {"
 			changes_xml += "                    threshold: 0.01,"
-			changes_xml += "                    label: \"Minor Authors\""
+			changes_xml += "                    label: \"" + _("Minor Authors") + "\""
 			changes_xml += "                }"
 			changes_xml += "            }"
 			changes_xml += "        }, grid: {"
@@ -216,7 +216,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "    });"
 			changes_xml += "</script>"
 		else:
-			changes_xml += "<p>" + __no_commited_files__ + ".</p>"
+			changes_xml += "<p>" + __no_commited_files_text__ + ".</p>"
 
 		changes_xml += "</div></div>"
 		print(changes_xml)
@@ -231,7 +231,8 @@ class ChangesOutput(Outputable):
 
 		if authorinfo_list:
 			print(textwrap.fill(__historical_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-			terminal.printb("Author".ljust(21) + "Commits   " + "Insertions   " + "Deletions   " + "% of changes")
+			terminal.printb(_("Author").ljust(21) + "{0}   {1}   {2}   {3}".format(_("Commits"), _("Insertions"),
+			                _("Deletions"), _("% of changes")))
 
 			for i in sorted(authorinfo_list):
 				authorinfo = authorinfo_list.get(i)
@@ -243,7 +244,7 @@ class ChangesOutput(Outputable):
 				print(str(authorinfo.deletions).rjust(11), end=" ")
 				print("{0:.2f}".format(percentage).rjust(14))
 		else:
-			print(__no_commited_files__ + ".")
+			print(__no_commited_files_text__ + ".")
 
 	def output_xml(self):
 		authorinfo_list = get(self.hard).get_authorinfo_list()
@@ -272,4 +273,4 @@ class ChangesOutput(Outputable):
 
 			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
 		else:
-			print("\t<changes>\n\t\t<exception>" + __no_commited_files__ + "</exception>\n\t</changes>")
+			print("\t<changes>\n\t\t<exception>" + __no_commited_files_text__ + "</exception>\n\t</changes>")

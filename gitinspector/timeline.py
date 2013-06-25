@@ -101,7 +101,8 @@ class TimelineData:
 				return True
 		return False
 
-__timeline_info_text__ = "The following history timeline has been gathered from the repository"
+__timeline_info_text__ = _("The following history timeline has been gathered from the repository")
+__modified_rows_text__ = _("Modified Rows:")
 
 def __output_row__text__(timeline_data, periods, names):
 	print("\n" + terminal.__bold__ + "Author".ljust(20), end=" ")
@@ -122,7 +123,7 @@ def __output_row__text__(timeline_data, periods, names):
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 			print("")
 
-	print(terminal.__bold__  + "Modified Rows:".ljust(20) + terminal.__normal__, end=" ")
+	print(terminal.__bold__  + __modified_rows_text__.ljust(20) + terminal.__normal__, end=" ")
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)
@@ -142,7 +143,7 @@ def __output_row__html__(timeline_data, periods, names):
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name):
 			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
-			timeline_xml += "<td>" + name + "</td>"
+			timeline_xml += "<td>" + __modified_rows_text__ + "</td>"
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 14)
 				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
@@ -153,7 +154,7 @@ def __output_row__html__(timeline_data, periods, names):
 			timeline_xml += "</tr>"
 			i = i + 1
 
-	timeline_xml += "<tfoot><tr><td><strong>Modified Rows:</strong></td>"
+	timeline_xml += "<tfoot><tr><td><strong>" + _("Modified Rows:") + "</strong></td>"
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)

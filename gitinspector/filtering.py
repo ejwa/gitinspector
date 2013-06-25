@@ -44,8 +44,8 @@ def set_filtered(file_name):
 				return True
 	return False
 
-__filtering_info_text__ = ("The following files were excluded from the statistics due to the"
-                           "specified exclusion patterns")
+__filtering_info_text__ = _("The following files were excluded from the statistics due to the"
+                            "specified exclusion patterns")
 
 class Filtering(Outputable):
 	def output_html(self):

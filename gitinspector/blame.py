@@ -83,6 +83,8 @@ class BlameThread(threading.Thread):
 		git_blame_r.close()
 		__thread_lock__.release() # Lock controlling the number of threads running
 
+__progress_text__ = "\b" + _("Checking how many rows belong to each author (Progress): {0:.0f}%")
+
 class Blame:
 	def __init__(self, hard):
 		self.blames = {}
@@ -114,7 +116,7 @@ class Blame:
 	def output_progress(pos, length):
 		if sys.stdout.isatty() and format.is_interactive_format():
 			terminal.clear_row()
-			print("\bChecking how many rows belong to each author (Progress): {0:.0f}%".format(100 * pos / length), end="")
+			print(__progress_text__.format(100 * pos / length), end="")
 			sys.stdout.flush()
 
 	@staticmethod
@@ -151,8 +153,8 @@ def get(hard):
 
 	return __blame__
 
-__blame_info_text__ = ("Below are the number of rows from each author that have survived and are still "
-                       "intact in the current revision")
+__blame_info_text__ = _("Below are the number of rows from each author that have survived and are still "
+                        "intact in the current revision")
 
 class BlameOutput(Outputable):
 	def __init__(self, hard):
@@ -164,7 +166,8 @@ class BlameOutput(Outputable):
 
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table id=\"blame\" class=\"git\">"
-		blame_xml += "<thead><tr> <th>Author</th> <th>Rows</th> <th>% in comments</th> </tr></thead>"
+		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr></thead>".format(_("Author"),
+		             _("Rows"), _("% in comments"))
 		blame_xml += "<tbody>"
 		chart_data = ""
 		blames = sorted(__blame__.get_summed_blames().items())
@@ -216,7 +219,7 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb("Author".ljust(21) + "Rows".rjust(10) + "% in comments".rjust(16))
+		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(16))
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")

@@ -17,7 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-"""Usage: {0} [OPTION]... [DIRECTORY]
+from __future__ import print_function
+from extensions import __default_extensions__
+from format import __available_formats__
+import sys
+
+__doc__ = _("""Usage: {0} [OPTION]... [DIRECTORY]
 List information about the repository in DIRECTORY. If no directory is
 specified, the current directory is used. If multiple directories are
 given, information will be fetched from the last directory specified.
@@ -60,12 +65,7 @@ add or remove one of the specified extensions, see -f or --file-types for
 more information.
 
 gitinspector requires that the git executable is available in your PATH.
-Report gitinspector bugs to gitinspector@ejwa.se."""
-
-from __future__ import print_function
-from extensions import __default_extensions__
-from format import __available_formats__
-import sys
+Report gitinspector bugs to gitinspector@ejwa.se.""")
 
 def output():
 	print(__doc__.format(sys.argv[0], ",".join(__default_extensions__), ",".join(__available_formats__)))

@@ -39,9 +39,10 @@ class Responsibilities:
 
 		return sorted(author_blames.items())
 
-__responsibilities_info_text__ = ("The following repsonsibilties, by author, were found in the current "
-                                  "revision of the repository (comments are exluded from the line count, "
-                                  "if possible)")
+__responsibilities_info_text__ = _("The following repsonsibilties, by author, were found in the current "
+                                   "revision of the repository (comments are exluded from the line count, "
+                                   "if possible)")
+__mostly_responsible_for_text__ = _("is mostly responsible for")
 
 class ResponsibilitiesOutput(Outputable):
 	def __init__(self, hard):
@@ -54,7 +55,7 @@ class ResponsibilitiesOutput(Outputable):
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				print("\n" + i, "is mostly responsible for:")
+				print("\n" + i, __mostly_responsible_for_text__ + ":")
 
 				for j, entry in enumerate(responsibilities):
 					(width, _) = terminal.get_size()
@@ -73,7 +74,7 @@ class ResponsibilitiesOutput(Outputable):
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				resp_xml += "<h3>" + i + "is mostly responsible for</h3>"
+				resp_xml += "<h3>" + i + __mostly_responsible_for_text__ + "</h3>"
 
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "<p>" + entry[1] + " (" + str(entry[0]) + " eloc)</p>"

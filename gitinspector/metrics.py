@@ -67,8 +67,8 @@ class MetricsLogic:
 
 		return eloc_counter
 
-__eloc_info_text__ = "The following files are suspiciously big (in order of severity)"
-__metrics_missing_info_text__ = "No metrics violations were found in the repository"
+__eloc_info_text__ = _("The following files are suspiciously big (in order of severity)")
+__metrics_missing_info_text__ = _("No metrics violations were found in the repository")
 
 class Metrics(Outputable):
 	def output_text(self):

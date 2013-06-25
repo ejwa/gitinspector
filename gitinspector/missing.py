@@ -41,9 +41,9 @@ def set_checkout_missing(checkout):
 	global __checkout_missing__
 	__checkout_missing__ = checkout
 
-__missing_info_text__ = ("The following files were missing in the repository and were therefore not "
-                         "completely included in the statistical analysis. To include them, you can "
-                         "either checkout manually using git or use the -c option in gitinspector")
+__missing_info_text__ = _("The following files were missing in the repository and were therefore not "
+                          "completely included in the statistical analysis. To include them, you can "
+                          "either checkout manually using git or use the -c option in gitinspector")
 
 class Missing(Outputable):
 	def output_html(self):
