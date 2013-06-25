@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import print_function
+from __future__ import unicode_literals
 from outputable import Outputable
 import terminal
 import textwrap
@@ -44,7 +45,7 @@ def set_filtered(file_name):
 				return True
 	return False
 
-__filtering_info_text__ = _("The following files were excluded from the statistics due to the"
+__filtering_info_text__ = _("The following files were excluded from the statistics due to the "
                             "specified exclusion patterns")
 
 class Filtering(Outputable):
