@@ -75,7 +75,7 @@ class ResponsibilitiesOutput(Outputable):
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				resp_xml += "<h3>" + i + __mostly_responsible_for_text__ + "</h3>"
+				resp_xml += "<h3>" + i + " " + __mostly_responsible_for_text__ + "</h3>"
 
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "<p>" + entry[1] + " (" + str(entry[0]) + " eloc)</p>"

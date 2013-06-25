@@ -144,7 +144,7 @@ def __output_row__html__(timeline_data, periods, names):
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name):
 			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
-			timeline_xml += "<td>" + __modified_rows_text__ + "</td>"
+			timeline_xml += "<td>" + name + "</td>"
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 14)
 				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
