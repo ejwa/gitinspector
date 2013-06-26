@@ -25,7 +25,7 @@ import basedir
 import os
 import zipfile
 
-__available_formats__ = ["html", "text", "xml"]
+__available_formats__ = ["html", "htmlembedded", "text", "xml"]
 __default_format__ = __available_formats__[1]
 __selected_format__ = __default_format__
 
@@ -56,10 +56,9 @@ def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 	return content.decode("utf-8", "replace")
 
 def output_header():
-	if __selected_format__ == "html":
+	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
 		base = basedir.get_basedir()
 		html_header = __output_html_template__(base + "/html/html.header")
-		jquery_js = __get_zip_file_content__("jquery.js")
 		tablesorter_js = __get_zip_file_content__("jquery.tablesorter.min.js", "/html/jquery.tablesorter.min.js.zip")
 		flot_js = __get_zip_file_content__("jquery.flot.js")
 		pie_js = __get_zip_file_content__("jquery.flot.pie.js")
@@ -68,6 +67,11 @@ def output_header():
 		logo = logo_file.read()
 		logo_file.close()
 		logo = base64.b64encode(logo)
+
+		if __selected_format__ == "htmlembedded":
+			jquery_js = ">" + __get_zip_file_content__("jquery.js")
+		else:
+			jquery_js = " src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js\">"
 
 		print(html_header.format(version = version.__version__,
 		                         jquery = jquery_js,

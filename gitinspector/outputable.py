@@ -32,7 +32,7 @@ class Outputable(object):
 		print(_("XML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
 
 def output(outputable):
-	if format.get_selected() == "html":
+	if format.get_selected() == "html" or format.get_selected() == "htmlembedded":
 		outputable.output_html()
 	elif format.get_selected() == "text":
 		outputable.output_text()
