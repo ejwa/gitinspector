@@ -106,7 +106,7 @@ __timeline_info_text__ = _("The following history timeline has been gathered fro
 __modified_rows_text__ = _("Modified Rows:")
 
 def __output_row__text__(timeline_data, periods, names):
-	print("\n" + terminal.__bold__ + "Author".ljust(20), end=" ")
+	print("\n" + terminal.__bold__ + _("Author").ljust(20), end=" ")
 	
 	for period in periods:
 		print(period.rjust(10), end=" ")
@@ -133,7 +133,7 @@ def __output_row__text__(timeline_data, periods, names):
 	print("")
 
 def __output_row__html__(timeline_data, periods, names):
-	timeline_xml = "<table class=\"git full\"><thead><tr><th>Author</th>"
+	timeline_xml = "<table class=\"git full\"><thead><tr><th>" + _("Author") + "</th>"
 
 	for period in periods:
 		timeline_xml += "<th>" + str(period) + "</th>"
