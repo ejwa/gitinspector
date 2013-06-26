@@ -24,19 +24,23 @@ import locale
 import os
 
 def init():
-	locale.setlocale(locale.LC_ALL, '')
-	lang = locale.getlocale()
-
-	#Fix for non-POSIX-compliant systems (Windows et al.).
-	if os.getenv('LANG') is None:
-		lang, _ = locale.getdefaultlocale()
-		os.environ['LANG'] = lang
-
-	filename = "translations/messages_%s.mo" % lang[0][0:2]
-
 	try:
-		translation = gettext.GNUTranslations(open( filename, "rb" ) )
-	except IOError:
+		locale.setlocale(locale.LC_ALL, "")
+	except locale.Error:
 		translation = gettext.NullTranslations()
+	else:
+		lang = locale.getlocale()
+
+		#Fix for non-POSIX-compliant systems (Windows et al.).
+		if os.getenv('LANG') is None:
+			lang = locale.getdefaultlocale()
+			os.environ['LANG'] = lang[0]
+
+		filename = "translations/messages_%s.mo" % lang[0][0:2]
+
+		try:
+			translation = gettext.GNUTranslations(open( filename, "rb" ) )
+		except IOError:
+			translation = gettext.NullTranslations()
 
 	translation.install(True)
