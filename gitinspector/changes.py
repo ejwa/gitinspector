@@ -231,18 +231,18 @@ class ChangesOutput(Outputable):
 
 		if authorinfo_list:
 			print(textwrap.fill(__historical_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-			terminal.printb(_("Author").ljust(21) + "{0}   {1}   {2}   {3}".format(_("Commits"), _("Insertions"),
-			                _("Deletions"), _("% of changes")))
+			terminal.printb(_("Author").ljust(21) + _("Commits").rjust(13) + _("Insertions").rjust(14) +
+			                _("Deletions").rjust(15) + _("% of changes").rjust(16))
 
 			for i in sorted(authorinfo_list):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
 				print(i.ljust(20)[0:20], end=" ")
-				print(str(authorinfo.commits).rjust(7), end=" ")
-				print(str(authorinfo.insertions).rjust(12), end=" ")
-				print(str(authorinfo.deletions).rjust(11), end=" ")
-				print("{0:.2f}".format(percentage).rjust(14))
+				print(str(authorinfo.commits).rjust(13), end=" ")
+				print(str(authorinfo.insertions).rjust(13), end=" ")
+				print(str(authorinfo.deletions).rjust(14), end=" ")
+				print("{0:.2f}".format(percentage).rjust(15))
 		else:
 			print(__no_commited_files_text__ + ".")
 

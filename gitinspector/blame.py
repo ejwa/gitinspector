@@ -219,11 +219,11 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(16))
+		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(20))
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
-			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(15))
+			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
 	def output_xml(self):
 		get(self.hard)
