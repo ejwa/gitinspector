@@ -26,7 +26,7 @@ import os
 import zipfile
 
 __available_formats__ = ["html", "htmlembedded", "text", "xml"]
-__default_format__ = __available_formats__[1]
+__default_format__ = __available_formats__[2]
 __selected_format__ = __default_format__
 
 class InvalidFormatError(Exception):
