@@ -41,9 +41,12 @@ def set_filtered(file_name):
 
 	if len(string) > 0:
 		for i in __filters__:
-			if re.search(i, string) != None:
-				__filtered_files__.add(string)
-				return True
+			try:
+				if re.search(i, string) != None:
+					__filtered_files__.add(string)
+					return True
+			except:
+				raise ValueError("Invalid regular expression specified")
 	return False
 
 __filtering_info_text__ = _("The following files were excluded from the statistics due to the "
