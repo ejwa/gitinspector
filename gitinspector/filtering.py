@@ -20,6 +20,7 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 from outputable import Outputable
+import re
 import terminal
 import textwrap
 
@@ -40,7 +41,7 @@ def set_filtered(file_name):
 
 	if len(string) > 0:
 		for i in __filters__:
-			if string.find(i) != -1:
+			if re.search(i, string) != None:
 				__filtered_files__.add(string)
 				return True
 	return False
