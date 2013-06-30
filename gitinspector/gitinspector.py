@@ -90,13 +90,18 @@ def __check_python_version__():
 
 def main():
 	__run__ = Runner()
-	config.init(__run__)
 
 	try:
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:F:hHlmrTwx:", ["checkout-missing", "exclude=",
 		                                                     "file-types=", "format=", "hard", "help", "list-file-types",
 		                                                     "metrics", "responsibilities", "since=", "grading",
 		                                                     "timeline", "until=", "version"])
+		for arg in __args__:
+			__run__.repo = arg
+
+		#We need the repo above to be set before we read the git config.
+		config.init(__run__)
+
 		for o, a in __opts__:
 			if o in("-c", "--checkout-missing"):
 				missing.set_checkout_missing(True)
@@ -137,8 +142,6 @@ def main():
 				__run__.useweeks = True
 			elif o in("-x", "--exclude"):
 				filtering.add(a)
-		for arg in __args__:
-			__run__.repo = arg
 
 	except (format.InvalidFormatError, getopt.error) as msg:
 		print(sys.argv[0], "\b:", msg)
