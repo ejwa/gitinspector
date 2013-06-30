@@ -51,7 +51,7 @@ def init(run):
 	missing.set_checkout_missing(__read_git_config__("checkout-missing", False))
 	extensions.define(__read_git_config__("file-types", ",".join(extensions.get())))
 
-	exclude = __read_git_config__("exclude", None):
+	exclude = __read_git_config__("exclude", None)
 	if exclude != None:
 		filtering.add(exclude)
 
