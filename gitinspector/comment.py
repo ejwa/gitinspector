@@ -20,10 +20,12 @@
 from __future__ import unicode_literals
 
 __comment_begining__ = {"java": "/*", "c": "/*", "cpp": "/*", "h": "/*", "hpp": "/*", "html": "<!--", "php": "/*",
-                        "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*", "sql": "/*", "tex": "\\begin{comment}", "xml": "<!--"}
+                        "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*", "sql": "/*",
+                        "tex": "\\begin{comment}", "xml": "<!--"}
 
 __comment_end__ = {"java": "*/", "c": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "html": "-->", "php": "/*",
-                   "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "sql": "*/", "tex": "\\end{comment}", "xml": "-->"}
+                   "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "sql": "*/",
+                   "tex": "\\end{comment}", "xml": "-->"}
 
 __comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "pl": "#", "php": "//", "py": "#",
                "glsl": "//", "rb": "#", "js": "//", "sql": "--", "tex": "%"}

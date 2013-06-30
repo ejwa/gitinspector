@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2013 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -21,7 +21,6 @@ from __future__ import unicode_literals
 import extensions
 import filtering
 import format
-import gitinspector
 import interval
 import missing
 import subprocess
@@ -43,7 +42,7 @@ def __read_git_config__(variable, default_value):
 		return setting
 
 	except IndexError:
-		return default_value;
+		return default_value
 
 def init(run):
 	missing.set_checkout_missing(__read_git_config__("checkout-missing", False))
@@ -60,11 +59,11 @@ def init(run):
 
 	since =  __read_git_config__("since", None)
 	if since != None:
-		interval.set_since(since);
+		interval.set_since(since)
 
 	until = __read_git_config__("until", None)
 	if until != None:
-		interval.set_until(until);
+		interval.set_until(until)
 
 	run.timeline = __read_git_config__("timeline", False)
 
