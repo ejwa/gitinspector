@@ -32,9 +32,12 @@ def __read_git_config__(variable, default_value):
 		setting = setting.readlines()[0]
 		setting = setting.decode("utf-8", "replace").strip()
 
-		if setting == "True" or setting == "true" or setting == "1":
-			return True
-		elif setting == "False" or setting == "false" or setting == "0":
+		if default_value == True or default_value == False:
+			if setting == "True" or setting == "true" or setting == "1":
+				return True
+			elif setting == "False" or setting == "false" or setting == "0":
+				return False
+
 			return False
 		elif setting == "":
 			return default_value
@@ -47,6 +50,10 @@ def __read_git_config__(variable, default_value):
 def init(run):
 	missing.set_checkout_missing(__read_git_config__("checkout-missing", False))
 	extensions.define(__read_git_config__("file-types", ",".join(extensions.get())))
+
+	exclude = __read_git_config__("exclude", None):
+	if exclude != None:
+		filtering.add(exclude)
 
 	if not __read_git_config__("format", format.get_selected()):
 		raise format.InvalidFormatError(_("specified output format not supported."))
