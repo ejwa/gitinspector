@@ -55,8 +55,10 @@ def init(run):
 	if exclude != None:
 		filtering.add(exclude)
 
-	if not __read_git_config__("format", format.get_selected()):
-		raise format.InvalidFormatError(_("specified output format not supported."))
+	output_format = __read_git_config__("format", None)
+	if output_format != None:
+		if not format.select(output_format):
+			raise format.InvalidFormatError(_("specified output format not supported."))
 
 	run.hard = __read_git_config__("hard", False)
 	run.list_file_types = __read_git_config__("list-file-types", False)
