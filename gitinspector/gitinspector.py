@@ -26,6 +26,7 @@ localization.init()
 
 import blame
 import changes
+import config
 import extensions
 import filtering
 import format
@@ -89,6 +90,7 @@ def __check_python_version__():
 
 def main():
 	__run__ = Runner()
+	config.init(__run__)
 
 	try:
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:F:hHlmrTwx:", ["checkout-missing", "exclude=",
