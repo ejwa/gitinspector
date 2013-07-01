@@ -46,7 +46,7 @@ setup(
 	],
 	packages = find_packages(),
 	package_data = {"": ["html/*"]},
-	data_files = glob("*.txt"),
+	data_files = [("share/doc/gitinspector", glob("*.txt"))],
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = True
 )
