@@ -45,7 +45,7 @@ setup(
 		"Topic :: Utilities"
 	],
 	packages = find_packages(),
-	package_data = {"": ["html/*"]},
+	package_data = {"": ["html/*", "translations/*"]},
 	data_files = [("share/doc/gitinspector", glob("*.txt"))],
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = True
