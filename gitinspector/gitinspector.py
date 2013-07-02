@@ -95,7 +95,7 @@ def main():
 		__opts__, __args__ = getopt.gnu_getopt(sys.argv[1:], "cf:F:hHlmrTwx:", ["checkout-missing", "exclude=",
 		                                                     "file-types=", "format=", "hard", "help", "list-file-types",
 		                                                     "metrics", "responsibilities", "since=", "grading",
-		                                                     "timeline", "until=", "version"])
+		                                                     "timeline", "until=", "version", "weeks"])
 		for arg in __args__:
 			__run__.repo = arg
 
@@ -138,7 +138,7 @@ def main():
 				__run__.timeline = True
 			elif o in("--until"):
 				interval.set_until(a)
-			elif o in("-w"):
+			elif o in("-w", "--weeks"):
 				__run__.useweeks = True
 			elif o in("-x", "--exclude"):
 				filtering.add(a)

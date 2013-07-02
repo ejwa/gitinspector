@@ -54,7 +54,7 @@ Mandatory arguments to long options are mandatory for short options too.
   -T, --timeline               show commit timeline, including author names
       --until=DATE             only show statistics for commits older than a
                                  specific date
-  -w                           show all statistical information in weeks
+  -w, --weeks                  show all statistical information in weeks
                                  instead of in months
   -x, --exclude=PATTERN        an exclusion pattern describing file names that
                                  should be excluded from the statistics; can
