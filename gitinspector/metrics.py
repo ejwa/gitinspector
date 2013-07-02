@@ -57,10 +57,7 @@ class MetricsLogic:
 
 		for j in file_r.readlines():
 			j = j.decode("utf-8", "replace")
-			if is_inside_comment and comment.has_comment_end(extension, j):
-				is_inside_comment = False
-			elif comment.has_comment_begining(extension, j):
-				is_inside_comment = True
+			(is_inside_comment, _) = comment.handle_comment_block(is_inside_comment, extension, j)
 
 			if not is_inside_comment and not comment.is_comment(extension, j):
 				eloc_counter += 1

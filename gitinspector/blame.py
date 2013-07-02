@@ -67,16 +67,8 @@ class BlameThread(threading.Thread):
 				if self.blames.get((author, self.filename), None) == None:
 					self.blames[(author, self.filename)] = BlameEntry()
 
-				if comment.is_comment(self.extension, content):
-					self.blames[(author, self.filename)].comments += 1
-				if is_inside_comment:
-					if comment.has_comment_end(self.extension, content):
-						is_inside_comment = False
-					else:
-						self.blames[(author, self.filename)].comments += 1
-				elif comment.has_comment_begining(self.extension, content) and not comment.has_comment_end(self.extension, content):
-					is_inside_comment = True
-
+				(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
+				self.blames[(author, self.filename)].comments += comments
 				self.blames[(author, self.filename)].rows += 1
 				__blame_lock__.release() # ...to here.
 

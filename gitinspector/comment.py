@@ -32,6 +32,22 @@ __comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "pl
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 
+def __has_comment_begining__(extension, string):
+	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
+		return string.find(__comment_begining__[extension]) == 0
+	elif __comment_begining__.get(extension, None) != None and string.find(__comment_end__[extension], 2) == -1:
+		return string.find(__comment_begining__[extension]) != -1
+
+	return False
+
+def __has_comment_end__(extension, string):
+	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
+		return string.find(__comment_end__[extension]) == 0
+	elif __comment_end__.get(extension, None) != None:
+		return string.find(__comment_end__[extension]) != -1
+
+	return False
+
 def is_comment(extension, string):
 	if __comment_begining__.get(extension, None) != None and string.strip().startswith(__comment_begining__[extension]):
 		return True
@@ -42,18 +58,17 @@ def is_comment(extension, string):
 
 	return False
 
-def has_comment_begining(extension, string):
-	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
-		return string.find(__comment_begining__[extension]) == 0
-	elif __comment_begining__.get(extension, None) != None and string.find(__comment_end__[extension], 2) == -1:
-		return string.find(__comment_begining__[extension]) != -1
+def handle_comment_block(is_inside_comment, extension, content):
+	comments = 0
 
-	return False
+	if is_comment(extension, content):
+		comments += 1
+	if is_inside_comment:
+		if __has_comment_end__(extension, content):
+			is_inside_comment = False
+		else:
+			comments += 1
+	elif __has_comment_begining__(extension, content) and not __has_comment_end__(extension, content):
+		is_inside_comment = True
 
-def has_comment_end(extension, string):
-	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
-		return string.find(__comment_end__[extension]) == 0
-	elif __comment_end__.get(extension, None) != None:
-		return string.find(__comment_end__[extension]) != -1
-
-	return False
+	return (comments, is_inside_comment)
