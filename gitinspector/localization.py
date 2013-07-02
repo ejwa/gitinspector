@@ -19,6 +19,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+import basedir
 import gettext
 import locale
 import os
@@ -36,10 +37,10 @@ def init():
 			lang = locale.getdefaultlocale()
 			os.environ['LANG'] = lang[0]
 
-		filename = "translations/messages_%s.mo" % lang[0][0:2]
+		filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
 
 		try:
-			translation = gettext.GNUTranslations(open( filename, "rb" ) )
+			translation = gettext.GNUTranslations(open(filename, "rb"))
 		except IOError:
 			translation = gettext.NullTranslations()
 
