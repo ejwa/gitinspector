@@ -57,7 +57,7 @@ class MetricsLogic:
 
 		for j in file_r.readlines():
 			j = j.decode("utf-8", "replace")
-			(is_inside_comment, _) = comment.handle_comment_block(is_inside_comment, extension, j)
+			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, j)
 
 			if not is_inside_comment and not comment.is_comment(extension, j):
 				eloc_counter += 1
