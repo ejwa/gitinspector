@@ -24,24 +24,30 @@ import gettext
 import locale
 import os
 
+__installed__ = False
+
 def init():
-	try:
-		locale.setlocale(locale.LC_ALL, "")
-	except locale.Error:
-		translation = gettext.NullTranslations()
-	else:
-		lang = locale.getlocale()
+	global __installed__
 
-		#Fix for non-POSIX-compliant systems (Windows et al.).
-		if os.getenv('LANG') is None:
-			lang = locale.getdefaultlocale()
-			os.environ['LANG'] = lang[0]
-
-		filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
-
+	if not __installed__:
 		try:
-			translation = gettext.GNUTranslations(open(filename, "rb"))
-		except IOError:
+			locale.setlocale(locale.LC_ALL, "")
+		except locale.Error:
 			translation = gettext.NullTranslations()
+		else:
+			lang = locale.getlocale()
 
-	translation.install(True)
+			#Fix for non-POSIX-compliant systems (Windows et al.).
+			if os.getenv('LANG') is None:
+				lang = locale.getdefaultlocale()
+				os.environ['LANG'] = lang[0]
+
+			filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
+
+			try:
+				translation = gettext.GNUTranslations(open(filename, "rb"))
+			except IOError:
+				translation = gettext.NullTranslations()
+
+		__installed__ = True
+		translation.install(True)
