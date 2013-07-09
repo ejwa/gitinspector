@@ -23,8 +23,9 @@ from outputable import Outputable
 import terminal
 import textwrap
 
-__default_extensions__ = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
-__extensions__ = __default_extensions__
+DEFAULT_EXTENSIONS = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
+
+__extensions__ = None
 __located_extensions__ = set()
 
 def get():

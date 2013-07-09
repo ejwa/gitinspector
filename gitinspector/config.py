@@ -18,17 +18,15 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-import extensions
-import filtering
-import format
-import interval
-import missing
 import os
 import subprocess
 
-def __read_git_config__(repo, variable, default_value):
+def __read_git_config__(run, variable, destination=None):
+	if destination == None:
+		destination = variable
+
 	previous_directory = os.getcwd()
-	os.chdir(repo)
+	os.chdir(run.repo)
 	setting = subprocess.Popen("git config inspector." + variable, shell=True, bufsize=1,
 	                           stdout=subprocess.PIPE).stdout
 	os.chdir(previous_directory)
@@ -37,55 +35,33 @@ def __read_git_config__(repo, variable, default_value):
 		setting = setting.readlines()[0]
 		setting = setting.decode("utf-8", "replace").strip()
 
-		if default_value == True or default_value == False:
-			if setting == "True" or setting == "true" or setting == "1":
-				return True
-			elif setting == "False" or setting == "false" or setting == "0":
-				return False
-
-			return False
-		elif setting == "":
-			return default_value
-
-		return setting
+		if setting == "True" or setting == "true" or setting == "t" or setting == "1":
+			run.opts[destination] = True
+		elif setting == "False" or setting == "false" or setting == "f" or setting == "0":
+			run.opts[destination] = False
+		return True
 
 	except IndexError:
-		return default_value
+		return False
 
 def init(run):
-	missing.set_checkout_missing(__read_git_config__(run.repo, "checkout-missing", False))
-	extensions.define(__read_git_config__(run.repo, "file-types", ",".join(extensions.get())))
+	__read_git_config__(run, "checkout-missing", "checkout_missing")
+	__read_git_config__(run, "file-types", "file_types")
+	__read_git_config__(run, "exclude")
+	__read_git_config__(run, "format")
+	__read_git_config__(run, "hard")
+	__read_git_config__(run, "list-file-types", "list_file_types")
+	__read_git_config__(run, "metrics")
+	__read_git_config__(run, "responsibilities")
+	__read_git_config__(run, "weeks", "useweeks")
+	__read_git_config__(run, "since")
+	__read_git_config__(run, "until")
+	__read_git_config__(run, "timeline")
 
-	exclude = __read_git_config__(run.repo, "exclude", None)
-	if exclude != None:
-		filtering.add(exclude)
-
-	output_format = __read_git_config__(run.repo, "format", None)
-	if output_format != None:
-		if not format.select(output_format):
-			raise format.InvalidFormatError(_("specified output format not supported."))
-
-	run.hard = __read_git_config__(run.repo, "hard", False)
-	run.list_file_types = __read_git_config__(run.repo, "list-file-types", False)
-	run.include_metrics = __read_git_config__(run.repo, "metrics", False)
-	run.responsibilities = __read_git_config__(run.repo, "responsibilities", False)
-	run.useweeks = __read_git_config__(run.repo, "weeks", False)
-
-	since =  __read_git_config__(run.repo, "since", None)
-	if since != None:
-		interval.set_since(since)
-
-	until = __read_git_config__(run.repo, "until", None)
-	if until != None:
-		interval.set_until(until)
-
-	run.timeline = __read_git_config__(run.repo, "timeline", False)
-
-	if __read_git_config__(run.repo, "grading", False):
-		run.include_metrics = True
-		run.list_file_types = True
-		run.responsibilities = True
-		run.grading = True
-		run.hard = True
-		run.timeline = True
-		run.useweeks = True
+	if __read_git_config__(run, "grading"):
+		run.opts.hard = True
+		run.opts.list_file_types = True
+		run.opts.metrics = True
+		run.opts.responsibilities = True
+		run.opts.timeline = True
+		run.opts.useweeks = True
