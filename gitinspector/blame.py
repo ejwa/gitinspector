@@ -75,7 +75,7 @@ class BlameThread(threading.Thread):
 		git_blame_r.close()
 		__thread_lock__.release() # Lock controlling the number of threads running
 
-__progress_text__ = "\b" + _("Checking how many rows belong to each author (Progress): {0:.0f}%")
+PROGRESS_TEXT = "Checking how many rows belong to each author (Progress): {0:.0f}%"
 
 class Blame:
 	def __init__(self, hard):
@@ -108,7 +108,7 @@ class Blame:
 	def output_progress(pos, length):
 		if sys.stdout.isatty() and format.is_interactive_format():
 			terminal.clear_row()
-			print(__progress_text__.format(100 * pos / length), end="")
+			print("\b" + _(PROGRESS_TEXT).format(100 * pos / length), end="")
 			sys.stdout.flush()
 
 	@staticmethod
@@ -145,8 +145,8 @@ def get(hard):
 
 	return __blame__
 
-__blame_info_text__ = _("Below are the number of rows from each author that have survived and are still "
-                        "intact in the current revision")
+BLAME_INFO_TEXT = ("Below are the number of rows from each author that have survived and are still "
+                   "intact in the current revision")
 
 class BlameOutput(Outputable):
 	def __init__(self, hard):
@@ -157,7 +157,7 @@ class BlameOutput(Outputable):
 		get(self.hard)
 
 		blame_xml = "<div><div class=\"box\">"
-		blame_xml += "<p>" + __blame_info_text__ + ".</p><div><table id=\"blame\" class=\"git\">"
+		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
 		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr></thead>".format(_("Author"),
 		             _("Rows"), _("% in comments"))
 		blame_xml += "<tbody>"
@@ -210,7 +210,7 @@ class BlameOutput(Outputable):
 		if self.hard and sys.stdout.isatty():
 			terminal.clear_row()
 
-		print(textwrap.fill(__blame_info_text__ + ":", width=terminal.get_size()[0]) + "\n")
+		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
 		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(20))
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")
@@ -220,7 +220,7 @@ class BlameOutput(Outputable):
 	def output_xml(self):
 		get(self.hard)
 
-		message_xml = "\t\t<message>" + __blame_info_text__ + "</message>\n"
+		message_xml = "\t\t<message>" + _(BLAME_INFO_TEXT) + "</message>\n"
 		blame_xml = ""
 
 		for i in sorted(__blame__.get_summed_blames().items()):

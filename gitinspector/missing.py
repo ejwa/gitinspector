@@ -42,15 +42,15 @@ def set_checkout_missing(checkout):
 	global __checkout_missing__
 	__checkout_missing__ = checkout
 
-__missing_info_text__ = _("The following files were missing in the repository and were therefore not "
-                          "completely included in the statistical analysis. To include them, you can "
-                          "either checkout manually using git or use the -c option in gitinspector")
+MISSING_INFO_TEXT = ("The following files were missing in the repository and were therefore not "
+                     "completely included in the statistical analysis. To include them, you can "
+                     "either checkout manually using git or use the -c option in gitinspector")
 
 class Missing(Outputable):
 	def output_html(self):
 		if __missing_files__:
 			missing_xml = "<div><div class=\"box\">"
-			missing_xml += "<p>" + __missing_info_text__ + ".</p>"
+			missing_xml += "<p>" + _(MISSING_INFO_TEXT) + ".</p>"
 
 			for missing in __missing_files__:
 				missing_xml += "<p class=\"error\">" + missing + "</p>"
@@ -60,15 +60,15 @@ class Missing(Outputable):
 
 	def output_text(self):
 		if __missing_files__:
-			print("\n" + textwrap.fill(__missing_info_text__ + ":", width=terminal.get_size()[0]))
+			print("\n" + textwrap.fill(_(MISSING_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 			for missing in __missing_files__:
-				(width, _) = terminal.get_size()
+				(width, _unused) = terminal.get_size()
 				print("...%s" % missing[-width+3:] if len(missing) > width else missing)
 
 	def output_xml(self):
 		if __missing_files__:
-			message_xml = "\t\t<message>" + __missing_info_text__ + "</message>\n"
+			message_xml = "\t\t<message>" + _(MISSING_INFO_TEXT) + "</message>\n"
 			missing_xml = ""
 
 			for missing in __missing_files__:

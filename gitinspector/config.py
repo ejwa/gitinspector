@@ -51,6 +51,7 @@ def init(run):
 	__read_git_config__(run, "format")
 	__read_git_config__(run, "hard")
 	__read_git_config__(run, "list-file-types", "list_file_types")
+	__read_git_config__(run, "localize-output", "localize_output")
 	__read_git_config__(run, "metrics")
 	__read_git_config__(run, "responsibilities")
 	__read_git_config__(run, "weeks", "useweeks")

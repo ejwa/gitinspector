@@ -102,8 +102,9 @@ class TimelineData:
 				return True
 		return False
 
-__timeline_info_text__ = _("The following history timeline has been gathered from the repository")
-__modified_rows_text__ = _("Modified Rows:")
+
+TIMELINE_INFO_TEXT = "The following history timeline has been gathered from the repository"
+MODIFIED_ROWS_TEXT = "Modified Rows:"
 
 def __output_row__text__(timeline_data, periods, names):
 	print("\n" + terminal.__bold__ + _("Author").ljust(20), end=" ")
@@ -124,7 +125,7 @@ def __output_row__text__(timeline_data, periods, names):
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 			print("")
 
-	print(terminal.__bold__  + __modified_rows_text__.ljust(20) + terminal.__normal__, end=" ")
+	print(terminal.__bold__  + _(MODIFIED_ROWS_TEXT).ljust(20) + terminal.__normal__, end=" ")
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)
@@ -155,7 +156,7 @@ def __output_row__html__(timeline_data, periods, names):
 			timeline_xml += "</tr>"
 			i = i + 1
 
-	timeline_xml += "<tfoot><tr><td><strong>" + _("Modified Rows:") + "</strong></td>"
+	timeline_xml += "<tfoot><tr><td><strong>" + _(MODIFIED_ROWS_TEXT) + "</strong></td>"
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)
@@ -172,12 +173,12 @@ class Timeline(Outputable):
 
 	def output_text(self):
 		if self.changes.get_commits():
-			print("\n" + textwrap.fill(__timeline_info_text__ + ":", width=terminal.get_size()[0]))
+			print("\n" + textwrap.fill(_(TIMELINE_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 			timeline_data = TimelineData(self.changes, self.useweeks)
 			periods = timeline_data.get_periods()
 			names = timeline_data.get_authors()
-			(width, _) = terminal.get_size()
+			(width, _unused) = terminal.get_size()
 			max_periods_per_row = int((width - 21) / 11)
 
 			for i in range(0, len(periods), max_periods_per_row):
@@ -191,7 +192,7 @@ class Timeline(Outputable):
 			max_periods_per_row = 8
 
 			timeline_xml = "<div><div id=\"timeline\" class=\"box\">"
-			timeline_xml += "<p>" + __timeline_info_text__ + ".</p>"
+			timeline_xml += "<p>" + _(TIMELINE_INFO_TEXT) + ".</p>"
 			print(timeline_xml)
 
 			for i in range(0, len(periods), max_periods_per_row):
@@ -202,7 +203,7 @@ class Timeline(Outputable):
 
 	def output_xml(self):
 		if self.changes.get_commits():
-			message_xml = "\t\t<message>" + __timeline_info_text__ + "</message>\n"
+			message_xml = "\t\t<message>" + _(TIMELINE_INFO_TEXT) + "</message>\n"
 			timeline_xml = ""
 			periods_xml = "\t\t<periods length=\"{0}\">\n".format("week" if self.useweeks else "month")
 

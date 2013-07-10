@@ -39,14 +39,14 @@ def add_located(string):
 	if len(string) > 0:
 		__located_extensions__.add(string)
 
-__extensions_info_text__ = _("The extensions below were found in the repository history")
-__extensions_marked_text__ = _("(extensions used during statistical analysis are marked)")
+EXTENSIONS_INFO_TEXT = "The extensions below were found in the repository history"
+EXTENSIONS_MARKED_TEXT = "(extensions used during statistical analysis are marked)"
 
 class Extensions(Outputable):
 	def output_html(self):
 		if __located_extensions__:
 			extensions_xml = "<div><div class=\"box\">"
-			extensions_xml += "<p>{0} {1}.</p><p>".format(__extensions_info_text__, __extensions_marked_text__)
+			extensions_xml += "<p>{0} {1}.</p><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
 
 			for i in __located_extensions__:
 				if i in __extensions__:
@@ -60,7 +60,7 @@ class Extensions(Outputable):
 
 	def output_text(self):
 		if __located_extensions__:
-			print("\n" + textwrap.fill("{0} {1}:".format(__extensions_info_text__, __extensions_marked_text__),
+			print("\n" + textwrap.fill("{0} {1}:".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT)),
 			      width=terminal.get_size()[0]))
 
 			for i in __located_extensions__:
@@ -72,7 +72,7 @@ class Extensions(Outputable):
 
 	def output_xml(self):
 		if __located_extensions__:
-			message_xml = "\t\t<message>" + __extensions_info_text__ + "</message>\n"
+			message_xml = "\t\t<message>" + _(EXTENSIONS_INFO_TEXT) + "</message>\n"
 			used_extensions_xml = ""
 			unused_extensions_xml = ""
 

@@ -40,10 +40,10 @@ class Responsibilities:
 
 		return sorted(author_blames.items())
 
-__responsibilities_info_text__ = _("The following repsonsibilties, by author, were found in the current "
-                                   "revision of the repository (comments are exluded from the line count, "
-                                   "if possible)")
-__mostly_responsible_for_text__ = _("is mostly responsible for")
+RESPONSIBILITIES_INFO_TEXT = ("The following repsonsibilties, by author, were found in the current "
+                               "revision of the repository (comments are exluded from the line count, "
+                               "if possible)")
+MOSTLY_RESPONSIBLE_FOR_TEXT = "is mostly responsible for"
 
 class ResponsibilitiesOutput(Outputable):
 	def __init__(self, hard):
@@ -51,15 +51,15 @@ class ResponsibilitiesOutput(Outputable):
 		Outputable.__init__(self)
 
 	def output_text(self):
-		print("\n" + textwrap.fill(__responsibilities_info_text__ + ":", width=terminal.get_size()[0]))
+		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				print("\n" + i, __mostly_responsible_for_text__ + ":")
+				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
 				for j, entry in enumerate(responsibilities):
-					(width, _) = terminal.get_size()
+					(width, _unused) = terminal.get_size()
 					width -= 7
 
 					print(str(entry[0]).rjust(6), end=" ")
@@ -70,12 +70,12 @@ class ResponsibilitiesOutput(Outputable):
 
 	def output_html(self):
 		resp_xml = "<div><div class=\"box\">"
-		resp_xml += "<p>" + __responsibilities_info_text__ + ".</p>"
+		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				resp_xml += "<h3>" + i + " " + __mostly_responsible_for_text__ + "</h3>"
+				resp_xml += "<h3>" + i + " " + _(MOSTLY_RESPONSIBLE_FOR_TEXT) + "</h3>"
 
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "<p>" + entry[1] + " (" + str(entry[0]) + " eloc)</p>"
@@ -87,7 +87,7 @@ class ResponsibilitiesOutput(Outputable):
 		print(resp_xml)
 
 	def output_xml(self):
-		message_xml = "\t\t<message>" + __responsibilities_info_text__ + "</message>\n"
+		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):

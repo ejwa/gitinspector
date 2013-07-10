@@ -64,17 +64,17 @@ class MetricsLogic:
 
 		return eloc_counter
 
-__eloc_info_text__ = _("The following files are suspiciously big (in order of severity)")
-__metrics_missing_info_text__ = _("No metrics violations were found in the repository")
+ELOC_INFO_TEXT = "The following files are suspiciously big (in order of severity)"
+METRICS_MISSING_INFO_TEXT = "No metrics violations were found in the repository"
 
 class Metrics(Outputable):
 	def output_text(self):
 		metrics_logic = MetricsLogic()
 
 		if not metrics_logic.eloc:
-			print("\n" + __metrics_missing_info_text__ + ".")
+			print("\n" + _(METRICS_MISSING_INFO_TEXT) + ".")
 		else:
-			print("\n" + __eloc_info_text__ + ":")
+			print("\n" + _(ELOC_INFO_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
 				print(i[1] + " (" + str(i[0]) + " eloc)")
 
@@ -83,9 +83,9 @@ class Metrics(Outputable):
 		metrics_xml = "<div><div class=\"box\">"
 
 		if not metrics_logic.eloc:
-			metrics_xml += "<p>" + __metrics_missing_info_text__ + ".</p>"
+			metrics_xml += "<p>" + _(METRICS_MISSING_INFO_TEXT) + ".</p>"
 		else:
-			metrics_xml += "<p>" + __eloc_info_text__ + ".</p>"
+			metrics_xml += "<p>" + _(ELOC_INFO_TEXT) + ".</p>"
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
 				metrics_xml += "<p>" + i[1] + " (" + str(i[0]) + " eloc)</p>"
 
@@ -96,7 +96,7 @@ class Metrics(Outputable):
 		metrics_logic = MetricsLogic()
 
 		if not metrics_logic.eloc:
-			print("\t<metrics>\n\t\t<message>" + __metrics_missing_info_text__ + "</message>\n\t</metrics>")
+			print("\t<metrics>\n\t\t<message>" + _(METRICS_MISSING_INFO_TEXT) + "</message>\n\t</metrics>")
 		else:
 			eloc_xml = ""
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
@@ -105,5 +105,5 @@ class Metrics(Outputable):
 				eloc_xml += "\t\t\t\t\t\t<lines-of-code>" + str(i[0]) + "</lines-of-code>\n"
 				eloc_xml += "\t\t\t\t\t</violation>\n"
 
-			print("\t\t<metrics>\n\t\t\t<eloc>\n\t\t\t\t<message>" + __eloc_info_text__ +
+			print("\t\t<metrics>\n\t\t\t<eloc>\n\t\t\t\t<message>" + _(ELOC_INFO_TEXT) +
 			      "</message>\n\t\t\t\t<violations>\n" + eloc_xml + "\t\t\t\t</violations>\n\t\t\t</eloc>\n\t\t</metrics>")

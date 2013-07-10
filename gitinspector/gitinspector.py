@@ -35,7 +35,6 @@ import interval
 import metrics
 import missing
 import os
-import optparse
 import optval
 import outputable
 import responsibilities
@@ -57,6 +56,9 @@ class Runner:
 
 		if not format.select(self.opts.format):
 			raise format.InvalidFormatError(_("specified output format not supported."))
+
+		if not self.opts.localize_output:
+			localization.disable()
 
 		missing.set_checkout_missing(self.opts.checkout_missing)
 		extensions.define(self.opts.file_types)
@@ -114,6 +116,7 @@ def main():
 		parser.add_option("-c", action="store_true", dest="checkout_missing")
 		parser.add_option("-H", action="store_true", dest="hard")
 		parser.add_option("-l", action="store_true", dest="list_file_types")
+		parser.add_option("-L", action="store_true", dest="localize_output")
 		parser.add_option("-m", action="store_true", dest="metrics")
 		parser.add_option("-r", action="store_true", dest="responsibilities")
 		parser.add_option("-T", action="store_true", dest="timeline")
@@ -127,6 +130,7 @@ def main():
 		parser.add_option(        "-h", "--help", action="callback", callback=__handle_help__)
 		optval.add_option(parser,       "--hard", boolean=True)
 		optval.add_option(parser,       "--list-file-types", boolean=True)
+		optval.add_option(parser,       "--localize-output", boolean=True)
 		optval.add_option(parser,       "--metrics", boolean=True)
 		optval.add_option(parser,       "--responsibilities", boolean=True)
 		parser.add_option(              "--since", type="string")
@@ -148,6 +152,8 @@ def main():
 		parser.parse_args(values=opts)
 
 	except (format.InvalidFormatError, optval.InvalidOptionArgument, optval.OptionParsingError) as msg:
+		localization.enable()
+
 		print(sys.argv[0], "\b:", end=" ")
 		print(msg)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))

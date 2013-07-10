@@ -49,14 +49,13 @@ def set_filtered(file_name):
 				raise ValueError("Invalid regular expression specified")
 	return False
 
-__filtering_info_text__ = _("The following files were excluded from the statistics due to the "
-                            "specified exclusion patterns")
+FILTERING_INFO_TEXT = "The following files were excluded from the statistics due to the specified exclusion patterns"
 
 class Filtering(Outputable):
 	def output_html(self):
 		if __filtered_files__:
 			filtering_xml = "<div><div class=\"box\">"
-			filtering_xml += "<p>" + __filtering_info_text__ + "."+ "</p>"
+			filtering_xml += "<p>" + _(FILTERING_INFO_TEXT) + "."+ "</p>"
 
 			for i in __filtered_files__:
 				filtering_xml += "<p>" + i + "</p>"
@@ -66,15 +65,15 @@ class Filtering(Outputable):
 
 	def output_text(self):
 		if __filtered_files__:
-			print("\n" + textwrap.fill(__filtering_info_text__ + ":", width=terminal.get_size()[0]))
+			print("\n" + textwrap.fill(_(FILTERING_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 			for i in __filtered_files__:
-				(width, _) = terminal.get_size()
+				(width, _unused) = terminal.get_size()
 				print("...%s" % i[-width+3:] if len(i) > width else i)
 
 	def output_xml(self):
 		if __filtered_files__:
-			message_xml = "\t\t<message>" + __filtering_info_text__ + "</message>\n"
+			message_xml = "\t\t<message>" + _(FILTERING_INFO_TEXT) + "</message>\n"
 			filtering_xml = ""
 
 			for i in __filtered_files__:

@@ -47,6 +47,9 @@ Boolean arguments can only be given to long options.
                                    this can be quite slow with big repositories
   -l, --list-file-types[=BOOL]   list all the file extensions available in the
                                    current branch of the repository
+  -L, --localize-output[=BOOL]   localize the generated output to the selected
+                                   system language if a translation is
+                                   available
   -m  --metrics[=BOOL]           include checks for certain metrics during the
                                    analysis of commits
   -r  --responsibilities[=BOOL]  show which files the different authors seem

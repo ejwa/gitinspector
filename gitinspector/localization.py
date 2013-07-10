@@ -25,15 +25,17 @@ import locale
 import os
 
 __installed__ = False
+__translation__ = None
 
 def init():
 	global __installed__
+	global __translation__
 
 	if not __installed__:
 		try:
 			locale.setlocale(locale.LC_ALL, "")
 		except locale.Error:
-			translation = gettext.NullTranslations()
+			__translation__ = gettext.NullTranslations()
 		else:
 			lang = locale.getlocale()
 
@@ -45,9 +47,17 @@ def init():
 			filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
 
 			try:
-				translation = gettext.GNUTranslations(open(filename, "rb"))
+				__translation__ = gettext.GNUTranslations(open(filename, "rb"))
 			except IOError:
-				translation = gettext.NullTranslations()
+				__translation__ = gettext.NullTranslations()
 
 		__installed__ = True
-		translation.install(True)
+		__translation__.install(True)
+
+def enable():
+	if __installed__ and type(__translation__) is not gettext.GNUTranslations:
+		__translation__.install(True)
+
+def disable():
+	if __installed__:
+		gettext.NullTranslations().install(True)
