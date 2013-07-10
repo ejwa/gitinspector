@@ -21,6 +21,13 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+#Small fix for Python 3
+try:
+	unicode
+except NameError:
+	def unicode(string):
+		return str(string)
+
 import localization
 localization.init()
 
@@ -160,7 +167,7 @@ def main():
 		localization.enable()
 
 		print(sys.argv[0], "\b:", end=" ")
-		print(msg)
+		print(unicode(msg))
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
 
