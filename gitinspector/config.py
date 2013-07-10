@@ -36,9 +36,9 @@ def __read_git_config__(run, variable, destination=None):
 		setting = setting.decode("utf-8", "replace").strip()
 
 		if setting == "True" or setting == "true" or setting == "t" or setting == "1":
-			run.opts[destination] = True
+			vars(run.opts)[destination] = True
 		elif setting == "False" or setting == "false" or setting == "f" or setting == "0":
-			run.opts[destination] = False
+			vars(run.opts)[destination] = False
 		return True
 
 	except IndexError:

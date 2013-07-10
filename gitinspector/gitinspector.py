@@ -145,6 +145,8 @@ def main():
 		#We need the repo above to be set before we read the git config.
 		config.init(__run__)
 
+		parser.parse_args(values=opts)
+
 	except (format.InvalidFormatError, optval.InvalidOptionArgument, optval.OptionParsingError) as msg:
 		print(sys.argv[0], "\b:", end=" ")
 		print(msg)
