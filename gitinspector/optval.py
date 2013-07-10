@@ -18,9 +18,13 @@
 
 from __future__ import unicode_literals
 
+import optparse
 import sys
 
 class InvalidOptionArgument(Exception):
+	pass
+
+class OptionParsingError(RuntimeError):
 	pass
 
 def __handle_boolean_argument__(option, __opt_str__, value, parser, *__args__, **kwargs):
@@ -59,3 +63,17 @@ def add_option(parser, *args, **kwargs):
 				sys.argv.insert(i + 1, "true")
 
 		parser.add_option(*args, **kwargs)
+
+class OptionParser(optparse.OptionParser):
+	def error(self, msg):
+		if msg.find("requires") != -1:
+			variable = msg.split()[0]
+			raise OptionParsingError(_("option '{0}' requires an argument").format(variable))
+		else:
+			variable = msg.split()[-1]
+			if variable[1] == "-":
+				raise OptionParsingError("unrecognized option '{0}'".format(variable))
+			else:
+				raise OptionParsingError("invalid option -- '{0}'".format(variable[1:]))
+
+		raise OptionParsingError("invalid command-line options")

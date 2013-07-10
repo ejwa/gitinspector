@@ -108,7 +108,7 @@ def __handle_version__(__option__, __opt_str__, __value__, __parser__):
 	sys.exit(0)
 
 def main():
-	parser = optparse.OptionParser(add_help_option=False)
+	parser = optval.OptionParser(add_help_option=False)
 
 	try:
 		parser.add_option("-c", action="store_true", dest="checkout_missing")
@@ -145,8 +145,9 @@ def main():
 		#We need the repo above to be set before we read the git config.
 		config.init(__run__)
 
-	except (format.InvalidFormatError, optval.InvalidOptionArgument) as msg:
-		print(sys.argv[0], "\b:", unicode(msg)) 
+	except (format.InvalidFormatError, optval.InvalidOptionArgument, optval.OptionParsingError) as msg:
+		print(sys.argv[0], "\b:", end=" ")
+		print(msg)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
 
