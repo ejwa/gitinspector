@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 import extensions
 import filtering
@@ -157,8 +158,8 @@ def get(hard):
 
 	return __changes__
 
-HISTORICAL_INFO_TEXT = "The following historical commit information, by author, was found in the repository"
-NO_COMMITED_FILES_TEXT = "No commited files with the specified extensions were found"
+HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
+NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
 
 class ChangesOutput(Outputable):
 	def __init__(self, hard):

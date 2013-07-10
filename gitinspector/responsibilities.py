@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 import blame
 import terminal
@@ -40,10 +41,10 @@ class Responsibilities:
 
 		return sorted(author_blames.items())
 
-RESPONSIBILITIES_INFO_TEXT = ("The following repsonsibilties, by author, were found in the current "
-                               "revision of the repository (comments are exluded from the line count, "
-                               "if possible)")
-MOSTLY_RESPONSIBLE_FOR_TEXT = "is mostly responsible for"
+RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilties, by author, were found in the current "
+                                "revision of the repository (comments are exluded from the line count, "
+                                "if possible)")
+MOSTLY_RESPONSIBLE_FOR_TEXT = N_("is mostly responsible for")
 
 class ResponsibilitiesOutput(Outputable):
 	def __init__(self, hard):

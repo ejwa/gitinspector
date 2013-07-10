@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 import re
 import terminal
@@ -49,7 +50,7 @@ def set_filtered(file_name):
 				raise ValueError("Invalid regular expression specified")
 	return False
 
-FILTERING_INFO_TEXT = "The following files were excluded from the statistics due to the specified exclusion patterns"
+FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
 
 class Filtering(Outputable):
 	def output_html(self):

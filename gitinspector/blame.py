@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 from changes import FileDiff
 import comment
@@ -75,7 +76,7 @@ class BlameThread(threading.Thread):
 		git_blame_r.close()
 		__thread_lock__.release() # Lock controlling the number of threads running
 
-PROGRESS_TEXT = "Checking how many rows belong to each author (Progress): {0:.0f}%"
+PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:.0f}%")
 
 class Blame:
 	def __init__(self, hard):
@@ -145,8 +146,8 @@ def get(hard):
 
 	return __blame__
 
-BLAME_INFO_TEXT = ("Below are the number of rows from each author that have survived and are still "
-                   "intact in the current revision")
+BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have survived and are still "
+                     "intact in the current revision")
 
 class BlameOutput(Outputable):
 	def __init__(self, hard):

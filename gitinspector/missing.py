@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 import interval
 import os
@@ -42,9 +43,9 @@ def set_checkout_missing(checkout):
 	global __checkout_missing__
 	__checkout_missing__ = checkout
 
-MISSING_INFO_TEXT = ("The following files were missing in the repository and were therefore not "
-                     "completely included in the statistical analysis. To include them, you can "
-                     "either checkout manually using git or use the -c option in gitinspector")
+MISSING_INFO_TEXT = N_("The following files were missing in the repository and were therefore not "
+                       "completely included in the statistical analysis. To include them, you can "
+                       "either checkout manually using git or use the -c option in gitinspector")
 
 class Missing(Outputable):
 	def output_html(self):

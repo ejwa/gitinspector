@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 from changes import FileDiff
 import comment
@@ -64,8 +65,8 @@ class MetricsLogic:
 
 		return eloc_counter
 
-ELOC_INFO_TEXT = "The following files are suspiciously big (in order of severity)"
-METRICS_MISSING_INFO_TEXT = "No metrics violations were found in the repository"
+ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
+METRICS_MISSING_INFO_TEXT = N_("No metrics violations were found in the repository")
 
 class Metrics(Outputable):
 	def output_text(self):

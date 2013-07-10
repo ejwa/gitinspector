@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from localization import N_
 from outputable import Outputable
 import datetime
 import terminal
@@ -103,8 +104,8 @@ class TimelineData:
 		return False
 
 
-TIMELINE_INFO_TEXT = "The following history timeline has been gathered from the repository"
-MODIFIED_ROWS_TEXT = "Modified Rows:"
+TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from the repository")
+MODIFIED_ROWS_TEXT = N_("Modified Rows:")
 
 def __output_row__text__(timeline_data, periods, names):
 	print("\n" + terminal.__bold__ + _("Author").ljust(20), end=" ")

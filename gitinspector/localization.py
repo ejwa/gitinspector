@@ -27,6 +27,9 @@ import os
 __installed__ = False
 __translation__ = None
 
+#Dummy function used to handle string constants
+def N_(message): return message
+
 def init():
 	global __installed__
 	global __translation__
