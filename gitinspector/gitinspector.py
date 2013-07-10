@@ -64,7 +64,11 @@ class Runner:
 		os.chdir(self.repo)
 		absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
 		                                 stdout=subprocess.PIPE).stdout
-		os.chdir(absolute_path.readlines()[0].decode("utf-8", "replace").strip())
+		absolute_path = absolute_path.readlines()
+		if len(absolute_path) == 0:
+			sys.exit(0)
+
+		os.chdir(absolute_path[0].decode("utf-8", "replace").strip())
 
 		if not format.select(self.opts.format):
 			raise format.InvalidFormatError(_("specified output format not supported."))
