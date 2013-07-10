@@ -38,6 +38,7 @@ import os
 import optval
 import outputable
 import responsibilities
+import subprocess
 import sys
 import terminal
 import timeline
@@ -52,7 +53,11 @@ class Runner:
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
+
 		os.chdir(self.repo)
+		absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
+		                                 stdout=subprocess.PIPE).stdout
+		os.chdir(absolute_path.readlines()[0].decode("utf-8", "replace").strip())
 
 		if not format.select(self.opts.format):
 			raise format.InvalidFormatError(_("specified output format not supported."))
