@@ -35,7 +35,7 @@ def __handle_boolean_argument__(option, __opt_str__, value, parser, *__args__, *
 	elif value.lower() == "true" or value.lower() == "t" or value == "1":
 		value = True
 	else:
-		raise InvalidOptionArgument("The given option argument is not a valid boolean.")
+		raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))
 
 	if "multidest" in kwargs:
 		for dest in kwargs["multidest"]:
@@ -72,8 +72,8 @@ class OptionParser(optparse.OptionParser):
 		else:
 			variable = msg.split()[-1]
 			if variable[1] == "-":
-				raise OptionParsingError("unrecognized option '{0}'".format(variable))
+				raise OptionParsingError(_("unrecognized option '{0}'").format(variable))
 			else:
-				raise OptionParsingError("invalid option -- '{0}'".format(variable[1:]))
+				raise OptionParsingError(_("invalid option -- '{0}'").format(variable[1:]))
 
-		raise OptionParsingError("invalid command-line options")
+		raise OptionParsingError(_("invalid command-line options"))
