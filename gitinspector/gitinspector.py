@@ -21,15 +21,13 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-#Small fix for Python 3
-try:
-	unicode
-except NameError:
-	def unicode(string):
-		return str(string)
-
 import localization
 localization.init()
+
+try:
+	from compatibility import unicode
+except:
+	pass
 
 import blame
 import changes
