@@ -31,6 +31,7 @@ except:
 
 import blame
 import changes
+import compatibility
 import config
 import extensions
 import filtering
@@ -124,6 +125,7 @@ def __handle_version__(__option__, __opt_str__, __value__, __parser__):
 	sys.exit(0)
 
 def main():
+	compatibility.convert_command_line()
 	parser = optval.OptionParser(add_help_option=False)
 
 	try:

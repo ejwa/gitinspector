@@ -18,6 +18,11 @@
 
 from __future__ import unicode_literals
 
+try:
+	from compatibility import unicode
+except:
+	pass
+
 import optparse
 import sys
 
@@ -77,3 +82,22 @@ class OptionParser(optparse.OptionParser):
 				raise OptionParsingError(_("invalid option -- '{0}'").format(variable[1:]))
 
 		raise OptionParsingError(_("invalid command-line options"))
+
+	#Originaly taken from the optparse module (and modified).
+	def parse_args(self, args=None, values=None):
+		rargs = self._get_args(args)
+		if values is None:
+			values = self.get_default_values()
+
+		#Pylint screams about these. However, this was how it was done in the original code.
+		self.rargs = rargs
+		self.largs = largs = []
+		self.values = values
+
+		try:
+			self._process_args(largs, rargs, values)
+		except (optparse.BadOptionError, optparse.OptionValueError) as msg:
+			self.error(unicode(msg))
+
+		args = largs + rargs
+		return self.check_values(values, args)

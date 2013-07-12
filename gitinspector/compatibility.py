@@ -25,3 +25,10 @@ try:
 except NameError:
 	def unicode(string):
 		return str(string)
+
+def convert_command_line():
+	try:
+		for num, arg in enumerate(sys.argv):
+			sys.argv[num] = unicode(arg.decode("utf-8", "replace"))
+	except AttributeError:
+		pass
