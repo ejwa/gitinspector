@@ -17,87 +17,47 @@
 # You should have received a copy of the GNU General Public License
 
 from __future__ import unicode_literals
-
-try:
-	from compatibility import unicode
-except:
-	pass
-
-import optparse
-import sys
+import getopt
 
 class InvalidOptionArgument(Exception):
 	pass
 
-class OptionParsingError(RuntimeError):
-	pass
+def __find_arg_in_options__(arg, options):
+	for opt in options:
+		if opt[0].find(arg) == 0:
+			return opt
 
-def __handle_boolean_argument__(option, __opt_str__, value, parser, *__args__, **kwargs):
-	if isinstance(value, bool):
-		return value
-	elif value == None or value.lower() == "false" or value.lower() == "f" or value == "0":
-		value = False
-	elif value.lower() == "true" or value.lower() == "t" or value == "1":
-		value = True
-	else:
-		raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))
+	return None
 
-	if "multidest" in kwargs:
-		for dest in kwargs["multidest"]:
-			setattr(parser.values, dest, value)
+def __find_options_to_extend__(long_options):
+	options_to_extend = []
 
-	setattr(parser.values, option.dest, value)
+	for n, arg in enumerate(long_options):
+		arg = arg.split(":")
+		if len(arg) == 2:
+			long_options[n] = arg[0] + "="
+			options_to_extend.append(("--" + arg[0], arg[1]))
 
-# Originaly taken from here (and modified):
-# http://stackoverflow.com/questions/1229146/parsing-empty-options-in-python
+	return options_to_extend
 
-def add_option(parser, *args, **kwargs):
-	if "multidest" in kwargs:
-		multidest = kwargs.pop("multidest")
-		kwargs["callback_kwargs"] = {"multidest": multidest}
-	if "boolean" in kwargs and kwargs["boolean"] == True:
-		boolean = kwargs.pop("boolean")
-		kwargs["type"] = "string"
-		kwargs["action"] = "callback"
-		kwargs["callback"] = __handle_boolean_argument__
-		kwargs["default"] = not boolean
+# This is a duplicate of gnu_getopt, but with support for optional arguments in long options, in the form; "arg:default_value".
 
-		for i in range(len(sys.argv) - 1, 0, -1):
-			arg = sys.argv[i]
-			if arg in args:
-				sys.argv.insert(i + 1, "true")
+def gnu_getopt(args, options, long_options):
+	options_to_extend = __find_options_to_extend__(long_options)
 
-		parser.add_option(*args, **kwargs)
+	for n, arg in enumerate(args):
+		opt = __find_arg_in_options__(arg, options_to_extend)
+		if opt:
+			args[n] = arg + "=" + opt[1]
 
-class OptionParser(optparse.OptionParser):
-	def error(self, msg):
-		if msg.find("requires") != -1:
-			variable = msg.split()[0]
-			raise OptionParsingError(_("option '{0}' requires an argument").format(variable))
-		else:
-			variable = msg.split()[-1]
-			if variable[1] == "-":
-				raise OptionParsingError(_("unrecognized option '{0}'").format(variable))
-			else:
-				raise OptionParsingError(_("invalid option -- '{0}'").format(variable[1:]))
+	return getopt.gnu_getopt(args, options, long_options)
 
-		raise OptionParsingError(_("invalid command-line options"))
+def get_boolean_argument(arg):
+	if isinstance(arg, bool):
+		return arg
+	elif arg == None or arg.lower() == "false" or arg.lower() == "f" or arg == "0":
+		return False
+	elif arg.lower() == "true" or arg.lower() == "t" or arg == "1":
+		return True
 
-	#Originaly taken from the optparse module (and modified).
-	def parse_args(self, args=None, values=None):
-		rargs = self._get_args(args)
-		if values is None:
-			values = self.get_default_values()
-
-		#Pylint screams about these. However, this was how it was done in the original code.
-		self.rargs = rargs
-		self.largs = largs = []
-		self.values = values
-
-		try:
-			self._process_args(largs, rargs, values)
-		except (optparse.BadOptionError, optparse.OptionValueError) as msg:
-			self.error(unicode(msg))
-
-		args = largs + rargs
-		return self.check_values(values, args)
+	raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))

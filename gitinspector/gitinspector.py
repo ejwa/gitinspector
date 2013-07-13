@@ -24,20 +24,15 @@ from __future__ import unicode_literals
 import localization
 localization.init()
 
-try:
-	from compatibility import unicode
-except:
-	pass
-
 import blame
 import changes
-import compatibility
 import config
 import extensions
 import filtering
 import format
 import help
 import interval
+import getopt
 import metrics
 import missing
 import os
@@ -51,11 +46,21 @@ import timeline
 import version
 
 class Runner:
-	def __init__(self, opts):
-		self.opts = opts
+	def __init__(self):
+		self.hard = False
+		self.include_metrics = False
+		self.list_file_types = False
+		self.localize_output = False
 		self.repo = "."
+		self.responsibilities = False
+		self.grading = False
+		self.timeline = False
+		self.useweeks = False
 
 	def output(self):
+		if not self.localize_output:
+			localization.disable()
+
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
@@ -69,43 +74,25 @@ class Runner:
 
 		os.chdir(absolute_path[0].decode("utf-8", "replace").strip())
 
-		if not format.select(self.opts.format):
-			raise format.InvalidFormatError(_("specified output format not supported."))
-
-		if not self.opts.localize_output:
-			localization.disable()
-
-		missing.set_checkout_missing(self.opts.checkout_missing)
-		extensions.define(self.opts.file_types)
-
-		if self.opts.since != None:
-			interval.set_since(self.opts.since)
-
-		if self.opts.until != None:
-			interval.set_until(self.opts.until)
-
-		for ex in self.opts.exclude:
-			filtering.add(ex)
-
 		format.output_header()
-		outputable.output(changes.ChangesOutput(self.opts.hard))
+		outputable.output(changes.ChangesOutput(self.hard))
 
-		if changes.get(self.opts.hard).get_commits():
-			outputable.output(blame.BlameOutput(self.opts.hard))
+		if changes.get(self.hard).get_commits():
+			outputable.output(blame.BlameOutput(self.hard))
 
-			if self.opts.timeline:
-				outputable.output(timeline.Timeline(changes.get(self.opts.hard), self.opts.useweeks))
+			if self.timeline:
+				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))
 
-			if self.opts.metrics:
+			if self.include_metrics:
 				outputable.output(metrics.Metrics())
 
-			if self.opts.responsibilities:
-				outputable.output(responsibilities.ResponsibilitiesOutput(self.opts.hard))
+			if self.responsibilities:
+				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard))
 
 			outputable.output(missing.Missing())
 			outputable.output(filtering.Filtering())
 
-			if self.opts.list_file_types:
+			if self.list_file_types:
 				outputable.output(extensions.Extensions())
 
 		format.output_footer()
@@ -116,62 +103,82 @@ def __check_python_version__():
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
 		sys.exit(_("gitinspector requires at leat Python 2.6 to run (version {0} was found).").format(python_version))
 
-def __handle_help__(__option__, __opt_str__, __value__, __parser__):
-	help.output()
-	sys.exit(0)
-
-def __handle_version__(__option__, __opt_str__, __value__, __parser__):
-	version.output()
-	sys.exit(0)
-
 def main():
-	compatibility.convert_command_line()
-	parser = optval.OptionParser(add_help_option=False)
+	__run__ = Runner()
 
 	try:
-		parser.add_option("-c", action="store_true", dest="checkout_missing")
-		parser.add_option("-H", action="store_true", dest="hard")
-		parser.add_option("-l", action="store_true", dest="list_file_types")
-		parser.add_option("-L", action="store_true", dest="localize_output")
-		parser.add_option("-m", action="store_true", dest="metrics")
-		parser.add_option("-r", action="store_true", dest="responsibilities")
-		parser.add_option("-T", action="store_true", dest="timeline")
-		parser.add_option("-w", action="store_true", dest="useweeks")
-
-		optval.add_option(parser,       "--checkout-missing", boolean=True)
-		parser.add_option(        "-f", "--file-types", type="string", default=",".join(extensions.DEFAULT_EXTENSIONS))
-		parser.add_option(        "-F", "--format", type="string", default=format.DEFAULT_FORMAT)
-		optval.add_option(parser,       "--grading", boolean=True, multidest=["hard", "metrics", "list_file_types",
-		                                             "responsibilities", "timeline", "useweeks"])
-		parser.add_option(        "-h", "--help", action="callback", callback=__handle_help__)
-		optval.add_option(parser,       "--hard", boolean=True)
-		optval.add_option(parser,       "--list-file-types", boolean=True)
-		optval.add_option(parser,       "--localize-output", boolean=True)
-		optval.add_option(parser,       "--metrics", boolean=True)
-		optval.add_option(parser,       "--responsibilities", boolean=True)
-		parser.add_option(              "--since", type="string")
-		optval.add_option(parser,       "--timeline", boolean=True)
-		parser.add_option(              "--until", type="string")
-		parser.add_option(              "--version", action="callback", callback=__handle_version__)
-		optval.add_option(parser,       "--weeks", boolean=True, dest="useweeks")
-		parser.add_option(        "-x", "--exclude", action="append", type="string", default=[])
-
-		(opts, args) = parser.parse_args()
-		__run__ = Runner(opts)
-
-		for arg in args:
+		__opts__, __args__ = optval.gnu_getopt(sys.argv[1:], "cf:F:hHlLmrTwx:", ["checkout-missing:true", "exclude=",
+		                                                     "file-types=", "format=", "hard:true", "help",
+		                                                     "list-file-types:true", "localize-output:true",
+		                                                     "metrics:true", "responsibilities:true", "since=",
+		                                                     "grading:true", "timeline:true", "until=", "version",
+		                                                     "weeks:true"])
+		for arg in __args__:
 			__run__.repo = arg
 
 		#We need the repo above to be set before we read the git config.
 		config.init(__run__)
 
-		parser.parse_args(values=opts)
+		for o, a in __opts__:
+			if o in("-c"):
+				missing.set_checkout_missing(True)
+			elif o in("-h", "--help"):
+				help.output()
+				sys.exit(0)
+			elif o in("-f", "--file-types"):
+				extensions.define(a)
+			elif o in("-F", "--format"):
+				if not format.select(a):
+					raise format.InvalidFormatError(_("specified output format not supported."))
+			elif o in("-H"):
+				__run__.hard = True
+			elif o in("--hard"):
+				__run__.hard = optval.get_boolean_argument(a)
+			elif o in("-l"):
+				__run__.list_file_types = True
+			elif o in("--list-file-types"):
+				__run__.list_file_types = optval.get_boolean_argument(a)
+			elif o in("-L"):
+				__run__.localize_output = True
+			elif o in("--localize-output"):
+				__run__.localize_output = optval.get_boolean_argument(a)
+			elif o in("-m"):
+				__run__.include_metrics = True
+			elif o in ("--metrics"):
+				__run__.include_metrics = optval.get_boolean_argument(a)
+			elif o in("-r"):
+				__run__.responsibilities = True
+			elif o in("--responsibilities"):
+				__run__.responsibilities = optval.get_boolean_argument(a)
+			elif o in("--since"):
+				interval.set_since(a)
+			elif o in("--version"):
+				version.output()
+				sys.exit(0)
+			elif o in("--grading"):
+				grading = optval.get_boolean_argument(a)
+				__run__.include_metrics = grading
+				__run__.list_file_types = grading
+				__run__.responsibilities = grading
+				__run__.grading = grading
+				__run__.hard = grading
+				__run__.timeline = grading
+				__run__.useweeks = grading
+			elif o in("-T"):
+				__run__.timeline = True
+			elif o in("--timeline"):
+				__run__.timeline = optval.get_boolean_argument(a)
+			elif o in("--until"):
+				interval.set_until(a)
+			elif o in("-w"):
+				__run__.useweeks = True
+			elif o in("--weeks"):
+				__run__.useweeks = optval.get_boolean_argument(a)
+			elif o in("-x", "--exclude"):
+				filtering.add(a)
 
-	except (format.InvalidFormatError, optval.InvalidOptionArgument, optval.OptionParsingError) as msg:
-		localization.enable()
-
-		print(sys.argv[0], "\b:", end=" ")
-		print(unicode(msg))
+	except (format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as msg:
+		print(sys.argv[0], "\b:", msg)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
 

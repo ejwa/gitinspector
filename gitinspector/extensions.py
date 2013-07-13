@@ -26,7 +26,7 @@ import textwrap
 
 DEFAULT_EXTENSIONS = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
 
-__extensions__ = None
+__extensions__ = DEFAULT_EXTENSIONS
 __located_extensions__ = set()
 
 def get():
