@@ -34,6 +34,10 @@ def get():
 def add(string):
 	__filters__.append(string)
 
+def clear():
+	global __filters__
+	__filters__ = []
+
 def get_filered():
 	return __filtered_files__
 

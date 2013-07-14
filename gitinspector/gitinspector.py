@@ -119,6 +119,7 @@ def main():
 
 		#We need the repo above to be set before we read the git config.
 		config.init(__run__)
+		clear_x_on_next_pass = True
 
 		for o, a in __opts__:
 			if o in("-c"):
@@ -178,6 +179,9 @@ def main():
 			elif o in("--weeks"):
 				__run__.useweeks = optval.get_boolean_argument(a)
 			elif o in("-x", "--exclude"):
+				if clear_x_on_next_pass:
+					clear_x_on_next_pass = False
+					filtering.clear()
 				filtering.add(a)
 
 	except (format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
