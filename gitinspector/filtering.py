@@ -28,6 +28,11 @@ import textwrap
 __filters__ = []
 __filtered_files__ = set()
 
+class InvalidRegExpError(ValueError):
+	def __init__(self, msg):
+		super(InvalidRegExpError, self).__init__(msg)
+		self.msg = msg
+
 def get():
 	return __filters__
 
@@ -51,7 +56,7 @@ def set_filtered(file_name):
 					__filtered_files__.add(string)
 					return True
 			except:
-				raise ValueError("Invalid regular expression specified")
+				raise InvalidRegExpError(_("invalid regular expression specified"))
 	return False
 
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")

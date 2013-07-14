@@ -184,13 +184,13 @@ def main():
 					filtering.clear()
 				filtering.add(a)
 
-	except (format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
+		__check_python_version__()
+		__run__.output()
+
+	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
 		print(sys.argv[0], "\b:", exception.msg)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
-
-	__check_python_version__()
-	__run__.output()
 
 if __name__ == "__main__":
 	main()
