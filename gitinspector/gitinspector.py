@@ -123,6 +123,8 @@ def main():
 		for o, a in __opts__:
 			if o in("-c"):
 				missing.set_checkout_missing(True)
+			if o in("--checkout-missing"):
+				missing.set_checkout_missing(optval.get_boolean_argument(a))
 			elif o in("-h", "--help"):
 				help.output()
 				sys.exit(0)
