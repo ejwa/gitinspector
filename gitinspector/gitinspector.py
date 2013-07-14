@@ -104,15 +104,16 @@ def __check_python_version__():
 		sys.exit(_("gitinspector requires at leat Python 2.6 to run (version {0} was found).").format(python_version))
 
 def main():
+	argv = terminal.convert_command_line_to_utf8()
 	__run__ = Runner()
 
 	try:
-		__opts__, __args__ = optval.gnu_getopt(sys.argv[1:], "cf:F:hHlLmrTwx:", ["checkout-missing:true", "exclude=",
-		                                                     "file-types=", "format=", "hard:true", "help",
-		                                                     "list-file-types:true", "localize-output:true",
-		                                                     "metrics:true", "responsibilities:true", "since=",
-		                                                     "grading:true", "timeline:true", "until=", "version",
-		                                                     "weeks:true"])
+		__opts__, __args__ = optval.gnu_getopt(argv[1:], "cf:F:hHlLmrTwx:", ["checkout-missing:true", "exclude=",
+		                                                 "file-types=", "format=", "hard:true", "help",
+		                                                 "list-file-types:true", "localize-output:true",
+		                                                 "metrics:true", "responsibilities:true", "since=",
+		                                                 "grading:true", "timeline:true", "until=", "version",
+		                                                 "weeks:true"])
 		for arg in __args__:
 			__run__.repo = arg
 

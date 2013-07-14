@@ -106,3 +106,14 @@ def get_size():
 def set_stdout_encoding():
 	if not sys.stdout.isatty() and sys.version_info < (3,):
 		sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+
+def convert_command_line_to_utf8():
+	try:
+		argv = []
+
+		for arg in sys.argv:
+			argv.append(arg.decode(sys.stdin.encoding, "replace"))
+
+		return argv;
+	except AttributeError:
+		return sys.argv;
