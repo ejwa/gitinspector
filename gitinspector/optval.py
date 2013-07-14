@@ -20,12 +20,9 @@ from __future__ import unicode_literals
 import getopt
 
 class InvalidOptionArgument(Exception):
-	def __init__(self, message):
-		super(InvalidOptionArgument, self).__init__(message)
-		self.message = message
-
-	def msg(self):
-		return self.message
+	def __init__(self, msg):
+		super(InvalidOptionArgument, self).__init__(msg)
+		self.msg = msg
 
 def __find_arg_in_options__(arg, options):
 	for opt in options:

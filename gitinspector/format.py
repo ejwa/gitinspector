@@ -32,12 +32,9 @@ DEFAULT_FORMAT = __available_formats__[2]
 __selected_format__ = DEFAULT_FORMAT
 
 class InvalidFormatError(Exception):
-	def __init__(self, message):
-		super(InvalidFormatError, self).__init__(message)
-		self.message = message
-
-	def msg(self):
-		return self.message
+	def __init__(self, msg):
+		super(InvalidFormatError, self).__init__(msg)
+		self.msg = msg
 
 def select(format):
 	global __selected_format__
