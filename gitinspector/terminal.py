@@ -114,6 +114,6 @@ def convert_command_line_to_utf8():
 		for arg in sys.argv:
 			argv.append(arg.decode(sys.stdin.encoding, "replace"))
 
-		return argv;
+		return argv
 	except AttributeError:
-		return sys.argv;
+		return sys.argv

@@ -21,6 +21,7 @@ from __future__ import unicode_literals
 import extensions
 import filtering
 import format
+import interval
 import missing
 import optval
 import os
@@ -49,8 +50,8 @@ def __read_git_config_bool__(repo, variable):
 		return False
 
 def __read_git_config_string__(repo, variable):
-		string = __read_git_config__(repo, variable)
-		return (True, string) if len(string) > 0 else (False, None)
+	string = __read_git_config__(repo, variable)
+	return (True, string) if len(string) > 0 else (False, None)
 
 def init(run):
 	missing.set_checkout_missing(__read_git_config_bool__(run.repo, "checkout-missing"))

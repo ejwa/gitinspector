@@ -20,11 +20,12 @@ from __future__ import unicode_literals
 import getopt
 
 class InvalidOptionArgument(Exception):
-	def __init__(self, msg):
-		self.msg = msg
+	def __init__(self, message):
+		super(InvalidOptionArgument, self).__init__(message)
+		self.message = message
 
-	def msg():
-		return self.msg
+	def msg(self):
+		return self.message
 
 def __find_arg_in_options__(arg, options):
 	for opt in options:
@@ -36,10 +37,10 @@ def __find_arg_in_options__(arg, options):
 def __find_options_to_extend__(long_options):
 	options_to_extend = []
 
-	for n, arg in enumerate(long_options):
+	for num, arg in enumerate(long_options):
 		arg = arg.split(":")
 		if len(arg) == 2:
-			long_options[n] = arg[0] + "="
+			long_options[num] = arg[0] + "="
 			options_to_extend.append(("--" + arg[0], arg[1]))
 
 	return options_to_extend
@@ -49,10 +50,10 @@ def __find_options_to_extend__(long_options):
 def gnu_getopt(args, options, long_options):
 	options_to_extend = __find_options_to_extend__(long_options)
 
-	for n, arg in enumerate(args):
+	for num, arg in enumerate(args):
 		opt = __find_arg_in_options__(arg, options_to_extend)
 		if opt:
-			args[n] = arg + "=" + opt[1]
+			args[num] = arg + "=" + opt[1]
 
 	return getopt.gnu_getopt(args, options, long_options)
 
