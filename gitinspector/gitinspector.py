@@ -178,8 +178,8 @@ def main():
 			elif o in("-x", "--exclude"):
 				filtering.add(a)
 
-	except (format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as msg:
-		print(sys.argv[0], "\b:", msg)
+	except (format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
+		print(sys.argv[0], "\b:", exception.msg)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
 		sys.exit(2)
 
