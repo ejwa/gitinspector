@@ -44,7 +44,7 @@ setup(
 		"Topic :: Software Development :: Version Control",
 		"Topic :: Utilities"
 	],
-	packages = find_packages(),
+	packages = find_packages(exclude = ['tests']),
 	package_data = {"": ["html/*", "translations/*"]},
 	data_files = [("share/doc/gitinspector", glob("*.txt"))],
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
