@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.2.2\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2013-07-10 13:34+0200\n"
+"POT-Creation-Date: 2013-07-15 02:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -57,6 +57,9 @@ msgstr ""
 msgid "Minor Authors"
 msgstr ""
 
+msgid "specified output format not supported."
+msgstr ""
+
 msgid ""
 "The following repsonsibilties, by author, were found in the current revision of the repository (comments are exluded from the "
 "line count, if possible)"
@@ -72,9 +75,6 @@ msgid ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 "\n"
 "Written by Adam Waldenberg."
-msgstr ""
-
-msgid "specified output format not supported."
 msgstr ""
 
 msgid "gitinspector requires at leat Python 2.6 to run (version {0} was found)."
@@ -140,16 +140,7 @@ msgstr ""
 msgid "The given option argument is not a valid boolean."
 msgstr ""
 
-msgid "option '{0}' requires an argument"
-msgstr ""
-
-msgid "unrecognized option '{0}'"
-msgstr ""
-
-msgid "invalid option -- '{0}'"
-msgstr ""
-
-msgid "invalid command-line options"
+msgid "invalid regular expression specified"
 msgstr ""
 
 msgid "The following files were excluded from the statistics due to the specified exclusion patterns"
