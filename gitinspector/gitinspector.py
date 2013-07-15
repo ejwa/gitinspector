@@ -188,8 +188,8 @@ def main():
 		__run__.output()
 
 	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
-		print(sys.argv[0], "\b:", exception.msg)
-		print(_("Try `{0} --help' for more information.").format(sys.argv[0]))
+		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
+		print(_("Try `{0} --help' for more information.").format(sys.argv[0]), file=sys.stderr)
 		sys.exit(2)
 
 if __name__ == "__main__":
