@@ -25,6 +25,7 @@ from changes import FileDiff
 import comment
 import filtering
 import format
+import gravatar
 import interval
 import missing
 import multiprocessing
@@ -61,16 +62,16 @@ class BlameThread(threading.Thread):
 		for j in git_blame_r.readlines():
 			j = j.decode("utf-8", "replace")
 			if Blame.is_blame_line(j):
-				author = Blame.get_author(j)
+				author_mail = Blame.get_author_mail(j)
 				content = Blame.get_content(j)
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
-				if self.blames.get((author, self.filename), None) == None:
-					self.blames[(author, self.filename)] = BlameEntry()
+				if self.blames.get((author_mail, self.filename), None) == None:
+					self.blames[(author_mail, self.filename)] = BlameEntry()
 
 				(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
-				self.blames[(author, self.filename)].comments += comments
-				self.blames[(author, self.filename)].rows += 1
+				self.blames[(author_mail, self.filename)].comments += comments
+				self.blames[(author_mail, self.filename)].rows += 1
 				__blame_lock__.release() # ...to here.
 
 		git_blame_r.close()
@@ -92,7 +93,7 @@ class Blame:
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row):
-					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
+					blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
 					               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
@@ -117,9 +118,9 @@ class Blame:
 		return string.find(" (") != -1
 
 	@staticmethod
-	def get_author(string):
-		author = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
-		return author.group(1).strip()
+	def get_author_mail(string):
+		author_mail = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
+		return author_mail.group(1).strip().lstrip("<").rstrip(">")
 
 	@staticmethod
 	def get_content(string):
@@ -150,8 +151,9 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
                      "intact in the current revision")
 
 class BlameOutput(Outputable):
-	def __init__(self, hard):
+	def __init__(self, changes, hard):
 		self.hard = hard
+		self.changes = changes
 		Outputable.__init__(self)
 
 	def output_html(self):
@@ -171,14 +173,20 @@ class BlameOutput(Outputable):
 
 		for i, entry in enumerate(blames):
 			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+			authorname = self.changes.get_authorname_from_email(entry[0])
 
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
-			blame_xml += "<td>" + entry[0] + "</td>"
+
+			if format.get_selected() == "html":
+				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(entry[0]), authorname)
+			else:
+				blame_xml += "<td>" + authorname + "</td>"
+
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
-			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], work_percentage)
+			chart_data += "{{label: \"{0}\", data: {1}}}".format(authorname, work_percentage)
 
 			if blames[-1] != entry:
 				chart_data += ", "
@@ -214,7 +222,8 @@ class BlameOutput(Outputable):
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
 		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(20))
 		for i in sorted(__blame__.get_summed_blames().items()):
-			print(i[0].ljust(20)[0:20], end=" ")
+			authorname = self.changes.get_authorname_from_email(i[0])
+			print(authorname.ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
@@ -225,10 +234,12 @@ class BlameOutput(Outputable):
 		blame_xml = ""
 
 		for i in sorted(__blame__.get_summed_blames().items()):
-			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+			authorname = self.changes.get_authorname_from_email(i[0])
+			name_xml = "\t\t\t\t<name>" + authorname + "</name>\n"
+			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(i[0]) + "</gravatar>\n"
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
-			blame_xml += "\t\t\t<author>\n" + name_xml + rows_xml + percentage_in_comments_xml + "\t\t\t</author>\n"
+			blame_xml += "\t\t\t<author>\n" + name_xml + gravatar_xml + rows_xml + percentage_in_comments_xml + "\t\t\t</author>\n"
 
 		print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")

@@ -22,6 +22,8 @@ from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
 import datetime
+import format
+import gravatar
 import terminal
 import textwrap
 
@@ -37,9 +39,9 @@ class TimelineData:
 
 			if useweeks:
 				yearweek = datetime.date(int(i[0][0][0:4]), int(i[0][0][5:7]), int(i[0][0][8:10])).isocalendar()
-				key = (i[0][1], str(yearweek[0]) + "W" + "{0:02d}".format(yearweek[1]))
+				key = ((i[0][1], i[0][2]), str(yearweek[0]) + "W" + "{0:02d}".format(yearweek[1]))
 			else:
-				key = (i[0][1], i[0][0][0:7])
+				key = ((i[0][1], i[0][2]), i[0][0][0:7])
 
 			if self.entries.get(key, None) == None:
 				self.entries[key] = i[1]
@@ -117,7 +119,7 @@ def __output_row__text__(timeline_data, periods, names):
 
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name):
-			print(name.ljust(20)[0:20], end=" ")
+			print(name[0].ljust(20)[0:20], end=" ")
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 9)
 				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
@@ -146,7 +148,13 @@ def __output_row__html__(timeline_data, periods, names):
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name):
 			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
-			timeline_xml += "<td>" + name + "</td>"
+			#timeline_xml += "<td>" + name[0] + "</td>"
+
+			if format.get_selected() == "html":
+				timeline_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(name[1]), name[0])
+			else:
+				timeline_xml += "<td>" + name[0] + "</td>"
+
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 14)
 				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
@@ -225,7 +233,8 @@ class Timeline(Outputable):
 						if len(signs_str) == 0:
 							signs_str = "."
 
-						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name + "</name>\n"
+						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name[0] + "</name>\n"
+						authors_xml += "\t\t\t\t\t\t<gravatar>" + gravatar.get_url(name[1]) + "</gravatar>\n"
 						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 
 				authors_xml += "\t\t\t\t</authors>\n"

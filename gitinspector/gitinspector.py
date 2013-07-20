@@ -78,7 +78,7 @@ class Runner:
 		outputable.output(changes.ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			outputable.output(blame.BlameOutput(self.hard))
+			outputable.output(blame.BlameOutput(changes.get(self.hard), self.hard))
 
 			if self.timeline:
 				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))

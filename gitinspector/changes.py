@@ -23,6 +23,8 @@ from localization import N_
 from outputable import Outputable
 import extensions
 import filtering
+import format
+import gravatar
 import interval
 import os
 import subprocess
@@ -66,10 +68,11 @@ class Commit:
 		self.filediffs = []
 		commit_line = string.split("|")
 
-		if commit_line.__len__() == 3:
+		if commit_line.__len__() == 4:
 			self.date = commit_line[0]
 			self.sha = commit_line[1]
 			self.author = commit_line[2].strip()
+			self.email = commit_line[3].strip()
 
 	def add_filediff(self, filediff):
 		self.filediffs.append(filediff)
@@ -79,7 +82,7 @@ class Commit:
 
 	@staticmethod
 	def is_commit_line(string):
-		return string.split("|").__len__() == 3
+		return string.split("|").__len__() == 4
 
 class AuthorInfo:
 	insertions = 0
@@ -87,9 +90,12 @@ class AuthorInfo:
 	commits = 0
 
 class Changes:
+	authors = {}
+	authors_dateinfo = {}
+
 	def __init__(self, hard):
 		self.commits = []
-		git_log_r = subprocess.Popen("git log --pretty=\"%cd|%H|%aN\" --stat=100000,8192 --no-merges -w " +
+		git_log_r = subprocess.Popen("git log --pretty=\"%cd|%H|%aN|%aE\" --stat=100000,8192 --no-merges -w " +
 		                             interval.get_since() + interval.get_until() +
 		                             "{0} --date=short".format("-C -C -M" if hard else ""),
 		                             shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
@@ -136,18 +142,28 @@ class Changes:
 			authors[key].deletions += j.deletions
 
 	def get_authorinfo_list(self):
-		authors = {}
-		for i in self.commits:
-			Changes.__modify_authorinfo__(authors, i.author, i)
+		if not self.authors:
+			for i in self.commits:
+				Changes.__modify_authorinfo__(self.authors, (i.author, i.email), i)
 
-		return authors
+		return self.authors
 
 	def get_authordateinfo_list(self):
-		authors = {}
-		for i in self.commits:
-			Changes.__modify_authorinfo__(authors, (i.date, i.author), i)
+		if not self.authors_dateinfo:
+			for i in self.commits:
+				Changes.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author, i.email), i)
 
-		return authors
+		return self.authors_dateinfo
+
+	def get_authorname_from_email(self, email):
+		if not self.authors:
+			get_authorinfo_list(self)
+
+		for author in self.authors:
+			if author[1] == email:
+				return author[0]
+
+		return "Unknown"
 
 __changes__ = None
 
@@ -187,13 +203,18 @@ class ChangesOutput(Outputable):
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
 				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
-				changes_xml += "<td>" + entry + "</td>"
+
+				if format.get_selected() == "html":
+					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(entry[1]), entry[0])
+				else:
+					changes_xml += "<td>" + entry[0] + "</td>"
+
 				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
 				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
 				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
 				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
 				changes_xml += "</tr>"
-				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry, "{0:.2f}".format(percentage))
+				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(percentage))
 
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
@@ -239,7 +260,7 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-				print(i.ljust(20)[0:20], end=" ")
+				print(i[0].ljust(20)[0:20], end=" ")
 				print(str(authorinfo.commits).rjust(13), end=" ")
 				print(str(authorinfo.insertions).rjust(13), end=" ")
 				print(str(authorinfo.deletions).rjust(14), end=" ")
@@ -262,14 +283,14 @@ class ChangesOutput(Outputable):
 			for i in sorted(authorinfo_list):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
-
-				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
+				name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(i[1]) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
 				percentage_xml = "\t\t\t\t<percentage-of-changes>" + "{0:.2f}".format(percentage) + "</percentage-of-changes>\n"
 
-				changes_xml += ("\t\t\t<author>\n" + name_xml + commits_xml + insertions_xml +
+				changes_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + commits_xml + insertions_xml +
 				                deletions_xml + percentage_xml + "\t\t\t</author>\n")
 
 			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
