@@ -52,7 +52,7 @@ def __get_size_linux__():
 	def ioctl_get_window_size(file_descriptor):
 		try:
 			import fcntl, termios, struct
-			size = struct.unpack('hh', fcntl.ioctl(file_descriptor, termios.TIOCGWINSZ, '1234'))
+			size = struct.unpack('hh', fcntl.ioctl(file_descriptor, termios.TIOCGWINSZ, "1234"))
 		except:
 			return DEFAULT_TERMINAL_SIZE
 
@@ -95,9 +95,9 @@ def get_size():
 	if sys.stdout.isatty():
 		current_os = platform.system()
 
-		if current_os == 'Windows':
+		if current_os == "Windows":
 			(width, height) = __get_size_windows__()
-		elif current_os == 'Linux' or current_os == 'Darwin' or  current_os.startswith('CYGWIN'):
+		elif current_os == "Linux" or current_os == "Darwin" or  current_os.startswith("CYGWIN"):
 			(width, height) = __get_size_linux__()
 
 	if width > 0:
@@ -107,7 +107,7 @@ def get_size():
 
 def set_stdout_encoding():
 	if not sys.stdout.isatty() and sys.version_info < (3,):
-		sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+		sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 
 def convert_command_line_to_utf8():
 	try:
