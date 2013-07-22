@@ -260,7 +260,7 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-				print(i[0].ljust(20)[0:20], end=" ")
+				print(i.ljust(20)[0:20], end=" ")
 				print(str(authorinfo.commits).rjust(13), end=" ")
 				print(str(authorinfo.insertions).rjust(13), end=" ")
 				print(str(authorinfo.deletions).rjust(14), end=" ")
