@@ -180,7 +180,7 @@ class BlameOutput(Outputable):
 			if format.get_selected() == "html":
 				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
-				blame_xml += "<td>" + authorname + "</td>"
+				blame_xml += "<td>" + entry[0] + "</td>"
 
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
