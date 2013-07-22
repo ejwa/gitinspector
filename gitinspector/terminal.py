@@ -26,6 +26,8 @@ import sys
 __bold__ =  "\033[1m"
 __normal__ =  "\033[0;0m"
 
+DEFAULT_TERMINAL_SIZE = (80, 25)
+
 def __get_size_windows__():
 	res = None
 	try:
@@ -35,7 +37,7 @@ def __get_size_windows__():
 		csbi = create_string_buffer(22)
 		res = windll.kernel32.GetConsoleScreenBufferInfo(handler, csbi)
 	except:
-		return None
+		return DEFAULT_TERMINAL_SIZE
 
 	if res:
 		import struct
@@ -44,7 +46,7 @@ def __get_size_windows__():
 		sizey = bottom - top + 1
 		return sizex, sizey
 	else:
-		return None
+		return DEFAULT_TERMINAL_SIZE
 
 def __get_size_linux__():
 	def ioctl_get_window_size(file_descriptor):
@@ -52,7 +54,7 @@ def __get_size_linux__():
 			import fcntl, termios, struct
 			size = struct.unpack('hh', fcntl.ioctl(file_descriptor, termios.TIOCGWINSZ, '1234'))
 		except:
-			return None
+			return DEFAULT_TERMINAL_SIZE
 
 		return size
 
@@ -69,7 +71,7 @@ def __get_size_linux__():
 		try:
 			size = (os.environ["LINES"], os.environ["COLUMNS"])
 		except:
-			return None
+			return DEFAULT_TERMINAL_SIZE
 
 	return int(size[1]), int(size[0])
 
@@ -101,7 +103,7 @@ def get_size():
 	if width > 0:
 		return (width, height)
 
-	return (80, 25)
+	return DEFAULT_TERMINAL_SIZE
 
 def set_stdout_encoding():
 	if not sys.stdout.isatty() and sys.version_info < (3,):
