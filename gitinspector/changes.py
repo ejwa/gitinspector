@@ -85,6 +85,7 @@ class Commit:
 		return string.split("|").__len__() == 4
 
 class AuthorInfo:
+	email = None
 	insertions = 0
 	deletions = 0
 	commits = 0
@@ -141,29 +142,28 @@ class Changes:
 			authors[key].insertions += j.insertions
 			authors[key].deletions += j.deletions
 
+		authors[key].email = commit.email
+
 	def get_authorinfo_list(self):
 		if not self.authors:
 			for i in self.commits:
-				Changes.__modify_authorinfo__(self.authors, (i.author, i.email), i)
+				Changes.__modify_authorinfo__(self.authors, i.author, i)
 
 		return self.authors
 
 	def get_authordateinfo_list(self):
 		if not self.authors_dateinfo:
 			for i in self.commits:
-				Changes.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author, i.email), i)
+				Changes.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author), i)
+				self.authors_dateinfo[(i.date, i.author)].email = self.get_authorinfo_list()[i.author].email
 
 		return self.authors_dateinfo
 
-	def get_authorname_from_email(self, email):
+	def get_author_email(self, name):
 		if not self.authors:
-			get_authorinfo_list(self)
+			self.get_authorinfo_list()
 
-		for author in self.authors:
-			if author[1] == email:
-				return author[0]
-
-		return "Unknown"
+		return self.authors.get(name).email
 
 __changes__ = None
 
@@ -205,7 +205,7 @@ class ChangesOutput(Outputable):
 				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 				if format.get_selected() == "html":
-					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(entry[1]), entry[0])
+					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(authorinfo.email), entry)
 				else:
 					changes_xml += "<td>" + entry[0] + "</td>"
 
@@ -214,7 +214,7 @@ class ChangesOutput(Outputable):
 				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
 				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
 				changes_xml += "</tr>"
-				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], "{0:.2f}".format(percentage))
+				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry, "{0:.2f}".format(percentage))
 
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
@@ -283,8 +283,8 @@ class ChangesOutput(Outputable):
 			for i in sorted(authorinfo_list):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
-				name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
-				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(i[1]) + "</gravatar>\n"
+				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(authorinfo.email) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"

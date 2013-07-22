@@ -93,7 +93,7 @@ class Blame:
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row):
-					blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
+					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
 					               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
 					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
@@ -173,12 +173,12 @@ class BlameOutput(Outputable):
 
 		for i, entry in enumerate(blames):
 			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
-			authorname = self.changes.get_authorname_from_email(entry[0])
+			author_email = self.changes.get_author_email(entry[0])
 
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
-				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(entry[0]), authorname)
+				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
 				blame_xml += "<td>" + authorname + "</td>"
 
@@ -186,7 +186,7 @@ class BlameOutput(Outputable):
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
-			chart_data += "{{label: \"{0}\", data: {1}}}".format(authorname, work_percentage)
+			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], work_percentage)
 
 			if blames[-1] != entry:
 				chart_data += ", "
@@ -221,9 +221,9 @@ class BlameOutput(Outputable):
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
 		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("% in comments").rjust(20))
+
 		for i in sorted(__blame__.get_summed_blames().items()):
-			authorname = self.changes.get_authorname_from_email(i[0])
-			print(authorname.ljust(20)[0:20], end=" ")
+			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
@@ -234,9 +234,10 @@ class BlameOutput(Outputable):
 		blame_xml = ""
 
 		for i in sorted(__blame__.get_summed_blames().items()):
-			authorname = self.changes.get_authorname_from_email(i[0])
-			name_xml = "\t\t\t\t<name>" + authorname + "</name>\n"
-			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(i[0]) + "</gravatar>\n"
+			author_email = self.changes.get_author_email(i[0])
+
+			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")

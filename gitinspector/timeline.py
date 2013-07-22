@@ -39,9 +39,9 @@ class TimelineData:
 
 			if useweeks:
 				yearweek = datetime.date(int(i[0][0][0:4]), int(i[0][0][5:7]), int(i[0][0][8:10])).isocalendar()
-				key = ((i[0][1], i[0][2]), str(yearweek[0]) + "W" + "{0:02d}".format(yearweek[1]))
+				key = (i[0][1], str(yearweek[0]) + "W" + "{0:02d}".format(yearweek[1]))
 			else:
-				key = ((i[0][1], i[0][2]), i[0][0][0:7])
+				key = (i[0][1], i[0][0][0:7])
 
 			if self.entries.get(key, None) == None:
 				self.entries[key] = i[1]
@@ -54,7 +54,7 @@ class TimelineData:
 			total_deletions = 0
 
 			for author in self.get_authors():
-				entry = self.entries.get((author, period), None)
+				entry = self.entries.get((author[0], period), None)
 				if entry != None:
 					total_insertions += entry.insertions
 					total_deletions += entry.deletions
@@ -69,7 +69,7 @@ class TimelineData:
 		return self.total_changes_by_period[period]
 
 	def get_authors(self):
-		return sorted(set([i[0] for i in self.entries]))
+		return sorted(set([(i[0][0], i[1].email) for i in self.entries.items()]))
 
 	def get_author_signs_in_period(self, author, period, multiplier):
 		authorinfo = self.entries.get((author, period), None)
@@ -118,13 +118,13 @@ def __output_row__text__(timeline_data, periods, names):
 	print(terminal.__normal__)
 
 	for name in names:
-		if timeline_data.is_author_in_periods(periods, name):
+		if timeline_data.is_author_in_periods(periods, name[0]):
 			print(name[0].ljust(20)[0:20], end=" ")
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 9)
-				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+				signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
 				signs_str = (signs[1] * "-" + signs[0] * "+")
-				print (("." if timeline_data.is_author_in_period(period, name) and
+				print (("." if timeline_data.is_author_in_period(period, name[0]) and
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 			print("")
 
@@ -146,9 +146,8 @@ def __output_row__html__(timeline_data, periods, names):
 	i = 0
 
 	for name in names:
-		if timeline_data.is_author_in_periods(periods, name):
+		if timeline_data.is_author_in_periods(periods, name[0]):
 			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
-			#timeline_xml += "<td>" + name[0] + "</td>"
 
 			if format.get_selected() == "html":
 				timeline_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(name[1]), name[0])
@@ -156,11 +155,11 @@ def __output_row__html__(timeline_data, periods, names):
 				timeline_xml += "<td>" + name[0] + "</td>"
 
 			for period in periods:
-				multiplier = timeline_data.get_multiplier(period, 14)
-				signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+				multiplier = timeline_data.get_multiplier(period, 18)
+				signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
 				signs_str = (signs[1] * "<div class=\"remove\">&nbsp;</div>" + signs[0] * "<div class=\"insert\">&nbsp;</div>")
 
-				timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name) and len(signs_str) == 0 else signs_str)
+				timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name[0]) and len(signs_str) == 0 else signs_str)
 				timeline_xml += "</td>"
 			timeline_xml += "</tr>"
 			i = i + 1
@@ -225,9 +224,9 @@ class Timeline(Outputable):
 				authors_xml = "\t\t\t\t<authors>\n"
 
 				for name in names:
-					if timeline_data.is_author_in_period(period, name):
+					if timeline_data.is_author_in_period(period, name[0]):
 						multiplier = timeline_data.get_multiplier(period, 24)
-						signs = timeline_data.get_author_signs_in_period(name, period, multiplier)
+						signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
 						signs_str = (signs[1] * "-" + signs[0] * "+")
 
 						if len(signs_str) == 0:
