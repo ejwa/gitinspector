@@ -207,7 +207,7 @@ class ChangesOutput(Outputable):
 				if format.get_selected() == "html":
 					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(authorinfo.email), entry)
 				else:
-					changes_xml += "<td>" + entry[0] + "</td>"
+					changes_xml += "<td>" + entry + "</td>"
 
 				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
 				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
