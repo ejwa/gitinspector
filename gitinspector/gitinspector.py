@@ -122,9 +122,9 @@ def main():
 		clear_x_on_next_pass = True
 
 		for o, a in __opts__:
-			if o in("-c"):
+			if o == "-c":
 				missing.set_checkout_missing(True)
-			if o in("--checkout-missing"):
+			elif o == "--checkout-missing":
 				missing.set_checkout_missing(optval.get_boolean_argument(a))
 			elif o in("-h", "--help"):
 				help.output()
@@ -134,32 +134,32 @@ def main():
 			elif o in("-F", "--format"):
 				if not format.select(a):
 					raise format.InvalidFormatError(_("specified output format not supported."))
-			elif o in("-H"):
+			elif o == "-H":
 				__run__.hard = True
-			elif o in("--hard"):
+			elif o == "--hard":
 				__run__.hard = optval.get_boolean_argument(a)
-			elif o in("-l"):
+			elif o == "-l":
 				__run__.list_file_types = True
-			elif o in("--list-file-types"):
+			elif o == "--list-file-types":
 				__run__.list_file_types = optval.get_boolean_argument(a)
-			elif o in("-L"):
+			elif o == "-L":
 				__run__.localize_output = True
-			elif o in("--localize-output"):
+			elif o == "--localize-output":
 				__run__.localize_output = optval.get_boolean_argument(a)
-			elif o in("-m"):
+			elif o == "-m":
 				__run__.include_metrics = True
-			elif o in ("--metrics"):
+			elif o == "--metrics":
 				__run__.include_metrics = optval.get_boolean_argument(a)
-			elif o in("-r"):
+			elif o == "-r":
 				__run__.responsibilities = True
-			elif o in("--responsibilities"):
+			elif o == "--responsibilities":
 				__run__.responsibilities = optval.get_boolean_argument(a)
-			elif o in("--since"):
+			elif o == "--since":
 				interval.set_since(a)
-			elif o in("--version"):
+			elif o == "--version":
 				version.output()
 				sys.exit(0)
-			elif o in("--grading"):
+			elif o == "--grading":
 				grading = optval.get_boolean_argument(a)
 				__run__.include_metrics = grading
 				__run__.list_file_types = grading
@@ -168,15 +168,15 @@ def main():
 				__run__.hard = grading
 				__run__.timeline = grading
 				__run__.useweeks = grading
-			elif o in("-T"):
+			elif o == "-T":
 				__run__.timeline = True
-			elif o in("--timeline"):
+			elif o == "--timeline":
 				__run__.timeline = optval.get_boolean_argument(a)
-			elif o in("--until"):
+			elif o == "--until":
 				interval.set_until(a)
-			elif o in("-w"):
+			elif o == "-w":
 				__run__.useweeks = True
-			elif o in("--weeks"):
+			elif o == "--weeks":
 				__run__.useweeks = optval.get_boolean_argument(a)
 			elif o in("-x", "--exclude"):
 				if clear_x_on_next_pass:
