@@ -77,7 +77,7 @@ msgid ""
 "Written by Adam Waldenberg."
 msgstr ""
 
-msgid "gitinspector requires at leat Python 2.6 to run (version {0} was found)."
+msgid "gitinspector requires at least Python 2.6 to run (version {0} was found)."
 msgstr ""
 
 msgid "Try `{0} --help' for more information."
