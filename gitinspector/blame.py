@@ -23,6 +23,7 @@ from localization import N_
 from outputable import Outputable
 from changes import FileDiff
 import comment
+import changes
 import filtering
 import format
 import gravatar
@@ -151,9 +152,9 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
                      "intact in the current revision")
 
 class BlameOutput(Outputable):
-	def __init__(self, changes, hard):
+	def __init__(self, hard):
 		self.hard = hard
-		self.changes = changes
+		self.changes = changes.get(hard)
 		Outputable.__init__(self)
 
 	def output_html(self):
@@ -173,11 +174,10 @@ class BlameOutput(Outputable):
 
 		for i, entry in enumerate(blames):
 			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
-			author_email = self.changes.get_author_email(entry[0])
-
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
+				author_email = self.changes.get_author_email(entry[0])
 				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
 				blame_xml += "<td>" + entry[0] + "</td>"
