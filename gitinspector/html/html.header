@@ -227,14 +227,34 @@
 				border: 1px solid #bbb;
 				cursor: hand;
 			}}
-			td img {{
+			div#responsibilities div {{
+				min-height: 0px;
+				padding: 0.3em 0.2em;
+				width: auto;
+			}}
+			div#responsibilities div.odd {{
+				background-color: #dbdbdb;
+			}}
+			td img, h3 img {{
 				border-radius: 3px 3px 3px 3px;
 				-moz-border-radius: 3px 3px 3px 3px;
 				vertical-align: middle;
-				margin-right: 5px;
+				margin-right: 0.4em;
+				opacity: 0.85;
+			}}
+			td img {{
 				width: 20px;
 				height: 20px;
-				opacity: 0.85;
+			}}
+			h3 img {{
+				width: 32px;
+				height: 32px;
+			}}
+			h3 {{
+				border-radius: 8px 8px 8px 8px;
+				-moz-border-radius: 8px 8px 8px 8px;
+				background-color: #ddcece;
+				margin-bottom: 0.2em;
 			}}
 		</style>
 	</head>

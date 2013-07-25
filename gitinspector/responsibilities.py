@@ -22,6 +22,9 @@ from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
 import blame
+import changes
+import format
+import gravatar
 import terminal
 import textwrap
 
@@ -50,6 +53,7 @@ class ResponsibilitiesOutput(Outputable):
 	def __init__(self, hard):
 		self.hard = hard
 		Outputable.__init__(self)
+		self.changes = changes.get(hard)
 
 	def output_text(self):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
@@ -70,16 +74,22 @@ class ResponsibilitiesOutput(Outputable):
 						break
 
 	def output_html(self):
-		resp_xml = "<div><div class=\"box\">"
+		resp_xml = "<div><div class=\"box\" id=\"responsibilities\">"
 		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				resp_xml += "<h3>" + i + " " + _(MOSTLY_RESPONSIBLE_FOR_TEXT) + "</h3>"
+				if format.get_selected() == "html":
+					author_email = self.changes.get_author_email(i)
+					resp_xml += "<h3><img src=\"{0}\"/>{1} {2}</h3>".format(gravatar.get_url(author_email, size=32),
+					            i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
+				else:
+					resp_xml += "<h3>{0} {1}</h3>".format(i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
 
 				for j, entry in enumerate(responsibilities):
-					resp_xml += "<p>" + entry[1] + " (" + str(entry[0]) + " eloc)</p>"
+					resp_xml += "<div" + (" class=\"odd\">" if j % 2 == 1 else ">") + entry[1] + \
+					            " (" + str(entry[0]) + " eloc)</div>"
 
 					if j >= 9:
 						break
@@ -94,8 +104,11 @@ class ResponsibilitiesOutput(Outputable):
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
+				author_email = self.changes.get_author_email(i)
+
 				resp_xml += "\t\t\t<author>\n"
 				resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
+				resp_xml += "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 				resp_xml += "\t\t\t\t<files>\n"
 
 				for j, entry in enumerate(responsibilities):
