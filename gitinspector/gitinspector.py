@@ -101,7 +101,7 @@ class Runner:
 def __check_python_version__():
 	if sys.version_info < (2, 6):
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
-		sys.exit(_("gitinspector requires at leat Python 2.6 to run (version {0} was found).").format(python_version))
+		sys.exit(_("gitinspector requires at least Python 2.6 to run (version {0} was found).").format(python_version))
 
 def main():
 	argv = terminal.convert_command_line_to_utf8()
