@@ -81,6 +81,13 @@ class Commit:
 		return self.filediffs
 
 	@staticmethod
+	def get_author_and_email(string):
+		commit_line = string.split("|")
+
+		if commit_line.__len__() == 4:
+			return (commit_line[2].strip(), commit_line[3].strip())
+
+	@staticmethod
 	def is_commit_line(string):
 		return string.split("|").__len__() == 4
 
@@ -93,6 +100,7 @@ class AuthorInfo:
 class Changes:
 	authors = {}
 	authors_dateinfo = {}
+	authors_email = {}
 
 	def __init__(self, hard):
 		self.commits = []
@@ -108,6 +116,10 @@ class Changes:
 			j = i.strip().decode("unicode_escape", "ignore")
 			j = j.encode("latin-1", "replace")
 			j = j.decode("utf-8", "replace")
+
+			if Commit.is_commit_line(j):
+				(author, email) = Commit.get_author_and_email(j)
+				self.authors_email[author] = email
 
 			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
@@ -130,8 +142,7 @@ class Changes:
 	def get_commits(self):
 		return self.commits
 
-	@staticmethod
-	def __modify_authorinfo__(authors, key, commit):
+	def __modify_authorinfo__(self, authors, key, commit):
 		if authors.get(key, None) == None:
 			authors[key] = AuthorInfo()
 
@@ -142,28 +153,22 @@ class Changes:
 			authors[key].insertions += j.insertions
 			authors[key].deletions += j.deletions
 
-		authors[key].email = commit.email
-
 	def get_authorinfo_list(self):
 		if not self.authors:
 			for i in self.commits:
-				Changes.__modify_authorinfo__(self.authors, i.author, i)
+				self.__modify_authorinfo__(self.authors, i.author, i)
 
 		return self.authors
 
 	def get_authordateinfo_list(self):
 		if not self.authors_dateinfo:
 			for i in self.commits:
-				Changes.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author), i)
-				self.authors_dateinfo[(i.date, i.author)].email = self.get_authorinfo_list()[i.author].email
+				self.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author), i)
 
 		return self.authors_dateinfo
 
 	def get_author_email(self, name):
-		if not self.authors:
-			self.get_authorinfo_list()
-
-		return self.authors.get(name).email
+		return self.authors_email[name]
 
 __changes__ = None
 
@@ -179,11 +184,11 @@ NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions wer
 
 class ChangesOutput(Outputable):
 	def __init__(self, hard):
-		self.hard = hard
+		self.changes = get(hard)
 		Outputable.__init__(self)
 
 	def output_html(self):
-		authorinfo_list = get(self.hard).get_authorinfo_list()
+		authorinfo_list = self.changes.get_authorinfo_list()
 		total_changes = 0.0
 		changes_xml = "<div><div class=\"box\">"
 		chart_data = ""
@@ -205,7 +210,8 @@ class ChangesOutput(Outputable):
 				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 				if format.get_selected() == "html":
-					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(authorinfo.email), entry)
+					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
+					               gravatar.get_url(self.changes.get_author_email(entry)), entry)
 				else:
 					changes_xml += "<td>" + entry + "</td>"
 
@@ -244,7 +250,7 @@ class ChangesOutput(Outputable):
 		print(changes_xml)
 
 	def output_text(self):
-		authorinfo_list = get(self.hard).get_authorinfo_list()
+		authorinfo_list = self.changes.get_authorinfo_list()
 		total_changes = 0.0
 
 		for i in authorinfo_list:
@@ -269,7 +275,7 @@ class ChangesOutput(Outputable):
 			print(_(NO_COMMITED_FILES_TEXT) + ".")
 
 	def output_xml(self):
-		authorinfo_list = get(self.hard).get_authorinfo_list()
+		authorinfo_list = self.changes.get_authorinfo_list()
 		total_changes = 0.0
 
 		for i in authorinfo_list:
@@ -284,7 +290,7 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
-				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(authorinfo.email) + "</gravatar>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(self.changes.get_author_email(i)) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
