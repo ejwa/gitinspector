@@ -80,6 +80,8 @@ class ResponsibilitiesOutput(Outputable):
 		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
+				resp_xml += "<div>"
+
 				if format.get_selected() == "html":
 					author_email = self.changes.get_author_email(i)
 					resp_xml += "<h3><img src=\"{0}\"/>{1} {2}</h3>".format(gravatar.get_url(author_email, size=32),
@@ -90,10 +92,10 @@ class ResponsibilitiesOutput(Outputable):
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "<div" + (" class=\"odd\">" if j % 2 == 1 else ">") + entry[1] + \
 					            " (" + str(entry[0]) + " eloc)</div>"
-
 					if j >= 9:
 						break
 
+				resp_xml += "</div>"
 		resp_xml += "</div></div>"
 		print(resp_xml)
 

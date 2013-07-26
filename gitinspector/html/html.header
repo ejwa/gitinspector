@@ -25,13 +25,25 @@
 					}}
 				}}
 
+				var filterResponsibilities = function() {{
+					$("table#blame tbody tr td:last-child").filter(function() {{
+						return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+					}}).parent().find("td:first-child").each(function() {{
+						$("div#responsibilities div h3:contains(\"" + $(this).text() + "\")").parent().hide();
+					}});
+				}}
+
 				var filterTimeLine = function() {{
 					$("div#timeline table.git tbody tr").filter(function() {{
 						return $(this).find("td:has(div)").length == 0;
 					}}).hide();
 				}}
 
-				$("table.git tbody tr td:last-child").filter(function() {{
+				$("table#changes tbody tr td:last-child").filter(function() {{
+					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+				}}).parent().hide();
+
+				$("table#blame tbody tr td:last-child").filter(function() {{
 					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 				}}).parent().hide();
 
@@ -80,8 +92,23 @@
 					$("table.git tbody tr:visible").each(colorRows);
 				}});
 
-				filterTimeLine();
+				filterResponsibilities();
+				var hiddenResponsibilitiesCount = $("div#responsibilities div h3:hidden").length;
+				if (hiddenResponsibilitiesCount > 0) {{
+					$("div#responsibilities div h3:visible").each(colorRows);
+					$("div#responsibilities").prepend("<div class=\"button\">{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;</div>");
 
+					$("div#responsibilities div.button").toggle(function() {{
+						this.innerHTML = "{hide_minor_authors} (" + hiddenResponsibilitiesCount + ") &and;";
+						$("div#responsibilities div").show();
+					}}, function() {{
+						this.innerHTML = "{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;";
+						filterResponsibilities();
+					}});
+				}}
+
+
+				filterTimeLine();
 				var hiddenTimelineCount = $("div#timeline table.git tbody tr:hidden").length;
 				if (hiddenTimelineCount > 0) {{
 					$("div#timeline table.git tbody tr:visible").each(colorRows);
@@ -211,25 +238,16 @@
 			p.error {{
 				color: #700;
 			}}
-			div.button {{
-				border-radius: 8px 8px 8px 8px;
-				-moz-border-radius: 8px 8px 8px 8px;
-				border: 1px solid #eee;
-				float: right;
-				width: auto;
-				padding: 0.5em;
-				background-color: #ddcece;
-				min-height: 0;
-			}}
 			table#changes thead tr th:hover, table#blame thead tr th:hover,
-			table#changes tfoot tr td.hoverable:hover, table#blame tfoot tr td.hoverable:hover, div.button:hover {{
+			table#changes tfoot tr td.hoverable:hover, table#blame tfoot tr td.hoverable:hover,
+			div.button:hover, div#responsibilities div.button:hover {{
 				background-color: #eddede;
 				border: 1px solid #bbb;
 				cursor: hand;
 			}}
-			div#responsibilities div {{
+			div#responsibilities div, div#responsibilities div div {{
 				min-height: 0px;
-				padding: 0.3em 0.2em;
+				padding: 0.5em 0.2em;
 				width: auto;
 			}}
 			div#responsibilities div.odd {{
@@ -255,6 +273,16 @@
 				-moz-border-radius: 8px 8px 8px 8px;
 				background-color: #ddcece;
 				margin-bottom: 0.2em;
+			}}
+			div.button, div#responsibilities div.button {{
+				border-radius: 8px 8px 8px 8px;
+				-moz-border-radius: 8px 8px 8px 8px;
+				border: 1px solid #eee;
+				float: right;
+				width: auto;
+				padding: 0.5em;
+				background-color: #ddcece;
+				min-height: 0;
 			}}
 		</style>
 	</head>
