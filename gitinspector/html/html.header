@@ -253,6 +253,9 @@
 			div#responsibilities div.odd {{
 				background-color: #dbdbdb;
 			}}
+			div#responsibilities p {{
+				margin-bottom: 0px;
+			}}
 			td img, h3 img {{
 				border-radius: 3px 3px 3px 3px;
 				-moz-border-radius: 3px 3px 3px 3px;
@@ -273,6 +276,7 @@
 				-moz-border-radius: 8px 8px 8px 8px;
 				background-color: #ddcece;
 				margin-bottom: 0.2em;
+				margin-top: 0.6em;
 			}}
 			div.button, div#responsibilities div.button {{
 				border-radius: 8px 8px 8px 8px;
