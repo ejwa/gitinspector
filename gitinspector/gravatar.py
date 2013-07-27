@@ -17,12 +17,16 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import unicode_literals
+try:
+	from urllib.parse import urlencode
+except:
+	from urllib import urlencode
 import format
 import hashlib
-import urllib
 
 def get_url(email, size=20):
-	md5hash = hashlib.md5(email.lower().strip()).hexdigest()
+	md5hash = hashlib.md5(email.encode("utf-8").lower().strip()).hexdigest()
 	base_url = "http://www.gravatar.com/avatar/" + md5hash
 	params = None
 
@@ -31,4 +35,4 @@ def get_url(email, size=20):
 	elif format.get_selected() == "xml":
 		params = {"default": "identicon"}
 
-	return base_url + "?" + urllib.urlencode(params)
+	return base_url + "?" + urlencode(params)
