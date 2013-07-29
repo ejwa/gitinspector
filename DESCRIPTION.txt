@@ -15,4 +15,4 @@ student projects in the course Object-oriented Programming Project
 - Can display a statistical timeline analysis.
 - Scans for all filetypes (by extension) found in the repository.
 - Multi-threaded; uses multiple instances of git to speed up analysis.
-- Supports HTML and XML output as a complement to the terminal support.
+- Supports HTML, XML and plain text (terminal) output.
