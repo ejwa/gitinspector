@@ -17,7 +17,7 @@
 
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.3.0\n"
+"Project-Id-Version: gitinspector 0.3.1\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2013-07-15 02:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
