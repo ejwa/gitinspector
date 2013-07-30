@@ -25,8 +25,7 @@ import re
 import terminal
 import textwrap
 
-__filters__ = []
-__filtered_files__ = set()
+__filters__ = {"file": [[], set()], "author": [[], set()], "email": [[], set()]}
 
 class InvalidRegExpError(ValueError):
 	def __init__(self, msg):
@@ -37,56 +36,98 @@ def get():
 	return __filters__
 
 def add(string):
-	__filters__.append(string)
+	global __filters__
+	for i in __filters__:
+		if (i + ":").lower() == string[0:len(i) + 1].lower():
+			__filters__[i][0].append(string[len(i) + 1:])
+			return
+	__filters__["file"][0].append(string)
 
 def clear():
 	global __filters__
-	__filters__ = []
+	for i in __filters__:
+		__filters__[i][0] = []
 
-def get_filered():
-	return __filtered_files__
+def get_filered(filter_type="file"):
+	return __filters__[filter_type][1]
 
-def set_filtered(file_name):
-	string = file_name.strip()
+def has_filtered():
+	for i in __filters__:
+		if __filters__[i][1]:
+			return True
+	return False
+
+def set_filtered(string, filter_type="file"):
+	string = string.strip()
 
 	if len(string) > 0:
-		for i in __filters__:
+		for i in __filters__[filter_type][0]:
 			try:
 				if re.search(i, string) != None:
-					__filtered_files__.add(string)
+					__filters__[filter_type][1].add(string)
 					return True
 			except:
 				raise InvalidRegExpError(_("invalid regular expression specified"))
 	return False
 
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
+FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
+FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified exclusion patterns")
 
 class Filtering(Outputable):
-	def output_html(self):
-		if __filtered_files__:
-			filtering_xml = "<div><div class=\"box\">"
-			filtering_xml += "<p>" + _(FILTERING_INFO_TEXT) + "."+ "</p>"
+	@staticmethod
+	def __output_html_section__(info_string, filtered):
+		filtering_xml = ""
 
-			for i in __filtered_files__:
+		if filtered:
+			filtering_xml += "<p>" + info_string + "."+ "</p>"
+
+			for i in filtered:
 				filtering_xml += "<p>" + i + "</p>"
 
+		return filtering_xml
+
+	def output_html(self):
+		if has_filtered():
+			filtering_xml = "<div><div class=\"box\">"
+			Filtering.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1]);
+			Filtering.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1]);
+			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1]);
 			filtering_xml += "</div></div>"
+
 			print(filtering_xml)
 
-	def output_text(self):
-		if __filtered_files__:
-			print("\n" + textwrap.fill(_(FILTERING_INFO_TEXT) + ":", width=terminal.get_size()[0]))
+	@staticmethod
+	def __output_text_section__(info_string, filtered):
+		if filtered:
+			print("\n" + textwrap.fill(info_string + ":", width=terminal.get_size()[0]))
 
-			for i in __filtered_files__:
+			for i in filtered:
 				(width, _unused) = terminal.get_size()
 				print("...%s" % i[-width+3:] if len(i) > width else i)
 
-	def output_xml(self):
-		if __filtered_files__:
-			message_xml = "\t\t<message>" + _(FILTERING_INFO_TEXT) + "</message>\n"
+	def output_text(self):
+		Filtering.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1]);
+		Filtering.__output_text_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1]);
+		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1]);
+
+	@staticmethod
+	def __output_xml_section__(info_string, filtered, container_tagname):
+		if filtered:
+			message_xml = "\t\t\t<message>" +info_string + "</message>\n"
 			filtering_xml = ""
 
-			for i in __filtered_files__:
-				filtering_xml += "\t\t\t<file>" + i + "</file>\n"
+			for i in filtered:
+				filtering_xml += "\t\t\t\t<entry>".format(container_tagname) + i + "</entry>\n".format(container_tagname)
 
-			print("\t<filering>\n" + message_xml + "\t\t<files>\n" + filtering_xml + "\t\t</files>\n\t</filtering>")
+			print("\t\t<{0}>".format(container_tagname))
+			print(message_xml + "\t\t\t<entries>\n" + filtering_xml + "\t\t\t</entries>\n")
+			print("\t\t</{0}>".format(container_tagname))
+
+	def output_xml(self):
+		if has_filtered():
+			print("\t<filtering>")
+			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files");
+			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors");
+			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails");
+			print("\t</filtering>")

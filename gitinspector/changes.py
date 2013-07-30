@@ -100,7 +100,8 @@ class AuthorInfo:
 class Changes:
 	authors = {}
 	authors_dateinfo = {}
-	authors_email = {}
+	authors_by_email = {}
+	emails_by_author = {}
 
 	def __init__(self, hard):
 		self.commits = []
@@ -119,7 +120,8 @@ class Changes:
 
 			if Commit.is_commit_line(j):
 				(author, email) = Commit.get_author_and_email(j)
-				self.authors_email[author] = email
+				self.emails_by_author[author] = email
+				self.authors_by_email[email] = author
 
 			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
@@ -128,7 +130,8 @@ class Changes:
 				found_valid_extension = False
 				commit = Commit(j)
 
-			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)):
+			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)) and not \
+			   filtering.set_filtered(commit.author, "author") and not filtering.set_filtered(commit.email, "email"):
 				extensions.add_located(FileDiff.get_extension(j))
 
 				if FileDiff.is_valid_extension(j):
@@ -167,8 +170,11 @@ class Changes:
 
 		return self.authors_dateinfo
 
-	def get_author_email(self, name):
-		return self.authors_email[name]
+	def get_latest_author_by_email(self, name):
+		return self.authors_by_email[name]
+
+	def get_latest_email_by_author(self, name):
+		return self.emails_by_author[name]
 
 __changes__ = None
 
@@ -211,7 +217,7 @@ class ChangesOutput(Outputable):
 
 				if format.get_selected() == "html":
 					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
-					               gravatar.get_url(self.changes.get_author_email(entry)), entry)
+					               gravatar.get_url(self.changes.get_latest_email_by_author(entry)), entry)
 				else:
 					changes_xml += "<td>" + entry + "</td>"
 
@@ -290,7 +296,7 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
-				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(self.changes.get_author_email(i)) + "</gravatar>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(self.changes.get_latest_email_by_author(i)) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"

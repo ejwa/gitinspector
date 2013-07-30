@@ -47,10 +47,11 @@ __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
 
 class BlameThread(threading.Thread):
-	def __init__(self, blame_string, extension, blames, filename):
+	def __init__(self, changes, blame_string, extension, blames, filename):
 		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
+		self.changes = changes
 		self.blame_string = blame_string
 		self.extension = extension
 		self.blames = blames
@@ -63,16 +64,19 @@ class BlameThread(threading.Thread):
 		for j in git_blame_r.readlines():
 			j = j.decode("utf-8", "replace")
 			if Blame.is_blame_line(j):
-				author_mail = Blame.get_author_mail(j)
+				email = Blame.get_author_email(j)
+				author = self.changes.get_latest_author_by_email(email)
 				content = Blame.get_content(j)
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
-				if self.blames.get((author_mail, self.filename), None) == None:
-					self.blames[(author_mail, self.filename)] = BlameEntry()
+				if not filtering.set_filtered(author, "author") and not filtering.set_filtered(email, "email"):
+					if self.blames.get((author, self.filename), None) == None:
+						self.blames[(author, self.filename)] = BlameEntry()
 
-				(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
-				self.blames[(author_mail, self.filename)].comments += comments
-				self.blames[(author_mail, self.filename)].rows += 1
+					(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
+					self.blames[(author, self.filename)].comments += comments
+					self.blames[(author, self.filename)].rows += 1
+
 				__blame_lock__.release() # ...to here.
 
 		git_blame_r.close()
@@ -81,7 +85,7 @@ class BlameThread(threading.Thread):
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:.0f}%")
 
 class Blame:
-	def __init__(self, hard):
+	def __init__(self, hard, changes):
 		self.blames = {}
 		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
@@ -94,9 +98,9 @@ class Blame:
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				if not missing.add(row):
-					blame_string = "git blame -w {0} ".format("-C -C -M" if hard else "") + \
+					blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
 					               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
-					thread = BlameThread(blame_string, FileDiff.get_extension(row), self.blames, row.strip())
+					thread = BlameThread(changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 					thread.daemon = True
 					thread.start()
 
@@ -119,9 +123,9 @@ class Blame:
 		return string.find(" (") != -1
 
 	@staticmethod
-	def get_author_mail(string):
-		author_mail = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
-		return author_mail.group(1).strip().lstrip("<").rstrip(">")
+	def get_author_email(string):
+		author_email = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
+		return author_email.group(1).strip().lstrip("<").rstrip(">")
 
 	@staticmethod
 	def get_content(string):
@@ -141,10 +145,10 @@ class Blame:
 
 __blame__ = None
 
-def get(hard):
+def get(hard, changes):
 	global __blame__
 	if __blame__ == None:
-		__blame__ = Blame(hard)
+		__blame__ = Blame(hard, changes)
 
 	return __blame__
 
@@ -155,11 +159,10 @@ class BlameOutput(Outputable):
 	def __init__(self, hard):
 		self.hard = hard
 		self.changes = changes.get(hard)
+		get(self.hard, self.changes)
 		Outputable.__init__(self)
 
 	def output_html(self):
-		get(self.hard)
-
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
 		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> </tr></thead>".format(_("Author"),
@@ -177,7 +180,7 @@ class BlameOutput(Outputable):
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
-				author_email = self.changes.get_author_email(entry[0])
+				author_email = self.changes.get_latest_email_by_author(entry[0])
 				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
 				blame_xml += "<td>" + entry[0] + "</td>"
@@ -214,7 +217,6 @@ class BlameOutput(Outputable):
 
 	def output_text(self):
 		print("")
-		get(self.hard)
 
 		if self.hard and sys.stdout.isatty():
 			terminal.clear_row()
@@ -228,13 +230,11 @@ class BlameOutput(Outputable):
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
 	def output_xml(self):
-		get(self.hard)
-
 		message_xml = "\t\t<message>" + _(BLAME_INFO_TEXT) + "</message>\n"
 		blame_xml = ""
 
 		for i in sorted(__blame__.get_summed_blames().items()):
-			author_email = self.changes.get_author_email(i[0])
+			author_email = self.changes.get_latest_email_by_author(i[0])
 
 			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
 			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"

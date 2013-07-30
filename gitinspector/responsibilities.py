@@ -36,7 +36,7 @@ class Responsibilities:
 	def get(hard, author_name):
 		author_blames = {}
 
-		for i in blame.get(hard).blames.items():
+		for i in blame.get(hard, changes.get(hard)).blames.items():
 			if (author_name == i[0][0]):
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
@@ -58,7 +58,7 @@ class ResponsibilitiesOutput(Outputable):
 	def output_text(self):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
@@ -77,13 +77,13 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = "<div><div class=\"box\" id=\"responsibilities\">"
 		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
 				resp_xml += "<div>"
 
 				if format.get_selected() == "html":
-					author_email = self.changes.get_author_email(i)
+					author_email = self.changes.get_latest_email_by_author(i)
 					resp_xml += "<h3><img src=\"{0}\"/>{1} {2}</h3>".format(gravatar.get_url(author_email, size=32),
 					            i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
 				else:
@@ -103,10 +103,10 @@ class ResponsibilitiesOutput(Outputable):
 		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"
 		resp_xml = ""
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard).blames)):
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
 			if responsibilities:
-				author_email = self.changes.get_author_email(i)
+				author_email = self.changes.get_latest_email_by_author(i)
 
 				resp_xml += "\t\t\t<author>\n"
 				resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
