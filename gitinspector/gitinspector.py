@@ -34,7 +34,6 @@ import help
 import interval
 import getopt
 import metrics
-import missing
 import os
 import optval
 import outputable
@@ -96,7 +95,6 @@ class Runner:
 			if self.responsibilities:
 				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard))
 
-			outputable.output(missing.Missing())
 			outputable.output(filtering.Filtering())
 
 			if self.list_file_types:
@@ -115,11 +113,10 @@ def main():
 	__run__ = Runner()
 
 	try:
-		__opts__, __args__ = optval.gnu_getopt(argv[1:], "cf:F:hHlLmrTwx:", ["checkout-missing:true", "exclude=",
-		                                                 "file-types=", "format=", "hard:true", "help",
-		                                                 "list-file-types:true", "localize-output:true",
-		                                                 "metrics:true", "responsibilities:true", "since=",
-		                                                 "grading:true", "timeline:true", "until=", "version",
+		__opts__, __args__ = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
+		                                                 "hard:true", "help", "list-file-types:true",
+		                                                 "localize-output:true", "metrics:true", "responsibilities:true",
+		                                                 "since=", "grading:true", "timeline:true", "until=", "version",
 		                                                 "weeks:true"])
 		for arg in __args__:
 			__run__.repo = arg
@@ -129,11 +126,7 @@ def main():
 		clear_x_on_next_pass = True
 
 		for o, a in __opts__:
-			if o == "-c":
-				missing.set_checkout_missing(True)
-			elif o == "--checkout-missing":
-				missing.set_checkout_missing(optval.get_boolean_argument(a))
-			elif o in("-h", "--help"):
+			if o in("-h", "--help"):
 				help.output()
 				sys.exit(0)
 			elif o in("-f", "--file-types"):

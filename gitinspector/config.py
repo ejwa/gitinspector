@@ -22,7 +22,6 @@ import extensions
 import filtering
 import format
 import interval
-import missing
 import optval
 import os
 import subprocess
@@ -54,8 +53,6 @@ def __read_git_config_string__(repo, variable):
 	return (True, string) if len(string) > 0 else (False, None)
 
 def init(run):
-	missing.set_checkout_missing(__read_git_config_bool__(run.repo, "checkout-missing"))
-
 	var = __read_git_config_string__(run.repo, "file-types")
 	if var[0]:
 		extensions.define(var[1])

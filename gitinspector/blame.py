@@ -28,7 +28,6 @@ import filtering
 import format
 import gravatar
 import interval
-import missing
 import multiprocessing
 import re
 import subprocess
@@ -97,15 +96,14 @@ class Blame:
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-				if not missing.add(row):
-					blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
-					               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
-					thread = BlameThread(changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
-					thread.daemon = True
-					thread.start()
+				blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
+				               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
+				thread = BlameThread(changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
+				thread.daemon = True
+				thread.start()
 
-					if hard:
-						Blame.output_progress(i, len(lines))
+				if hard:
+					Blame.output_progress(i, len(lines))
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):

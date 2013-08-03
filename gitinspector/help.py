@@ -30,7 +30,6 @@ given, information will be fetched from the last directory specified.
 
 Mandatory arguments to long options are mandatory for short options too.
 Boolean arguments can only be given to long options.
-  -c, --checkout-missing[=BOOL]  try to checkout any missing files
   -f, --file-types=EXTENSIONS    a comma separated list of file extensions to
                                    include when computing statistics. The
                                    default extensions used are:
