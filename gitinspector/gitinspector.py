@@ -56,6 +56,7 @@ class Runner:
 		self.grading = False
 		self.timeline = False
 		self.useweeks = False
+		self.isbare = False
 
 	def output(self):
 		if not self.localize_output:
@@ -66,19 +67,25 @@ class Runner:
 		previous_directory = os.getcwd()
 
 		os.chdir(self.repo)
-		absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
+		isbare = subprocess.Popen("git rev-parse --is-bare-repository", shell=True, bufsize=1,
 		                                 stdout=subprocess.PIPE).stdout
-		absolute_path = absolute_path.readlines()
-		if len(absolute_path) == 0:
-			sys.exit(0)
+		isbare = isbare.readlines()
+		self.isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
 
-		os.chdir(absolute_path[0].decode("utf-8", "replace").strip())
+		if not self.isbare:
+			absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
+											 stdout=subprocess.PIPE).stdout
+			absolute_path = absolute_path.readlines()
+			if len(absolute_path) == 0:
+				sys.exit("unable to determine absolute path")
+			os.chdir(absolute_path[0].decode("utf-8", "replace").strip())
 
 		format.output_header()
 		outputable.output(changes.ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			outputable.output(blame.BlameOutput(self.hard))
+			if not self.isbare:
+				outputable.output(blame.BlameOutput(self.hard)
 
 			if self.timeline:
 				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))
