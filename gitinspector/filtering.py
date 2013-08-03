@@ -35,13 +35,18 @@ class InvalidRegExpError(ValueError):
 def get():
 	return __filters__
 
-def add(string):
+def __add_one__(string):
 	global __filters__
 	for i in __filters__:
 		if (i + ":").lower() == string[0:len(i) + 1].lower():
 			__filters__[i][0].append(string[len(i) + 1:])
 			return
 	__filters__["file"][0].append(string)
+
+def add(string):
+	rules = string.split(",")
+	for rule in rules:
+		__add_one__(rule)
 
 def clear():
 	global __filters__
