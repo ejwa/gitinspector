@@ -62,7 +62,7 @@ class BlameThread(threading.Thread):
 
 		for j in git_blame_r.readlines():
 			j = j.decode("utf-8", "replace")
-			if Blame.is_blame_line(j):
+			if Blame.is_blame_line(j) and not (Blame.is_prior(j) and interval.get_since()):
 				email = Blame.get_author_email(j)
 				author = self.changes.get_latest_author_by_email(email)
 				content = Blame.get_content(j)
@@ -119,6 +119,10 @@ class Blame:
 	@staticmethod
 	def is_blame_line(string):
 		return string.find(" (") != -1
+
+	@staticmethod
+	def is_prior(string):
+		return string[0] == "^"
 
 	@staticmethod
 	def get_author_email(string):
