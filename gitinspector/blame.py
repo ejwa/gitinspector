@@ -62,17 +62,21 @@ class BlameThread(threading.Thread):
 
 		for j in git_blame_r.readlines():
 			j = j.decode("utf-8", "replace")
-			if Blame.is_blame_line(j) and not (Blame.is_prior(j) and interval.get_since()):
+			if Blame.is_blame_line(j):
+				content = Blame.get_content(j)
+				(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
+
+				if Blame.is_prior(j) and interval.get_since():
+					continue
+
 				email = Blame.get_author_email(j)
 				author = self.changes.get_latest_author_by_email(email)
-				content = Blame.get_content(j)
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
 				if not filtering.set_filtered(author, "author") and not filtering.set_filtered(email, "email"):
 					if self.blames.get((author, self.filename), None) == None:
 						self.blames[(author, self.filename)] = BlameEntry()
 
-					(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
 					self.blames[(author, self.filename)].comments += comments
 					self.blames[(author, self.filename)].rows += 1
 
