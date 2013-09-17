@@ -163,9 +163,11 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
 
 class BlameOutput(Outputable):
 	def __init__(self, hard):
+		if sys.stdout.isatty() and format.is_interactive_format():
+			print("")
+
 		self.hard = hard
 		self.changes = changes.get(hard)
-		print("")
 		get(self.hard, self.changes)
 		Outputable.__init__(self)
 
