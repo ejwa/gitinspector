@@ -117,7 +117,7 @@ class Blame:
 	def output_progress(pos, length):
 		if sys.stdout.isatty() and format.is_interactive_format():
 			terminal.clear_row()
-			print("\b" + _(PROGRESS_TEXT).format(100 * pos / length), end="")
+			print(_(PROGRESS_TEXT).format(100 * pos / length), end="")
 			sys.stdout.flush()
 
 	@staticmethod
@@ -165,6 +165,7 @@ class BlameOutput(Outputable):
 	def __init__(self, hard):
 		self.hard = hard
 		self.changes = changes.get(hard)
+		print("")
 		get(self.hard, self.changes)
 		Outputable.__init__(self)
 
@@ -222,9 +223,7 @@ class BlameOutput(Outputable):
 		print(blame_xml)
 
 	def output_text(self):
-		print("")
-
-		if self.hard and sys.stdout.isatty():
+		if sys.stdout.isatty() and format.is_interactive_format():
 			terminal.clear_row()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
