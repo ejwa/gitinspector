@@ -60,9 +60,10 @@ Boolean arguments can only be given to long options.
                                    specific date
   -w, --weeks[=BOOL]             show all statistical information in weeks
                                    instead of in months
-  -x, --exclude=PATTERN          an exclusion pattern describing file names
-                                   that should be excluded from the statistics;
-                                   can be specified multiple times
+  -x, --exclude=PATTERN          an exclusion pattern describing the file
+                                   paths, author names or author emails that
+                                   should be excluded from the statistics; can
+                                   be specified multiple times
   -h, --help                     display this help and exit
       --version                  output version information and exit
 
