@@ -19,15 +19,15 @@
 
 from __future__ import unicode_literals
 
-__comment_begining__ = {"java": "/*", "c": "/*", "cpp": "/*", "h": "/*", "hpp": "/*", "html": "<!--", "php": "/*",
+__comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "h": "/*", "hpp": "/*", "html": "<!--", "php": "/*",
                         "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*", "jspx": "<!--", "scala": "/*", "sql": "/*",
                         "tex": "\\begin{comment}", "xhtml": "<!--", "xml": "<!--"}
 
-__comment_end__ = {"java": "*/", "c": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "html": "-->", "php": "/*",
+__comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "h": "*/", "hpp": "*/", "html": "-->", "php": "/*",
                    "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->", "scala": "*/", "sql": "*/",
                    "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->"}
 
-__comment__ = {"java": "//", "c": "//", "cpp": "//", "h": "//", "hpp": "//", "pl": "#", "php": "//", "py": "#",
+__comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "h": "//", "hpp": "//", "pl": "#", "php": "//", "py": "#",
                "glsl": "//", "rb": "#", "js": "//", "scala": "//", "sql": "--", "tex": "%"}
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
