@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -36,7 +36,6 @@ def get():
 	return __filters__
 
 def __add_one__(string):
-	global __filters__
 	for i in __filters__:
 		if (i + ":").lower() == string[0:len(i) + 1].lower():
 			__filters__[i][0].append(string[len(i) + 1:])
@@ -49,7 +48,6 @@ def add(string):
 		__add_one__(rule)
 
 def clear():
-	global __filters__
 	for i in __filters__:
 		__filters__[i][0] = []
 
@@ -95,9 +93,9 @@ class Filtering(Outputable):
 	def output_html(self):
 		if has_filtered():
 			filtering_xml = "<div><div class=\"box\">"
-			Filtering.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1]);
-			Filtering.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1]);
-			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1]);
+			Filtering.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
+			Filtering.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
+			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
 			filtering_xml += "</div></div>"
 
 			print(filtering_xml)
@@ -112,9 +110,9 @@ class Filtering(Outputable):
 				print("...%s" % i[-width+3:] if len(i) > width else i)
 
 	def output_text(self):
-		Filtering.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1]);
-		Filtering.__output_text_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1]);
-		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1]);
+		Filtering.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
+		Filtering.__output_text_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
+		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
 
 	@staticmethod
 	def __output_xml_section__(info_string, filtered, container_tagname):
@@ -132,7 +130,7 @@ class Filtering(Outputable):
 	def output_xml(self):
 		if has_filtered():
 			print("\t<filtering>")
-			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files");
-			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors");
-			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails");
+			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files")
+			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors")
+			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
 			print("\t</filtering>")
