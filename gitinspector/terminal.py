@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -109,6 +109,10 @@ def set_stdout_encoding():
 	if not sys.stdout.isatty() and sys.version_info < (3,):
 		sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
 
+def set_stdin_encoding():
+	if not sys.stdin.isatty() and sys.version_info < (3,):
+		sys.stdin = codecs.getreader("utf-8")(sys.stdin)
+
 def convert_command_line_to_utf8():
 	try:
 		argv = []
@@ -119,3 +123,8 @@ def convert_command_line_to_utf8():
 		return argv
 	except AttributeError:
 		return sys.argv
+
+def check_terminal_encoding():
+	if sys.stdout.isatty() and (sys.stdout.encoding == None or sys.stdin.encoding == None):
+		print(_("WARNING: The terminal encoding is not correctly configured. gitinspector might malfunction. "
+		        "The encoding can be configured with the environment variable 'PYTHONIOENCODING'."), file=sys.stderr)

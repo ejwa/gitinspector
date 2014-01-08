@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -113,6 +113,8 @@ def __check_python_version__():
 		sys.exit(_("gitinspector requires at least Python 2.6 to run (version {0} was found).").format(python_version))
 
 def main():
+	terminal.check_terminal_encoding()
+	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8()
 	__run__ = Runner()
 
