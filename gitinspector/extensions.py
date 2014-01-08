@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -24,7 +24,7 @@ from outputable import Outputable
 import terminal
 import textwrap
 
-DEFAULT_EXTENSIONS = ["java", "c", "cpp", "h", "hpp", "py", "glsl", "rb", "js", "sql"]
+DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "py", "glsl", "rb", "js", "sql"]
 
 __extensions__ = DEFAULT_EXTENSIONS
 __located_extensions__ = set()
