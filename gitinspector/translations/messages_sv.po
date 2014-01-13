@@ -1,4 +1,4 @@
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -21,61 +21,45 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.3.1\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2013-07-15 02:57+0200\n"
-"PO-Revision-Date: 2013-07-15 03:08+0200\n"
+"POT-Creation-Date: 2014-01-13 12:36+0100\n"
+"PO-Revision-Date: 2014-01-13 13:30+0100\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language-Team: Swedish <>\n"
+"Language-Team: Svenska <>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
-msgid "The extensions below were found in the repository history"
-msgstr "Suffixen nedan hittades i förrådshistoriken"
-
-msgid "(extensions used during statistical analysis are marked)"
-msgstr "(suffix som användes vid den statistiska analysen är markerade)"
-
-msgid ""
-"The following historical commit information, by author, was found in the "
-"repository"
-msgstr ""
-"Den följande inlämningshistoriken, efter upphovsman, hittades i förrådet"
-
-msgid "No commited files with the specified extensions were found"
-msgstr "Kunde inte hitta några inlämnade filer med det angivna suffixet"
-
-msgid "Author"
-msgstr "Upphovsman"
-
-msgid "Commits"
-msgstr "Inlämningar"
-
-msgid "Insertions"
-msgstr "Insättningar"
-
-msgid "Deletions"
-msgstr "Borttagningar"
+#, python-format
+msgid "% in comments"
+msgstr "% i kommentarer"
 
 #, python-format
 msgid "% of changes"
 msgstr "% av ändringar"
 
-msgid "Minor Authors"
-msgstr "Mindre Upphovsmän"
+msgid "(extensions used during statistical analysis are marked)"
+msgstr "(suffix som användes vid den statistiska analysen är markerade)"
 
-msgid "specified output format not supported."
-msgstr "det angivna utmatningsformatet stöds inte."
+msgid "Author"
+msgstr "Upphovsman"
 
 msgid ""
-"The following repsonsibilties, by author, were found in the current revision "
-"of the repository (comments are exluded from the line count, if possible)"
+"Below are the number of rows from each author that have survived and are "
+"still intact in the current revision"
 msgstr ""
-"Följande ansvar, utefter upphovsman, hittades i den nuvarande revisionen av "
-"förrådet (kommentarer är uteslutna från radberäkningen, om så möjligt)"
+"Nedan återges antalet rader från varje upphovsman som har överlevt och "
+"fortfarande är intakta i den nuvarande revisionen"
 
-msgid "is mostly responsible for"
-msgstr "är mestandels ansvarig för"
+#, python-brace-format
+msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgstr ""
+"Kontrollerar hur många rader som tillhör varje författare (Framsteg): "
+"{0:.0f}%"
+
+msgid "Commits"
+msgstr "Inlämningar"
 
 msgid ""
 "Copyright © 2012-2013 Ejwa Software. All rights reserved.\n"
@@ -94,94 +78,107 @@ msgstr ""
 "\n"
 "Skrivet av Adam Waldenberg."
 
+msgid "Deletions"
+msgstr "Borttagningar"
+
+msgid "HTML output not yet supported in"
+msgstr "HTML-utmatning stöds inte i"
+
+msgid "Hide minor authors"
+msgstr "Göm mindre upphovsmän"
+
+msgid "Hide rows with minor work"
+msgstr "Göm rader med lite arbete"
+
+msgid "Insertions"
+msgstr "Insättningar"
+
+msgid "Minor Authors"
+msgstr "Mindre Upphovsmän"
+
+msgid "Modified Rows:"
+msgstr "Ändrade Rader:"
+
+msgid "No commited files with the specified extensions were found"
+msgstr "Kunde inte hitta några inlämnade filer med det angivna suffixet"
+
+msgid "No metrics violations were found in the repository"
+msgstr "Inga överträdelser av kodmetrik hittades i förrådet"
+
+msgid "Rows"
+msgstr "Rader"
+
+msgid "Show minor authors"
+msgstr "Visa mindre upphovsmän"
+
+msgid "Show rows with minor work"
+msgstr "Visa rader med lite arbete"
+
+msgid "Text output not yet supported in"
+msgstr "Textutmatning stöds inte i"
+
 msgid ""
-"gitinspector requires at least Python 2.6 to run (version {0} was found)."
-msgstr "gitinspector kräver åtminstone Python 2.6 (version {0} hittades)."
+"The authors with the following emails were excluded from the statistics due "
+"to the specified exclusion patterns"
+msgstr ""
+"Upphovsmännen med följande e-post adresser uteslöts från den statistiska "
+"analysen på grund av de angivna uteslutningsreglerna"
 
-msgid "Try `{0} --help' for more information."
-msgstr "Försök med `{0} --help' för mer information."
+msgid "The extensions below were found in the repository history"
+msgstr "Suffixen nedan hittades i förrådshistoriken"
 
+msgid ""
+"The following authors were excluded from the statistics due to the specified "
+"exclusion patterns"
+msgstr ""
+"Följande upphovsmän uteslöts från den statistiska analysen på grund av de "
+"angivna uteslutningsreglerna"
+
+msgid "The following files are suspiciously big (in order of severity)"
+msgstr ""
+"Följande filer är misstänksamt stora (sorterat utefter allvarlighetsgrad)"
+
+msgid ""
+"The following files were excluded from the statistics due to the specified "
+"exclusion patterns"
+msgstr ""
+"Följande filer uteslöts från den statistiska analysen på grund av de angivna "
+"uteslutningsreglerna"
+
+msgid ""
+"The following historical commit information, by author, was found in the "
+"repository"
+msgstr ""
+"Den följande inlämningshistoriken, efter upphovsman, hittades i förrådet"
+
+msgid "The following history timeline has been gathered from the repository"
+msgstr "Den följande historiska tidslinjen har samlats in från förrådet"
+
+msgid ""
+"The following repsonsibilties, by author, were found in the current revision "
+"of the repository (comments are exluded from the line count, if possible)"
+msgstr ""
+"Följande ansvar, utefter upphovsman, hittades i den nuvarande revisionen av "
+"förrådet (kommentarer är uteslutna från radberäkningen, om så möjligt)"
+
+msgid "The given option argument is not a valid boolean."
+msgstr "Det angivna flaggargumentet är inte en giltig boolean."
+
+#, python-brace-format
 msgid ""
 "The output has been generated by {0}; the statistical analysis tool for git "
 "repositories."
 msgstr ""
 "Sidan har skapats av {0}; det statistiska analysverktyget för git-förråd."
 
-msgid "Show minor authors"
-msgstr "Visa mindre upphovsmän"
+#, python-brace-format
+msgid "Try `{0} --help' for more information."
+msgstr "Försök med `{0} --help' för mer information."
 
-msgid "Hide minor authors"
-msgstr "Göm mindre upphovsmän"
+msgid "Unable to determine absolute path of git repository."
+msgstr "Kunde inte fastställa git-förrådets absoluta sökväg."
 
-msgid "Show rows with minor work"
-msgstr "Visa rader med lite arbete"
-
-msgid "Hide rows with minor work"
-msgstr "Göm rader med lite arbete"
-
-msgid "HTML output not yet supported in"
-msgstr "HTML-utmatning stöds inte i"
-
-msgid "Text output not yet supported in"
-msgstr "Textutmatning stöds inte i"
-
-msgid "XML output not yet supported in"
-msgstr "XML-utmatning stöds inte i"
-
-msgid ""
-"The following files were missing in the repository and were therefore not "
-"completely included in the statistical analysis. To include them, you can "
-"either checkout manually using git or use the -c option in gitinspector"
-msgstr ""
-"Följande filer saknades i förrådet och var därför inte helt inräknade i den "
-"statistiska analysen. För att inkludera dem så kan du antingen checka ut dem "
-"manuellt med git eller använda -c flaggan i gitinspector"
-
-msgid "The following files are suspiciously big (in order of severity)"
-msgstr ""
-"Följande filer är misstänksamt stora (sorterat utefter allvarlighetsgrad)"
-
-msgid "No metrics violations were found in the repository"
-msgstr "Inga överträdelser av kodmetrik hittades i förrådet"
-
-msgid "The following history timeline has been gathered from the repository"
-msgstr "Den följande historiska tidslinjen har samlats in från förrådet"
-
-msgid "Modified Rows:"
-msgstr "Ändrade Rader:"
-
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
-msgstr ""
-"Kontrollerar hur många rader som tillhör varje författare (Framsteg): "
-"{0:.0f}%"
-
-msgid ""
-"Below are the number of rows from each author that have survived and are "
-"still intact in the current revision"
-msgstr ""
-"Nedan återges antalet rader från varje upphovsman som har överlevt och "
-"fortfarande är intakta i den nuvarande revisionen"
-
-msgid "Rows"
-msgstr "Rader"
-
-#, python-format
-msgid "% in comments"
-msgstr "% i kommentarer"
-
-msgid "The given option argument is not a valid boolean."
-msgstr "Det angivna flaggargumentet är inte en giltig boolean."
-
-msgid "invalid regular expression specified"
-msgstr "ogiltigt reguljärt uttryck angivet"
-
-msgid ""
-"The following files were excluded from the statistics due to the specified "
-"exclusion patterns"
-msgstr ""
-"Följande filer var uteslutna från den statistiska analysen på grund av de "
-"angivna uteslutningsreglerna"
-
+#, python-brace-format
 msgid ""
 "Usage: {0} [OPTION]... [DIRECTORY]\n"
 "List information about the repository in DIRECTORY. If no directory is\n"
@@ -190,7 +187,6 @@ msgid ""
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Boolean arguments can only be given to long options.\n"
-"  -c, --checkout-missing[=BOOL]  try to checkout any missing files\n"
 "  -f, --file-types=EXTENSIONS    a comma separated list of file extensions "
 "to\n"
 "                                   include when computing statistics. The\n"
@@ -233,10 +229,12 @@ msgid ""
 "                                   specific date\n"
 "  -w, --weeks[=BOOL]             show all statistical information in weeks\n"
 "                                   instead of in months\n"
-"  -x, --exclude=PATTERN          an exclusion pattern describing file names\n"
-"                                   that should be excluded from the "
-"statistics;\n"
-"                                   can be specified multiple times\n"
+"  -x, --exclude=PATTERN          an exclusion pattern describing the file\n"
+"                                   paths, author names or author emails "
+"that\n"
+"                                   should be excluded from the statistics; "
+"can\n"
+"                                   be specified multiple times\n"
 "  -h, --help                     display this help and exit\n"
 "      --version                  output version information and exit\n"
 "\n"
@@ -249,13 +247,13 @@ msgid ""
 msgstr ""
 "Användning: {0} [FLAGGA]... [KATALOG]\n"
 "Lista information om förrådet i KATALOG. Om ingen katalog anges så\n"
-"används den nuvarande katalogen istället. Om flera förråd anges så hämtas\n"
+"används den nuvarande katalogen istället. Om flera kataloger anges så "
+"hämtas\n"
 "information från den sista katalogen som angivits.\n"
 "\n"
 "Obligatoriska argument till långa flaggor är obligatoriska även för de "
 "korta.\n"
 "Booleska argument kan bara ges till långa flaggor.\n"
-"  -c, --checkout-missing=[BOOL]  försök att checka ut filer som saknas\n"
 "  -f, --file-types=FILSUFFIX     en komma-separerad lista av fil-suffix som\n"
 "                                   ska inkluderas vid statistikberäkning. "
 "De\n"
@@ -275,7 +273,7 @@ msgstr ""
 "                                   detta kan ta lång tid på stora förråd\n"
 "  -l, --list-file-types[=BOOL]   lista alla fil-suffix som hittades i den\n"
 "                                   nuvarande grenen i förrådet\n"
-"  -L  --localize-output[=BOOL]   Översätt den genererade utmatningen till "
+"  -L  --localize-output[=BOOL]   översätt den genererade utmatningen till "
 "det\n"
 "                                   nuvarande systemspråket om en "
 "översättning\n"
@@ -296,11 +294,12 @@ msgstr ""
 "  -w, --weeks[=BOOL]             visa statistisk information indelad i "
 "veckor\n"
 "                                   istället för månader\n"
-"  -x, --exclude=MÖNSTER          ett uteslutningsmönster som anger de "
-"filnamn\n"
-"                                   som ska uteslutas ur statistiken; kan "
-"anges\n"
-"                                   flera gånger\n"
+"  -x, --exclude=MÖNSTER          ett uteslutningsmönster som anger "
+"filsökvägar,\n"
+"                                   upphovsmän eller e-post adresser som ska\n"
+"                                   uteslutas ur statistiken; kan anges "
+"flera\n"
+"                                   gånger\n"
 "  -h, --help                     visa denna hjälptext och avsluta\n"
 "      --version                  visa versionsinformation och avsluta\n"
 "\n"
@@ -310,3 +309,29 @@ msgstr ""
 "\n"
 "gitinspector kräver att den körbara filen för git finns i PATH.\n"
 "Rapportera fel i gitinspector till gitinspector@ejwa.se."
+
+msgid ""
+"WARNING: The terminal encoding is not correctly configured. gitinspector "
+"might malfunction. The encoding can be configured with the environment "
+"variable 'PYTHONIOENCODING'."
+msgstr ""
+"VARNING: Terminalens teckenkodning är inte korrekt konfigurerad; "
+"gitinspector kanske därför inte fungerar korrekt. Teckenkodningen kan "
+"konfigureras med miljövariabeln 'PYTHONIOENCODING'."
+
+msgid "XML output not yet supported in"
+msgstr "XML-utmatning stöds inte i"
+
+#, python-brace-format
+msgid ""
+"gitinspector requires at least Python 2.6 to run (version {0} was found)."
+msgstr "gitinspector kräver åtminstone Python 2.6 (version {0} hittades)."
+
+msgid "invalid regular expression specified"
+msgstr "ogiltigt reguljärt uttryck"
+
+msgid "is mostly responsible for"
+msgstr "är mestandels ansvarig för"
+
+msgid "specified output format not supported."
+msgstr "det angivna utmatningsformatet stöds inte."
