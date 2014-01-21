@@ -24,8 +24,10 @@ from __future__ import unicode_literals
 import localization
 localization.init()
 
+import atexit
 import blame
 import changes
+import clone
 import config
 import extensions
 import filtering
@@ -127,6 +129,9 @@ def main():
 		for arg in __args__:
 			__run__.repo = arg
 
+		#Try to clone the repo or return the same directory and bail out.
+		__run__.repo = clone.create(__run__.repo)
+
 		#We need the repo above to be set before we read the git config.
 		config.init(__run__)
 		clear_x_on_next_pass = True
@@ -197,6 +202,10 @@ def main():
 		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]), file=sys.stderr)
 		sys.exit(2)
+
+@atexit.register
+def cleanup():
+	clone.delete()
 
 if __name__ == "__main__":
 	main()
