@@ -23,10 +23,10 @@ from extensions import DEFAULT_EXTENSIONS
 from format import __available_formats__
 import sys
 
-__doc__ = _("""Usage: {0} [OPTION]... [DIRECTORY]
-List information about the repository in DIRECTORY. If no directory is
-specified, the current directory is used. If multiple directories are
-given, information will be fetched from the last directory specified.
+__doc__ = _("""Usage: {0} [OPTION]... [REPOSITORY]
+List information about the repository in REPOSITORY. If no repository is
+specified, the current directory is used. If multiple repositories are
+given, information will be fetched from the last repository specified.
 
 Mandatory arguments to long options are mandatory for short options too.
 Boolean arguments can only be given to long options.
