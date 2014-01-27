@@ -24,6 +24,7 @@ from outputable import Outputable
 from changes import FileDiff
 import comment
 import changes
+import datetime
 import filtering
 import format
 import gravatar
@@ -40,6 +41,7 @@ NUM_THREADS = multiprocessing.cpu_count()
 
 class BlameEntry:
 	rows = 0
+	skew = 0 # Used when calculating average code age (time-adjusted stability value).
 	comments = 0
 
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
@@ -71,6 +73,7 @@ class BlameThread(threading.Thread):
 
 				email = Blame.get_author_email(j)
 				author = self.changes.get_latest_author_by_email(email)
+
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
 				if not filtering.set_filtered(author, "author") and not filtering.set_filtered(email, "email"):
@@ -79,6 +82,13 @@ class BlameThread(threading.Thread):
 
 					self.blames[(author, self.filename)].comments += comments
 					self.blames[(author, self.filename)].rows += 1
+
+					time = Blame.get_time(j)
+					time = datetime.date(int(time[0:4]), int(time[5:7]), int(time[8:10]))
+
+					if (time - self.changes.first_commit_date).days > 0:
+						self.blames[(author, self.filename)].skew += (float((self.changes.last_commit_date - time).days) /
+						                                             (time - self.changes.first_commit_date).days)
 
 				__blame_lock__.release() # ...to here.
 
@@ -138,6 +148,11 @@ class Blame:
 		content = re.search(" \d+\)(.*)", string)
 		return content.group(1).lstrip()
 
+	@staticmethod
+	def get_time(string):
+		time = re.search(" \(.*?(\d\d\d\d-\d\d-\d\d)", string)
+		return time.group(1).strip()
+
 	def get_summed_blames(self):
 		summed_blames = {}
 		for i in self.blames.items():
@@ -145,6 +160,7 @@ class Blame:
 				summed_blames[i[0][0]] = BlameEntry()
 
 			summed_blames[i[0][0]].rows += i[1].rows
+			summed_blames[i[0][0]].skew += i[1].skew
 			summed_blames[i[0][0]].comments += i[1].comments
 
 		return summed_blames
@@ -174,8 +190,8 @@ class BlameOutput(Outputable):
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
-		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> </tr></thead>".format(_("Author"),
-		             _("Rows"), _("Stability"), _("% in comments"))
+		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>".format(
+		             _("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
 		blame_xml += "<tbody>"
 		chart_data = ""
 		blames = sorted(__blame__.get_summed_blames().items())
@@ -197,6 +213,7 @@ class BlameOutput(Outputable):
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + ("{0:.1f}".format(100.0 * entry[1].rows /
 			                      self.changes.get_authorinfo_list()[entry[0]].insertions) + "</td>")
+			blame_xml += "<td>" + "{0:.2f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
@@ -205,7 +222,7 @@ class BlameOutput(Outputable):
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "<tfoot><tr> <td colspan=\"4\">&nbsp;</td> </tr></tfoot></tbody></table>"
+		blame_xml += "<tfoot><tr> <td colspan=\"5\">&nbsp;</td> </tr></tfoot></tbody></table>"
 		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
@@ -231,12 +248,13 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("Stability").rjust(15) + _("% in comments").rjust(20))
+		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("Stability").rjust(15) + _("Age").rjust(13) + _("% in comments").rjust(20))
 
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
 			print("{0:.1f}".format(100.0 * i[1].rows / self.changes.get_authorinfo_list()[i[0]].insertions).rjust(14), end=" ")
+			print("{0:.2f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
 	def output_xml(self):
@@ -251,9 +269,10 @@ class BlameOutput(Outputable):
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(100.0 * i[1].rows / 
 			                 self.changes.get_authorinfo_list()[i[0]].insertions) + "</stability>\n")
+			age_xml = ("\t\t\t\t<age>" + "{0:.2f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
-			blame_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + rows_xml + stability_xml +
+			blame_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +
 			             percentage_in_comments_xml + "\t\t\t</author>\n")
 
 		print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")

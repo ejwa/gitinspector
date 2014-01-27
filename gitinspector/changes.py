@@ -21,6 +21,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
+import datetime
 import extensions
 import filtering
 import format
@@ -141,6 +142,12 @@ class Changes:
 
 		if interval.has_interval() and len(self.commits) > 0:
 			interval.set_ref(self.commits[0].sha)
+
+		if len(self.commits) > 0:
+			self.first_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
+			                                       int(self.commits[-1].date[8:10]))
+			self.last_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
+			                                       int(self.commits[0].date[8:10]))
 
 	def get_commits(self):
 		return self.commits
