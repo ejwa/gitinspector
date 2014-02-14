@@ -47,11 +47,14 @@ class BlameEntry:
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
 
+AVG_DAYS_PER_MONTH = 30.4167
+
 class BlameThread(threading.Thread):
-	def __init__(self, changes, blame_string, extension, blames, filename):
+	def __init__(self, useweeks, changes, blame_string, extension, blames, filename):
 		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
+		self.useweeks = useweeks
 		self.changes = changes
 		self.blame_string = blame_string
 		self.extension = extension
@@ -87,8 +90,8 @@ class BlameThread(threading.Thread):
 					time = datetime.date(int(time[0:4]), int(time[5:7]), int(time[8:10]))
 
 					if (time - self.changes.first_commit_date).days > 0:
-						self.blames[(author, self.filename)].skew += (float((self.changes.last_commit_date - time).days) /
-						                                             (time - self.changes.first_commit_date).days)
+						self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - time).days /
+						                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
 
 				__blame_lock__.release() # ...to here.
 
@@ -98,7 +101,7 @@ class BlameThread(threading.Thread):
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:.0f}%")
 
 class Blame:
-	def __init__(self, hard, changes):
+	def __init__(self, hard, useweeks, changes):
 		self.blames = {}
 		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
@@ -112,7 +115,7 @@ class Blame:
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
 				               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
-				thread = BlameThread(changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
+				thread = BlameThread(useweeks, changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
 
@@ -167,10 +170,10 @@ class Blame:
 
 __blame__ = None
 
-def get(hard, changes):
+def get(hard, useweeks, changes):
 	global __blame__
 	if __blame__ == None:
-		__blame__ = Blame(hard, changes)
+		__blame__ = Blame(hard, useweeks, changes)
 
 	return __blame__
 
@@ -178,13 +181,14 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
                      "intact in the current revision")
 
 class BlameOutput(Outputable):
-	def __init__(self, hard):
+	def __init__(self, hard, useweeks):
 		if format.is_interactive_format():
 			print("")
 
 		self.hard = hard
+		self.useweeks = useweeks
 		self.changes = changes.get(hard)
-		get(self.hard, self.changes)
+		get(self.hard, self.useweeks, self.changes)
 		Outputable.__init__(self)
 
 	def output_html(self):
@@ -213,7 +217,7 @@ class BlameOutput(Outputable):
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + ("{0:.1f}".format(100.0 * entry[1].rows /
 			                      self.changes.get_authorinfo_list()[entry[0]].insertions) + "</td>")
-			blame_xml += "<td>" + "{0:.2f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
+			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
@@ -254,7 +258,7 @@ class BlameOutput(Outputable):
 			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
 			print("{0:.1f}".format(100.0 * i[1].rows / self.changes.get_authorinfo_list()[i[0]].insertions).rjust(14), end=" ")
-			print("{0:.2f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
+			print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
 	def output_xml(self):
@@ -269,7 +273,7 @@ class BlameOutput(Outputable):
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(100.0 * i[1].rows / 
 			                 self.changes.get_authorinfo_list()[i[0]].insertions) + "</stability>\n")
-			age_xml = ("\t\t\t\t<age>" + "{0:.2f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
+			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
 			blame_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +

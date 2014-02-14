@@ -90,7 +90,7 @@ class Runner:
 		outputable.output(changes.ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			outputable.output(blame.BlameOutput(self.hard))
+			outputable.output(blame.BlameOutput(self.hard, self.useweeks))
 
 			if self.timeline:
 				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))
@@ -99,7 +99,7 @@ class Runner:
 				outputable.output(metrics.Metrics())
 
 			if self.responsibilities:
-				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard))
+				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard, self.useweeks))
 
 			outputable.output(filtering.Filtering())
 

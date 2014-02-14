@@ -33,10 +33,10 @@ class ResponsibiltyEntry:
 
 class Responsibilities:
 	@staticmethod
-	def get(hard, author_name):
+	def get(hard, useweeks, author_name):
 		author_blames = {}
 
-		for i in blame.get(hard, changes.get(hard)).blames.items():
+		for i in blame.get(hard, useweeks, changes.get(hard)).blames.items():
 			if (author_name == i[0][0]):
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
@@ -50,16 +50,17 @@ RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilties, by author, were 
 MOSTLY_RESPONSIBLE_FOR_TEXT = N_("is mostly responsible for")
 
 class ResponsibilitiesOutput(Outputable):
-	def __init__(self, hard):
+	def __init__(self, hard, useweeks):
 		self.hard = hard
+		self.useweeks = useweeks
 		Outputable.__init__(self)
 		self.changes = changes.get(hard)
 
 	def output_text(self):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
