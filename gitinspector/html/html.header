@@ -142,6 +142,21 @@
 						this.hoveredElement.removeClass("piehover");
 					}}
 				}});
+
+				// Make sure the two pie charts use the same colors.
+
+				var author_colors = {{}};
+				$.each(changes_plot.getData(), function(i, v) {{
+					author_colors[v["label"]] = v["color"];
+				}});
+
+				$.each(blame_plot.getData(), function(i, v) {{
+					if (author_colors[v["label"]] != undefined) {{
+						v["color"] = author_colors[v["label"]];
+					}}
+				}});
+
+				blame_plot.draw();
 			}});
 		</script>
 		<style type="text/css">

@@ -229,7 +229,7 @@ class BlameOutput(Outputable):
 		blame_xml += "<tfoot><tr> <td colspan=\"5\">&nbsp;</td> </tr></tfoot></tbody></table>"
 		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
-		blame_xml += "    $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
+		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
 		blame_xml += "        series: {"
 		blame_xml += "            pie: {"
 		blame_xml += "                innerRadius: 0.4,"
