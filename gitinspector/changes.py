@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -106,7 +106,7 @@ class Changes:
 
 	def __init__(self, hard):
 		self.commits = []
-		git_log_r = subprocess.Popen("git log --pretty=\"%cd|%H|%aN|%aE\" --stat=100000,8192 --no-merges -w " +
+		git_log_r = subprocess.Popen("git log --reverse --pretty=\"%cd|%H|%aN|%aE\" --stat=100000,8192 --no-merges -w " +
 		                             interval.get_since() + interval.get_until() +
 		                             "{0} --date=short".format("-C -C -M" if hard else ""),
 		                             shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
@@ -144,10 +144,10 @@ class Changes:
 			interval.set_ref(self.commits[0].sha)
 
 		if len(self.commits) > 0:
-			self.first_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
-			                                       int(self.commits[-1].date[8:10]))
-			self.last_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
+			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
 			                                       int(self.commits[0].date[8:10]))
+			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
+			                                       int(self.commits[-1].date[8:10]))
 
 	def get_commits(self):
 		return self.commits
