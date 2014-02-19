@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -41,7 +41,7 @@ NUM_THREADS = multiprocessing.cpu_count()
 
 class BlameEntry:
 	rows = 0
-	skew = 0 # Used when calculating average code age (time-adjusted stability value).
+	skew = 0 # Used when calculating average code age.
 	comments = 0
 
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
@@ -152,6 +152,13 @@ class Blame:
 		return content.group(1).lstrip()
 
 	@staticmethod
+	def get_stability(author, blamed_rows, changes):
+		if author in changes.get_authorinfo_list():
+			return 100.0 * blamed_rows / changes.get_authorinfo_list()[author].insertions
+
+		return 100
+
+	@staticmethod
 	def get_time(string):
 		time = re.search(" \(.*?(\d\d\d\d-\d\d-\d\d)", string)
 		return time.group(1).strip()
@@ -215,8 +222,7 @@ class BlameOutput(Outputable):
 				blame_xml += "<td>" + entry[0] + "</td>"
 
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
-			blame_xml += "<td>" + ("{0:.1f}".format(100.0 * entry[1].rows /
-			                      self.changes.get_authorinfo_list()[entry[0]].insertions) + "</td>")
+			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].rows, self.changes)) + "</td>")
 			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
@@ -257,7 +263,7 @@ class BlameOutput(Outputable):
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
-			print("{0:.1f}".format(100.0 * i[1].rows / self.changes.get_authorinfo_list()[i[0]].insertions).rjust(14), end=" ")
+			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(14), end=" ")
 			print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
 
@@ -271,8 +277,8 @@ class BlameOutput(Outputable):
 			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
 			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
-			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(100.0 * i[1].rows / 
-			                 self.changes.get_authorinfo_list()[i[0]].insertions) + "</stability>\n")
+			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
+			                 self.changes)) + "</stability>\n")
 			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
