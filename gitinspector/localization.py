@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2013 Ejwa Software. All rights reserved.
+# Copyright © 2013-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -17,12 +17,15 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import print_function
 from __future__ import unicode_literals
 import basedir
 import gettext
 import locale
 import os
+import time
 
+__enabled__ = False
 __installed__ = False
 __translation__ = None
 
@@ -31,6 +34,7 @@ def N_(message):
 	return message
 
 def init():
+	global __enabled__
 	global __installed__
 	global __translation__
 
@@ -54,13 +58,26 @@ def init():
 			except IOError:
 				__translation__ = gettext.NullTranslations()
 
+		__enabled__ = True
 		__installed__ = True
 		__translation__.install(True)
 
+def get_date():
+	if __enabled__ and isinstance(__translation__, gettext.GNUTranslations):
+		return time.strftime("%x")
+	else:
+		return time.strftime("%Y/%m/%d")
+
 def enable():
-	if __installed__ and type(__translation__) is not gettext.GNUTranslations:
+	if isinstance(__translation__, gettext.GNUTranslations):
 		__translation__.install(True)
 
+		global __enabled__
+		__enabled__ = True
+
 def disable():
+	global __enabled__
+	__enabled__ = False
+
 	if __installed__:
 		gettext.NullTranslations().install(True)

@@ -310,5 +310,5 @@
 	<body>
 		<div><div class="box logo">
 			<img src="data:image/png;base64,{logo}" />
-			<p>{logo_text}<p>
+			<p>{repo_text} {logo_text}</p>
 		</div></div>
