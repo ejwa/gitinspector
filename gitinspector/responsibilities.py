@@ -60,7 +60,7 @@ class ResponsibilitiesOutput(Outputable):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
