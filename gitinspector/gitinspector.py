@@ -25,6 +25,7 @@ import localization
 localization.init()
 
 import atexit
+import basedir
 import blame
 import changes
 import clone
@@ -40,7 +41,6 @@ import os
 import optval
 import outputable
 import responsibilities
-import subprocess
 import sys
 import terminal
 import timeline
@@ -57,7 +57,6 @@ class Runner:
 		self.grading = False
 		self.timeline = False
 		self.useweeks = False
-		self.isbare = False
 
 	def output(self):
 		if not self.localize_output:
@@ -68,24 +67,8 @@ class Runner:
 		previous_directory = os.getcwd()
 
 		os.chdir(self.repo)
-		isbare = subprocess.Popen("git rev-parse --is-bare-repository", shell=True, bufsize=1,
-		                          stdout=subprocess.PIPE).stdout
-		isbare = isbare.readlines()
-		self.isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
-		absolute_path = ""
-
-		if self.isbare:
-			absolute_path = subprocess.Popen("git rev-parse --git-dir", shell=True, bufsize=1,
-			                                 stdout=subprocess.PIPE).stdout
-		else:
-			absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
-			                                 stdout=subprocess.PIPE).stdout
-
-		absolute_path = absolute_path.readlines()
-		if len(absolute_path) == 0:
-			sys.exit(_("Unable to determine absolute path of git repository."))
-
-		os.chdir(absolute_path[0].decode("utf-8", "replace").strip())
+		absolute_path = basedir.get_basedir_git()
+		os.chdir(absolute_path)
 		format.output_header()
 		outputable.output(changes.ChangesOutput(self.hard))
 
