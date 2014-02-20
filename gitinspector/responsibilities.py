@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -60,7 +60,7 @@ class ResponsibilitiesOutput(Outputable):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
@@ -78,8 +78,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = "<div><div class=\"box\" id=\"responsibilities\">"
 		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				resp_xml += "<div>"
 
@@ -104,8 +104,8 @@ class ResponsibilitiesOutput(Outputable):
 		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"
 		resp_xml = ""
 
-		for i in sorted(set(i[0] for i in blame.get(self.hard, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, i)), reverse=True)
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
+			responsibilities = sorted(((i[1], i[0]) for i in Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 
