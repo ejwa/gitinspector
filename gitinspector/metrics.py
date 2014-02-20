@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2013 Ejwa Software. All rights reserved.
+# Copyright © 2012-2014 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -25,14 +25,26 @@ from changes import FileDiff
 import comment
 import filtering
 import interval
+import re
 import subprocess
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
+__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\)", "if\s+\(.*\)", "case\s+\w+:", "default:", "while\s+\(.*\)"],
+                                                           ["assert", "break", "continue", "return"]],
+                       [["py"], ["^\s+elif .*:$", "^\s+else:$", "^\s+for .*:", "^\s+if .*:$", "^\s+while .*:$"],
+                                ["^\s+assert", "break", "continue", "return"]]]
+
+METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
+METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.5
+
 class MetricsLogic:
 	def __init__(self):
 		self.eloc = {}
+		self.cyclomatic_complexity = {}
+		self.cyclomatic_complexity_density = {}
+
 		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 
@@ -43,41 +55,90 @@ class MetricsLogic:
 
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				file_r = subprocess.Popen("git show " + interval.get_ref() + ":" + i.strip(), shell=True, bufsize=1,
-				                          stdout=subprocess.PIPE).stdout
+				                          stdout=subprocess.PIPE).stdout.readlines()
 
 				extension = FileDiff.get_extension(i)
 				lines = MetricsLogic.get_eloc(file_r, extension)
+				cc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 
 				if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
 					self.eloc[i.strip()] = lines
+
+				if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cc:
+					self.cyclomatic_complexity[i.strip()] = cc
+
+				if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cc / float(lines):
+					self.cyclomatic_complexity_density[i.strip()] = cc / float(lines)
+
+	@staticmethod
+	def get_cyclomatic_complexity(file_r, extension):
+		is_inside_comment = False
+		cc_counter = 0
+
+		entry_tokens = None
+		exit_tokens = None
+
+		for i in __metric_cc_tokens__:
+			if extension in i[0]:
+				entry_tokens = i[1]
+				exit_tokens = i[2]
+
+		if entry_tokens or exit_tokens:
+			for i in file_r:
+				i = i.decode("utf-8", "replace")
+				(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
+
+				if not is_inside_comment and not comment.is_comment(extension, i):
+					for t in entry_tokens:
+						if re.search(t, i, re.DOTALL):
+							cc_counter += 2
+					for t in exit_tokens:
+						if re.search(t, i, re.DOTALL):
+							cc_counter += 1
+			return cc_counter;
+
+		return -1
 
 	@staticmethod
 	def get_eloc(file_r, extension):
 		is_inside_comment = False
 		eloc_counter = 0
 
-		for j in file_r.readlines():
-			j = j.decode("utf-8", "replace")
-			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, j)
+		for i in file_r:
+			i = i.decode("utf-8", "replace")
+			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
 
-			if not is_inside_comment and not comment.is_comment(extension, j):
+			if not is_inside_comment and not comment.is_comment(extension, i):
 				eloc_counter += 1
 
 		return eloc_counter
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
+CYCLOMATIC_COMPLEXITY_TEXT = N_("The following files have an elevated cyclomatic complexity (in order of severity)")
+CYCLOMATIC_COMPLEXITY_DENSITY_TEXT = N_("The following files have an elevated cyclomatic complexity density (in order of severity)")
 METRICS_MISSING_INFO_TEXT = N_("No metrics violations were found in the repository")
 
 class Metrics(Outputable):
 	def output_text(self):
 		metrics_logic = MetricsLogic()
 
-		if not metrics_logic.eloc:
+		if not metrics_logic.eloc and not metrics_logic.cyclomatic_complexity and not metrics_logic.cyclomatic_complexity_density:
 			print("\n" + _(METRICS_MISSING_INFO_TEXT) + ".")
-		else:
+
+		if metrics_logic.eloc:
 			print("\n" + _(ELOC_INFO_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-				print(i[1] + " (" + str(i[0]) + " eloc)")
+				print(i[1] + " ({0} ".format(str(i[0])) + _("estimated lines of code") +")")
+
+		if metrics_logic.cyclomatic_complexity:
+			print("\n" + _(CYCLOMATIC_COMPLEXITY_TEXT) + ":")
+			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True):
+				print(i[1] + "({0} ".format(str(i[0])) + _("in cyclomatic complexity") + ")")
+
+		if metrics_logic.cyclomatic_complexity_density:
+			print("\n" + _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + ":")
+			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
+				print(i[1] + " ({0} ".format(str(i[0])) + _("in cyclomatic complexity density") + ")")
 
 	def output_html(self):
 		metrics_logic = MetricsLogic()
