@@ -26,6 +26,10 @@
 					}}
 				}}
 
+				// Fix header and set it to the right width.
+				var remainingHeaderWidth = ($("div.logo").width() - 4) - ($("div.logo img").innerWidth() + 48)
+				$("div.logo p").css("width", remainingHeaderWidth);
+
 				var filterResponsibilities = function() {{
 					$("table#blame tbody tr td:last-child").filter(function() {{
 						return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
@@ -185,10 +189,12 @@
 				-moz-box-shadow: 1px 1px 3px #666;
 			}}
 			div.logo p {{
-				margin-top: 18px;
+				width: 60em;
+				display:inline-block;
+				vertical-align:middle;
 			}}
 			div.logo img {{
-				float: left;
+				vertical-align:middle;
 				padding: 2px 10px 2px 2px;
 			}}
 			body > div {{
