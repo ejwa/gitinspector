@@ -37,7 +37,7 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\
                                 ["^\s+assert", "break", "continue", "return"]]]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
-METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.5
+METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 
 class MetricsLogic:
 	def __init__(self):
@@ -128,28 +128,39 @@ class Metrics(Outputable):
 		if metrics_logic.eloc:
 			print("\n" + _(ELOC_INFO_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-				print(i[1] + " ({0} ".format(str(i[0])) + _("estimated lines of code") +")")
+				print(_("{0} ({1} estimated lines of code)").format(i[1], str(i[0])))
 
 		if metrics_logic.cyclomatic_complexity:
 			print("\n" + _(CYCLOMATIC_COMPLEXITY_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True):
-				print(i[1] + "({0} ".format(str(i[0])) + _("in cyclomatic complexity") + ")")
+				print(_("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])))
 
 		if metrics_logic.cyclomatic_complexity_density:
 			print("\n" + _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
-				print(i[1] + " ({0} ".format(str(i[0])) + _("in cyclomatic complexity density") + ")")
+				print(_("{0} ({1} in cyclomatic complexity density)").format(i[1], str(i[0])))
 
 	def output_html(self):
 		metrics_logic = MetricsLogic()
 		metrics_xml = "<div><div class=\"box\">"
 
-		if not metrics_logic.eloc:
+		if not metrics_logic.eloc and not metrics_logic.cyclomatic_complexity and not metrics_logic.cyclomatic_complexity_density:
 			metrics_xml += "<p>" + _(METRICS_MISSING_INFO_TEXT) + ".</p>"
-		else:
+
+		if metrics_logic.eloc:
 			metrics_xml += "<p>" + _(ELOC_INFO_TEXT) + ".</p>"
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-				metrics_xml += "<p>" + i[1] + " (" + str(i[0]) + " eloc)</p>"
+				metrics_xml += "<p>" + _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</p>"
+
+		if metrics_logic.cyclomatic_complexity:
+			metrics_xml += "<p>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + ".</p>"
+			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True):
+				metrics_xml += "<p>" + _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</p>"
+
+		if metrics_logic.cyclomatic_complexity_density:
+			metrics_xml += "<p>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + ".</p>"
+			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
+				metrics_xml += "<p>" + _("{0} ({1} in cyclomatic complexity density)").format(i[1], str(i[0])) + "</p>"
 
 		metrics_xml += "</div></div>"
 		print(metrics_xml)
@@ -157,15 +168,31 @@ class Metrics(Outputable):
 	def output_xml(self):
 		metrics_logic = MetricsLogic()
 
-		if not metrics_logic.eloc:
+		if not metrics_logic.eloc and not metrics_logic.cyclomatic_complexity and not metrics_logic.cyclomatic_complexity_density:
 			print("\t<metrics>\n\t\t<message>" + _(METRICS_MISSING_INFO_TEXT) + "</message>\n\t</metrics>")
 		else:
 			eloc_xml = ""
-			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-				eloc_xml += "\t\t\t\t\t<violation>\n"
-				eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
-				eloc_xml += "\t\t\t\t\t\t<lines-of-code>" + str(i[0]) + "</lines-of-code>\n"
-				eloc_xml += "\t\t\t\t\t</violation>\n"
+
+			if metrics_logic.eloc:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
+					eloc_xml += "\t\t\t\t\t<estimated-lines-of-code>\n"
+					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
+					eloc_xml += "\t\t\t\t\t</estimated-lines-of-code>\n"
+
+			if metrics_logic.cyclomatic_complexity:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
+					eloc_xml += "\t\t\t\t\t<cyclomatic-complexity>\n"
+					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
+					eloc_xml += "\t\t\t\t\t</cyclomatic-complexity>\n"
+
+			if metrics_logic.cyclomatic_complexity_density:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
+					eloc_xml += "\t\t\t\t\t<cyclomatic-complexity-density>\n"
+					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
+					eloc_xml += "\t\t\t\t\t</cyclomatic-complexity-density>\n"
 
 			print("\t\t<metrics>\n\t\t\t<eloc>\n\t\t\t\t<message>" + _(ELOC_INFO_TEXT) +
 			      "</message>\n\t\t\t\t<violations>\n" + eloc_xml + "\t\t\t\t</violations>\n\t\t\t</eloc>\n\t\t</metrics>")
