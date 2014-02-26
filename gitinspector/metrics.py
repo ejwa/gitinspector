@@ -181,24 +181,23 @@ class Metrics(Outputable):
 
 			if metrics_logic.eloc:
 				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-					eloc_xml += "\t\t\t\t\t<estimated-lines-of-code>\n"
-					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
-					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
-					eloc_xml += "\t\t\t\t\t</estimated-lines-of-code>\n"
+					eloc_xml += "\t\t\t<estimated-lines-of-code>\n"
+					eloc_xml += "\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t<value>" + str(i[0]) + "</value>\n"
+					eloc_xml += "\t\t\t</estimated-lines-of-code>\n"
 
 			if metrics_logic.cyclomatic_complexity:
-				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-					eloc_xml += "\t\t\t\t\t<cyclomatic-complexity>\n"
-					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
-					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
-					eloc_xml += "\t\t\t\t\t</cyclomatic-complexity>\n"
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True):
+					eloc_xml += "\t\t\t<cyclomatic-complexity>\n"
+					eloc_xml += "\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t<value>" + str(i[0]) + "</value>\n"
+					eloc_xml += "\t\t\t</cyclomatic-complexity>\n"
 
 			if metrics_logic.cyclomatic_complexity_density:
-				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-					eloc_xml += "\t\t\t\t\t<cyclomatic-complexity-density>\n"
-					eloc_xml += "\t\t\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
-					eloc_xml += "\t\t\t\t\t\t<value>" + str(i[0]) + "</value>\n"
-					eloc_xml += "\t\t\t\t\t</cyclomatic-complexity-density>\n"
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
+					eloc_xml += "\t\t\t<cyclomatic-complexity-density>\n"
+					eloc_xml += "\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
+					eloc_xml += "\t\t\t\t<value>{0}</value>\n".format(i[0])
+					eloc_xml += "\t\t\t</cyclomatic-complexity-density>\n"
 
-			print("\t\t<metrics>\n\t\t\t<eloc>\n\t\t\t\t<message>" + _(ELOC_INFO_TEXT) +
-			      "</message>\n\t\t\t\t<violations>\n" + eloc_xml + "\t\t\t\t</violations>\n\t\t\t</eloc>\n\t\t</metrics>")
+			print("\t<metrics>\n\t\t<violations>\n" + eloc_xml + "\t\t</violations>\n\t</metrics>")
