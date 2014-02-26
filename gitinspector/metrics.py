@@ -118,6 +118,13 @@ CYCLOMATIC_COMPLEXITY_TEXT = N_("The following files have an elevated cyclomatic
 CYCLOMATIC_COMPLEXITY_DENSITY_TEXT = N_("The following files have an elevated cyclomatic complexity density (in order of severity)")
 METRICS_MISSING_INFO_TEXT = N_("No metrics violations were found in the repository")
 
+METRICS_VIOLATION_SCORES = [[1.0, "minimal"], [1.25, "minor"], [1.5, "medium"], [2.0, "bad"], [3.0, "severe"]]
+
+def __get_metrics_score__(ceiling, value):
+	for i in reversed(METRICS_VIOLATION_SCORES):
+		if value > ceiling * i[0]:
+			return i[1]
+
 class Metrics(Outputable):
 	def output_text(self):
 		metrics_logic = MetricsLogic()
@@ -150,21 +157,24 @@ class Metrics(Outputable):
 		if metrics_logic.eloc:
 			metrics_xml += "<div><h4>" + _(ELOC_INFO_TEXT) + ".</h4>"
 			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True)):
-				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				metrics_xml += "<div class=\"" + __get_metrics_score__(__metric_eloc__[FileDiff.get_extension(i[1])], i[0]) + \
+				               (" odd\">" if n % 2 == 1 else "\">") + \
 				               _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</div>"
 			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity:
 			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h4>"
 			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True)):
-				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, i[0]) + \
+				               (" odd\">" if n % 2 == 1 else "\">") + \
 				               _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</div>"
 			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity_density:
 			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h4>"
 			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True)):
-				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD, i[0]) + \
+				               (" odd\">" if n % 2 == 1 else "\">") + \
 				               _("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
 			metrics_xml += "</div>"
 

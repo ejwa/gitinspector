@@ -161,6 +161,36 @@
 				}});
 
 				blame_plot.draw();
+
+				// Color in metrics levels.
+
+				$("div#metrics div div").each(function() {{
+					var rgb = $(this).css("background-color").match(/\d+/g);
+					rgb[0] = parseInt(rgb[0]);
+					rgb[1] = parseInt(rgb[1]);
+					rgb[2] = parseInt(rgb[2]);
+
+					if ($(this).hasClass("minimal")) {{
+						rgb[0] -= 10;
+						rgb[1] += 10;
+						rgb[2] -= 10;
+					}} else if ($(this).hasClass("minor")) {{
+						rgb[1] += 10;
+					}} else if ($(this).hasClass("medium")) {{
+						rgb[0] += 10;
+						rgb[1] += 10;
+					}} else if ($(this).hasClass("bad")) {{
+						rgb[0] += 10;
+						rgb[1] -= 10;
+						rgb[2] -= 10;
+					}} else if ($(this).hasClass("severe")) {{
+						rgb[0] += 20;
+						rgb[1] -= 20;
+						rgb[2] -= 20;
+					}}
+
+					$(this).css("background-color", "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+				}});
 			}});
 		</script>
 		<style type="text/css">
@@ -271,6 +301,9 @@
 				min-height: 0px;
 				padding: 0.5em 0.2em;
 				width: auto;
+			}}
+			div#metrics div {{
+				background-color: #eee;
 			}}
 			div#responsibilities div.odd, div#metrics div.odd {{
 				background-color: #dbdbdb;
