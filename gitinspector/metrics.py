@@ -138,7 +138,7 @@ class Metrics(Outputable):
 		if metrics_logic.cyclomatic_complexity_density:
 			print("\n" + _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + ":")
 			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
-				print(_("{0} ({1} in cyclomatic complexity density)").format(i[1], str(i[0])))
+				print(_("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]))
 
 	def output_html(self):
 		metrics_logic = MetricsLogic()
@@ -165,7 +165,7 @@ class Metrics(Outputable):
 			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h4>"
 			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True)):
 				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
-				               _("{0} ({1} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
+				               _("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
 			metrics_xml += "</div>"
 
 		metrics_xml += "</div></div>"
@@ -197,7 +197,7 @@ class Metrics(Outputable):
 				for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
 					eloc_xml += "\t\t\t<cyclomatic-complexity-density>\n"
 					eloc_xml += "\t\t\t\t<file-name>" + i[1] + "</file-name>\n"
-					eloc_xml += "\t\t\t\t<value>{0}</value>\n".format(i[0])
+					eloc_xml += "\t\t\t\t<value>{0:.3f}</value>\n".format(i[0])
 					eloc_xml += "\t\t\t</cyclomatic-complexity-density>\n"
 
 			print("\t<metrics>\n\t\t<violations>\n" + eloc_xml + "\t\t</violations>\n\t</metrics>")
