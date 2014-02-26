@@ -142,25 +142,31 @@ class Metrics(Outputable):
 
 	def output_html(self):
 		metrics_logic = MetricsLogic()
-		metrics_xml = "<div><div class=\"box\">"
+		metrics_xml = "<div><div class=\"box\" id=\"metrics\">"
 
 		if not metrics_logic.eloc and not metrics_logic.cyclomatic_complexity and not metrics_logic.cyclomatic_complexity_density:
 			metrics_xml += "<p>" + _(METRICS_MISSING_INFO_TEXT) + ".</p>"
 
 		if metrics_logic.eloc:
-			metrics_xml += "<p>" + _(ELOC_INFO_TEXT) + ".</p>"
-			for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True):
-				metrics_xml += "<p>" + _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</p>"
+			metrics_xml += "<div><h4>" + _(ELOC_INFO_TEXT) + ".</h4>"
+			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True)):
+				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				               _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</div>"
+			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity:
-			metrics_xml += "<p>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + ".</p>"
-			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True):
-				metrics_xml += "<p>" + _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</p>"
+			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h4>"
+			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True)):
+				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				               _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</div>"
+			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity_density:
-			metrics_xml += "<p>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + ".</p>"
-			for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True):
-				metrics_xml += "<p>" + _("{0} ({1} in cyclomatic complexity density)").format(i[1], str(i[0])) + "</p>"
+			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h4>"
+			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True)):
+				metrics_xml += "<div" + (" class=\"odd\">" if n % 2 == 1 else ">") + \
+				               _("{0} ({1} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
+			metrics_xml += "</div>"
 
 		metrics_xml += "</div></div>"
 		print(metrics_xml)

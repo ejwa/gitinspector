@@ -267,12 +267,12 @@
 				border: 1px solid #bbb;
 				cursor: hand;
 			}}
-			div#responsibilities div, div#responsibilities div div {{
+			div#responsibilities div, div#responsibilities div div, div#metrics div, div#metrics div div {{
 				min-height: 0px;
 				padding: 0.5em 0.2em;
 				width: auto;
 			}}
-			div#responsibilities div.odd {{
+			div#responsibilities div.odd, div#metrics div.odd {{
 				background-color: #dbdbdb;
 			}}
 			div#responsibilities p {{
@@ -293,12 +293,16 @@
 				width: 32px;
 				height: 32px;
 			}}
-			h3 {{
+			h3, h4 {{
 				border-radius: 8px 8px 8px 8px;
 				-moz-border-radius: 8px 8px 8px 8px;
 				background-color: #ddcece;
 				margin-bottom: 0.2em;
 				margin-top: 0.6em;
+			}}
+			h4 {{
+				margin-top: 0.2em;
+				padding: 0.5em;
 			}}
 			div.button, div#responsibilities div.button {{
 				border-radius: 8px 8px 8px 8px;
