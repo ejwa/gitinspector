@@ -50,6 +50,7 @@ class Runner(object):
 		self.grading = False
 		self.timeline = False
 		self.useweeks = False
+		self.forcemonths = False
 
 	def process(self, repos):
 		localization.check_compatibility(version.__version__)
@@ -86,6 +87,8 @@ class Runner(object):
 			outputable.output(BlameOutput(summed_changes, summed_blames))
 
 			if self.timeline:
+				if self.useweeks and self.forcemonths:
+					outputable.output(TimelineOutput(summed_changes, False))
 				outputable.output(TimelineOutput(summed_changes, self.useweeks))
 
 			if self.include_metrics:
@@ -133,7 +136,7 @@ def main():
 	repos = []
 
 	try:
-		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
+		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwMx:", ["exclude=", "file-types=", "format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true"])
@@ -194,6 +197,8 @@ def main():
 				interval.set_until(a)
 			elif o == "-w":
 				run.useweeks = True
+			elif o == "-M":
+				run.forcemonths = True
 			elif o == "--weeks":
 				run.useweeks = optval.get_boolean_argument(a)
 			elif o in("-x", "--exclude"):

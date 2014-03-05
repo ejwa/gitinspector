@@ -24,7 +24,8 @@ from ..localization import N_
 from .. import format, gravatar, terminal, timeline
 from .outputable import Outputable
 
-TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from the repository")
+TIMELINE_INFO_TEXT_M = N_("The following monthly history timeline has been gathered from the repository")
+TIMELINE_INFO_TEXT_W = N_("The following weekly history timeline has been gathered from the repository")
 MODIFIED_ROWS_TEXT = N_("Modified Rows:")
 
 def __output_row__text__(timeline_data, periods, names):
@@ -102,9 +103,14 @@ class TimelineOutput(Outputable):
 		self.useweeks = useweeks
 		Outputable.__init__(self)
 
+        def get_tinfo_txt(self):
+                if self.useweeks:
+                        return (_(TIMELINE_INFO_TEXT_W))
+                return (_(TIMELINE_INFO_TEXT_M))
+
 	def output_text(self):
 		if self.changes.get_commits():
-			print("\n" + textwrap.fill(_(TIMELINE_INFO_TEXT) + ":", width=terminal.get_size()[0]))
+			print("\n" + textwrap.fill(self.get_tinfo_txt() + ":", width=terminal.get_size()[0]))
 
 			timeline_data = timeline.TimelineData(self.changes, self.useweeks)
 			periods = timeline_data.get_periods()
@@ -123,7 +129,7 @@ class TimelineOutput(Outputable):
 			max_periods_per_row = 8
 
 			timeline_xml = "<div><div id=\"timeline\" class=\"box\">"
-			timeline_xml += "<p>" + _(TIMELINE_INFO_TEXT) + ".</p>"
+			timeline_xml += "<p>" + self.get_tinfo_txt() + ".</p>"
 			print(timeline_xml)
 
 			for i in range(0, len(periods), max_periods_per_row):
@@ -134,7 +140,7 @@ class TimelineOutput(Outputable):
 
 	def output_json(self):
 		if self.changes.get_commits():
-			message_json = "\t\t\t\"message\": \"" + _(TIMELINE_INFO_TEXT) + "\",\n"
+			message_json = "\t\t\t\"message\": \"" + self.get_tinfo_txt() + "\",\n"
 			timeline_json = ""
 			periods_json = "\t\t\t\"period_length\": \"{0}\",\n".format("week" if self.useweeks else "month")
 			periods_json += "\t\t\t\"periods\": [\n\t\t\t"
@@ -174,7 +180,7 @@ class TimelineOutput(Outputable):
 
 	def output_xml(self):
 		if self.changes.get_commits():
-			message_xml = "\t\t<message>" + _(TIMELINE_INFO_TEXT) + "</message>\n"
+			message_xml = "\t\t<message>" + self.get_tinfo_txt() + "</message>\n"
 			timeline_xml = ""
 			periods_xml = "\t\t<periods length=\"{0}\">\n".format("week" if self.useweeks else "month")
 
