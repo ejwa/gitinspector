@@ -160,6 +160,7 @@
 					}}
 				}});
 
+				blame_plot.setupGrid();
 				blame_plot.draw();
 
 				// Color in metrics levels.
