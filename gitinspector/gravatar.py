@@ -27,7 +27,7 @@ import hashlib
 
 def get_url(email, size=20):
 	md5hash = hashlib.md5(email.encode("utf-8").lower().strip()).hexdigest()
-	base_url = "http://www.gravatar.com/avatar/" + md5hash
+	base_url = "https://www.gravatar.com/avatar/" + md5hash
 	params = None
 
 	if format.get_selected() == "html":
