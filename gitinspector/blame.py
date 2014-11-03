@@ -143,8 +143,8 @@ class Blame:
 
 	@staticmethod
 	def get_author_email(string):
-		author_email = re.search(" \((.*?)\d\d\d\d-\d\d-\d\d", string)
-		return author_email.group(1).strip().lstrip("<").rstrip(">")
+		author_email = re.search("^[0-9a-f]{8} \(<([^>]*)", string)
+		return author_email.group(1)
 
 	@staticmethod
 	def get_content(string):
