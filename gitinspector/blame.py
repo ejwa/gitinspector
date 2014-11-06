@@ -75,7 +75,10 @@ class BlameThread(threading.Thread):
 					continue
 
 				email = Blame.get_author_email(j)
-				author = self.changes.get_latest_author_by_email(email)
+				try:
+					author = self.changes.get_latest_author_by_email(email)
+				except KeyError:
+					continue
 
 				__blame_lock__.acquire() # Global lock used to protect calls from here...
 
