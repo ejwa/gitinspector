@@ -33,9 +33,12 @@ def get_basedir_git():
 	global __git_basedir__
 
 	if not __git_basedir__:
-		isbare = subprocess.Popen("git rev-parse --is-bare-repository", shell=True, bufsize=1,
-		                          stdout=subprocess.PIPE).stdout
-		isbare = isbare.readlines()
+		sp = subprocess.Popen("git rev-parse --is-bare-repository", shell=True, bufsize=1,
+		                          stdout=subprocess.PIPE, stderr=open(os.devnull, "w"))
+		isbare = sp.stdout.readlines()
+		sp.wait()
+		if sp.returncode != 0:
+			sys.exit("Error processing git repository at \"%s\"" % os.getcwd())
 		isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
 		absolute_path = ""
 
