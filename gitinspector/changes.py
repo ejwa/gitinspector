@@ -178,6 +178,7 @@ class Changes:
 		return self.authors_dateinfo
 
 	def get_latest_author_by_email(self, name):
+		name = name.decode("unicode_escape", "ignore")
 		return self.authors_by_email[name]
 
 	def get_latest_email_by_author(self, name):
