@@ -54,8 +54,8 @@ class MetricsLogic:
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-				file_r = subprocess.Popen("git show " + interval.get_ref() + ":" + i.strip(), shell=True, bufsize=1,
-				                          stdout=subprocess.PIPE).stdout.readlines()
+				file_r = subprocess.Popen("git show " + interval.get_ref() + ":\"{0}\"".format(i.strip()),
+				                          shell=True, bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
 				extension = FileDiff.get_extension(i)
 				lines = MetricsLogic.get_eloc(file_r, extension)
