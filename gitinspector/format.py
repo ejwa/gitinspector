@@ -109,8 +109,9 @@ def output_header():
 		      os.path.basename(basedir.get_basedir_git()), localization.get_date()), width=terminal.get_size()[0]))
 
 def output_footer():
-	if __selected_format__ == "html":
-		html_footer = __output_html_template__("html/html.footer")
+	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
+		base = basedir.get_basedir()
+		html_footer = __output_html_template__(base + "/html/html.footer")
 		print(html_footer)
 	elif __selected_format__ == "xml":
 		print("</gitinspector>")
