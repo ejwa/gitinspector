@@ -51,11 +51,14 @@ def init():
 				lang = locale.getdefaultlocale()
 				os.environ['LANG'] = lang[0]
 
-			filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
+			if lang[0] is not None:
+				filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
 
-			try:
-				__translation__ = gettext.GNUTranslations(open(filename, "rb"))
-			except IOError:
+				try:
+					__translation__ = gettext.GNUTranslations(open(filename, "rb"))
+				except IOError:
+					__translation__ = gettext.NullTranslations()
+			else:
 				__translation__ = gettext.NullTranslations()
 
 		__enabled__ = True
