@@ -61,7 +61,9 @@ class BlameThread(threading.Thread):
 		self.blames = blames
 		self.filename = filename
 
-	def __clear_blamechunk_information__(self):
+		self.is_inside_comment = False
+
+	def __clear_blamechunk_info__(self):
 		self.blamechunk_email = None
 		self.blamechunk_is_last = False
 		self.blamechunk_is_prior = False
@@ -101,26 +103,25 @@ class BlameThread(threading.Thread):
 		rows = git_blame_r.readlines()
 		git_blame_r.close()
 
-		self.is_inside_comment = False
-		self.__clear_blamechunk_information__()
+		self.__clear_blamechunk_info__()
 
 		for j in range(0, len(rows)):
 			row = rows[j].decode("utf-8", "replace").strip()
-			lr = row.split(" ", 2)
+			keyval = row.split(" ", 2)
 
 			if self.blamechunk_is_last:
 				self.__handle_blamechunk_content__(row)
-				self.__clear_blamechunk_information__()
-			elif lr[0] == "boundary":
+				self.__clear_blamechunk_info__()
+			elif keyval[0] == "boundary":
 				self.blamechunk_is_prior = True
-			elif lr[0] == "author-mail":
-				self.blamechunk_email = lr[1].lstrip("<").rstrip(">")
-			elif lr[0] == "author-time":
-				self.blamechunk_time = datetime.date.fromtimestamp(int(lr[1]))
-			elif lr[0] == "filename":
+			elif keyval[0] == "author-mail":
+				self.blamechunk_email = keyval[1].lstrip("<").rstrip(">")
+			elif keyval[0] == "author-time":
+				self.blamechunk_time = datetime.date.fromtimestamp(int(keyval[1]))
+			elif keyval[0] == "filename":
 				self.blamechunk_is_last = True
-			elif Blame.is_revision(lr[0]):
-				self.blamechunk_revision = lr[0]
+			elif Blame.is_revision(keyval[0]):
+				self.blamechunk_revision = keyval[0]
 
 		__thread_lock__.release() # Lock controlling the number of threads running
 
@@ -275,7 +276,8 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("Stability").rjust(15) + _("Age").rjust(13) + _("% in comments").rjust(20))
+		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("Stability").rjust(15) + _("Age").rjust(13) +
+		                _("% in comments").rjust(20))
 
 		for i in sorted(__blame__.get_summed_blames().items()):
 			print(i[0].ljust(20)[0:20], end=" ")

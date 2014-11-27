@@ -31,7 +31,8 @@ import subprocess
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\)", "if\s+\(.*\)", "case\s+\w+:", "default:", "while\s+\(.*\)"],
+__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\)", "if\s+\(.*\)", "case\s+\w+:",
+                                                            "default:", "while\s+\(.*\)"],
                                                            ["assert", "break", "continue", "return"]],
                        [["py"], ["^\s+elif .*:$", "^\s+else:$", "^\s+for .*:", "^\s+if .*:$", "^\s+while .*:$"],
                                 ["^\s+assert", "break", "continue", "return"]]]
@@ -59,16 +60,16 @@ class MetricsLogic:
 
 				extension = FileDiff.get_extension(i)
 				lines = MetricsLogic.get_eloc(file_r, extension)
-				cc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
+				cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 
 				if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
 					self.eloc[i.strip()] = lines
 
-				if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cc:
-					self.cyclomatic_complexity[i.strip()] = cc
+				if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
+					self.cyclomatic_complexity[i.strip()] = cycc
 
-				if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cc / float(lines):
-					self.cyclomatic_complexity_density[i.strip()] = cc / float(lines)
+				if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
+					self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
 
 	@staticmethod
 	def get_cyclomatic_complexity(file_r, extension):
@@ -89,13 +90,13 @@ class MetricsLogic:
 				(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
 
 				if not is_inside_comment and not comment.is_comment(extension, i):
-					for t in entry_tokens:
-						if re.search(t, i, re.DOTALL):
+					for j in entry_tokens:
+						if re.search(j, i, re.DOTALL):
 							cc_counter += 2
-					for t in exit_tokens:
-						if re.search(t, i, re.DOTALL):
+					for j in exit_tokens:
+						if re.search(j, i, re.DOTALL):
 							cc_counter += 1
-			return cc_counter;
+			return cc_counter
 
 		return -1
 
@@ -115,7 +116,8 @@ class MetricsLogic:
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
 CYCLOMATIC_COMPLEXITY_TEXT = N_("The following files have an elevated cyclomatic complexity (in order of severity)")
-CYCLOMATIC_COMPLEXITY_DENSITY_TEXT = N_("The following files have an elevated cyclomatic complexity density (in order of severity)")
+CYCLOMATIC_COMPLEXITY_DENSITY_TEXT = N_("The following files have an elevated cyclomatic complexity density " \
+                                        "(in order of severity)")
 METRICS_MISSING_INFO_TEXT = N_("No metrics violations were found in the repository")
 
 METRICS_VIOLATION_SCORES = [[1.0, "minimal"], [1.25, "minor"], [1.5, "medium"], [2.0, "bad"], [3.0, "severe"]]
@@ -156,25 +158,25 @@ class Metrics(Outputable):
 
 		if metrics_logic.eloc:
 			metrics_xml += "<div><h4>" + _(ELOC_INFO_TEXT) + ".</h4>"
-			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True)):
+			for num, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse = True)):
 				metrics_xml += "<div class=\"" + __get_metrics_score__(__metric_eloc__[FileDiff.get_extension(i[1])], i[0]) + \
-				               (" odd\">" if n % 2 == 1 else "\">") + \
+				               (" odd\">" if num % 2 == 1 else "\">") + \
 				               _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</div>"
 			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity:
 			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h4>"
-			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True)):
+			for num, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse = True)):
 				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, i[0]) + \
-				               (" odd\">" if n % 2 == 1 else "\">") + \
+				               (" odd\">" if num % 2 == 1 else "\">") + \
 				               _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</div>"
 			metrics_xml += "</div>"
 
 		if metrics_logic.cyclomatic_complexity_density:
 			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h4>"
-			for n, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True)):
+			for num, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse = True)):
 				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD, i[0]) + \
-				               (" odd\">" if n % 2 == 1 else "\">") + \
+				               (" odd\">" if num % 2 == 1 else "\">") + \
 				               _("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
 			metrics_xml += "</div>"
 

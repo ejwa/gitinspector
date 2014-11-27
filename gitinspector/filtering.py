@@ -75,8 +75,10 @@ def set_filtered(string, filter_type="file"):
 
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
 FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
-FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified exclusion patterns")
-FILTERING_EMAIL_INFO_TEXT = N_("The following commit revisions were excluded from the statistics due to the specified exclusion patterns")
+FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified " \
+                               "exclusion patterns")
+FILTERING_EMAIL_INFO_TEXT = N_("The following commit revisions were excluded from the statistics due to the specified " \
+                               "exclusion patterns")
 
 class Filtering(Outputable):
 	@staticmethod

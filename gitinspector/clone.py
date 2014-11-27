@@ -43,7 +43,5 @@ def create(url):
 	return url
 
 def delete():
-	global __cloned_path__
-
 	if __cloned_path__:
 		shutil.rmtree(__cloned_path__, ignore_errors=True)
