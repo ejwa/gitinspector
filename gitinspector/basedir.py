@@ -38,7 +38,7 @@ def get_basedir_git():
 		isbare = sp.stdout.readlines()
 		sp.wait()
 		if sp.returncode != 0:
-			sys.exit("Error processing git repository at \"%s\"" % os.getcwd())
+			sys.exit(_("Error processing git repository at \"%s\"." % os.getcwd()))
 		isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
 		absolute_path = ""
 
