@@ -61,44 +61,67 @@ class BlameThread(threading.Thread):
 		self.blames = blames
 		self.filename = filename
 
+	def __clear_blamechunk_information__(self):
+		self.blamechunk_email = None
+		self.blamechunk_is_last = False
+		self.blamechunk_is_prior = False
+		self.blamechunk_revision = None
+		self.blamechunk_time = None
+
+	def __handle_blamechunk_content__(self, content):
+		author = None
+		(comments, self.is_inside_comment) = comment.handle_comment_block(self.is_inside_comment, self.extension, content)
+
+		if self.blamechunk_is_prior and interval.get_since():
+			return
+
+		try:
+			author = self.changes.get_latest_author_by_email(self.blamechunk_email)
+		except KeyError:
+			return
+
+		__blame_lock__.acquire() # Global lock used to protect calls from here...
+
+		if not filtering.set_filtered(author, "author") and not filtering.set_filtered(self.blamechunk_email, "email") and not \
+		       filtering.set_filtered(self.blamechunk_revision, "revision"):
+			if self.blames.get((author, self.filename), None) == None:
+				self.blames[(author, self.filename)] = BlameEntry()
+
+			self.blames[(author, self.filename)].comments += comments
+			self.blames[(author, self.filename)].rows += 1
+
+			if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
+				self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - self.blamechunk_time).days /
+				                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
+
+		__blame_lock__.release() # ...to here.
+
 	def run(self):
 		git_blame_r = subprocess.Popen(self.blame_string, shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
-		is_inside_comment = False
-
-		for j in git_blame_r.readlines():
-			j = j.decode("utf-8", "replace")
-			if Blame.is_blame_line(j):
-				content = Blame.get_content(j)
-				(comments, is_inside_comment) = comment.handle_comment_block(is_inside_comment, self.extension, content)
-
-				if Blame.is_prior(j) and interval.get_since():
-					continue
-
-				email = Blame.get_author_email(j)
-				try:
-					author = self.changes.get_latest_author_by_email(email)
-				except KeyError:
-					continue
-
-				__blame_lock__.acquire() # Global lock used to protect calls from here...
-
-				if not filtering.set_filtered(author, "author") and not filtering.set_filtered(email, "email"):
-					if self.blames.get((author, self.filename), None) == None:
-						self.blames[(author, self.filename)] = BlameEntry()
-
-					self.blames[(author, self.filename)].comments += comments
-					self.blames[(author, self.filename)].rows += 1
-
-					time = Blame.get_time(j)
-					time = datetime.date(int(time[0:4]), int(time[5:7]), int(time[8:10]))
-
-					if (time - self.changes.first_commit_date).days > 0:
-						self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - time).days /
-						                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
-
-				__blame_lock__.release() # ...to here.
-
+		rows = git_blame_r.readlines()
 		git_blame_r.close()
+
+		self.is_inside_comment = False
+		self.__clear_blamechunk_information__()
+
+		for j in range(0, len(rows)):
+			row = rows[j].decode("utf-8", "replace").strip()
+			lr = row.split(" ", 2)
+
+			if self.blamechunk_is_last:
+				self.__handle_blamechunk_content__(row)
+				self.__clear_blamechunk_information__()
+			elif lr[0] == "boundary":
+				self.blamechunk_is_prior = True
+			elif lr[0] == "author-mail":
+				self.blamechunk_email = lr[1].lstrip("<").rstrip(">")
+			elif lr[0] == "author-time":
+				self.blamechunk_time = datetime.date.fromtimestamp(int(lr[1]))
+			elif lr[0] == "filename":
+				self.blamechunk_is_last = True
+			elif Blame.is_revision(lr[0]):
+				self.blamechunk_revision = lr[0]
+
 		__thread_lock__.release() # Lock controlling the number of threads running
 
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:.0f}%")
@@ -116,7 +139,7 @@ class Blame:
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-				blame_string = "git blame -e -w {0} ".format("-C -C -M" if hard else "") + \
+				blame_string = "git blame --line-porcelain -w {0} ".format("-C -C -M" if hard else "") + \
 				               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
 				thread = BlameThread(useweeks, changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
@@ -137,22 +160,13 @@ class Blame:
 			sys.stdout.flush()
 
 	@staticmethod
-	def is_blame_line(string):
-		return string.find(" (") != -1
+	def is_revision(string):
+		revision = re.search("([0-9a-f]{40})", string)
 
-	@staticmethod
-	def is_prior(string):
-		return string[0] == "^"
+		if revision == None:
+			return False
 
-	@staticmethod
-	def get_author_email(string):
-		author_email = re.search("\(<([^>]*)", string)
-		return author_email.group(1)
-
-	@staticmethod
-	def get_content(string):
-		content = re.search(" \d+\)(.*)", string)
-		return content.group(1).lstrip()
+		return revision.group(1).strip()
 
 	@staticmethod
 	def get_stability(author, blamed_rows, changes):

@@ -132,7 +132,8 @@ class Changes:
 				commit = Commit(j)
 
 			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)) and not \
-			   filtering.set_filtered(commit.author, "author") and not filtering.set_filtered(commit.email, "email"):
+			   filtering.set_filtered(commit.author, "author") and not filtering.set_filtered(commit.email, "email") and not \
+			   filtering.set_filtered(commit.sha, "revision"):
 				extensions.add_located(FileDiff.get_extension(j))
 
 				if FileDiff.is_valid_extension(j):
