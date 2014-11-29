@@ -29,7 +29,7 @@ __comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "h": "*/", 
 
 __comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "h": "//", "hh": "//", "hpp": "//", "pl": "#", "php": "//",
                "py": "#", "glsl": "//", "rb": "#", "js": "//", "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--",
-               "adb": "--" }
+               "adb": "--", "pot": "#", "po": "#" }
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 
