@@ -19,15 +19,15 @@
 
 from __future__ import unicode_literals
 
-__comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "h": "/*", "hh": "/*", "hpp": "/*", "html": "<!--",
+__comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "h": "/*", "hh": "/*", "hpp": "/*", "hs": "{-", "html": "<!--",
                         "php": "/*", "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*", "jspx": "<!--", "scala": "/*",
                         "sql": "/*", "tex": "\\begin{comment}", "xhtml": "<!--", "xml": "<!--", "ml": "(*", "mli": "(*" }
 
-__comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "html": "-->",
+__comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "hs": "-}", "html": "-->",
                    "php": "/*", "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->", "scala": "*/",
                    "sql": "*/", "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->", "ml": "*)", "mli": "*)" }
 
-__comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "h": "//", "hh": "//", "hpp": "//", "pl": "#", "php": "//",
+__comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--", "pl": "#", "php": "//",
                "py": "#", "glsl": "//", "rb": "#", "js": "//", "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--",
                "adb": "--", "pot": "#", "po": "#" }
 
