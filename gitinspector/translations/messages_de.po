@@ -15,18 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# This file was generated with the following command:
-#
-# xgettext --no-wrap -s -w 140 --language=Python --keyword="N_"
-# --no-location --output=messages.pot *.py
+# Philipp Nowak <devnull@nowak-at.net>, 2014
+
 msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.3.2\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2014-11-29 05:20+0100\n"
-"PO-Revision-Date: 2014-11-30 03:23+0100\n"
-"Last-Translator: Literallie <devnull@nowak-at.net>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2014-12-08 11:17+0100\n"
+"Last-Translator: Philipp Nowak <devnull@nowak-at.net>\n"
+"Language-Team: Deutsch <>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -211,7 +209,7 @@ msgid ""
 "git repositories."
 msgstr ""
 "Die folgende Analyse wurde erstellt mit {0} {1}, dem statistischen "
-"Analysetool for Git-Repositories:"
+"Analysetool for Git-Repositories."
 
 #, python-brace-format
 msgid "Try `{0} --help' for more information."
@@ -359,7 +357,7 @@ msgid ""
 msgstr ""
 "WARNUNG: Das Terminal ist nicht richtig konfiguriert. Gitinspector könnte "
 "Probleme haben. Die Kodierung kann mit der Umgebungsvariable "
-"`PYTHONIOENCODING` konfiguriert werden. "
+"`PYTHONIOENCODING` konfiguriert werden."
 
 msgid "XML output not yet supported in"
 msgstr "XML-Ausgabe ist noch nicht unterstützt in"
