@@ -67,7 +67,12 @@ def init():
 
 def get_date():
 	if __enabled__ and isinstance(__translation__, gettext.GNUTranslations):
-		return time.strftime("%x")
+		date = time.strftime("%x")
+
+		if hasattr(date, 'decode'):
+			date = date.decode("utf-8", "replace")
+
+		return date
 	else:
 		return time.strftime("%Y/%m/%d")
 
