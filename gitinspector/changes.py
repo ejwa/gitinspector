@@ -21,6 +21,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
+import codecs
 import datetime
 import extensions
 import filtering
@@ -179,6 +180,9 @@ class Changes:
 		return self.authors_dateinfo
 
 	def get_latest_author_by_email(self, name):
+		if not hasattr(name, 'decode'):
+			name = str.encode(name)
+
 		name = name.decode("unicode_escape", "ignore")
 		return self.authors_by_email[name]
 
