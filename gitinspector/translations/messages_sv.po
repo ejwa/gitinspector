@@ -383,4 +383,4 @@ msgstr "{0} ({1} beräknade antal rader)"
 
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"
-msgstr "{0} ({1:.3f} i kyklomatisk komplexitet)"
+msgstr "{0} ({1} i kyklomatisk komplexitet)"
