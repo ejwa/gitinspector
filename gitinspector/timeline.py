@@ -111,16 +111,17 @@ TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from t
 MODIFIED_ROWS_TEXT = N_("Modified Rows:")
 
 def __output_row__text__(timeline_data, periods, names):
-	print("\n" + terminal.__bold__ + _("Author").ljust(20), end=" ")
+	print("\n" + terminal.__bold__ + terminal.ljust(_("Author"), 20), end=" ")
 	
 	for period in periods:
-		print(period.rjust(10), end=" ")
+		print(terminal.rjust(period, 10), end=" ")
 
 	print(terminal.__normal__)
 
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name[0]):
-			print(name[0].ljust(20)[0:20], end=" ")
+			print(terminal.ljust(name[0], 20)[0:20 - terminal.get_excess_column_count(name[0])], end=" ")
+
 			for period in periods:
 				multiplier = timeline_data.get_multiplier(period, 9)
 				signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
@@ -129,11 +130,15 @@ def __output_row__text__(timeline_data, periods, names):
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 			print("")
 
-	print(terminal.__bold__  + _(MODIFIED_ROWS_TEXT).ljust(20) + terminal.__normal__, end=" ")
+	print(terminal.__bold__  + terminal.ljust(_(MODIFIED_ROWS_TEXT), 20) + terminal.__normal__, end=" ")
 
 	for period in periods:
-		total_changes = timeline_data.get_total_changes_in_period(period)
-		print("" + str(total_changes[2]).rjust(10), end=" ")
+		total_changes = str(timeline_data.get_total_changes_in_period(period)[2])
+
+		if hasattr(total_changes, 'decode'):
+			total_changes = total_changes.decode("utf-8", "replace")
+
+		print(terminal.rjust(total_changes, 10), end=" ")
 
 	print("")
 

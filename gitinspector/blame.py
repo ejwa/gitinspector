@@ -276,11 +276,11 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(_("Author").ljust(21) + _("Rows").rjust(10) + _("Stability").rjust(15) + _("Age").rjust(13) +
-		                _("% in comments").rjust(20))
+		terminal.printb(terminal.ljust(_("Author"), 21) + terminal.rjust(_("Rows"), 10) + terminal.rjust(_("Stability"), 15) +
+		                terminal.rjust(_("Age"), 13) + terminal.rjust(_("% in comments"), 20))
 
 		for i in sorted(__blame__.get_summed_blames().items()):
-			print(i[0].ljust(20)[0:20], end=" ")
+			print(terminal.ljust(i[0], 20)[0:20 - terminal.get_excess_column_count(i[0])], end=" ")
 			print(str(i[1].rows).rjust(10), end=" ")
 			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(14), end=" ")
 			print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")

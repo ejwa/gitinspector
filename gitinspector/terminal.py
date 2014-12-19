@@ -22,6 +22,7 @@ import codecs
 import os
 import platform
 import sys
+import unicodedata
 
 __bold__ =  "\033[1m"
 __normal__ =  "\033[0;0m"
@@ -128,3 +129,19 @@ def check_terminal_encoding():
 	if sys.stdout.isatty() and (sys.stdout.encoding == None or sys.stdin.encoding == None):
 		print(_("WARNING: The terminal encoding is not correctly configured. gitinspector might malfunction. "
 		        "The encoding can be configured with the environment variable 'PYTHONIOENCODING'."), file=sys.stderr)
+
+def get_excess_column_count(string):
+	width_mapping = {'F': 2, 'H': 1, 'W': 2, 'Na': 1, 'N': 1, 'A': 1}
+	result = 0
+
+	for c in string:
+		w = unicodedata.east_asian_width(c)
+		result += width_mapping[w]
+
+	return result - len(string)
+
+def ljust(string, pad):
+	return string.ljust(pad - get_excess_column_count(string))
+
+def rjust(string, pad):
+	return string.rjust(pad - get_excess_column_count(string))
