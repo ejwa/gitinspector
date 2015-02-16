@@ -23,6 +23,7 @@ import basedir
 import gettext
 import locale
 import os
+import sys
 import time
 
 __enabled__ = False
@@ -49,7 +50,9 @@ def init():
 			#Fix for non-POSIX-compliant systems (Windows et al.).
 			if os.getenv('LANG') is None:
 				lang = locale.getdefaultlocale()
-				os.environ['LANG'] = lang[0]
+
+				if lang[0]:
+					os.environ['LANG'] = lang[0]
 
 			if lang[0] is not None:
 				filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
@@ -59,6 +62,7 @@ def init():
 				except IOError:
 					__translation__ = gettext.NullTranslations()
 			else:
+				print("WARNING: Localization disabled because the system language could not be determined.", file=sys.stderr)
 				__translation__ = gettext.NullTranslations()
 
 		__enabled__ = True
