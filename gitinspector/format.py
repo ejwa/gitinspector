@@ -67,7 +67,8 @@ def output_header():
 	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
 		base = basedir.get_basedir()
 		html_header = __output_html_template__(base + "/html/html.header")
-		tablesorter_js = __get_zip_file_content__("jquery.tablesorter.min.js", "/html/jquery.tablesorter.min.js.zip")
+		tablesorter_js = __get_zip_file_content__("jquery.tablesorter.min.js", "/html/jquery.tablesorter.min.js.zip").encode("latin-1", "replace")
+		tablesorter_js = tablesorter_js.decode("utf-8", "ignore")
 		flot_js = __get_zip_file_content__("jquery.flot.js")
 		pie_js = __get_zip_file_content__("jquery.flot.pie.js")
 		resize_js = __get_zip_file_content__("jquery.flot.resize.js")
