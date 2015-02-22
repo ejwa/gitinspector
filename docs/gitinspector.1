@@ -1,0 +1,291 @@
+'\" t
+.\"     Title: gitinspector
+.\"    Author: [see the "AUTHOR" section]
+.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
+.\"      Date: 02/22/2015
+.\"    Manual: The gitinspector Manual
+.\"    Source: gitinspector 0.4.0
+.\"  Language: English
+.\"
+.TH "GITINSPECTOR" "1" "02/22/2015" "gitinspector 0\&.4\&.0" "The gitinspector Manual"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+gitinspector \- statistical analysis tool for git repositories
+.SH "SYNOPSIS"
+.sp
+\fBgitinspector\fR [OPTION]\&... [REPOSITORY]
+.SH "DESCRIPTION"
+.sp
+Analyze and gather statistics about a git repository\&. The defaut analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author\&. Under normal operation, gitinspector filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis\&.
+.sp
+Several output formats are supported, including plain text, HTML and XML\&.
+.SH "OPTIONS"
+.sp
+List information about the repository in REPOSITORY\&. If no repository is specified, the current directory is used\&. If multiple repositories are given, information will be fetched from the last repository specified\&.
+.sp
+Mandatory arguments to long options are mandatory for short options too\&. Boolean arguments can only be given to long options\&.
+.PP
+\fB\-f, \-\-file\-types\fR=EXTENSIONS
+.RS 4
+A comma separated list of file extensions to include when computing statistics\&. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql
+.RE
+.PP
+\fB\-F, \-\-format\fR=FORMAT
+.RS 4
+Defines in which format output should be generated; the default format is
+\fItext\fR
+and the available formats are: html,htmlembedded,text,xml (see
+\fBOUTPUT FORMATS\fR)
+.RE
+.PP
+\fB\-\-grading\fR[=BOOL]
+.RS 4
+Show statistics and information in a way that is formatted for grading of student projects; this is the same as supplying the options
+\fB\-HlmrTw\fR
+.RE
+.PP
+\fB\-H, \-\-hard\fR[=BOOL]
+.RS 4
+Track rows and look for duplicates harder; this can be quite slow with big repositories
+.RE
+.PP
+\fB\-l, \-\-list\-file\-types\fR[=BOOL]
+.RS 4
+List all the file extensions available in the current branch of the repository
+.RE
+.PP
+\fB\-L, \-\-localize\-output\fR[=BOOL]
+.RS 4
+Localize the generated output to the selected system language if a translation is available
+.RE
+.PP
+\fB\-m, \-\-metrics\fR[=BOOL]
+.RS 4
+Include checks for certain metrics during the analysis of commits
+.RE
+.PP
+\fB\-r \-\-responsibilities\fR[=BOOL]
+.RS 4
+Show which files the different authors seem most responsible for
+.RE
+.PP
+\fB\-\-since\fR=DATE
+.RS 4
+Only show statistics for commits more recent than a specific date
+.RE
+.PP
+\fB\-T, \-\-timeline\fR[=BOOL]
+.RS 4
+Show commit timeline, including author names
+.RE
+.PP
+\fB\-\-until\fR=DATE
+.RS 4
+Only show statistics for commits older than a specific date
+.RE
+.PP
+\fB\-w, \-\-weeks\fR[=BOOL]
+.RS 4
+Show all statistical information in weeks instead of in months
+.RE
+.PP
+\fB\-x, \-\-exclude\fR=PATTERN
+.RS 4
+An exclusion pattern describing the file paths, revisions, author names or author emails that should be excluded from the statistics; can be specified multiple times (see
+\fBFILTERING\fR)
+.RE
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Display help and exit
+.RE
+.PP
+\fB\-\-version\fR
+.RS 4
+Output version information and exit
+.RE
+.SH "OUTPUT FORMATS"
+.sp
+There are support for multiple output formats in gitinspector\&. They can be selected using the \fB\-F\fR/\fB\-\-format\fR flags when running the main gitinspector script\&.
+.PP
+\fBtext (plain text)\fR
+.RS 4
+Plain text with some very simple ANSI formatting, suitable for console output\&. This is the format chosen by default by gitinspector\&.
+.RE
+.PP
+\fBhtml\fR
+.RS 4
+HTML with external links\&. The generated HTML page links to some external resources; such as the JavaScript library JQuery\&. It requires an active internet connection to properly function\&. This output format will most likely also link to additional external resources in the future\&.
+.RE
+.PP
+\fBhtmlembedded\fR
+.RS 4
+HTML with no external links\&. Similar to the HTML output format, but requires no active internet connection\&. As a consequence; the generated pages are bigger (as certain scripts have to be embedded into the generated output)\&.
+.RE
+.PP
+\fBxml\fR
+.RS 4
+XML suitable for machine consumption\&. If you want to parse the output generated by gitinspector in a script or application of your own; this is the format you should choose\&.
+.RE
+.SH "FILTERING"
+.sp
+gitinspector offers several different ways of filtering out unwanted information from the generated statistics:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x myfile\fR, filter out and exclude statistics from all files (or paths) with the string "myfile"
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x file:myfile\fR, filter out and exclude statistics from all files (or paths) with the string "myfile"
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x author:John\fR, filter out and exclude statistics from all authors containing the string "John"
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x email:@gmail\&.com\fR, filter out and exclude statistics from all authors with a gmail account
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x revision:8755fb33\fR, filter out and exclude statistics from all revisions containing the hash "8755fb33"
+.RE
+.sp
+The gitinspector command also lets you add multiple filtering rules by simply specifying the \-x options several times or by separating each filtering rule with a comma;
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x author:John \-x email:@gmail\&.com\fR
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x author:John,email:@gmail\&.com\fR
+.RE
+.sp
+Sometimes, sub\-string matching (as described above) is simply not enough\&. Therefore, gitinspector let\(cqs you specify regular expressions as filtering rules\&. This makes filtering much more flexible:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x "author:\e^(?!(John Smith))"\fR, only show statistics from author "John Smith"
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x "author:\e^(?!([A\-C]))"\fR, only show statistics from authors starting with the letters A/B/C
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x "email:\&.com$"\fR, filter out statistics from all email addresses ending with "\&.com"
+.RE
+.SH "USING GIT TO CONFIGURE GITINSPECTOR"
+.sp
+Options in gitinspector can be set using \fBgit config\fR\&. Consequently, it is possible to configure gitinspector behavior globally (in all git repositories) or locally (in a specific git repository)\&. It also means that settings will be permanently stored\&. All the long options that can be given to gitinspector can also be configure via git config (and take the same arguments)\&.
+.sp
+To configure how gitinspector should behave in all git repositories, execute the following git command:
+.sp
+\fBgit config \-\-global inspector\&.option setting\fR
+.sp
+To configure how gitinspector should behave in a specific git repository, execute the following git command (with the current directory standing inside the repository in question):
+.sp
+\fBgit config inspector\&.option setting\fR
+.SH "AUTHOR"
+.sp
+Originally written by Adam Waldenberg\&.
+.SH "REPORTING BUGS"
+.sp
+Report gitinspector bugs to gitinspector@ejwa\&.se
+.sp
+The gitinspector project page: http://gitinspector\&.googlecode\&.com
+.sp
+If you encounter problems, be sure to read the FAQ first: http://code\&.google\&.com/p/gitinspector/wiki/FAQ
+.SH "COPYRIGHT"
+.sp
+Copyright \(co 2012\-2015 Ejwa Software\&. All rights reserved\&. License GPLv3+: GNU GPL version 3 or later http://gnu\&.org/licenses/gpl\&.html\&. This is free software: you are free to change and redistribute it\&. There is NO WARRANTY, to the extent permitted by law\&.
+.SH "SEE ALSO"
+.sp
+\fBgit\fR(1)
