@@ -172,8 +172,8 @@ class Blame:
 	@staticmethod
 	def get_stability(author, blamed_rows, changes):
 		if author in changes.get_authorinfo_list():
-			return 100.0 * blamed_rows / changes.get_authorinfo_list()[author].insertions
-
+			author_insertions = changes.get_authorinfo_list()[author].insertions
+			return 100 if author_insertions == 0 else 100.0 * blamed_rows / author_insertions
 		return 100
 
 	@staticmethod
