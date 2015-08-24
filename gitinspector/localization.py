@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2013-2014 Ejwa Software. All rights reserved.
+# Copyright © 2013-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #

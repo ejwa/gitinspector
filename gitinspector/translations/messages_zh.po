@@ -1,4 +1,4 @@
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -57,14 +57,14 @@ msgid "Commits"
 msgstr "提交"
 
 msgid ""
-"Copyright © 2012-2014 Ejwa Software. All rights reserved.\n"
+"Copyright © 2012-2015 Ejwa Software. All rights reserved.\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n"
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 "\n"
 "Written by Adam Waldenberg."
 msgstr ""
-"版权所有 © 2012-2014 Ejwa Software. 保留所有权利。\n"
+"版权所有 © 2012-2015 Ejwa Software. 保留所有权利。\n"
 "GPLv3的许可证+：GNU GPL版本3或更高版本<http://gnu.org/licenses/gpl.html>。\n"
 "这是自由软件：您可以自由地更改并重新发布它。\n"
 "在法律允许的范围内,没有 任何 保证。\n"
