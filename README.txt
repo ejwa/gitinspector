@@ -1,4 +1,4 @@
-Copyright © 2012-2014 Ejwa Software. All rights reserved.
+Copyright © 2012-2015 Ejwa Software. All rights reserved.
 
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under
@@ -11,5 +11,5 @@ To run gitinspector; please start it via the gitinspector/gitinspector.py
 script. Use the -h or --help flags to get help about available options.
 
 It is also possible to set gitinspector options using the "git config"
-command. Refer to the project page at http://gitinspector.googlecode.com
+command. Refer to the project page at https://github.com/ejwa/gitinspector
 for more information.
