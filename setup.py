@@ -34,7 +34,7 @@ setup(
 	description = ("A statistical analysis tool for git repositories."),
 	license = "GNU GPL v3",
 	keywords = "analysis analyzer git python statistics stats vc vcs timeline",
-	url = "http://gitinspector.googlecode.com",
+	url = "https://github.com/ejwa/gitinspector",
 	long_description = read("DESCRIPTION.txt"),
 	classifiers = [
 		"Development Status :: 4 - Beta",

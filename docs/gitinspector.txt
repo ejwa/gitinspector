@@ -140,9 +140,9 @@ REPORTING BUGS
 --------------
 Report gitinspector bugs to gitinspector@ejwa.se
 
-The gitinspector project page: <http://gitinspector.googlecode.com>
+The gitinspector project page: <https://github.com/ejwa/gitinspector>
 
-If you encounter problems, be sure to read the FAQ first: <http://code.google.com/p/gitinspector/wiki/FAQ>
+If you encounter problems, be sure to read the FAQ first: <https://github.com/ejwa/gitinspector/wiki/FAQ>
 
 COPYRIGHT
 ---------
