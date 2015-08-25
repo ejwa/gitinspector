@@ -20,8 +20,8 @@ Please refer to the [[FAQ]] for help on the most common questions.
 ### Example outputs
 Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlr"* flags.
 
-| Project name |||||
-|-|-|-|-|-|
+| Project name | | | | |
+|---|---|---|---|---|
 | Django | [HTML](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/django_output.html) | [HTML Embedded](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/django_output.emb.html) | [Plain Text](https://raw.github.com/wiki/ejwa/gitinspector/examples/django_output.txt) | [XML](https://raw.github.com/wiki/ejwa/gitinspector/examples/django_output.xml) |
 | JQuery | [HTML](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/jquery_output.html) | [HTML Embedded](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/jquery_output.emb.html) | [Plain Text](https://raw.github.com/wiki/ejwa/gitinspector/examples/jquery_output.txt) | [XML](https://raw.github.com/wiki/ejwa/gitinspector/examples/jquery_output.xml) |
 | Pango | [HTML](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/pango_output.html) | [HTML Embedded](http://htmlpreview.github.io/?https://raw.github.com/wiki/ejwa/gitinspector/examples/pango_output.emb.html) | [Plain Text](https://raw.github.com/wiki/ejwa/gitinspector/examples/pango_output.txt) | [XML](https://raw.github.com/wiki/ejwa/gitinspector/examples/pango_output.xml) |
