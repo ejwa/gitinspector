@@ -10,7 +10,7 @@ This tool was originally written to help fetch repository statistics from studen
 
 Today, gitinspector is used as a grading aid by universities worldwide.
 
-Please refer to the [FAQ](https://github.com/ejwa/gitinspector/wiki/FAQ) for help on the most common questions.
+A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) of the usage and available options of gitinspector is available on the wiki. For help on the most common questions, please refer to the [FAQ](https://github.com/ejwa/gitinspector/wiki/FAQ) document.
 
 ### Some of the features
   * Shows cumulative work by each author in the history.
