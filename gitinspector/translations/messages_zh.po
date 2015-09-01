@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# Bill Wang <wangzhijiebill@gmail.com>, 2013-2014
+# Bill Wang <wangzhijiebill@gmail.com>, 2013-2015
 
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.3.2\n"
+"Project-Id-Version: gitinspector 0.4.0\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2014-11-29 05:20+0100\n"
 "PO-Revision-Date: 2014-12-03 12:00+0100\n"
