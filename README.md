@@ -24,7 +24,7 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Can report violations of different code metrics.
 
 ### Example outputs
-Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlr"* flags.
+Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlrm"* flags.
 
 | Project name | | | | |
 |---|---|---|---|---|
