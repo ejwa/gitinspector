@@ -1,0 +1,81 @@
+gitinspector (0.4.0)
+
+	Major update with many fixes and new features.
+
+	* Support for remote repositories (git://, http(s)://, ssh://).
+	* Code stability and age shown in blame output.
+	* Support for cyclomatic complexity and cyclomatic complexity density
+	  metrics.
+	* Ability to exclude commit hashes (revisions) from statistics.
+	* Improved HTML output.
+	* Support for ADA, OCaml and Haskell comments.
+	* Improved localization support for languages with multi-column
+	  characters.
+	* Many (big and small) bug fixes.
+	* French translation.
+	* German translation.
+
+
+gitinspector (0.3.2)
+
+	Maintenance release that adds several new features and bug fixes.
+
+	* Better handling of terminals that have no encoding configured.
+	* File extensions .cc and .hh scanned by default.
+	* Support for bare repositories.
+	* Support for comments in .xhtml, .jspx, and .scala files.
+	* The ability to filter out statistics from specific authors or
+	  emails.
+	* The flag --since now behaves correctly.
+	* Italian translation.
+	* Polish translation.
+
+
+gitinspector (0.3.1)
+
+	Minor release which adds support for gravatars.
+
+	* A few minor bug fixes.
+	* Chinese translation.
+	* Support for gravatars in the HTML and XML outputs.
+	* Improved responsibilities section in the HTML output.
+	* Debian package now properly depends on git.
+
+
+gitinspector (0.3.0)
+
+	This is a major release with many new features.
+
+	* Support for comments in LaTex (.tex) and PHP files.
+	* Many bugfixes.
+	* Localization support (English and Swedish for now).
+	* Support for setting gitinspector options via git-config.
+	* Support for regular expressions in conjunction with -x/--exclude.
+	* New output format; "htmlembedded".
+	* Support for Python packaging via setuptools.
+	* Improved HTML output with new JQuery and flot versions.
+
+
+gitinspector (0.2.2)
+
+	This is a maintenance release that fixes several bugs; many related to
+	character encoding. This version also adds table sorting to the HTML
+	output.
+
+
+gitinspector (0.2.1)
+
+	Maintenance release that fixes compatibility with Python 3 and
+	introduces the --since and --until interval flags.
+
+
+gitinspector (0.2.0)
+
+	This release includes several bug fixes and introduces HTML and XML
+	output formats.
+
+
+gitinspector (0.1.0)
+
+	First public release. While incomplete, this release fulfills the most
+	important feature requirements that were originally outlined.
