@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2013 Ejwa Software. All rights reserved.
+# Copyright © 2013-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -41,10 +41,10 @@ def __test_extension__(commented_file, extension):
 
 class TexFileTest(unittest2.TestCase):
     def test(self):
-	comment_counter = __test_extension__("/commented_file.tex", "tex")
+	comment_counter = __test_extension__("/resources/commented_file.tex", "tex")
 	self.assertEqual(comment_counter, 30)
 
 class CppFileTest(unittest2.TestCase):
     def test(self):
-	comment_counter = __test_extension__("/commented_file.cpp", "cpp")
+	comment_counter = __test_extension__("/resources/commented_file.cpp", "cpp")
 	self.assertEqual(comment_counter, 25)
