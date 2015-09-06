@@ -19,6 +19,11 @@
 
 from __future__ import unicode_literals
 
+try:
+	from shlex import quote
+except ImportError:
+	from pipes import quote
+
 __since__ = ""
 
 __until__ = ""
@@ -33,14 +38,14 @@ def get_since():
 
 def set_since(since):
 	global __since__
-	__since__ = "--since=\"" + since + "\" "
+	__since__ = "--since=" + quote(since)
 
 def get_until():
 	return __until__
 
 def set_until(until):
 	global __until__
-	__until__ = "--until=\"" + until + "\" "
+	__until__ = "--until=" + quote(until)
 
 def get_ref():
 	return __ref__

@@ -50,13 +50,13 @@ __blame_lock__ = threading.Lock()
 AVG_DAYS_PER_MONTH = 30.4167
 
 class BlameThread(threading.Thread):
-	def __init__(self, useweeks, changes, blame_string, extension, blames, filename):
+	def __init__(self, useweeks, changes, blame_command, extension, blames, filename):
 		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
 		self.useweeks = useweeks
 		self.changes = changes
-		self.blame_string = blame_string
+		self.blame_command = blame_command
 		self.extension = extension
 		self.blames = blames
 		self.filename = filename
@@ -99,7 +99,7 @@ class BlameThread(threading.Thread):
 		__blame_lock__.release() # ...to here.
 
 	def run(self):
-		git_blame_r = subprocess.Popen(self.blame_string, shell=True, bufsize=1, stdout=subprocess.PIPE).stdout
+		git_blame_r = subprocess.Popen(self.blame_command, bufsize=1, stdout=subprocess.PIPE).stdout
 		rows = git_blame_r.readlines()
 		git_blame_r.close()
 
@@ -130,7 +130,7 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:
 class Blame:
 	def __init__(self, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen("git ls-tree --name-only -r " + interval.get_ref(), shell=True, bufsize=1,
+		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
 
@@ -140,9 +140,10 @@ class Blame:
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-				blame_string = "git blame --line-porcelain -w {0} ".format("-C -C -M" if hard else "") + \
-				               interval.get_since() + interval.get_ref() + " -- \"" + row + "\""
-				thread = BlameThread(useweeks, changes, blame_string, FileDiff.get_extension(row), self.blames, row.strip())
+				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
+						(["-C", "-C", "-M"] if hard else []) +
+				                [interval.get_since(), interval.get_ref(), "--", row])
+				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
 

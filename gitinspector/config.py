@@ -29,8 +29,7 @@ import subprocess
 def __read_git_config__(repo, variable):
 	previous_directory = os.getcwd()
 	os.chdir(repo)
-	setting = subprocess.Popen("git config inspector." + variable, shell=True, bufsize=1,
-	                           stdout=subprocess.PIPE).stdout
+	setting = subprocess.Popen(["git", "config", "inspector." + variable], bufsize=1, stdout=subprocess.PIPE).stdout
 	os.chdir(previous_directory)
 
 	try:

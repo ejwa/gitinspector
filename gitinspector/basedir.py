@@ -33,7 +33,7 @@ def get_basedir_git():
 	global __git_basedir__
 
 	if not __git_basedir__:
-		sp = subprocess.Popen("git rev-parse --is-bare-repository", shell=True, bufsize=1,
+		sp = subprocess.Popen(["git", "rev-parse", "--is-bare-repository"], bufsize=1,
 		                          stdout=subprocess.PIPE, stderr=open(os.devnull, "w"))
 		isbare = sp.stdout.readlines()
 		sp.wait()
@@ -43,10 +43,9 @@ def get_basedir_git():
 		absolute_path = ""
 
 		if isbare:
-			absolute_path = subprocess.Popen("git rev-parse --git-dir", shell=True, bufsize=1,
-		                                 stdout=subprocess.PIPE).stdout
+			absolute_path = subprocess.Popen(["git", "rev-parse", "--git-dir"], bufsize=1, stdout=subprocess.PIPE).stdout
 		else:
-			absolute_path = subprocess.Popen("git rev-parse --show-toplevel", shell=True, bufsize=1,
+			absolute_path = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], bufsize=1,
 			                                 stdout=subprocess.PIPE).stdout
 
 		absolute_path = absolute_path.readlines()

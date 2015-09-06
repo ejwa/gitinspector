@@ -32,7 +32,7 @@ def create(url):
 		global __cloned_path__
 
 		location = tempfile.mkdtemp(suffix=".gitinspector")
-		git_clone = subprocess.Popen("git clone {0} {1}".format(url, location), shell=True, bufsize=1, stdout=sys.stderr)
+		git_clone = subprocess.Popen(["git", "clone", url, location], bufsize=1, stdout=sys.stderr)
 		git_clone.wait()
 
 		if git_clone.returncode != 0:
