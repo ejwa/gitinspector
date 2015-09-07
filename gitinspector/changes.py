@@ -142,7 +142,7 @@ class Changes:
 					commit.add_filediff(filediff)
 
 		if interval.has_interval() and len(self.commits) > 0:
-			interval.set_ref(self.commits[0].sha)
+			interval.set_ref(self.commits[-1].sha)
 
 		if len(self.commits) > 0:
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
