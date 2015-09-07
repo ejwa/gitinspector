@@ -29,6 +29,7 @@ import filtering
 import format
 import gravatar
 import interval
+import json
 import multiprocessing
 import re
 import subprocess
@@ -246,7 +247,7 @@ class BlameOutput(Outputable):
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
-			chart_data += "{{label: \"{0}\", data: {1}}}".format(entry[0], work_percentage)
+			chart_data += "{{label: {0}, data: {1}}}".format(json.dumps(entry[0]), work_percentage)
 
 			if blames[-1] != entry:
 				chart_data += ", "

@@ -28,6 +28,7 @@ import filtering
 import format
 import gravatar
 import interval
+import json
 import os
 import subprocess
 import terminal
@@ -238,7 +239,7 @@ class ChangesOutput(Outputable):
 				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
 				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
 				changes_xml += "</tr>"
-				chart_data += "{{label: \"{0}\", data: {1}}}".format(entry, "{0:.2f}".format(percentage))
+				chart_data += "{{label: {0}, data: {1}}}".format(json.dumps(entry), "{0:.2f}".format(percentage))
 
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
