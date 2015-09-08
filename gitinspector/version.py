@@ -27,7 +27,7 @@ except:
 	import gitinspector.localization
 	gitinspector.localization.init()
 
-__version__ = "0.4.1"
+__version__ = "0.4.2dev"
 
 __doc__ = _("""Copyright © 2012-2015 Ejwa Software. All rights reserved.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
