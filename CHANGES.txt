@@ -1,3 +1,8 @@
+gitinspector (0.4.1)
+
+	Maintenance release fixing several issues found in the previous version.
+
+
 gitinspector (0.4.0)
 
 	Major update with many fixes and new features.
