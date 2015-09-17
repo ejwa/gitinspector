@@ -55,6 +55,8 @@ Boolean arguments can only be given to long options.
                                    most responsible for
       --since=DATE               only show statistics for commits more recent
                                    than a specific date
+      --subpath=PATH             only show statistics for commits to files
+                                   within this path
   -T, --timeline[=BOOL]          show commit timeline, including author names
       --until=DATE               only show statistics for commits older than a
                                    specific date

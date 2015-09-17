@@ -58,6 +58,9 @@ Mandatory arguments to long options are mandatory for short options too. Boolean
 *--since*=DATE::
 	Only show statistics for commits more recent than a specific date
 
+*--subpath*=PATH::
+	Only show statistics for commits to files within this path
+
 *-T, --timeline*[=BOOL]::
 	Show commit timeline, including author names
 

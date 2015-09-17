@@ -22,6 +22,7 @@ import extensions
 import filtering
 import format
 import interval
+import subpath
 import optval
 import os
 import subprocess
@@ -78,6 +79,10 @@ def init(run):
 	var = __read_git_config_string__(run.repo, "until")
 	if var[0]:
 		interval.set_until(var[1])
+
+	var = __read_git_config_string__(run.repo, "subpath")
+	if var[0]:
+		subpath.set_subpath(var[1])
 
 	run.timeline = __read_git_config_bool__(run.repo, "timeline")
 
