@@ -29,6 +29,7 @@ import filtering
 import format
 import gravatar
 import interval
+import subpath
 import json
 import multiprocessing
 import re
