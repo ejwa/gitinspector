@@ -29,6 +29,7 @@ import filtering
 import format
 import gravatar
 import interval
+import subpath
 import json
 import multiprocessing
 import re
@@ -131,7 +132,7 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:
 class Blame:
 	def __init__(self, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref(), subpath.get_subpath()], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
 

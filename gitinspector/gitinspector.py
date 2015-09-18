@@ -35,6 +35,7 @@ import filtering
 import format
 import help
 import interval
+import subpath
 import getopt
 import metrics
 import os
@@ -108,7 +109,7 @@ def main():
 		                                                 "hard:true", "help", "list-file-types:true",
 		                                                 "localize-output:true", "metrics:true", "responsibilities:true",
 		                                                 "since=", "grading:true", "timeline:true", "until=", "version",
-		                                                 "weeks:true"])
+		                                                 "subpath=", "weeks:true"])
 		for arg in __args__:
 			__run__.repo = arg
 
@@ -150,6 +151,8 @@ def main():
 				__run__.responsibilities = optval.get_boolean_argument(a)
 			elif o == "--since":
 				interval.set_since(a)
+			elif o == "--subpath":
+				subpath.set_subpath(a)
 			elif o == "--version":
 				version.output()
 				sys.exit(0)

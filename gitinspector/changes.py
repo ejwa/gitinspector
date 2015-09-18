@@ -28,6 +28,7 @@ import filtering
 import format
 import gravatar
 import interval
+import subpath
 import json
 import os
 import subprocess
@@ -109,7 +110,7 @@ class Changes:
 	def __init__(self, hard):
 		self.commits = []
 		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%cd|%H|%aN|%aE", "--stat=100000,8192", "--no-merges", "-w",
-		                             interval.get_since(), interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if hard else [])),
+		                             interval.get_since(), interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if hard else []) + [subpath.get_subpath()]),
 		                             bufsize=1, stdout=subprocess.PIPE).stdout
 		commit = None
 		found_valid_extension = False
