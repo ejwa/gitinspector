@@ -49,7 +49,7 @@ class Extensions(Outputable):
 			extensions_xml = "<div><div class=\"box\">"
 			extensions_xml += "<p>{0} {1}.</p><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
 
-			for i in __located_extensions__:
+			for i in sorted(__located_extensions__):
 				if i in __extensions__:
 					extensions_xml += "<strong>" + i + "</strong>"
 				else:
@@ -64,7 +64,7 @@ class Extensions(Outputable):
 			print("\n" + textwrap.fill("{0} {1}:".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT)),
 			      width=terminal.get_size()[0]))
 
-			for i in __located_extensions__:
+			for i in sorted(__located_extensions__):
 				if i in __extensions__:
 					print("[" + terminal.__bold__ + i + terminal.__normal__ + "]", end=" ")
 				else:
@@ -77,7 +77,7 @@ class Extensions(Outputable):
 			used_extensions_xml = ""
 			unused_extensions_xml = ""
 
-			for i in __located_extensions__:
+			for i in sorted(__located_extensions__):
 				if i in __extensions__:
 					used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
 				else:
