@@ -77,7 +77,6 @@ class BlameThread(threading.Thread):
 
 		if self.blamechunk_is_prior and interval.get_since():
 			return
-
 		try:
 			author = self.changes.get_latest_author_by_email(self.blamechunk_email)
 		except KeyError:
@@ -134,6 +133,7 @@ class Blame:
 		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
+		ls_tree_r.close()
 
 		for i, row in enumerate(lines):
 			row = row.strip().decode("unicode_escape", "ignore")
