@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -29,10 +29,18 @@ import format
 import gravatar
 import interval
 import json
+import multiprocessing
 import os
 import subprocess
 import terminal
 import textwrap
+import threading
+
+CHANGES_PER_THREAD = 200
+NUM_THREADS = multiprocessing.cpu_count()
+
+__thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
+__changes_lock__ = threading.Lock()
 
 class FileDiff:
 	def __init__(self, string):
@@ -100,20 +108,35 @@ class AuthorInfo:
 	deletions = 0
 	commits = 0
 
-class Changes:
-	authors = {}
-	authors_dateinfo = {}
-	authors_by_email = {}
-	emails_by_author = {}
+class ChangesThread(threading.Thread):
+	def __init__(self, hard, changes, first_hash, second_hash, offset):
+		__thread_lock__.acquire() # Lock controlling the number of threads running
+		threading.Thread.__init__(self)
 
-	def __init__(self, hard):
-		self.commits = []
+		self.hard = hard
+		self.changes = changes
+		self.first_hash = first_hash
+		self.second_hash = second_hash
+		self.offset = offset
+
+	@staticmethod
+	def create(hard, changes, first_hash, second_hash, offset):
+		thread = ChangesThread(hard, changes, first_hash, second_hash, offset)
+		thread.daemon = True
+		thread.start()
+
+	def run(self):
 		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%cd|%H|%aN|%aE", "--stat=100000,8192", "--no-merges", "-w",
-		                             interval.get_since(), interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if hard else [])),
-		                             bufsize=1, stdout=subprocess.PIPE).stdout
+		                             interval.get_since(), interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
+		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
+		lines = git_log_r.readlines()
+		git_log_r.close()
+
 		commit = None
 		found_valid_extension = False
-		lines = git_log_r.readlines()
+		commits = []
+
+		__changes_lock__.acquire() # Global lock used to protect calls from here...
 
 		for i in lines:
 			j = i.strip().decode("unicode_escape", "ignore")
@@ -122,12 +145,12 @@ class Changes:
 
 			if Commit.is_commit_line(j):
 				(author, email) = Commit.get_author_and_email(j)
-				self.emails_by_author[author] = email
-				self.authors_by_email[email] = author
+				self.changes.emails_by_author[author] = email
+				self.changes.authors_by_email[email] = author
 
 			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
-					self.commits.append(commit)
+					commits.append(commit)
 
 				found_valid_extension = False
 				commit = Commit(j)
@@ -142,19 +165,54 @@ class Changes:
 					filediff = FileDiff(j)
 					commit.add_filediff(filediff)
 
-		if interval.has_interval() and len(self.commits) > 0:
-			interval.set_ref(self.commits[-1].sha)
+		self.changes.commits[self.offset / CHANGES_PER_THREAD] = commits
+		__changes_lock__.release() # ...to here.
+		__thread_lock__.release() # Lock controlling the number of threads running
+
+class Changes:
+	authors = {}
+	authors_dateinfo = {}
+	authors_by_email = {}
+	emails_by_author = {}
+
+	def __init__(self, hard):
+
+		git_log_hashes_r = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
+		                                    interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+		                                    stdout=subprocess.PIPE).stdout
+		lines = git_log_hashes_r.readlines()
+		git_log_hashes_r.close()
+		self.commits = [None] * (len(lines) / CHANGES_PER_THREAD + 1)
+		first_hash = ""
+
+		for i, entry in enumerate(lines):
+			if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
+				second_hash = entry.strip()
+				ChangesThread.create(hard, self, first_hash, second_hash, i)
+				first_hash = entry.strip() + ".."
+		else:
+				second_hash = entry.strip()
+				ChangesThread.create(hard, self, first_hash, second_hash, i)
+
+		# Make sure all threads have completed.
+		for i in range(0, NUM_THREADS):
+			__thread_lock__.acquire()
+
+		self.commits = [item for sublist in self.commits for item in sublist]
+
+		if interval.has_interval() and len(commits) > 0:
+			interval.set_ref(commits[-1].sha)
 
 		if len(self.commits) > 0:
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
-			                                       int(self.commits[0].date[8:10]))
+			                                               int(self.commits[0].date[8:10]))
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
-			                                       int(self.commits[-1].date[8:10]))
+			                                              int(self.commits[-1].date[8:10]))
 
 	def get_commits(self):
 		return self.commits
 
-	def __modify_authorinfo__(self, authors, key, commit):
+	def modify_authorinfo(self, authors, key, commit):
 		if authors.get(key, None) == None:
 			authors[key] = AuthorInfo()
 
@@ -168,19 +226,19 @@ class Changes:
 	def get_authorinfo_list(self):
 		if not self.authors:
 			for i in self.commits:
-				self.__modify_authorinfo__(self.authors, i.author, i)
+				self.modify_authorinfo(self.authors, i.author, i)
 
 		return self.authors
 
 	def get_authordateinfo_list(self):
 		if not self.authors_dateinfo:
 			for i in self.commits:
-				self.__modify_authorinfo__(self.authors_dateinfo, (i.date, i.author), i)
+				self.modify_authorinfo(self.authors_dateinfo, (i.date, i.author), i)
 
 		return self.authors_dateinfo
 
 	def get_latest_author_by_email(self, name):
-		if not hasattr(name, 'decode'):
+		if not hasattr(name, "decode"):
 			name = str.encode(name)
 
 		name = name.decode("unicode_escape", "ignore")
