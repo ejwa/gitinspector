@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -77,8 +77,8 @@ FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics 
 FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
 FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified " \
                                "exclusion patterns")
-FILTERING_EMAIL_INFO_TEXT = N_("The following commit revisions were excluded from the statistics due to the specified " \
-                               "exclusion patterns")
+FILTERING_COMMIT_INFO_TEXT = N_("The following commit revisions were excluded from the statistics due to the specified " \
+                                "exclusion patterns")
 
 class Filtering(Outputable):
 	@staticmethod
@@ -99,7 +99,7 @@ class Filtering(Outputable):
 			Filtering.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
 			Filtering.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
 			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["revision"][1])
+			Filtering.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
 			filtering_xml += "</div></div>"
 
 			print(filtering_xml)
@@ -117,7 +117,7 @@ class Filtering(Outputable):
 		Filtering.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
 		Filtering.__output_text_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
 		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["revision"][1])
+		Filtering.__output_text_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
 
 	@staticmethod
 	def __output_xml_section__(info_string, filtered, container_tagname):
@@ -138,5 +138,5 @@ class Filtering(Outputable):
 			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files")
 			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors")
 			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
-			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["revision"][1].union(), "revisions")
+			Filtering.__output_xml_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1].union(), "revisions")
 			print("\t</filtering>")
