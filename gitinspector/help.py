@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -61,7 +61,8 @@ Boolean arguments can only be given to long options.
   -w, --weeks[=BOOL]             show all statistical information in weeks
                                    instead of in months
   -x, --exclude=PATTERN          an exclusion pattern describing the file
-                                   paths, revisions, author names or author
+                                   paths, revisions, revisions with certain
+                                   commit messages, author names or author
                                    emails that should be excluded from the
                                    statistics; can be specified multiple times
   -h, --help                     display this help and exit

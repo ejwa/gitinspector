@@ -134,6 +134,7 @@ class ChangesThread(threading.Thread):
 
 		commit = None
 		found_valid_extension = False
+		is_filtered = False
 		commits = []
 
 		__changes_lock__.acquire() # Global lock used to protect calls from here...
@@ -153,11 +154,18 @@ class ChangesThread(threading.Thread):
 					commits.append(commit)
 
 				found_valid_extension = False
+				is_filtered = False
 				commit = Commit(j)
 
-			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)) and not \
-			   filtering.set_filtered(commit.author, "author") and not filtering.set_filtered(commit.email, "email") and not \
-			   filtering.set_filtered(commit.sha, "revision"):
+				if Commit.is_commit_line(j) and \
+				   (filtering.set_filtered(commit.author, "author") or \
+				   filtering.set_filtered(commit.email, "email") or \
+				   filtering.set_filtered(commit.sha, "revision") or \
+				   filtering.set_filtered(commit.sha, "message")):
+					is_filtered = True
+
+			if FileDiff.is_filediff_line(j) and not \
+			   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
 				extensions.add_located(FileDiff.get_extension(j))
 
 				if FileDiff.is_valid_extension(j):

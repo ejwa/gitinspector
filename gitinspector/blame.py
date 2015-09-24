@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -82,10 +82,12 @@ class BlameThread(threading.Thread):
 		except KeyError:
 			return
 
-		__blame_lock__.acquire() # Global lock used to protect calls from here...
-
-		if not filtering.set_filtered(author, "author") and not filtering.set_filtered(self.blamechunk_email, "email") and not \
+		if not filtering.set_filtered(author, "author") and not \
+		       filtering.set_filtered(self.blamechunk_email, "email") and not \
 		       filtering.set_filtered(self.blamechunk_revision, "revision"):
+
+			__blame_lock__.acquire() # Global lock used to protect calls from here...
+
 			if self.blames.get((author, self.filename), None) == None:
 				self.blames[(author, self.filename)] = BlameEntry()
 
@@ -96,7 +98,7 @@ class BlameThread(threading.Thread):
 				self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - self.blamechunk_time).days /
 				                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
 
-		__blame_lock__.release() # ...to here.
+			__blame_lock__.release() # ...to here.
 
 	def run(self):
 		git_blame_r = subprocess.Popen(self.blame_command, bufsize=1, stdout=subprocess.PIPE).stdout

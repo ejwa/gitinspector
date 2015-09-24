@@ -22,10 +22,11 @@ from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
 import re
+import subprocess
 import terminal
 import textwrap
 
-__filters__ = {"file": [[], set()], "author": [[], set()], "email": [[], set()], "revision": [[], set()]}
+__filters__ = {"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()], "message" : [set(), None]}
 
 class InvalidRegExpError(ValueError):
 	def __init__(self, msg):
@@ -38,9 +39,9 @@ def get():
 def __add_one__(string):
 	for i in __filters__:
 		if (i + ":").lower() == string[0:len(i) + 1].lower():
-			__filters__[i][0].append(string[len(i) + 1:])
+			__filters__[i][0].add(string[len(i) + 1:])
 			return
-	__filters__["file"][0].append(string)
+	__filters__["file"][0].add(string)
 
 def add(string):
 	rules = string.split(",")
@@ -49,7 +50,7 @@ def add(string):
 
 def clear():
 	for i in __filters__:
-		__filters__[i][0] = []
+		__filters__[i][0] = set()
 
 def get_filered(filter_type="file"):
 	return __filters__[filter_type][1]
@@ -60,14 +61,32 @@ def has_filtered():
 			return True
 	return False
 
+def __find_commit_message__(sha):
+	git_show_r = subprocess.Popen(filter(None, ["git", "show", "-s", "--pretty=%B", "-w", sha]), bufsize=1,
+	                              stdout=subprocess.PIPE).stdout
+
+	commit_message = git_show_r.read()
+	git_show_r.close()
+
+	commit_message = commit_message.strip().decode("unicode_escape", "ignore")
+	commit_message = commit_message.encode("latin-1", "replace")
+	return commit_message.decode("utf-8", "replace")
+
 def set_filtered(string, filter_type="file"):
 	string = string.strip()
 
 	if len(string) > 0:
 		for i in __filters__[filter_type][0]:
+			search_for = string
+
+			if filter_type == "message":
+				search_for = __find_commit_message__(string)
 			try:
-				if re.search(i, string) != None:
-					__filters__[filter_type][1].add(string)
+				if re.search(i, search_for) != None:
+					if filter_type == "message":
+						__add_one__("revision:" + string)
+					else:
+						__filters__[filter_type][1].add(string)
 					return True
 			except:
 				raise InvalidRegExpError(_("invalid regular expression specified"))
@@ -138,5 +157,5 @@ class Filtering(Outputable):
 			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files")
 			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors")
 			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
-			Filtering.__output_xml_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1].union(), "revisions")
+			Filtering.__output_xml_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1], "revision")
 			print("\t</filtering>")
