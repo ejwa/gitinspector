@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -28,12 +28,15 @@ import interval
 import re
 import subprocess
 
-__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
+__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
 __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\)", "if\s+\(.*\)", "case\s+\w+:",
                                                             "default:", "while\s+\(.*\)"],
                                                            ["assert", "break", "continue", "return"]],
+                       [["cs"], ["else", "for\s+\(.*\)", "foreach\s+\(.*\)", "goto\s+\w+:", "if\s+\(.*\)", "case\s+\w+:",
+                                 "default:", "while\s+\(.*\)"],
+                                ["assert", "break", "continue", "return"]],
                        [["py"], ["^\s+elif .*:$", "^\s+else:$", "^\s+for .*:", "^\s+if .*:$", "^\s+while .*:$"],
                                 ["^\s+assert", "break", "continue", "return"]]]
 
