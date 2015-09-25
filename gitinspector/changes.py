@@ -173,7 +173,7 @@ class ChangesThread(threading.Thread):
 					filediff = FileDiff(j)
 					commit.add_filediff(filediff)
 
-		self.changes.commits[self.offset / CHANGES_PER_THREAD] = commits
+		self.changes.commits[self.offset // CHANGES_PER_THREAD] = commits
 		__changes_lock__.release() # ...to here.
 		__thread_lock__.release() # Lock controlling the number of threads running
 
@@ -190,16 +190,18 @@ class Changes:
 		                                    stdout=subprocess.PIPE).stdout
 		lines = git_log_hashes_r.readlines()
 		git_log_hashes_r.close()
-		self.commits = [None] * (len(lines) / CHANGES_PER_THREAD + 1)
+		self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
 		first_hash = ""
 
 		for i, entry in enumerate(lines):
 			if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
-				second_hash = entry.strip()
+				entry = entry.decode("utf-8", "replace").strip()
+				second_hash = entry
 				ChangesThread.create(hard, self, first_hash, second_hash, i)
-				first_hash = entry.strip() + ".."
+				first_hash = entry + ".."
 		else:
-				second_hash = entry.strip()
+				entry = entry.decode("utf-8", "replace").strip()
+				second_hash = entry
 				ChangesThread.create(hard, self, first_hash, second_hash, i)
 
 		# Make sure all threads have completed.
