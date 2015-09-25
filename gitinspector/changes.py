@@ -31,6 +31,7 @@ import interval
 import json
 import multiprocessing
 import os
+import re
 import subprocess
 import terminal
 import textwrap
@@ -70,7 +71,7 @@ class FileDiff:
 		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
-			if extension == i:
+			if (extension == "" and i == "*") or extension == i:
 				return True
 		return False
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -37,7 +37,9 @@ def define(string):
 	__extensions__ = string.split(",")
 
 def add_located(string):
-	if len(string) > 0:
+	if len(string) == 0:
+		__located_extensions__.add("*")
+	else:
 		__located_extensions__.add(string)
 
 EXTENSIONS_INFO_TEXT = N_("The extensions below were found in the repository history")
