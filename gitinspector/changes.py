@@ -211,9 +211,9 @@ class Changes:
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.acquire()
 
-		if len(self.commits) > 0:
-			self.commits = [item for sublist in self.commits for item in sublist]
+		self.commits = [item for sublist in self.commits for item in sublist]
 
+		if len(self.commits) > 0:
 			if interval.has_interval() and len(self.commits) > 0:
 				interval.set_ref(self.commits[-1].sha)
 
