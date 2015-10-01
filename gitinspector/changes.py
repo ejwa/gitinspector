@@ -71,7 +71,7 @@ class FileDiff:
 		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
-			if (extension == "" and i == "*") or extension == i:
+			if (extension == "" and i == "*") or extension == i or i == '**':
 				return True
 		return False
 
