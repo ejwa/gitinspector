@@ -3,7 +3,7 @@
 GITINSPECTOR(1)
 ===============
 :doctype: manpage
-:man version: 0.4.0
+:man version: 0.4.2dev
 :man source: gitinspector
 :man manual: The gitinspector Manual
 
@@ -32,7 +32,7 @@ List information about the repository in REPOSITORY. If no repository is specifi
 Mandatory arguments to long options are mandatory for short options too. Boolean arguments can only be given to long options.
 
 *-f, --file-types*=EXTENSIONS::
-	A comma separated list of file extensions to include when computing statistics. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql
+	A comma separated list of file extensions to include when computing statistics. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql. Specifying a single '\*' asterisk character includes files with no extension. Specifying two consecutive '**' asterisk characters includes all files regardless of extension.
 
 *-F, --format*=FORMAT::
 	Defines in which format output should be generated; the default format is 'text' and the available formats are: html,htmlembedded,text,xml (see <<X1,*OUTPUT FORMATS*>>)
@@ -105,6 +105,7 @@ gitinspector offers several different ways of filtering out unwanted information
 * *gitinspector -x author:John*, filter out and exclude statistics from all authors containing the string "John"
 * *gitinspector -x email:@gmail.com*, filter out and exclude statistics from all authors with a gmail account
 * *gitinspector -x revision:8755fb33*, filter out and exclude statistics from all revisions containing the hash "8755fb33"
+* *gitinspector -x message:BUGFIX*, filter out and exclude statistics from all revisions containing "BUGFIX" in the commit message. 
 
 The gitinspector command also lets you add multiple filtering rules by simply specifying the -x options several times or by separating each filtering rule with a comma;
 
@@ -143,6 +144,8 @@ Report gitinspector bugs to gitinspector@ejwa.se
 The gitinspector project page: <https://github.com/ejwa/gitinspector>
 
 If you encounter problems, be sure to read the FAQ first: <https://github.com/ejwa/gitinspector/wiki/FAQ>
+
+There is also an issue tracker at: <https://github.com/ejwa/gitinspector/issues>
 
 COPYRIGHT
 ---------

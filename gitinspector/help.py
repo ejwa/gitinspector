@@ -34,6 +34,8 @@ Boolean arguments can only be given to long options.
                                    include when computing statistics. The
                                    default extensions used are:
                                    {1}
+                                   Specifying * includes files with no
+                                   extension, while ** includes all files
   -F, --format=FORMAT            define in which format output should be
                                    generated; the default format is 'text' and
                                    the available formats are:
