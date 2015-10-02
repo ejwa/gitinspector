@@ -34,6 +34,7 @@ Below are some example outputs for a number of famous open source projects. All 
 
 ### The Team
   * Adam Waldenberg, Lead maintainer and Swedish translation
+  * Agustín Cañas, Spanish translation
   * Bill Wang, Chinese translation
   * Christian Kastner, Debian package maintainer
   * Jiwon Kim, Korean translation

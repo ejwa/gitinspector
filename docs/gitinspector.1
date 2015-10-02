@@ -2,12 +2,12 @@
 .\"     Title: gitinspector
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 08/24/2015
+.\"      Date: 10/01/2015
 .\"    Manual: The gitinspector Manual
-.\"    Source: gitinspector 0.4.0
+.\"    Source: gitinspector 0.4.2dev
 .\"  Language: English
 .\"
-.TH "GITINSPECTOR" "1" "08/24/2015" "gitinspector 0\&.4\&.0" "The gitinspector Manual"
+.TH "GITINSPECTOR" "1" "10/01/2015" "gitinspector 0\&.4\&.2dev" "The gitinspector Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -45,7 +45,11 @@ Mandatory arguments to long options are mandatory for short options too\&. Boole
 .PP
 \fB\-f, \-\-file\-types\fR=EXTENSIONS
 .RS 4
-A comma separated list of file extensions to include when computing statistics\&. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql
+A comma separated list of file extensions to include when computing statistics\&. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql\&. Specifying a single
+\fI*\fR
+asterisk character includes files with no extension\&. Specifying two consecutive
+\fI**\fR
+asterisk characters includes all files regardless of extension\&.
 .RE
 .PP
 \fB\-F, \-\-format\fR=FORMAT
@@ -204,6 +208,17 @@ gitinspector offers several different ways of filtering out unwanted information
 \fBgitinspector \-x revision:8755fb33\fR, filter out and exclude statistics from all revisions containing the hash "8755fb33"
 .RE
 .sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x message:BUGFIX\fR, filter out and exclude statistics from all revisions containing "BUGFIX" in the commit message\&.
+.RE
+.sp
 The gitinspector command also lets you add multiple filtering rules by simply specifying the \-x options several times or by separating each filtering rule with a comma;
 .sp
 .RS 4
@@ -283,6 +298,8 @@ Report gitinspector bugs to gitinspector@ejwa\&.se
 The gitinspector project page: https://github\&.com/ejwa/gitinspector
 .sp
 If you encounter problems, be sure to read the FAQ first: https://github\&.com/ejwa/gitinspector/wiki/FAQ
+.sp
+There is also an issue tracker at: https://github\&.com/ejwa/gitinspector/issues
 .SH "COPYRIGHT"
 .sp
 Copyright \(co 2012\-2015 Ejwa Software\&. All rights reserved\&. License GPLv3+: GNU GPL version 3 or later http://gnu\&.org/licenses/gpl\&.html\&. This is free software: you are free to change and redistribute it\&. There is NO WARRANTY, to the extent permitted by law\&.

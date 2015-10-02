@@ -71,7 +71,7 @@ class FileDiff:
 		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
-			if (extension == "" and i == "*") or extension == i:
+			if (extension == "" and i == "*") or extension == i or i == '**':
 				return True
 		return False
 
@@ -185,22 +185,24 @@ class Changes:
 	emails_by_author = {}
 
 	def __init__(self, hard):
-
+		self.commits = []
 		git_log_hashes_r = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
 		                                    interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
 		                                    stdout=subprocess.PIPE).stdout
 		lines = git_log_hashes_r.readlines()
 		git_log_hashes_r.close()
-		self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
-		first_hash = ""
 
-		for i, entry in enumerate(lines):
-			if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
-				entry = entry.decode("utf-8", "replace").strip()
-				second_hash = entry
-				ChangesThread.create(hard, self, first_hash, second_hash, i)
-				first_hash = entry + ".."
-		else:
+		if len(lines) > 0:
+			self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
+			first_hash = ""
+
+			for i, entry in enumerate(lines):
+				if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
+					entry = entry.decode("utf-8", "replace").strip()
+					second_hash = entry
+					ChangesThread.create(hard, self, first_hash, second_hash, i)
+					first_hash = entry + ".."
+			else:
 				entry = entry.decode("utf-8", "replace").strip()
 				second_hash = entry
 				ChangesThread.create(hard, self, first_hash, second_hash, i)
@@ -211,14 +213,14 @@ class Changes:
 
 		self.commits = [item for sublist in self.commits for item in sublist]
 
-		if interval.has_interval() and len(self.commits) > 0:
-			interval.set_ref(self.commits[-1].sha)
-
 		if len(self.commits) > 0:
+			if interval.has_interval() and len(self.commits) > 0:
+				interval.set_ref(self.commits[-1].sha)
+
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
-			                                               int(self.commits[0].date[8:10]))
+			                                       int(self.commits[0].date[8:10]))
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
-			                                              int(self.commits[-1].date[8:10]))
+			                                      int(self.commits[-1].date[8:10]))
 
 	def get_commits(self):
 		return self.commits

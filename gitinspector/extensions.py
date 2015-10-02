@@ -46,13 +46,20 @@ EXTENSIONS_INFO_TEXT = N_("The extensions below were found in the repository his
 EXTENSIONS_MARKED_TEXT = N_("(extensions used during statistical analysis are marked)")
 
 class Extensions(Outputable):
+	@staticmethod
+	def is_marked(extension):
+		if extension in __extensions__ or "**" in __extensions__:
+			return True
+
+		return False
+
 	def output_html(self):
 		if __located_extensions__:
 			extensions_xml = "<div><div class=\"box\">"
 			extensions_xml += "<p>{0} {1}.</p><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
 
 			for i in sorted(__located_extensions__):
-				if i in __extensions__:
+				if Extensions.is_marked(i):
 					extensions_xml += "<strong>" + i + "</strong>"
 				else:
 					extensions_xml += i
@@ -67,7 +74,7 @@ class Extensions(Outputable):
 			      width=terminal.get_size()[0]))
 
 			for i in sorted(__located_extensions__):
-				if i in __extensions__:
+				if Extensions.is_marked(i):
 					print("[" + terminal.__bold__ + i + terminal.__normal__ + "]", end=" ")
 				else:
 					print (i, end=" ")
@@ -80,7 +87,7 @@ class Extensions(Outputable):
 			unused_extensions_xml = ""
 
 			for i in sorted(__located_extensions__):
-				if i in __extensions__:
+				if Extensions.is_marked(i):
 					used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
 				else:
 					unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
