@@ -19,7 +19,12 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import basedir
+
+try:
+	import basedir
+except:
+	import gitinspector.basedir as basedir
+
 import gettext
 import locale
 import os
