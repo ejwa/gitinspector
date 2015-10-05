@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -134,9 +134,9 @@ def get_excess_column_count(string):
 	width_mapping = {'F': 2, 'H': 1, 'W': 2, 'Na': 1, 'N': 1, 'A': 1}
 	result = 0
 
-	for c in string:
-		w = unicodedata.east_asian_width(c)
-		result += width_mapping[w]
+	for i in string:
+		width = unicodedata.east_asian_width(i)
+		result += width_mapping[width]
 
 	return result - len(string)
 

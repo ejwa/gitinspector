@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -73,7 +73,7 @@ class Runner:
 		outputable.output(changes.ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			outputable.output(blame.BlameOutput(self.hard, self.useweeks))
+			outputable.output(blame.BlameOutput(changes.get(self.hard), self.hard, self.useweeks))
 
 			if self.timeline:
 				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))

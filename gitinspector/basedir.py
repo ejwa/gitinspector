@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -40,7 +40,7 @@ def get_basedir_git():
 		if sp.returncode != 0:
 			sys.exit(_("Error processing git repository at \"%s\"." % os.getcwd()))
 		isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
-		absolute_path = ""
+		absolute_path = None
 
 		if isbare:
 			absolute_path = subprocess.Popen(["git", "rev-parse", "--git-dir"], bufsize=1, stdout=subprocess.PIPE).stdout

@@ -26,7 +26,8 @@ import subprocess
 import terminal
 import textwrap
 
-__filters__ = {"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()], "message" : [set(), None]}
+__filters__ = {"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()],
+               "message" : [set(), None]}
 
 class InvalidRegExpError(ValueError):
 	def __init__(self, msg):

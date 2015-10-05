@@ -23,7 +23,6 @@ from localization import N_
 from outputable import Outputable
 from changes import FileDiff
 import comment
-import changes
 import datetime
 import filtering
 import format
@@ -107,6 +106,7 @@ class BlameThread(threading.Thread):
 
 		self.__clear_blamechunk_info__()
 
+		#pylint: disable=W0201
 		for j in range(0, len(rows)):
 			row = rows[j].decode("utf-8", "replace").strip()
 			keyval = row.split(" ", 2)
@@ -210,13 +210,13 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
                      "intact in the current revision")
 
 class BlameOutput(Outputable):
-	def __init__(self, hard, useweeks):
+	def __init__(self, changes, hard, useweeks):
 		if format.is_interactive_format():
 			print("")
 
+		self.changes = changes
 		self.hard = hard
 		self.useweeks = useweeks
-		self.changes = changes.get(hard)
 		get(self.hard, self.useweeks, self.changes)
 		Outputable.__init__(self)
 

@@ -21,7 +21,6 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from localization import N_
 from outputable import Outputable
-import codecs
 import datetime
 import extensions
 import filtering
@@ -31,7 +30,6 @@ import interval
 import json
 import multiprocessing
 import os
-import re
 import subprocess
 import terminal
 import textwrap
@@ -127,8 +125,9 @@ class ChangesThread(threading.Thread):
 		thread.start()
 
 	def run(self):
-		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%cd|%H|%aN|%aE", "--stat=100000,8192", "--no-merges", "-w",
-		                             interval.get_since(), interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
+		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%cd|%H|%aN|%aE",
+		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
+		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
 		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
 		lines = git_log_r.readlines()
 		git_log_r.close()
@@ -225,7 +224,8 @@ class Changes:
 	def get_commits(self):
 		return self.commits
 
-	def modify_authorinfo(self, authors, key, commit):
+	@staticmethod
+	def modify_authorinfo(authors, key, commit):
 		if authors.get(key, None) == None:
 			authors[key] = AuthorInfo()
 
@@ -239,14 +239,14 @@ class Changes:
 	def get_authorinfo_list(self):
 		if not self.authors:
 			for i in self.commits:
-				self.modify_authorinfo(self.authors, i.author, i)
+				Changes.modify_authorinfo(self.authors, i.author, i)
 
 		return self.authors
 
 	def get_authordateinfo_list(self):
 		if not self.authors_dateinfo:
 			for i in self.commits:
-				self.modify_authorinfo(self.authors_dateinfo, (i.date, i.author), i)
+				Changes.modify_authorinfo(self.authors_dateinfo, (i.date, i.author), i)
 
 		return self.authors_dateinfo
 
