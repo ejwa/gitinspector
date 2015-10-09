@@ -59,6 +59,8 @@ class Runner:
 		self.useweeks = False
 
 	def output(self):
+		localization.check_compatibility(version.__version__)
+
 		if not self.localize_output:
 			localization.disable()
 
