@@ -17,12 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 from __future__ import unicode_literals
 import re
 import subprocess
-import terminal
-import textwrap
 
 __filters__ = {"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()],
                "message" : [set(), None]}

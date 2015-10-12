@@ -24,8 +24,8 @@ import platform
 import sys
 import unicodedata
 
-__bold__ =  "\033[1m"
-__normal__ =  "\033[0;0m"
+__bold__ = "\033[1m"
+__normal__ = "\033[0;0m"
 
 DEFAULT_TERMINAL_SIZE = (80, 25)
 

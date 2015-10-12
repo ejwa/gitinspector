@@ -21,21 +21,17 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import blame
 import changes
-import format
-import gravatar
-import terminal
-import textwrap
 
-class ResponsibiltyEntry:
+class ResponsibiltyEntry(object):
 	blames = {}
 
-class Responsibilities:
+class Responsibilities(object):
 	@staticmethod
 	def get(hard, useweeks, author_name):
 		author_blames = {}
 
 		for i in blame.get(hard, useweeks, changes.get(hard)).blames.items():
-			if (author_name == i[0][0]):
+			if author_name == i[0][0]:
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
 					author_blames[i[0][1]] = total_rows

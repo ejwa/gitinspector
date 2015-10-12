@@ -22,7 +22,7 @@ import subprocess
 import sys
 
 def get_basedir():
-	if hasattr(sys,'frozen'): # exists when running via py2exe
+	if hasattr(sys, "frozen"): # exists when running via py2exe
 		return sys.prefix
 	else:
 		return os.path.dirname(os.path.realpath(__file__))
@@ -33,11 +33,11 @@ def get_basedir_git():
 	global __git_basedir__
 
 	if not __git_basedir__:
-		sp = subprocess.Popen(["git", "rev-parse", "--is-bare-repository"], bufsize=1,
+		bare_command = subprocess.Popen(["git", "rev-parse", "--is-bare-repository"], bufsize=1,
 		                          stdout=subprocess.PIPE, stderr=open(os.devnull, "w"))
-		isbare = sp.stdout.readlines()
-		sp.wait()
-		if sp.returncode != 0:
+		isbare = bare_command.stdout.readlines()
+		bare_command.wait()
+		if bare_command.returncode != 0:
 			sys.exit(_("Error processing git repository at \"%s\"." % os.getcwd()))
 		isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
 		absolute_path = None

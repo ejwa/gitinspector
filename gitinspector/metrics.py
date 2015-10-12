@@ -17,10 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from outputable import Outputable
 from changes import FileDiff
 import comment
 import filtering
@@ -31,19 +28,19 @@ import subprocess
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
 
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", "for\s+\(.*\)", "if\s+\(.*\)", "case\s+\w+:",
-                                                            "default:", "while\s+\(.*\)"],
+__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:",
+                                                            "default:", r"while\s+\(.*\)"],
                                                            ["assert", "break", "continue", "return"]],
-                       [["cs"], ["else", "for\s+\(.*\)", "foreach\s+\(.*\)", "goto\s+\w+:", "if\s+\(.*\)", "case\s+\w+:",
-                                 "default:", "while\s+\(.*\)"],
+                       [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
+                                 "default:", r"while\s+\(.*\)"],
                                 ["assert", "break", "continue", "return"]],
-                       [["py"], ["^\s+elif .*:$", "^\s+else:$", "^\s+for .*:", "^\s+if .*:$", "^\s+while .*:$"],
-                                ["^\s+assert", "break", "continue", "return"]]]
+                       [["py"], [r"^\s+elif .*:$", r"^\s+else:$", r"^\s+for .*:", r"^\s+if .*:$", r"^\s+while .*:$"],
+                                [r"^\s+assert", "break", "continue", "return"]]]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 
-class MetricsLogic:
+class MetricsLogic(object):
 	def __init__(self):
 		self.eloc = {}
 		self.cyclomatic_complexity = {}

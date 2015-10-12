@@ -17,15 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
 from __future__ import unicode_literals
 import datetime
-import format
-import gravatar
-import terminal
-import textwrap
 
-class TimelineData:
+class TimelineData(object):
 	def __init__(self, changes, useweeks):
 		authordateinfo_list = sorted(changes.get_authordateinfo_list().items())
 		self.changes = changes

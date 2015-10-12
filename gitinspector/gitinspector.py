@@ -33,7 +33,6 @@ from output.responsibilitiesoutput import ResponsibilitiesOutput
 from output.timelineoutput import TimelineOutput
 import atexit
 import basedir
-import blame
 import changes
 import clone
 import config
@@ -43,16 +42,13 @@ import format
 import help
 import interval
 import getopt
-import metrics
 import os
 import optval
-import responsibilities
 import sys
 import terminal
-import timeline
 import version
 
-class Runner:
+class Runner(object):
 	def __init__(self):
 		self.hard = False
 		self.include_metrics = False

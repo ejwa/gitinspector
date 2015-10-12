@@ -33,7 +33,7 @@ NUM_THREADS = multiprocessing.cpu_count()
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __changes_lock__ = threading.Lock()
 
-class FileDiff:
+class FileDiff(object):
 	def __init__(self, string):
 		commit_line = string.split("|")
 
@@ -65,7 +65,7 @@ class FileDiff:
 				return True
 		return False
 
-class Commit:
+class Commit(object):
 	def __init__(self, string):
 		self.filediffs = []
 		commit_line = string.split("|")
@@ -93,7 +93,7 @@ class Commit:
 	def is_commit_line(string):
 		return string.split("|").__len__() == 4
 
-class AuthorInfo:
+class AuthorInfo(object):
 	email = None
 	insertions = 0
 	deletions = 0
@@ -169,7 +169,7 @@ class ChangesThread(threading.Thread):
 		__changes_lock__.release() # ...to here.
 		__thread_lock__.release() # Lock controlling the number of threads running
 
-class Changes:
+class Changes(object):
 	authors = {}
 	authors_dateinfo = {}
 	authors_by_email = {}

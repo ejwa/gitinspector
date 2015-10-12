@@ -19,18 +19,18 @@
 
 from __future__ import unicode_literals
 
-__comment_begining__ = { "java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "cs": "/*", "h": "/*", "hh": "/*", "hpp": "/*",
-                         "hs": "{-", "html": "<!--", "php": "/*", "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*",
-                         "jspx": "<!--", "scala": "/*", "sql": "/*", "tex": "\\begin{comment}", "xhtml": "<!--",
-                         "xml": "<!--", "ml": "(*", "mli": "(*" }
+__comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "cs": "/*", "h": "/*", "hh": "/*", "hpp": "/*",
+                        "hs": "{-", "html": "<!--", "php": "/*", "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*",
+                        "jspx": "<!--", "scala": "/*", "sql": "/*", "tex": "\\begin{comment}", "xhtml": "<!--",
+                        "xml": "<!--", "ml": "(*", "mli": "(*"}
 
-__comment_end__ = { "java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "hs": "-}",
-                    "html": "-->", "php": "/*", "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->",
-                    "scala": "*/", "sql": "*/", "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->", "ml": "*)", "mli": "*)" }
+__comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "hs": "-}",
+                   "html": "-->", "php": "/*", "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->",
+                   "scala": "*/", "sql": "*/", "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->", "ml": "*)", "mli": "*)"}
 
-__comment__ = { "java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
-                "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "js": "//", "scala": "//", "sql": "--", "tex": "%",
-                "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#" }
+__comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
+               "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "js": "//", "scala": "//", "sql": "--", "tex": "%",
+               "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#"}
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 

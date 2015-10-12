@@ -77,10 +77,10 @@ def init():
 
 def check_compatibility(version):
 	if isinstance(__translation__, gettext.GNUTranslations):
-		header_pattern = re.compile ("^([^:\n]+): *(.*?) *$", re.MULTILINE)
+		header_pattern = re.compile("^([^:\n]+): *(.*?) *$", re.MULTILINE)
 		header_entries = dict(header_pattern.findall(_("")))
 
-		if (header_entries["Project-Id-Version"] != "gitinspector {0}".format(version)):
+		if header_entries["Project-Id-Version"] != "gitinspector {0}".format(version):
 			print("WARNING: The translation for your system locale is not up to date with the current gitinspector "
 			      "version. The current maintainer of this locale is {0}.".format(header_entries["Last-Translator"]),
 			      file=sys.stderr)

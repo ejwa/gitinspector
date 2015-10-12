@@ -35,7 +35,7 @@ import threading
 
 NUM_THREADS = multiprocessing.cpu_count()
 
-class BlameEntry:
+class BlameEntry(object):
 	rows = 0
 	skew = 0 # Used when calculating average code age.
 	comments = 0
@@ -125,7 +125,7 @@ class BlameThread(threading.Thread):
 
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (Progress): {0:.0f}%")
 
-class Blame:
+class Blame(object):
 	def __init__(self, hard, useweeks, changes):
 		self.blames = {}
 		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
@@ -178,7 +178,7 @@ class Blame:
 
 	@staticmethod
 	def get_time(string):
-		time = re.search(" \(.*?(\d\d\d\d-\d\d-\d\d)", string)
+		time = re.search(r" \(.*?(\d\d\d\d-\d\d-\d\d)", string)
 		return time.group(1).strip()
 
 	def get_summed_blames(self):
