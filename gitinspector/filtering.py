@@ -19,8 +19,6 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from outputable import Outputable
 import re
 import subprocess
 import terminal
@@ -92,71 +90,3 @@ def set_filtered(string, filter_type="file"):
 			except:
 				raise InvalidRegExpError(_("invalid regular expression specified"))
 	return False
-
-FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
-FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
-FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified " \
-                               "exclusion patterns")
-FILTERING_COMMIT_INFO_TEXT = N_("The following commit revisions were excluded from the statistics due to the specified " \
-                                "exclusion patterns")
-
-class Filtering(Outputable):
-	@staticmethod
-	def __output_html_section__(info_string, filtered):
-		filtering_xml = ""
-
-		if filtered:
-			filtering_xml += "<p>" + info_string + "."+ "</p>"
-
-			for i in filtered:
-				filtering_xml += "<p>" + i + "</p>"
-
-		return filtering_xml
-
-	def output_html(self):
-		if has_filtered():
-			filtering_xml = "<div><div class=\"box\">"
-			Filtering.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
-			Filtering.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
-			Filtering.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-			Filtering.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
-			filtering_xml += "</div></div>"
-
-			print(filtering_xml)
-
-	@staticmethod
-	def __output_text_section__(info_string, filtered):
-		if filtered:
-			print("\n" + textwrap.fill(info_string + ":", width=terminal.get_size()[0]))
-
-			for i in filtered:
-				(width, _unused) = terminal.get_size()
-				print("...%s" % i[-width+3:] if len(i) > width else i)
-
-	def output_text(self):
-		Filtering.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
-		Filtering.__output_text_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
-		Filtering.__output_text_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-		Filtering.__output_text_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
-
-	@staticmethod
-	def __output_xml_section__(info_string, filtered, container_tagname):
-		if filtered:
-			message_xml = "\t\t\t<message>" +info_string + "</message>\n"
-			filtering_xml = ""
-
-			for i in filtered:
-				filtering_xml += "\t\t\t\t<entry>".format(container_tagname) + i + "</entry>\n".format(container_tagname)
-
-			print("\t\t<{0}>".format(container_tagname))
-			print(message_xml + "\t\t\t<entries>\n" + filtering_xml + "\t\t\t</entries>\n")
-			print("\t\t</{0}>".format(container_tagname))
-
-	def output_xml(self):
-		if has_filtered():
-			print("\t<filtering>")
-			Filtering.__output_xml_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files")
-			Filtering.__output_xml_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors")
-			Filtering.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
-			Filtering.__output_xml_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1], "revision")
-			print("\t</filtering>")

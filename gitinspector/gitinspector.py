@@ -20,10 +20,17 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import localization
 localization.init()
 
+from output import outputable
+from output.blameoutput import BlameOutput
+from output.changesoutput import ChangesOutput
+from output.extensionsoutput import ExtensionsOutput
+from output.filteringoutput import FilteringOutput
+from output.metricsoutput import MetricsOutput
+from output.responsibilitiesoutput import ResponsibilitiesOutput
+from output.timelineoutput import TimelineOutput
 import atexit
 import basedir
 import blame
@@ -39,7 +46,6 @@ import getopt
 import metrics
 import os
 import optval
-import outputable
 import responsibilities
 import sys
 import terminal
@@ -72,24 +78,24 @@ class Runner:
 		absolute_path = basedir.get_basedir_git()
 		os.chdir(absolute_path)
 		format.output_header()
-		outputable.output(changes.ChangesOutput(self.hard))
+		outputable.output(ChangesOutput(self.hard))
 
 		if changes.get(self.hard).get_commits():
-			outputable.output(blame.BlameOutput(changes.get(self.hard), self.hard, self.useweeks))
+			outputable.output(BlameOutput(changes.get(self.hard), self.hard, self.useweeks))
 
 			if self.timeline:
-				outputable.output(timeline.Timeline(changes.get(self.hard), self.useweeks))
+				outputable.output(TimelineOutput(changes.get(self.hard), self.useweeks))
 
 			if self.include_metrics:
-				outputable.output(metrics.Metrics())
+				outputable.output(MetricsOutput())
 
 			if self.responsibilities:
-				outputable.output(responsibilities.ResponsibilitiesOutput(self.hard, self.useweeks))
+				outputable.output(ResponsibilitiesOutput(self.hard, self.useweeks))
 
-			outputable.output(filtering.Filtering())
+			outputable.output(FilteringOutput())
 
 			if self.list_file_types:
-				outputable.output(extensions.Extensions())
+				outputable.output(ExtensionsOutput())
 
 		format.output_footer()
 		os.chdir(previous_directory)

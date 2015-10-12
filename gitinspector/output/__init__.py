@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2014 Ejwa Software. All rights reserved.
+# Copyright © 2013 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -17,27 +17,4 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
-from __future__ import unicode_literals
-import blame
-import changes
-import format
-import gravatar
-import terminal
-import textwrap
-
-class ResponsibiltyEntry:
-	blames = {}
-
-class Responsibilities:
-	@staticmethod
-	def get(hard, useweeks, author_name):
-		author_blames = {}
-
-		for i in blame.get(hard, useweeks, changes.get(hard)).blames.items():
-			if (author_name == i[0][0]):
-				total_rows = i[1].rows - i[1].comments
-				if total_rows > 0:
-					author_blames[i[0][1]] = total_rows
-
-		return sorted(author_blames.items())
+# This file was intentionally left blank.
