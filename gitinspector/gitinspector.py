@@ -23,6 +23,9 @@ from __future__ import unicode_literals
 import localization
 localization.init()
 
+import sys
+sys.path.append("gitinspector")
+
 from output import outputable
 from output.blameoutput import BlameOutput
 from output.changesoutput import ChangesOutput
@@ -44,7 +47,6 @@ import interval
 import getopt
 import os
 import optval
-import sys
 import terminal
 import version
 
