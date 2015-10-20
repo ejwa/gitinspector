@@ -27,10 +27,7 @@ import re
 import sys
 import time
 
-try:
-	from . import basedir
-except:
-	import gitinspector.basedir as basedir
+from . import basedir
 
 __enabled__ = False
 __installed__ = False
