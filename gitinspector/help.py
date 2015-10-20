@@ -19,9 +19,12 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from extensions import DEFAULT_EXTENSIONS
-from format import __available_formats__
+
 import sys
+
+from .extensions import DEFAULT_EXTENSIONS
+from .format import __available_formats__
+
 
 __doc__ = _("""Usage: {0} [OPTION]... [REPOSITORY]
 List information about the repository in REPOSITORY. If no repository is

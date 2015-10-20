@@ -18,12 +18,14 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-from changes import FileDiff
-import comment
-import filtering
-import interval
+
 import re
 import subprocess
+
+from . import changes
+from . import comment
+from . import filtering
+from . import interval
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
@@ -54,11 +56,11 @@ class MetricsLogic(object):
 			i = i.encode("latin-1", "replace")
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
+			if changes.FileDiff.is_valid_extension(i) and not filtering.set_filtered(changes.FileDiff.get_filename(i)):
 				file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
 				                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
-				extension = FileDiff.get_extension(i)
+				extension = changes.FileDiff.get_extension(i)
 				lines = MetricsLogic.get_eloc(file_r, extension)
 				cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 

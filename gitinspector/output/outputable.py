@@ -19,7 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import format
+from .. import format
 
 class Outputable(object):
 	def output_html(self):

@@ -19,15 +19,18 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from .outputable import Outputable
-import blame
-import changes
-import format
-import gravatar
-import responsibilities as resp
-import terminal
+
 import textwrap
+
+from .. import blame
+from .. import changes
+from .. import format
+from .. import gravatar
+from ..localization import N_
+from .. import responsibilities as resp
+from .. import terminal
+from .outputable import Outputable
+
 
 RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilties, by author, were found in the current "
                                 "revision of the repository (comments are exluded from the line count, "

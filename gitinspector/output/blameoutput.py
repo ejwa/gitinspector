@@ -19,15 +19,18 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from .outputable import Outputable
-import blame
-import format
-import gravatar
+
 import json
 import sys
-import terminal
 import textwrap
+
+from .. import blame
+from .. import format
+from .. import gravatar
+from ..localization import N_
+from .. import terminal
+from .outputable import Outputable
+
 
 BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have survived and are still "
                      "intact in the current revision")

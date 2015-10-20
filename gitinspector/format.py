@@ -19,15 +19,17 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import localization
-import version
 import base64
-import basedir
 import os
-import terminal
 import textwrap
 import time
 import zipfile
+
+from . import basedir
+from . import localization
+from . import terminal
+from . import version
+
 
 __available_formats__ = ["html", "htmlembedded", "text", "xml"]
 

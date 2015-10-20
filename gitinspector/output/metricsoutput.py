@@ -19,9 +19,10 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
+
+from ..localization import N_
+from .. import metrics
 from .outputable import Outputable
-import metrics
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
 CYCLOMATIC_COMPLEXITY_TEXT = N_("The following files have an elevated cyclomatic complexity (in order of severity)")

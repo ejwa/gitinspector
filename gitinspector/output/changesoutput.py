@@ -19,14 +19,17 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from .outputable import Outputable
-import changes
-import format
-import gravatar
+
 import json
-import terminal
 import textwrap
+
+from .. import changes
+from .. import format
+from .. import gravatar
+from ..localization import N_
+from .. import terminal
+from .outputable import Outputable
+
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")

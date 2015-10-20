@@ -19,13 +19,15 @@
 
 from __future__ import unicode_literals
 import datetime
-import extensions
-import filtering
-import interval
 import multiprocessing
 import os
 import subprocess
 import threading
+
+from . import extensions
+from . import filtering
+from . import interval
+
 
 CHANGES_PER_THREAD = 200
 NUM_THREADS = multiprocessing.cpu_count()

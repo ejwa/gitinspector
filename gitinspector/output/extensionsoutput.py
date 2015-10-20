@@ -19,11 +19,15 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import extensions
-from localization import N_
-from .outputable import Outputable
-import terminal
+
 import textwrap
+
+from .. import extensions
+from ..localization import N_
+from .. import terminal
+
+from .outputable import Outputable
+
 
 EXTENSIONS_INFO_TEXT = N_("The extensions below were found in the repository history")
 EXTENSIONS_MARKED_TEXT = N_("(extensions used during statistical analysis are marked)")

@@ -19,13 +19,15 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from localization import N_
-from .outputable import Outputable
-import format
-import gravatar
-import terminal
+
 import textwrap
-import timeline
+
+from .. import format
+from .. import gravatar
+from ..localization import N_
+from .. import terminal
+from .. import timeline
+from .outputable import Outputable
 
 TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from the repository")
 MODIFIED_ROWS_TEXT = N_("Modified Rows:")

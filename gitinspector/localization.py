@@ -20,17 +20,17 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
-try:
-	import basedir
-except:
-	import gitinspector.basedir as basedir
-
 import gettext
 import locale
 import os
 import re
 import sys
 import time
+
+try:
+	from . import basedir
+except:
+	import gitinspector.basedir as basedir
 
 __enabled__ = False
 __installed__ = False

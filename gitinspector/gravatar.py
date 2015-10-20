@@ -18,12 +18,14 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+import hashlib
+
 try:
 	from urllib.parse import urlencode
 except:
 	from urllib import urlencode
-import format
-import hashlib
+
+from . import format
 
 def get_url(email, size=20):
 	md5hash = hashlib.md5(email.encode("utf-8").lower().strip()).hexdigest()

@@ -18,13 +18,15 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-import extensions
-import filtering
-import format
-import interval
-import optval
+
 import os
 import subprocess
+
+from . import extensions
+from . import filtering
+from . import format
+from . import interval
+from . import optval
 
 def __read_git_config__(repo, variable):
 	previous_directory = os.getcwd()

@@ -20,35 +20,36 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import localization
-localization.init()
 
-import sys
-sys.path.append("gitinspector")
-
-from output import outputable
-from output.blameoutput import BlameOutput
-from output.changesoutput import ChangesOutput
-from output.extensionsoutput import ExtensionsOutput
-from output.filteringoutput import FilteringOutput
-from output.metricsoutput import MetricsOutput
-from output.responsibilitiesoutput import ResponsibilitiesOutput
-from output.timelineoutput import TimelineOutput
 import atexit
-import basedir
-import changes
-import clone
-import config
-import extensions
-import filtering
-import format
-import help
-import interval
 import getopt
 import os
-import optval
-import terminal
-import version
+import sys
+
+from . import basedir
+from . import changes
+from . import clone
+from . import config
+from . import extensions
+from . import filtering
+from . import format
+from . import help
+from . import interval
+from . import localization
+from . import optval
+from . import terminal
+from . import version
+from .output import outputable
+from .output.blameoutput import BlameOutput
+from .output.changesoutput import ChangesOutput
+from .output.extensionsoutput import ExtensionsOutput
+from .output.filteringoutput import FilteringOutput
+from .output.metricsoutput import MetricsOutput
+from .output.responsibilitiesoutput import ResponsibilitiesOutput
+from .output.timelineoutput import TimelineOutput
+
+localization.init()
+
 
 class Runner(object):
 	def __init__(self):

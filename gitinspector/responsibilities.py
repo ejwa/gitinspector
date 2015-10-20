@@ -19,8 +19,9 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import blame
-import changes
+
+from . import blame
+from . import changes
 
 class ResponsibiltyEntry(object):
 	blames = {}
