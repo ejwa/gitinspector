@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 import re
 import subprocess
 
-from . import changes
+from .changes import FileDiff
 from . import comment
 from . import filtering
 from . import interval
@@ -56,11 +56,11 @@ class MetricsLogic(object):
 			i = i.encode("latin-1", "replace")
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if changes.FileDiff.is_valid_extension(i) and not filtering.set_filtered(changes.FileDiff.get_filename(i)):
+			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 				file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
 				                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
-				extension = changes.FileDiff.get_extension(i)
+				extension = FileDiff.get_extension(i)
 				lines = MetricsLogic.get_eloc(file_r, extension)
 				cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 

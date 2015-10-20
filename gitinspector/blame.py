@@ -26,7 +26,7 @@ import subprocess
 import sys
 import threading
 
-from . import changes
+from .changes import FileDiff
 from . import comment
 from . import filtering
 from . import format
@@ -140,11 +140,11 @@ class Blame(object):
 			row = row.encode("latin-1", "replace")
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if changes.FileDiff.is_valid_extension(row) and not filtering.set_filtered(changes.FileDiff.get_filename(row)):
+			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
 				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 						(["-C", "-C", "-M"] if hard else []) +
 				                [interval.get_since(), interval.get_ref(), "--", row])
-				thread = BlameThread(useweeks, changes, blame_command, changes.FileDiff.get_extension(row), self.blames, row.strip())
+				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
 
