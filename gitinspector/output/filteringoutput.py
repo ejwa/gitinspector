@@ -75,11 +75,11 @@ class FilteringOutput(Outputable):
 	@staticmethod
 	def __output_xml_section__(info_string, filtered, container_tagname):
 		if filtered:
-			message_xml = "\t\t\t<message>" +info_string + "</message>\n"
+			message_xml = "\t\t\t<message>" + info_string + "</message>\n"
 			filtering_xml = ""
 
 			for i in filtered:
-				filtering_xml += "\t\t\t\t<entry>".format(container_tagname) + i + "</entry>\n".format(container_tagname)
+				filtering_xml += "\t\t\t\t<entry>" + i + "</entry>\n"
 
 			print("\t\t<{0}>".format(container_tagname))
 			print(message_xml + "\t\t\t<entries>\n" + filtering_xml + "\t\t\t</entries>\n")
