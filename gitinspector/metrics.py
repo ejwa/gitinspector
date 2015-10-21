@@ -18,14 +18,10 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
-
 import re
 import subprocess
-
 from .changes import FileDiff
-from . import comment
-from . import filtering
-from . import interval
+from . import comment, filtering, interval
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000}

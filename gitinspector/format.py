@@ -24,12 +24,7 @@ import os
 import textwrap
 import time
 import zipfile
-
-from . import basedir
-from . import localization
-from . import terminal
-from . import version
-
+from . import basedir, localization, terminal, version
 
 __available_formats__ = ["html", "htmlembedded", "text", "xml"]
 

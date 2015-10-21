@@ -19,14 +19,9 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import textwrap
-
-from .. import format
-from .. import gravatar
 from ..localization import N_
-from .. import terminal
-from .. import timeline
+from .. import format, gravatar, terminal, timeline
 from .outputable import Outputable
 
 TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from the repository")

@@ -19,13 +19,9 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import textwrap
-
-from .. import extensions
 from ..localization import N_
-from .. import terminal
-
+from .. import extensions, terminal
 from .outputable import Outputable
 
 

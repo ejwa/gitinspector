@@ -19,7 +19,6 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 from ..localization import N_
 from .. import metrics
 from .outputable import Outputable

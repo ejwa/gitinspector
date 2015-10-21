@@ -23,11 +23,7 @@ import multiprocessing
 import os
 import subprocess
 import threading
-
-from . import extensions
-from . import filtering
-from . import interval
-
+from . import extensions, filtering, interval
 
 CHANGES_PER_THREAD = 200
 NUM_THREADS = multiprocessing.cpu_count()

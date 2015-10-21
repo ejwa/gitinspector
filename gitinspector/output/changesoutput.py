@@ -19,15 +19,10 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import json
 import textwrap
-
-from .. import changes
-from .. import format
-from .. import gravatar
 from ..localization import N_
-from .. import terminal
+from .. import changes, format, gravatar, terminal
 from .outputable import Outputable
 
 

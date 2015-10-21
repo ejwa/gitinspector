@@ -19,14 +19,12 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import gettext
 import locale
 import os
 import re
 import sys
 import time
-
 from . import basedir
 
 __enabled__ = False

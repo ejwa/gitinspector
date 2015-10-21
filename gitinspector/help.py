@@ -19,9 +19,7 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import sys
-
 from .extensions import DEFAULT_EXTENSIONS
 from .format import __available_formats__
 

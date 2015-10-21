@@ -19,25 +19,12 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-
 import atexit
 import getopt
 import os
 import sys
-
-from . import basedir
-from . import changes
-from . import clone
-from . import config
-from . import extensions
-from . import filtering
-from . import format
-from . import help
-from . import interval
-from . import localization
-from . import optval
-from . import terminal
-from . import version
+from . import (basedir, changes, clone, config, extensions, filtering, format, help, interval,
+               localization, optval, terminal, version)
 from .output import outputable
 from .output.blameoutput import BlameOutput
 from .output.changesoutput import ChangesOutput
