@@ -25,8 +25,8 @@ from .. import blame, changes, format, gravatar, terminal
 from .. import responsibilities as resp
 from .outputable import Outputable
 
-RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilties, by author, were found in the current "
-                                "revision of the repository (comments are exluded from the line count, "
+RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilities, by author, were found in the current "
+                                "revision of the repository (comments are excluded from the line count, "
                                 "if possible)")
 MOSTLY_RESPONSIBLE_FOR_TEXT = N_("is mostly responsible for")
 
