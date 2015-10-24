@@ -1,7 +1,7 @@
 [![Latest release](https://img.shields.io/github/release/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/releases/latest)
 [![License](https://img.shields.io/github/license/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/blob/master/LICENSE.txt)
 <h2>
- <img align="left" height="30px"   
+ <img align="left" height="30px"
       src="https://raw.githubusercontent.com/ejwa/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
       &nbsp;About Gitinspector
 </h2>
@@ -20,7 +20,7 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Can display a statistical timeline analysis.
   * Scans for all filetypes (by extension) found in the repository.
   * Multi-threaded; uses multiple instances of git to speed up analysis when possible.
-  * Supports HTML, XML and plain text output (console).
+  * Supports HTML, JSON, XML and plain text output (console).
   * Can report violations of different code metrics.
 
 ### Example outputs
