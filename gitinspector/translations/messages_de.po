@@ -15,12 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# Philipp Nowak <devnull@nowak-at.net>, 2014
+# Philipp Nowak <devnull@nowak-at.net>, 2014-2015
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.4.3\n"
+"Project-Id-Version: gitinspector 0.4.3dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2015-10-20 23:47+0200\n"
+"POT-Creation-Date: 2015-10-02 03:35+0200\n"
 "PO-Revision-Date: 2015-10-21 00:25+0200\n"
 "Last-Translator: Philipp Nowak <devnull@nowak-at.net>\n"
 "Language-Team: Deutsch <>\n"
