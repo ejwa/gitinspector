@@ -26,9 +26,9 @@ import time
 import zipfile
 from . import basedir, localization, terminal, version
 
-__available_formats__ = ["html", "htmlembedded", "text", "xml"]
+__available_formats__ = ["html", "htmlembedded", "json", "text", "xml"]
 
-DEFAULT_FORMAT = __available_formats__[2]
+DEFAULT_FORMAT = __available_formats__[3]
 
 __selected_format__ = DEFAULT_FORMAT
 
@@ -53,7 +53,6 @@ def __output_html_template__(name):
 	template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
 	file_r = open(template_path, "rb")
 	return file_r.read().decode("utf-8", "replace")
-
 def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 	zip_file = zipfile.ZipFile(basedir.get_basedir() + file_name, "r")
 	content = zip_file.read(name)
@@ -98,6 +97,8 @@ def output_header():
 		                         hide_minor_authors=_("Hide minor authors"),
 		                         show_minor_rows=_("Show rows with minor work"),
 		                         hide_minor_rows=_("Hide rows with minor work")))
+	elif __selected_format__ == "json":
+		print("{\n\t\"gitinspector\": {")
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
@@ -112,5 +113,7 @@ def output_footer():
 		base = basedir.get_basedir()
 		html_footer = __output_html_template__(base + "/html/html.footer")
 		print(html_footer)
+	elif __selected_format__ == "json":
+		print("\n\t}\n}")
 	elif __selected_format__ == "xml":
 		print("</gitinspector>")

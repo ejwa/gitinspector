@@ -25,7 +25,6 @@ from ..filtering import __filters__, has_filtered
 from .. import terminal
 from .outputable import Outputable
 
-
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
 FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
 FILTERING_EMAIL_INFO_TEXT = N_("The authors with the following emails were excluded from the statistics due to the specified " \
@@ -56,6 +55,33 @@ class FilteringOutput(Outputable):
 			filtering_xml += "</div></div>"
 
 			print(filtering_xml)
+
+	@staticmethod
+	def __output_json_section__(info_string, filtered, container_tagname):
+		if filtered:
+			message_xml = "\t\t\t\t\"message\": \"" + info_string + "\",\n"
+			filtering_xml = ""
+
+			for i in filtered:
+				filtering_xml += "\t\t\t\t\t\"" + i + "\",\n"
+			else:
+				filtering_xml = filtering_xml[:-3]
+
+			return "\n\t\t\t\"{0}\": {{\n".format(container_tagname) + message_xml + \
+			"\t\t\t\t\"entries\": [\n" + filtering_xml + "\"\n\t\t\t\t]\n\t\t\t},"
+
+		return ""
+
+	def output_json(self):
+		if has_filtered():
+			output = ",\n\t\t\"filtering\": {"
+			output += FilteringOutput.__output_json_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1], "files")
+			output += FilteringOutput.__output_json_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1], "authors")
+			output += FilteringOutput.__output_json_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
+			output += FilteringOutput.__output_json_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1], "revision")
+			output = output[:-1]
+			output += "\n\t\t}"
+			print(output, end="")
 
 	@staticmethod
 	def __output_text_section__(info_string, filtered):

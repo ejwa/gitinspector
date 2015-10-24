@@ -81,6 +81,36 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml += "</div></div>"
 		print(resp_xml)
 
+	def output_json(self):
+		message_xml = "\t\t\t\"message\": \"" + _(RESPONSIBILITIES_INFO_TEXT) + "\",\n"
+		resp_xml = ""
+
+		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			if responsibilities:
+				author_email = self.changes.get_latest_email_by_author(i)
+
+				resp_xml += "{\n"
+				resp_xml += "\t\t\t\t\"name\": \"" + i + "\",\n"
+				resp_xml += "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+				resp_xml += "\t\t\t\t\"files\": [\n\t\t\t\t"
+
+				for j, entry in enumerate(responsibilities):
+					resp_xml += "{\n"
+					resp_xml += "\t\t\t\t\t\"name\": \"" + entry[1] + "\",\n"
+					resp_xml += "\t\t\t\t\t\"rows\": " + str(entry[0]) + "\n"
+					resp_xml += "\t\t\t\t},"
+
+					if j >= 9:
+						break
+
+				resp_xml = resp_xml[:-1]
+				resp_xml += "]\n"
+				resp_xml += "\t\t\t},"
+
+		resp_xml = resp_xml[:-1]
+		print(",\n\t\t\"responsibilities\": {\n" + message_xml + "\t\t\t\"authors\": [\n\t\t\t" + resp_xml + "]\n\t\t}", end="")
+
 	def output_xml(self):
 		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"
 		resp_xml = ""

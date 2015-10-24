@@ -92,6 +92,42 @@ class MetricsOutput(Outputable):
 		metrics_xml += "</div></div>"
 		print(metrics_xml)
 
+	def output_json(self):
+		metrics_logic = metrics.MetricsLogic()
+
+		if not metrics_logic.eloc and not metrics_logic.cyclomatic_complexity and not metrics_logic.cyclomatic_complexity_density:
+			print(",\n\t\t\"metrics\": {\n\t\t\t\"message\": \"" + _(METRICS_MISSING_INFO_TEXT) + "\"\n\t\t}", end="")
+		else:
+			eloc_xml = ""
+
+			if metrics_logic.eloc:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse=True):
+					eloc_xml += "{\n\t\t\t\t\"type\": \"estimated-lines-of-code\",\n"
+					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
+					eloc_xml += "\t\t\t},"
+				else:
+					eloc_xml = eloc_xml[:-1]
+
+			if metrics_logic.cyclomatic_complexity:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity.items()]), reverse=True):
+					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity\",\n"
+					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
+					eloc_xml += "\t\t\t},"
+				else:
+					eloc_xml = eloc_xml[:-1]
+
+			if metrics_logic.cyclomatic_complexity_density:
+				for i in sorted(set([(j, i) for (i, j) in metrics_logic.cyclomatic_complexity_density.items()]), reverse=True):
+					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity-density\",\n"
+					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"value\": {0:.3f} \"\n".format(i[0])
+					eloc_xml += "\t\t\t},"
+				else:
+					eloc_xml = eloc_xml[:-1]
+
+			print(",\n\t\t\"metrics\": {\n\t\t\t\"violations\": [\n\t\t\t" + eloc_xml + "]\n\t\t}", end="")
 	def output_xml(self):
 		metrics_logic = metrics.MetricsLogic()
 

@@ -36,7 +36,6 @@ from .output.timelineoutput import TimelineOutput
 
 localization.init()
 
-
 class Runner(object):
 	def __init__(self):
 		self.hard = False

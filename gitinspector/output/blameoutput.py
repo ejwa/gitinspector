@@ -26,7 +26,6 @@ from ..localization import N_
 from .. import blame, format, gravatar, terminal
 from .outputable import Outputable
 
-
 BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have survived and are still "
                      "intact in the current revision")
 
@@ -95,6 +94,28 @@ class BlameOutput(Outputable):
 		blame_xml += "</script></div></div>"
 
 		print(blame_xml)
+
+	def output_json(self):
+		message_xml = "\t\t\t\"message\": \"" + _(BLAME_INFO_TEXT) + "\",\n"
+		blame_xml = ""
+
+		for i in sorted(blame.__blame__.get_summed_blames().items()):
+			author_email = self.changes.get_latest_email_by_author(i[0])
+
+			name_xml = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
+			gravatar_xml = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+			rows_xml = "\t\t\t\t\"rows\": " + str(i[1].rows) + ",\n"
+			stability_xml = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(blame.Blame.get_stability(i[0], i[1].rows,
+			                 self.changes)) + ",\n")
+			age_xml = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
+			percentage_in_comments_xml = ("\t\t\t\t\"percentage-in-comments\": " + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
+			                              "\n")
+			blame_xml += ("{\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +
+			             percentage_in_comments_xml + "\t\t\t},")
+		else:
+			blame_xml = blame_xml[:-1]
+
+		print(",\n\t\t\"blame\": {\n" + message_xml + "\t\t\t\"authors\": [\n\t\t\t" + blame_xml + "]\n\t\t}", end="")
 
 	def output_text(self):
 		if sys.stdout.isatty() and format.is_interactive_format():

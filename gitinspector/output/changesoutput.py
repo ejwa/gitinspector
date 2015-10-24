@@ -25,7 +25,6 @@ from ..localization import N_
 from .. import changes, format, gravatar, terminal
 from .outputable import Outputable
 
-
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
 
@@ -95,6 +94,38 @@ class ChangesOutput(Outputable):
 
 		changes_xml += "</div></div>"
 		print(changes_xml)
+
+	def output_json(self):
+		authorinfo_list = self.changes.get_authorinfo_list()
+		total_changes = 0.0
+
+		for i in authorinfo_list:
+			total_changes += authorinfo_list.get(i).insertions
+			total_changes += authorinfo_list.get(i).deletions
+
+		if authorinfo_list:
+			message_xml = "\t\t\t\"message\": \"" + _(HISTORICAL_INFO_TEXT) + "\",\n"
+			changes_xml = ""
+
+			for i in sorted(authorinfo_list):
+				authorinfo = authorinfo_list.get(i)
+				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+				name_xml = "\t\t\t\t\"name\": \"" + i + "\",\n"
+				gravatar_xml = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(self.changes.get_latest_email_by_author(i)) + "\",\n"
+				commits_xml = "\t\t\t\t\"commits\": " + str(authorinfo.commits) + ",\n"
+				insertions_xml = "\t\t\t\t\"insertions\": " + str(authorinfo.insertions) + ",\n"
+				deletions_xml = "\t\t\t\t\"deletions\": " + str(authorinfo.deletions) + ",\n"
+				percentage_xml = "\t\t\t\t\"percentage-of-changes\": " + "{0:.2f}".format(percentage) + "\n"
+
+				changes_xml += ("{\n" + name_xml + gravatar_xml + commits_xml + insertions_xml +
+				                deletions_xml + percentage_xml + "\t\t\t}")
+				changes_xml += ","
+			else:
+				changes_xml = changes_xml[:-1]
+
+			print("\t\t\"changes\": {\n" + message_xml + "\t\t\t\"authors\": [\n\t\t\t" + changes_xml + "]\n\t\t}", end="")
+		else:
+			print("\t\t\"exception\": \"" + _(NO_COMMITED_FILES_TEXT) + "\"")
 
 	def output_text(self):
 		authorinfo_list = self.changes.get_authorinfo_list()

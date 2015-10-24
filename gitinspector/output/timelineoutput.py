@@ -132,6 +132,45 @@ class TimelineOutput(Outputable):
 			timeline_xml = "</div></div>"
 			print(timeline_xml)
 
+	def output_json(self):
+		if self.changes.get_commits():
+			message_xml = "\t\t\t\"message\": \"" + _(TIMELINE_INFO_TEXT) + "\",\n"
+			timeline_xml = ""
+			periods_xml = "\t\t\t\"period-length\": \"{0}\",\n".format("week" if self.useweeks else "month")
+			periods_xml += "\t\t\t\"periods\": [\n\t\t\t"
+
+			timeline_data = timeline.TimelineData(self.changes, self.useweeks)
+			periods = timeline_data.get_periods()
+			names = timeline_data.get_authors()
+
+			for period in periods:
+				name_xml = "\t\t\t\t\"name\": \"" + str(period) + "\",\n"
+				authors_xml = "\t\t\t\t\"authors\": [\n\t\t\t\t"
+
+				for name in names:
+					if timeline_data.is_author_in_period(period, name[0]):
+						multiplier = timeline_data.get_multiplier(period, 24)
+						signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
+						signs_str = (signs[1] * "-" + signs[0] * "+")
+
+						if len(signs_str) == 0:
+							signs_str = "."
+
+						authors_xml += "{\n\t\t\t\t\t\"name\": \"" + name[0] + "\",\n"
+						authors_xml += "\t\t\t\t\t\"gravatar\": \"" + gravatar.get_url(name[1]) + "\",\n"
+						authors_xml += "\t\t\t\t\t\"work\": \"" + signs_str + "\"\n\t\t\t\t},"
+				else:
+					authors_xml = authors_xml[:-1]
+
+				authors_xml += "],\n"
+				modified_rows_xml = "\t\t\t\t\"modified_rows\": " + \
+				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "\n"
+				timeline_xml += "{\n" + name_xml + authors_xml + modified_rows_xml + "\t\t\t},"
+			else:
+				timeline_xml = timeline_xml[:-1]
+
+			print(",\n\t\t\"timeline\": {\n" + message_xml + periods_xml + timeline_xml + "]\n\t\t}", end="")
+
 	def output_xml(self):
 		if self.changes.get_commits():
 			message_xml = "\t\t<message>" + _(TIMELINE_INFO_TEXT) + "</message>\n"

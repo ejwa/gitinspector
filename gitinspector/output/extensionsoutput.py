@@ -51,6 +51,24 @@ class ExtensionsOutput(Outputable):
 			extensions_xml += "</p></div></div>"
 			print(extensions_xml)
 
+	def output_json(self):
+		if extensions.__located_extensions__:
+			message_xml = "\t\t\t\"message\": \"" + _(EXTENSIONS_INFO_TEXT) + "\",\n"
+			used_extensions_xml = ""
+			unused_extensions_xml = ""
+
+			for i in sorted(extensions.__located_extensions__):
+				if ExtensionsOutput.is_marked(i):
+					used_extensions_xml += "\"" + i + "\", "
+				else:
+					unused_extensions_xml += "\"" + i + "\", "
+
+			used_extensions_xml = used_extensions_xml[:-2]
+			unused_extensions_xml = unused_extensions_xml[:-2]
+
+			print(",\n\t\t\"extensions\": {\n" + message_xml + "\t\t\t\"used\": [ " + used_extensions_xml + " ],\n" +
+			      "\t\t\t\"unused\": [ " + unused_extensions_xml + " ]\n" + "\t\t}", end="")
+
 	def output_text(self):
 		if extensions.__located_extensions__:
 			print("\n" + textwrap.fill("{0} {1}:".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT)),
