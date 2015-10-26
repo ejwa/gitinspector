@@ -15,13 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# Yannick Moy <yannick.moy@gmail.com>, 2014
+# Yannick Moy <yannick.moy@gmail.com>, 2014-2015
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.4.1\n"
+"Project-Id-Version: gitinspector 0.4.3dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2015-10-02 03:35+0200\n"
-"PO-Revision-Date: 2014-11-02 08:36+0100\n"
+"PO-Revision-Date: 2015-10-25 21:56+0100\n"
 "Last-Translator: Yannick Moy <yannick.moy@gmail.com>\n"
 "Language-Team: French <>\n"
 "Language: fr\n"
