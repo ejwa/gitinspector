@@ -16,6 +16,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
 # Philipp Nowak <devnull@nowak-at.net>, 2014-2015
+
 msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.4.3dev\n"
@@ -162,7 +163,7 @@ msgstr "Commits nach Autoren"
 msgid "The following history timeline has been gathered from the repository"
 msgstr "Commitaktivität nach Autoren"
 
-msgid "The following repsonsibilties, by author, were found in the current revision of the repository (comments are exluded from the line count, if possible)"
+msgid "The following responsibilities, by author, were found in the current revision of the repository (comments are excluded from the line count, if possible)"
 msgstr "Verantwortlichkeiten nach Autor (Kommentare nach Möglichkeit ignoriert)"
 
 msgid "The given option argument is not a valid boolean."

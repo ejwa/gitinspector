@@ -155,7 +155,7 @@ msgstr "在资料库中找到下列提交记录，已按作者分类"
 msgid "The following history timeline has been gathered from the repository"
 msgstr "在数据库中收集到下列时间轴"
 
-msgid "The following repsonsibilities, by author, were found in the current revision of the repository (comments are excluded from the line count, if possible)"
+msgid "The following responsibilities, by author, were found in the current revision of the repository (comments are excluded from the line count, if possible)"
 msgstr "在最新的资料库修改中，找到下列分工，按作者分类。 （在计算代码数量时尽可能的排除了批注）"
 
 msgid "The given option argument is not a valid boolean."

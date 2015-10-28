@@ -16,6 +16,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
 # Yannick Moy <yannick.moy@gmail.com>, 2014-2015
+
 msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.4.3dev\n"
@@ -195,8 +196,8 @@ msgid "The following history timeline has been gathered from the repository"
 msgstr "La chronologie suivante a été extraite du dépôt"
 
 msgid ""
-"The following repsonsibilties, by author, were found in the current revision "
-"of the repository (comments are exluded from the line count, if possible)"
+"The following responsibilities, by author, were found in the current revision "
+"of the repository (comments are excluded from the line count, if possible)"
 msgstr ""
 "Les responsabilités suivantes, par auteur, ont été extraites de la version "
 "courante du dépôt (les commentaires sont exclus du compte des lignes, quand "
