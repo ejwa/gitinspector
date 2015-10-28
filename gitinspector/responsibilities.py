@@ -44,8 +44,8 @@ class Responsibilities:
 
 		return sorted(author_blames.items())
 
-RESPONSIBILITIES_INFO_TEXT = N_("The following repsonsibilties, by author, were found in the current "
-                                "revision of the repository (comments are exluded from the line count, "
+RESPONSIBILITIES_INFO_TEXT = N_("The following responsibilities, by author, were found in the current "
+                                "revision of the repository (comments are excluded from the line count, "
                                 "if possible)")
 MOSTLY_RESPONSIBLE_FOR_TEXT = N_("is mostly responsible for")
 
