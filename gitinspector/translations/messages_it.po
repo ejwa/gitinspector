@@ -19,9 +19,9 @@
 
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.4.2dev\n"
+"Project-Id-Version: gitinspector 0.4.3dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2015-10-26 08:50+0100\n"
+"POT-Creation-Date: 2015-10-02 03:35+0200\n"
 "PO-Revision-Date: 2015-10-26 08:50+0100\n"
 "Last-Translator: Luca Motta <lucamot@gmail.com>\n"
 "MIME-Version: 1.0\n"
