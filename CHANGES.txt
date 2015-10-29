@@ -1,3 +1,8 @@
+gitinspector (0.4.3)
+
+	Minor release with updated language locales.
+
+
 gitinspector (0.4.2)
 
 	Minor release with many small, but great improvements.

@@ -3,7 +3,7 @@
 GITINSPECTOR(1)
 ===============
 :doctype: manpage
-:man version: 0.4.2
+:man version: 0.4.3
 :man source: gitinspector
 :man manual: The gitinspector Manual
 
