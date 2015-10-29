@@ -211,6 +211,9 @@ class Changes(object):
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
 			                                      int(self.commits[-1].date[8:10]))
 
+	def __add__(self, other):
+		pass # TODO
+
 	def get_commits(self):
 		return self.commits
 
@@ -249,13 +252,3 @@ class Changes(object):
 
 	def get_latest_email_by_author(self, name):
 		return self.emails_by_author[name]
-
-__changes__ = None
-
-def get(hard):
-	global __changes__
-	if __changes__ == None:
-		__changes__ = Changes(hard)
-
-	return __changes__
-

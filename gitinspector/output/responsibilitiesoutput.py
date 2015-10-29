@@ -21,7 +21,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import textwrap
 from ..localization import N_
-from .. import blame, changes, format, gravatar, terminal
+from .. import blame, format, gravatar, terminal
 from .. import responsibilities as resp
 from .outputable import Outputable
 
@@ -31,17 +31,18 @@ RESPONSIBILITIES_INFO_TEXT = N_("The following responsibilities, by author, were
 MOSTLY_RESPONSIBLE_FOR_TEXT = N_("is mostly responsible for")
 
 class ResponsibilitiesOutput(Outputable):
-	def __init__(self, hard, useweeks):
+	def __init__(self, changes, hard, useweeks):
+		self.changes = changes
 		self.hard = hard
 		self.useweeks = useweeks
 		Outputable.__init__(self)
-		self.changes = changes.get(hard)
 
 	def output_text(self):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
+			                                                 self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
@@ -60,7 +61,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
+			                                                 self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				resp_xml += "<div>"
 
@@ -86,7 +88,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
+			                                                 self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 
@@ -116,7 +119,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in blame.get(self.hard, self.useweeks, self.changes).blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.hard, self.useweeks, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
+			                                                 self.hard, self.useweeks, i)), reverse=True)
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 

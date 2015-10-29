@@ -23,7 +23,8 @@ import atexit
 import getopt
 import os
 import sys
-from . import (basedir, changes, clone, config, extensions, filtering, format, help, interval,
+from .changes import Changes
+from . import (basedir, clone, config, extensions, filtering, format, help, interval,
                localization, optval, terminal, version)
 from .output import outputable
 from .output.blameoutput import BlameOutput
@@ -62,19 +63,21 @@ class Runner(object):
 		absolute_path = basedir.get_basedir_git()
 		os.chdir(absolute_path)
 		format.output_header()
-		outputable.output(ChangesOutput(self.hard))
 
-		if changes.get(self.hard).get_commits():
-			outputable.output(BlameOutput(changes.get(self.hard), self.hard, self.useweeks))
+		changes = Changes(self.hard)
+		outputable.output(ChangesOutput(changes))
+
+		if changes.get_commits():
+			outputable.output(BlameOutput(changes, self.hard, self.useweeks))
 
 			if self.timeline:
-				outputable.output(TimelineOutput(changes.get(self.hard), self.useweeks))
+				outputable.output(TimelineOutput(changes, self.useweeks))
 
 			if self.include_metrics:
 				outputable.output(MetricsOutput())
 
 			if self.responsibilities:
-				outputable.output(ResponsibilitiesOutput(self.hard, self.useweeks))
+				outputable.output(ResponsibilitiesOutput(changes, self.hard, self.useweeks))
 
 			outputable.output(FilteringOutput())
 

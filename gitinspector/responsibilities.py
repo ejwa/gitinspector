@@ -19,17 +19,17 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from . import blame, changes
+from . import blame
 
 class ResponsibiltyEntry(object):
 	blames = {}
 
 class Responsibilities(object):
 	@staticmethod
-	def get(hard, useweeks, author_name):
+	def get(changes, hard, useweeks, author_name):
 		author_blames = {}
 
-		for i in blame.get(hard, useweeks, changes.get(hard)).blames.items():
+		for i in blame.get(hard, useweeks, changes).blames.items():
 			if author_name == i[0][0]:
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
