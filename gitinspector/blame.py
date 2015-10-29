@@ -141,9 +141,7 @@ class Blame(object):
 				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
-
-				if hard:
-					Blame.output_progress(i, len(lines))
+				Blame.output_progress(i, len(lines))
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
