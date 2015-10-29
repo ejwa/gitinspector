@@ -23,7 +23,8 @@ import multiprocessing
 import os
 import subprocess
 import threading
-from . import extensions, filtering, interval
+from .localization import N_
+from . import extensions, filtering, format, interval, terminal
 
 CHANGES_PER_THREAD = 200
 NUM_THREADS = multiprocessing.cpu_count()
@@ -167,6 +168,8 @@ class ChangesThread(threading.Thread):
 		__changes_lock__.release() # ...to here.
 		__thread_lock__.release() # Lock controlling the number of threads running
 
+PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
+
 class Changes(object):
 	authors = {}
 	authors_dateinfo = {}
@@ -191,6 +194,9 @@ class Changes(object):
 					second_hash = entry
 					ChangesThread.create(hard, self, first_hash, second_hash, i)
 					first_hash = entry + ".."
+
+					if format.is_interactive_format():
+						terminal.output_progress(_(PROGRESS_TEXT), i, len(lines))
 			else:
 				entry = entry.decode("utf-8", "replace").strip()
 				second_hash = entry

@@ -20,6 +20,7 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 import json
+import sys
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
@@ -128,6 +129,9 @@ class ChangesOutput(Outputable):
 			print("\t\t\"exception\": \"" + _(NO_COMMITED_FILES_TEXT) + "\"")
 
 	def output_text(self):
+		if sys.stdout.isatty() and format.is_interactive_format():
+			terminal.clear_row()
+
 		authorinfo_list = self.changes.get_authorinfo_list()
 		total_changes = 0.0
 
