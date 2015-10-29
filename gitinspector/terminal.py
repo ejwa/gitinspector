@@ -145,3 +145,9 @@ def ljust(string, pad):
 
 def rjust(string, pad):
 	return string.rjust(pad - get_excess_column_count(string))
+
+def output_progress(text, pos, length):
+	if sys.stdout.isatty():
+		clear_row()
+		print(text.format(100 * pos / length), end="")
+		sys.stdout.flush()

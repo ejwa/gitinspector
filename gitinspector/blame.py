@@ -141,18 +141,13 @@ class Blame(object):
 				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
-				Blame.output_progress(i, len(lines))
+
+				if format.is_interactive_format():
+					terminal.output_progress(_(PROGRESS_TEXT), i, len(lines))
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.acquire()
-
-	@staticmethod
-	def output_progress(pos, length):
-		if sys.stdout.isatty() and format.is_interactive_format():
-			terminal.clear_row()
-			print(_(PROGRESS_TEXT).format(100 * pos / length), end="")
-			sys.stdout.flush()
 
 	@staticmethod
 	def is_revision(string):
