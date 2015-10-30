@@ -23,12 +23,12 @@ import subprocess
 import sys
 import tempfile
 
-__cloned_path__ = None
+__cloned_paths__ = []
 
 def create(url):
 	if url.startswith("file://") or url.startswith("git://") or url.startswith("http://") or \
 	   url.startswith("https://") or url.startswith("ssh://"):
-		global __cloned_path__
+		global __cloned_paths__
 
 		location = tempfile.mkdtemp(suffix=".gitinspector")
 		git_clone = subprocess.Popen(["git", "clone", url, location], bufsize=1, stdout=sys.stderr)
@@ -37,10 +37,11 @@ def create(url):
 		if git_clone.returncode != 0:
 			sys.exit(git_clone.returncode)
 
-		__cloned_path__ = location
+		__cloned_paths__.append(location)
 		return location
+
 	return url
 
 def delete():
-	if __cloned_path__:
-		shutil.rmtree(__cloned_path__, ignore_errors=True)
+	for path in __cloned_paths__:
+		shutil.rmtree(path, ignore_errors=True)
