@@ -21,6 +21,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from ..localization import N_
 from .. import metrics
+from .changes import FileDiff
 from .outputable import Outputable
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
@@ -68,7 +69,7 @@ class MetricsOutput(Outputable):
 		if metrics_logic.eloc:
 			metrics_xml += "<div><h4>" + _(ELOC_INFO_TEXT) + ".</h4>"
 			for num, i in enumerate(sorted(set([(j, i) for (i, j) in metrics_logic.eloc.items()]), reverse=True)):
-				metrics_xml += "<div class=\"" + __get_metrics_score__(__metric_eloc__[FileDiff.get_extension(i[1])], i[0]) + \
+				metrics_xml += "<div class=\"" + __get_metrics_score__(metrics.__metric_eloc__[FileDiff.get_extension(i[1])], i[0]) + \
 				               (" odd\">" if num % 2 == 1 else "\">") + \
 				               _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</div>"
 			metrics_xml += "</div>"

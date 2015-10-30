@@ -28,8 +28,6 @@ __cloned_paths__ = []
 def create(url):
 	if url.startswith("file://") or url.startswith("git://") or url.startswith("http://") or \
 	   url.startswith("https://") or url.startswith("ssh://"):
-		global __cloned_paths__
-
 		location = tempfile.mkdtemp(suffix=".gitinspector")
 		git_clone = subprocess.Popen(["git", "clone", url, location], bufsize=1, stdout=sys.stderr)
 		git_clone.wait()

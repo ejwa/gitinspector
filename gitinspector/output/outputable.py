@@ -32,7 +32,6 @@ class Outputable(object):
 		raise NotImplementedError(_("Text output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
 
 	def output_xml(self):
-		NotImplementedError
 		raise NotImplementedError(_("XML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
 
 def output(outputable):

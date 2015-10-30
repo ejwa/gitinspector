@@ -23,7 +23,6 @@ import datetime
 import multiprocessing
 import re
 import subprocess
-import sys
 import threading
 from .localization import N_
 from .changes import FileDiff
