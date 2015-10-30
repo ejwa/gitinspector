@@ -24,7 +24,8 @@ import getopt
 import os
 import sys
 from .changes import Changes
-from . import (basedir, clone, config, extensions, filtering, format, help, interval,
+from .config import GitConfig
+from . import (basedir, clone, extensions, filtering, format, help, interval,
                localization, optval, terminal, version)
 from .output import outputable
 from .output.blameoutput import BlameOutput
@@ -104,14 +105,14 @@ def main():
 		                                                 "localize-output:true", "metrics:true", "responsibilities:true",
 		                                                 "since=", "grading:true", "timeline:true", "until=", "version",
 		                                                 "weeks:true"])
-		for arg in __args__:
-			__run__.repo = arg
+		if len(__args__) > 0:
+			__run__.repo = __args__[-1]
 
 		#Try to clone the repo or return the same directory and bail out.
 		__run__.repo = clone.create(__run__.repo)
 
 		#We need the repo above to be set before we read the git config.
-		config.init(__run__)
+		GitConfig(__run__).read()
 		clear_x_on_next_pass = True
 
 		for o, a in __opts__:
