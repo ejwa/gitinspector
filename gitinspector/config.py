@@ -23,13 +23,14 @@ import subprocess
 from . import extensions, filtering, format, interval, optval
 
 class GitConfig(object):
-	def __init__(self, run, global_only=False):
+	def __init__(self, run, repo, global_only=False):
 		self.run = run
+		self.repo = repo
 		self.global_only = global_only
 
 	def __read_git_config__(self, variable):
 		previous_directory = os.getcwd()
-		os.chdir(self.run.repo)
+		os.chdir(self.repo)
 		setting = subprocess.Popen(filter(None, ["git", "config", "--global" if self.global_only else "",
 		                           "inspector." + variable]), bufsize=1, stdout=subprocess.PIPE).stdout
 		os.chdir(previous_directory)

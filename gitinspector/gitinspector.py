@@ -1,4 +1,4 @@
-# coding: utf-8
+	# coding: utf-8
 #
 # Copyright © 2012-2015 Ejwa Software. All rights reserved.
 #
@@ -44,13 +44,12 @@ class Runner(object):
 		self.include_metrics = False
 		self.list_file_types = False
 		self.localize_output = False
-		self.repo = "."
 		self.responsibilities = False
 		self.grading = False
 		self.timeline = False
 		self.useweeks = False
 
-	def output(self):
+	def process(self, repos):
 		localization.check_compatibility(version.__version__)
 
 		if not self.localize_output:
@@ -60,9 +59,11 @@ class Runner(object):
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
 
-		os.chdir(self.repo)
-		absolute_path = basedir.get_basedir_git()
-		os.chdir(absolute_path)
+		for repo in repos:
+			os.chdir(previous_directory)
+			os.chdir(repo)
+			absolute_path = basedir.get_basedir_git()
+			os.chdir(absolute_path)
 
 		format.output_header(absolute_path)
 		changes = Changes(self.hard)
@@ -98,20 +99,20 @@ def main():
 	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8()
 	run = Runner()
+	repos = []
 
 	try:
 		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true"])
-		if len(args) > 0:
-			run.repo = args[-1]
 
-		#Try to clone the repo or return the same directory and bail out.
-		run.repo = clone.create(run.repo)
+		#Try to clone the repos or return the same directory and bail out.
+		for repo in args:
+			repos.append(clone.create(repo))
 
 		#We need the repo above to be set before we read the git config.
-		GitConfig(run, len(args) > 1).read()
+		GitConfig(run, repos[-1] if len(repos) > 0 else ".", len(repos) > 1).read()
 		clear_x_on_next_pass = True
 
 		for o, a in opts:
@@ -174,7 +175,7 @@ def main():
 				filtering.add(a)
 
 		__check_python_version__()
-		run.output()
+		run.process(["."] if repos == [] else repos)
 
 	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
 		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
