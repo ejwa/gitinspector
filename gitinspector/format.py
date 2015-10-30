@@ -59,7 +59,7 @@ def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 	zip_file.close()
 	return content.decode("utf-8", "replace")
 
-def output_header():
+def output_header(repo):
 	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
 		base = basedir.get_basedir()
 		html_header = __output_html_template__(base + "/html/html.header")
@@ -80,7 +80,7 @@ def output_header():
 		else:
 			jquery_js = " src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js\">"
 
-		print(html_header.format(title=_("Repository statistics for {0}").format(os.path.basename(basedir.get_basedir_git())),
+		print(html_header.format(title=_("Repository statistics for {0}").format(os.path.basename(repo)),
 		                         jquery=jquery_js,
 		                         jquery_tablesorter=tablesorter_js,
 		                         jquery_flot=flot_js,
@@ -92,7 +92,7 @@ def output_header():
 					               "<a href=\"https://github.com/ejwa/gitinspector\">gitinspector</a>",
 		                                       version.__version__),
 		                         repo_text=_("Statistical information for the repository '{0}' was gathered on {1}.").format(
-		                                       os.path.basename(basedir. get_basedir_git()), localization.get_date()),
+		                                       os.path.basename(repo), localization.get_date()),
 		                         show_minor_authors=_("Show minor authors"),
 		                         hide_minor_authors=_("Hide minor authors"),
 		                         show_minor_rows=_("Show rows with minor work"),
@@ -102,11 +102,11 @@ def output_header():
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
-		print("\t<repository>" + os.path.basename(basedir. get_basedir_git()) + "</repository>")
+		print("\t<repository>" + os.path.basename(repo) + "</repository>")
 		print("\t<report-date>" + time.strftime("%Y/%m/%d") + "</report-date>")
 	else:
 		print(textwrap.fill(_("Statistical information for the repository '{0}' was gathered on {1}.").format(
-		      os.path.basename(basedir.get_basedir_git()), localization.get_date()), width=terminal.get_size()[0]))
+		      os.path.basename(repo), localization.get_date()), width=terminal.get_size()[0]))
 
 def output_footer():
 	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":

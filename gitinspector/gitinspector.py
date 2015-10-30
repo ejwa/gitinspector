@@ -63,8 +63,8 @@ class Runner(object):
 		os.chdir(self.repo)
 		absolute_path = basedir.get_basedir_git()
 		os.chdir(absolute_path)
-		format.output_header()
 
+		format.output_header(absolute_path)
 		changes = Changes(self.hard)
 		outputable.output(ChangesOutput(changes))
 
