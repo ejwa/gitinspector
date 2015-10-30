@@ -97,25 +97,24 @@ def main():
 	terminal.check_terminal_encoding()
 	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8()
-	__run__ = Runner()
+	run = Runner()
 
 	try:
-		__opts__, __args__ = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
-		                                                 "hard:true", "help", "list-file-types:true",
-		                                                 "localize-output:true", "metrics:true", "responsibilities:true",
-		                                                 "since=", "grading:true", "timeline:true", "until=", "version",
-		                                                 "weeks:true"])
-		if len(__args__) > 0:
-			__run__.repo = __args__[-1]
+		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
+		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
+		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
+		                                         "timeline:true", "until=", "version", "weeks:true"])
+		if len(args) > 0:
+			run.repo = args[-1]
 
 		#Try to clone the repo or return the same directory and bail out.
-		__run__.repo = clone.create(__run__.repo)
+		run.repo = clone.create(run.repo)
 
 		#We need the repo above to be set before we read the git config.
-		GitConfig(__run__).read()
+		GitConfig(run, len(args) > 1).read()
 		clear_x_on_next_pass = True
 
-		for o, a in __opts__:
+		for o, a in opts:
 			if o in("-h", "--help"):
 				help.output()
 				sys.exit(0)
@@ -125,25 +124,25 @@ def main():
 				if not format.select(a):
 					raise format.InvalidFormatError(_("specified output format not supported."))
 			elif o == "-H":
-				__run__.hard = True
+				run.hard = True
 			elif o == "--hard":
-				__run__.hard = optval.get_boolean_argument(a)
+				run.hard = optval.get_boolean_argument(a)
 			elif o == "-l":
-				__run__.list_file_types = True
+				run.list_file_types = True
 			elif o == "--list-file-types":
-				__run__.list_file_types = optval.get_boolean_argument(a)
+				run.list_file_types = optval.get_boolean_argument(a)
 			elif o == "-L":
-				__run__.localize_output = True
+				run.localize_output = True
 			elif o == "--localize-output":
-				__run__.localize_output = optval.get_boolean_argument(a)
+				run.localize_output = optval.get_boolean_argument(a)
 			elif o == "-m":
-				__run__.include_metrics = True
+				run.include_metrics = True
 			elif o == "--metrics":
-				__run__.include_metrics = optval.get_boolean_argument(a)
+				run.include_metrics = optval.get_boolean_argument(a)
 			elif o == "-r":
-				__run__.responsibilities = True
+				run.responsibilities = True
 			elif o == "--responsibilities":
-				__run__.responsibilities = optval.get_boolean_argument(a)
+				run.responsibilities = optval.get_boolean_argument(a)
 			elif o == "--since":
 				interval.set_since(a)
 			elif o == "--version":
@@ -151,23 +150,23 @@ def main():
 				sys.exit(0)
 			elif o == "--grading":
 				grading = optval.get_boolean_argument(a)
-				__run__.include_metrics = grading
-				__run__.list_file_types = grading
-				__run__.responsibilities = grading
-				__run__.grading = grading
-				__run__.hard = grading
-				__run__.timeline = grading
-				__run__.useweeks = grading
+				run.include_metrics = grading
+				run.list_file_types = grading
+				run.responsibilities = grading
+				run.grading = grading
+				run.hard = grading
+				run.timeline = grading
+				run.useweeks = grading
 			elif o == "-T":
-				__run__.timeline = True
+				run.timeline = True
 			elif o == "--timeline":
-				__run__.timeline = optval.get_boolean_argument(a)
+				run.timeline = optval.get_boolean_argument(a)
 			elif o == "--until":
 				interval.set_until(a)
 			elif o == "-w":
-				__run__.useweeks = True
+				run.useweeks = True
 			elif o == "--weeks":
-				__run__.useweeks = optval.get_boolean_argument(a)
+				run.useweeks = optval.get_boolean_argument(a)
 			elif o in("-x", "--exclude"):
 				if clear_x_on_next_pass:
 					clear_x_on_next_pass = False
@@ -175,7 +174,7 @@ def main():
 				filtering.add(a)
 
 		__check_python_version__()
-		__run__.output()
+		run.output()
 
 	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
 		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
