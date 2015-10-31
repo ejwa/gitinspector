@@ -23,6 +23,7 @@ import atexit
 import getopt
 import os
 import sys
+from .blame import Blame
 from .changes import Changes
 from .config import GitConfig
 from . import (basedir, clone, extensions, filtering, format, help, interval,
@@ -58,13 +59,16 @@ class Runner(object):
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
-		changes = None
+		summed_blames = None
+		summed_changes = None
 
 		for repo in repos:
 			os.chdir(previous_directory)
 			os.chdir(repo)
 			absolute_path = basedir.get_basedir_git()
-			changes = Changes(self.hard) + changes
+			changes = Changes(self.hard)
+			summed_blames = Blame(self.hard, self.useweeks, changes) + summed_blames
+			summed_changes = changes + summed_changes
 
 			if sys.stdout.isatty() and format.is_interactive_format():
 				terminal.clear_row()
@@ -75,16 +79,16 @@ class Runner(object):
 		outputable.output(ChangesOutput(changes))
 
 		if changes.get_commits():
-			outputable.output(BlameOutput(changes, self.hard, self.useweeks))
+			outputable.output(BlameOutput(summed_changes, summed_blames))
 
 			if self.timeline:
-				outputable.output(TimelineOutput(changes, self.useweeks))
+				outputable.output(TimelineOutput(summed_changes, self.useweeks))
 
 			if self.include_metrics:
 				outputable.output(MetricsOutput())
 
 			if self.responsibilities:
-				outputable.output(ResponsibilitiesOutput(changes, self.hard, self.useweeks))
+				outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
 
 			outputable.output(FilteringOutput())
 

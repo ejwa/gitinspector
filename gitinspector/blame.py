@@ -148,6 +148,17 @@ class Blame(object):
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.acquire()
 
+		# We also have to release them for future use.
+		for i in range(0, NUM_THREADS):
+			__thread_lock__.release()
+
+	def __add__(self, other):
+		if other == None:
+			return self
+
+		self.blames.update(other.blames)
+		return self
+
 	@staticmethod
 	def is_revision(string):
 		revision = re.search("([0-9a-f]{40})", string)
@@ -180,12 +191,3 @@ class Blame(object):
 			summed_blames[i[0][0]].comments += i[1].comments
 
 		return summed_blames
-
-__blame__ = None
-
-def get(hard, useweeks, changes):
-	global __blame__
-	if __blame__ == None:
-		__blame__ = Blame(hard, useweeks, changes)
-
-	return __blame__

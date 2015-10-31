@@ -26,10 +26,10 @@ class ResponsibiltyEntry(object):
 
 class Responsibilities(object):
 	@staticmethod
-	def get(changes, hard, useweeks, author_name):
+	def get(changes, blame, author_name):
 		author_blames = {}
 
-		for i in blame.get(hard, useweeks, changes).blames.items():
+		for i in blame.blames.items():
 			if author_name == i[0][0]:
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
