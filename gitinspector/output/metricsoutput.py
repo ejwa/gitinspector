@@ -19,9 +19,9 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from ..changes import FileDiff
 from ..localization import N_
 from .. import metrics
-from .changes import FileDiff
 from .outputable import Outputable
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
