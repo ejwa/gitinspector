@@ -58,15 +58,20 @@ class Runner(object):
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
+		changes = None
 
 		for repo in repos:
 			os.chdir(previous_directory)
 			os.chdir(repo)
 			absolute_path = basedir.get_basedir_git()
+			changes = Changes(self.hard) + changes
+
+			if sys.stdout.isatty() and format.is_interactive_format():
+				terminal.clear_row()
+
 			os.chdir(absolute_path)
 
 		format.output_header(absolute_path)
-		changes = Changes(self.hard)
 		outputable.output(ChangesOutput(changes))
 
 		if changes.get_commits():

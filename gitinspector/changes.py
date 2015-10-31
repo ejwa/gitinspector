@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+import bisect
 import datetime
 import multiprocessing
 import os
@@ -69,11 +70,15 @@ class Commit(object):
 		self.filediffs = []
 		commit_line = string.split("|")
 
-		if commit_line.__len__() == 4:
-			self.date = commit_line[0]
-			self.sha = commit_line[1]
-			self.author = commit_line[2].strip()
-			self.email = commit_line[3].strip()
+		if commit_line.__len__() == 5:
+			self.timestamp = commit_line[0]
+			self.date = commit_line[1]
+			self.sha = commit_line[2]
+			self.author = commit_line[3].strip()
+			self.email = commit_line[4].strip()
+
+	def __lt__(self, other):
+		return self.timestamp.__lt__(other.timestamp) # only used for sorting; we just consider the timestamp.
 
 	def add_filediff(self, filediff):
 		self.filediffs.append(filediff)
@@ -85,12 +90,12 @@ class Commit(object):
 	def get_author_and_email(string):
 		commit_line = string.split("|")
 
-		if commit_line.__len__() == 4:
-			return (commit_line[2].strip(), commit_line[3].strip())
+		if commit_line.__len__() == 5:
+			return (commit_line[3].strip(), commit_line[4].strip())
 
 	@staticmethod
 	def is_commit_line(string):
-		return string.split("|").__len__() == 4
+		return string.split("|").__len__() == 5
 
 class AuthorInfo(object):
 	email = None
@@ -116,7 +121,7 @@ class ChangesThread(threading.Thread):
 		thread.start()
 
 	def run(self):
-		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%cd|%H|%aN|%aE",
+		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
 		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
 		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
 		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
@@ -142,7 +147,7 @@ class ChangesThread(threading.Thread):
 
 			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
-					commits.append(commit)
+					bisect.insort(commits, commit)
 
 				found_valid_extension = False
 				is_filtered = False
@@ -206,6 +211,10 @@ class Changes(object):
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.acquire()
 
+		# We also have to release them for future use.
+		for i in range(0, NUM_THREADS):
+			__thread_lock__.release()
+
 		self.commits = [item for sublist in self.commits for item in sublist]
 
 		if len(self.commits) > 0:
@@ -218,7 +227,18 @@ class Changes(object):
 			                                      int(self.commits[-1].date[8:10]))
 
 	def __add__(self, other):
-		pass # TODO
+		if other == None:
+			return self
+
+		self.authors.update(other.authors)
+		self.authors_dateinfo.update(other.authors_dateinfo)
+		self.authors_by_email.update(other.authors_by_email)
+		self.emails_by_author.update(other.emails_by_author)
+
+		for commit in other.commits:
+			bisect.insort(self.commits, commit)
+
+		return self
 
 	def get_commits(self):
 		return self.commits

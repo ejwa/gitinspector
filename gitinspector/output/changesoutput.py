@@ -26,7 +26,7 @@ from ..localization import N_
 from .. import format, gravatar, terminal
 from .outputable import Outputable
 
-HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
+HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
 
 class ChangesOutput(Outputable):
@@ -129,9 +129,6 @@ class ChangesOutput(Outputable):
 			print("\t\t\"exception\": \"" + _(NO_COMMITED_FILES_TEXT) + "\"")
 
 	def output_text(self):
-		if sys.stdout.isatty() and format.is_interactive_format():
-			terminal.clear_row()
-
 		authorinfo_list = self.changes.get_authorinfo_list()
 		total_changes = 0.0
 
