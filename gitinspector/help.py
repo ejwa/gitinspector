@@ -24,10 +24,10 @@ from .extensions import DEFAULT_EXTENSIONS
 from .format import __available_formats__
 
 
-__doc__ = _("""Usage: {0} [OPTION]... [REPOSITORY]
+__doc__ = _("""Usage: {0} [OPTION]... [REPOSITORY]...
 List information about the repository in REPOSITORY. If no repository is
 specified, the current directory is used. If multiple repositories are
-given, information will be fetched from the last repository specified.
+given, information will be merged into a unified statistical report.
 
 Mandatory arguments to long options are mandatory for short options too.
 Boolean arguments can only be given to long options.
