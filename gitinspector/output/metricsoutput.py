@@ -107,7 +107,8 @@ class MetricsOutput(Outputable):
 					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
 					eloc_xml += "\t\t\t},"
 				else:
-					eloc_xml = eloc_xml[:-1]
+					if not self.metrics.cyclomatic_complexity:
+						eloc_xml = eloc_xml[:-1]
 
 			if self.metrics.cyclomatic_complexity:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity.items()]), reverse=True):
@@ -116,7 +117,8 @@ class MetricsOutput(Outputable):
 					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
 					eloc_xml += "\t\t\t},"
 				else:
-					eloc_xml = eloc_xml[:-1]
+					if not self.metrics.cyclomatic_complexity_density:
+						eloc_xml = eloc_xml[:-1]
 
 			if self.metrics.cyclomatic_complexity_density:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True):
