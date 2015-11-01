@@ -26,6 +26,7 @@ import sys
 from .blame import Blame
 from .changes import Changes
 from .config import GitConfig
+from .metrics import MetricsLogic
 from . import (basedir, clone, extensions, filtering, format, help, interval,
                localization, optval, terminal, version)
 from .output import outputable
@@ -59,8 +60,10 @@ class Runner(object):
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
+
 		summed_blames = None
 		summed_changes = None
+		summed_metrics = None
 
 		for repo in repos:
 			os.chdir(previous_directory)
@@ -69,6 +72,9 @@ class Runner(object):
 			changes = Changes(self.hard)
 			summed_blames = Blame(self.hard, self.useweeks, changes) + summed_blames
 			summed_changes = changes + summed_changes
+
+			if self.include_metrics:
+				summed_metrics = MetricsLogic() + summed_metrics
 
 			if sys.stdout.isatty() and format.is_interactive_format():
 				terminal.clear_row()
@@ -85,7 +91,7 @@ class Runner(object):
 				outputable.output(TimelineOutput(summed_changes, self.useweeks))
 
 			if self.include_metrics:
-				outputable.output(MetricsOutput())
+				outputable.output(MetricsOutput(summed_metrics))
 
 			if self.responsibilities:
 				outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))

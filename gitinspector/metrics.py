@@ -69,6 +69,15 @@ class MetricsLogic(object):
 				if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
 					self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
 
+	def __add__(self, other):
+		if other == None:
+			return self
+
+		self.eloc.update(other.eloc)
+		self.cyclomatic_complexity.update(other.cyclomatic_complexity)
+		self.cyclomatic_complexity_density.update(other.cyclomatic_complexity_density)
+		return self
+
 	@staticmethod
 	def get_cyclomatic_complexity(file_r, extension):
 		is_inside_comment = False
