@@ -40,8 +40,8 @@ class ResponsibilitiesOutput(Outputable):
 		print("\n" + textwrap.fill(_(RESPONSIBILITIES_INFO_TEXT) + ":", width=terminal.get_size()[0]))
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
-			                                                 self.blame, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
+
 			if responsibilities:
 				print("\n" + i, _(MOSTLY_RESPONSIBLE_FOR_TEXT) + ":")
 
@@ -60,8 +60,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
-			                                                 self.blame, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
+
 			if responsibilities:
 				resp_xml += "<div>"
 
@@ -87,8 +87,8 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
-			                                                 self.blame, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
+
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 
@@ -118,8 +118,7 @@ class ResponsibilitiesOutput(Outputable):
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
-			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.changes,
-			                                                 self.blame, i)), reverse=True)
+			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 

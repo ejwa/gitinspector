@@ -19,14 +19,13 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from . import blame
 
 class ResponsibiltyEntry(object):
 	blames = {}
 
 class Responsibilities(object):
 	@staticmethod
-	def get(changes, blame, author_name):
+	def get(blame, author_name):
 		author_blames = {}
 
 		for i in blame.blames.items():
