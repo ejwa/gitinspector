@@ -86,7 +86,7 @@ def output_header(repos):
 		else:
 			jquery_js = " src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js\">"
 
-		print(html_header.format(title=_("Repository statistics for '{0}'").format(repo_string),
+		print(html_header.format(title=_("Repository statistics for '{0}'").format(repos_string),
 		                         jquery=jquery_js,
 		                         jquery_tablesorter=tablesorter_js,
 		                         jquery_flot=flot_js,
@@ -97,8 +97,8 @@ def output_header(repos):
 		                                       " for git repositories.").format(
 					               "<a href=\"https://github.com/ejwa/gitinspector\">gitinspector</a>",
 		                                       version.__version__),
-		                         repos_text=_(INFO_ONE_REPOSITORY if len(repos) <= 1 else INFO_MANY_REPOSITORIES).format(
-		                                      repos_string, localization.get_date()),
+		                         repo_text=_(INFO_ONE_REPOSITORY if len(repos) <= 1 else INFO_MANY_REPOSITORIES).format(
+		                                     repos_string, localization.get_date()),
 		                         show_minor_authors=_("Show minor authors"),
 		                         hide_minor_authors=_("Hide minor authors"),
 		                         show_minor_rows=_("Show rows with minor work"),
