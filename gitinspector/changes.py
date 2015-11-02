@@ -181,7 +181,7 @@ class Changes(object):
 	authors_by_email = {}
 	emails_by_author = {}
 
-	def __init__(self, hard):
+	def __init__(self, repo, hard):
 		self.commits = []
 		git_log_hashes_r = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
 		                                    interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
@@ -190,6 +190,10 @@ class Changes(object):
 		git_log_hashes_r.close()
 
 		if len(lines) > 0:
+			progress_text = _(PROGRESS_TEXT)
+			if repo != None:
+				progress_text = "[%s] " % repo.name + progress_text
+
 			self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
 			first_hash = ""
 
@@ -201,7 +205,7 @@ class Changes(object):
 					first_hash = entry + ".."
 
 					if format.is_interactive_format():
-						terminal.output_progress(_(PROGRESS_TEXT), i, len(lines))
+						terminal.output_progress(progress_text, i, len(lines))
 			else:
 				entry = entry.decode("utf-8", "replace").strip()
 				second_hash = entry

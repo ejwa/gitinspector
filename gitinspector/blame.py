@@ -121,12 +121,16 @@ class BlameThread(threading.Thread):
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0f}%")
 
 class Blame(object):
-	def __init__(self, hard, useweeks, changes):
+	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
 		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
 		ls_tree_r.close()
+
+		progress_text = _(PROGRESS_TEXT)
+		if repo != None:
+			progress_text = "[%s] " % repo.name + progress_text
 
 		for i, row in enumerate(lines):
 			row = row.strip().decode("unicode_escape", "ignore")
@@ -142,7 +146,7 @@ class Blame(object):
 				thread.start()
 
 				if format.is_interactive_format():
-					terminal.output_progress(_(PROGRESS_TEXT), i, len(lines))
+					terminal.output_progress(progress_text, i, len(lines))
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
