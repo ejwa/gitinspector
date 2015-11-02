@@ -60,15 +60,12 @@ class Runner(object):
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
-
 		summed_blames = None
 		summed_changes = None
 		summed_metrics = None
 
 		for repo in repos:
-			os.chdir(previous_directory)
-			os.chdir(repo)
-			absolute_path = basedir.get_basedir_git()
+			os.chdir(repo.location)
 			changes = Changes(self.hard)
 			summed_blames = Blame(self.hard, self.useweeks, changes) + summed_blames
 			summed_changes = changes + summed_changes
@@ -78,10 +75,10 @@ class Runner(object):
 
 			if sys.stdout.isatty() and format.is_interactive_format():
 				terminal.clear_row()
+		else:
+			os.chdir(previous_directory)
 
-			os.chdir(absolute_path)
-
-		format.output_header(absolute_path)
+		format.output_header(repos)
 		outputable.output(ChangesOutput(changes))
 
 		if changes.get_commits():
@@ -109,6 +106,24 @@ def __check_python_version__():
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
 		sys.exit(_("gitinspector requires at least Python 2.6 to run (version {0} was found).").format(python_version))
 
+def __get_validated_git_repos__(repos_relative):
+	if not repos_relative:
+		repos_relative = "."
+
+	repos = []
+
+	#Try to clone the repos or return the same directory and bail out.
+	for repo in repos_relative:
+		cloned_repo = clone.create(repo)
+		basedir_path = basedir.get_basedir_git(cloned_repo.location)
+
+		if cloned_repo.name == None:
+			cloned_repo.name = os.path.basename(basedir_path)
+
+		repos.append(cloned_repo)
+
+	return repos
+
 def main():
 	terminal.check_terminal_encoding()
 	terminal.set_stdin_encoding()
@@ -121,13 +136,10 @@ def main():
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true"])
+		repos = __get_validated_git_repos__(set(args))
 
-		#Try to clone the repos or return the same directory and bail out.
-		for repo in args:
-			repos.append(clone.create(repo))
-
-		#We need the repo above to be set before we read the git config.
-		GitConfig(run, repos[-1] if len(repos) > 0 else ".", len(repos) > 1).read()
+		#We need the repos above to be set before we read the git config.
+		GitConfig(run, repos[-1].location).read()
 		clear_x_on_next_pass = True
 
 		for o, a in opts:
@@ -190,7 +202,7 @@ def main():
 				filtering.add(a)
 
 		__check_python_version__()
-		run.process(["."] if repos == [] else repos)
+		run.process(repos)
 
 	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
 		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
