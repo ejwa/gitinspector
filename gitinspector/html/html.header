@@ -86,15 +86,19 @@
 				}}).each(function() {{
 					$(this).addClass("hoverable");
 					this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
-				}}).toggle(function() {{
-					this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &and;";
-					$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
-				}}, function() {{
-					this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
-					$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
-						return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-					}}).parent().hide();
-					$("table.git tbody tr:visible").each(colorRows);
+				}}).click(function() {{
+					this.clicked = !this.clicked;
+
+					if (this.clicked) {{
+						this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &and;";
+						$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
+					}} else {{
+						this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
+						$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
+							return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+						}}).parent().hide();
+						$("table.git tbody tr:visible").each(colorRows);
+					}}
 				}});
 
 				filterResponsibilities();
@@ -103,12 +107,15 @@
 					$("div#responsibilities div h3:visible").each(colorRows);
 					$("div#responsibilities").prepend("<div class=\"button\">{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;</div>");
 
-					$("div#responsibilities div.button").toggle(function() {{
-						this.innerHTML = "{hide_minor_authors} (" + hiddenResponsibilitiesCount + ") &and;";
-						$("div#responsibilities div").show();
-					}}, function() {{
-						this.innerHTML = "{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;";
-						filterResponsibilities();
+					$("div#responsibilities div.button").click(function() {{
+						this.clicked = !this.clicked;
+						if (this.clicked) {{
+							this.innerHTML = "{hide_minor_authors} (" + hiddenResponsibilitiesCount + ") &and;";
+							$("div#responsibilities div").show();
+						}} else {{
+							this.innerHTML = "{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;";
+							filterResponsibilities();
+						}}
 					}});
 				}}
 
@@ -119,13 +126,16 @@
 					$("div#timeline table.git tbody tr:visible").each(colorRows);
 					$("div#timeline").prepend("<div class=\"button\">{show_minor_rows} (" + hiddenTimelineCount + ") &or;</div>");
 
-					$("div#timeline div.button").toggle(function() {{
-						this.innerHTML = "{hide_minor_rows} (" + hiddenTimelineCount + ") &and;";
-						$("div#timeline table.git tbody tr").show().each(colorRows);
-					}}, function() {{
-						this.innerHTML = "{show_minor_rows} (" + hiddenTimelineCount + ") &or;";
-						filterTimeLine();
-						$("div#timeline table.git tbody tr:visible").each(colorRows);
+					$("div#timeline div.button").click(function() {{
+						this.clicked = !this.clicked;
+						if (this.clicked) {{
+							this.innerHTML = "{hide_minor_rows} (" + hiddenTimelineCount + ") &and;";
+							$("div#timeline table.git tbody tr").show().each(colorRows);
+						}} else {{
+							this.innerHTML = "{show_minor_rows} (" + hiddenTimelineCount + ") &or;";
+							filterTimeLine();
+							$("div#timeline table.git tbody tr:visible").each(colorRows);
+						}}
 					}});
 				}}
 

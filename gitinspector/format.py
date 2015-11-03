@@ -84,7 +84,7 @@ def output_header(repos):
 		if __selected_format__ == "htmlembedded":
 			jquery_js = ">" + __get_zip_file_content__("jquery.js")
 		else:
-			jquery_js = " src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js\">"
+			jquery_js = " src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js\">"
 
 		print(html_header.format(title=_("Repository statistics for '{0}'").format(repos_string),
 		                         jquery=jquery_js,
