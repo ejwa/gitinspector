@@ -105,6 +105,20 @@ def output_header(repos):
 		                         hide_minor_rows=_("Hide rows with minor work")))
 	elif __selected_format__ == "json":
 		print("{\n\t\"gitinspector\": {")
+		print("\t\t\"version\": \"" + version.__version__ + "\",")
+
+		if len(repos) <= 1:
+			print("\t\t\"repository\": \"" + repos[0].name + "\",")
+		else:
+			repos_json = "\t\t\"repositories\": [ "
+
+			for repo in repos:
+				repos_json += "\"" + repo.name + "\", "
+
+			print(repos_json[:-2] + " ],")
+
+		print("\t\t\"report_date\": \"" + time.strftime("%Y/%m/%d") + "\",")
+
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
