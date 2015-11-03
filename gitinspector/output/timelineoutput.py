@@ -136,7 +136,7 @@ class TimelineOutput(Outputable):
 		if self.changes.get_commits():
 			message_xml = "\t\t\t\"message\": \"" + _(TIMELINE_INFO_TEXT) + "\",\n"
 			timeline_xml = ""
-			periods_xml = "\t\t\t\"period-length\": \"{0}\",\n".format("week" if self.useweeks else "month")
+			periods_xml = "\t\t\t\"period_length\": \"{0}\",\n".format("week" if self.useweeks else "month")
 			periods_xml += "\t\t\t\"periods\": [\n\t\t\t"
 
 			timeline_data = timeline.TimelineData(self.changes, self.useweeks)

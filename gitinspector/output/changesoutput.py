@@ -115,7 +115,7 @@ class ChangesOutput(Outputable):
 				commits_xml = "\t\t\t\t\"commits\": " + str(authorinfo.commits) + ",\n"
 				insertions_xml = "\t\t\t\t\"insertions\": " + str(authorinfo.insertions) + ",\n"
 				deletions_xml = "\t\t\t\t\"deletions\": " + str(authorinfo.deletions) + ",\n"
-				percentage_xml = "\t\t\t\t\"percentage-of-changes\": " + "{0:.2f}".format(percentage) + "\n"
+				percentage_xml = "\t\t\t\t\"percentage_of_changes\": " + "{0:.2f}".format(percentage) + "\n"
 
 				changes_xml += ("{\n" + name_xml + gravatar_xml + commits_xml + insertions_xml +
 				                deletions_xml + percentage_xml + "\t\t\t}")

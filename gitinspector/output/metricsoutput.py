@@ -103,7 +103,7 @@ class MetricsOutput(Outputable):
 			if self.metrics.eloc:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.eloc.items()]), reverse=True):
 					eloc_xml += "{\n\t\t\t\t\"type\": \"estimated-lines-of-code\",\n"
-					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
 					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
 					eloc_xml += "\t\t\t},"
 				else:
@@ -113,7 +113,7 @@ class MetricsOutput(Outputable):
 			if self.metrics.cyclomatic_complexity:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity.items()]), reverse=True):
 					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity\",\n"
-					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
 					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
 					eloc_xml += "\t\t\t},"
 				else:
@@ -123,7 +123,7 @@ class MetricsOutput(Outputable):
 			if self.metrics.cyclomatic_complexity_density:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True):
 					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity-density\",\n"
-					eloc_xml += "\t\t\t\t\"file-name\": \"" + i[1] + "\",\n"
+					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
 					eloc_xml += "\t\t\t\t\"value\": {0:.3f} \"\n".format(i[0])
 					eloc_xml += "\t\t\t},"
 				else:

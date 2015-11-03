@@ -107,7 +107,7 @@ class BlameOutput(Outputable):
 			stability_xml = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                 self.changes)) + ",\n")
 			age_xml = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
-			percentage_in_comments_xml = ("\t\t\t\t\"percentage-in-comments\": " + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
+			percentage_in_comments_xml = ("\t\t\t\t\"percentage_in_comments\": " + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "\n")
 			blame_xml += ("{\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +
 			             percentage_in_comments_xml + "\t\t\t},")
