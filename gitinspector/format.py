@@ -122,7 +122,17 @@ def output_header(repos):
 	elif __selected_format__ == "xml":
 		print("<gitinspector>")
 		print("\t<version>" + version.__version__ + "</version>")
-		print("\t<repository>" + repos_string + "</repository>")
+
+		if len(repos) <= 1:
+			print("\t<repository>" + repos_string + "</repository>")
+		else:
+			print("\t<repositories>")
+
+			for repo in repos:
+				print("\t\t<repository>" + repo.name + "</repository>")
+
+			print("\t</repositories>")
+
 		print("\t<report-date>" + time.strftime("%Y/%m/%d") + "</report-date>")
 	else:
 		print(textwrap.fill(_(INFO_ONE_REPOSITORY if len(repos) <= 1 else INFO_MANY_REPOSITORIES).format(
