@@ -5,9 +5,11 @@
 		<title>{title}</title>
 		<script type="application/javascript"{jquery}</script>
 		<script type="application/javascript">{jquery_tablesorter}</script>
-		<script type="application/javascript">{jquery_flot}</script>
-		<script type="application/javascript">{jquery_flot_pie}</script>
-		<script type="application/javascript">{jquery_flot_resize}</script>
+		<script type="application/javascript"{jquery_flot}</script>
+		<script type="application/javascript"{jquery_flot_pie}</script>
+		<script type="application/javascript"{jquery_flot_resize}</script>
+		{bootstrap_css}
+		<script type="application/javascript"{bootstrap}</script>
 		<script type="application/javascript">
 			$(document).ready(function() {{
 				var row = 0;
