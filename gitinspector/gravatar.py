@@ -27,7 +27,7 @@ except:
 
 from . import format
 
-def get_url(email, size=20):
+def get_url(email, size=24):
 	md5hash = hashlib.md5(email.encode("utf-8").lower().strip()).hexdigest()
 	base_url = "https://www.gravatar.com/avatar/" + md5hash
 	params = None

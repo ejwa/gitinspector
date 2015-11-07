@@ -245,6 +245,10 @@
 				margin-right: 0.5em;
 				opacity: 0.85;
 			}}
+			td img {{
+				width: 24px;
+				height: 24px;
+			}}
 			h1 {{
 				font-size: 18px;
 				text-align: center;
