@@ -53,7 +53,11 @@ def is_interactive_format():
 def __output_html_template__(name):
 	template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
 	file_r = open(template_path, "rb")
-	return file_r.read().decode("utf-8", "replace")
+	template = file_r.read().decode("utf-8", "replace")
+
+	file_r.close()
+	return template
+
 def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 	zip_file = zipfile.ZipFile(basedir.get_basedir() + file_name, "r")
 	content = zip_file.read(name)
