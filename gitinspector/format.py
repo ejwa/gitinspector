@@ -113,7 +113,7 @@ def output_header(repos):
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
 
 		if len(repos) <= 1:
-			print("\t\t\"repository\": \"" + repos[0].name + "\",")
+			print("\t\t\"repository\": \"" + repos_string + "\",")
 		else:
 			repos_json = "\t\t\"repositories\": [ "
 
