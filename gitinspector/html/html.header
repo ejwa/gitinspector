@@ -16,10 +16,9 @@
 				var MINOR_AUTHOR_PERCENTAGE = 1.00;
 				var isReversed = false;
 
-
 				// Fix header and set it to the right width.
-				var remainingHeaderWidth = ($("div.logo").width() - 4) - ($("div.logo img").innerWidth() + 48)
-				$("div.logo p").css("width", remainingHeaderWidth);
+				//var remainingHeaderWidth = ($("div.logo").width() - 4) - ($("div.logo img").innerWidth() + 48)
+				//$("div.logo p").css("width", remainingHeaderWidth);
 
 				var filterResponsibilities = function() {{
 					$("table#blame tbody tr td:last-child").filter(function() {{
