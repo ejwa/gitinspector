@@ -41,7 +41,7 @@ class BlameOutput(Outputable):
 
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
-		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
+		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1><hr /><div><table id=\"blame\" class=\"table table-striped\">"
 		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>".format(
 		             _("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
 		blame_xml += "<tbody>"

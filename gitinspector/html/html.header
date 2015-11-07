@@ -16,17 +16,6 @@
 				var MINOR_AUTHOR_PERCENTAGE = 1.00;
 				var isReversed = false;
 
-				var colorRows = function() {{
-					$(this).removeClass("odd");
-
-					if (row++ % 2 == 1) {{
-						$(this).addClass("odd");
-					}}
-
-					if(this == $(this).parent().find("tr:visible").get(-1)) {{
-						row = 0;
-					}}
-				}}
 
 				// Fix header and set it to the right width.
 				var remainingHeaderWidth = ($("div.logo").width() - 4) - ($("div.logo img").innerWidth() + 48)
@@ -46,24 +35,22 @@
 					}}).hide();
 				}}
 
-				$("table#changes tbody tr td:last-child").filter(function() {{
-					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-				}}).parent().hide();
-
-				$("table#blame tbody tr td:last-child").filter(function() {{
-					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-				}}).parent().hide();
-
-				$("table.git tbody tr:visible").each(colorRows);
-
 				$("table#changes, table#blame").tablesorter({{
 					sortList: [[0,0]],
 					headers: {{
 						0: {{ sorter: "text" }}
 					}}
-				}}).bind("sortEnd", function() {{
-					$(this).find("tbody tr:visible").each(colorRows);
 				}});
+
+				$("table#changes tbody tr td:last-child").filter(function() {{
+					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+				}}).parent().each(function() {{
+					$(this).after("<tr></tr>").hide();
+				}}).hide();
+
+				$("table#blame tbody tr td:last-child").filter(function() {{
+					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+				}}).parent().hide();
 
 				$("table#changes thead tr th, table#blame thead tr th").click(function() {{
 					$(this).parent().find("th strong").remove();
@@ -82,7 +69,7 @@
 					$(this).append("<strong> &or;</strong>");
 				}});
 
-				$("table.git tfoot tr td:first-child").filter(function() {{
+				$("table#changes tfoot tr td:first-child").filter(function() {{
 					this.hiddenCount = $(this).parent().parent().parent().find("tbody tr:hidden").length;
 					return this.hiddenCount > 0;
 				}}).each(function() {{
@@ -93,20 +80,21 @@
 
 					if (this.clicked) {{
 						this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &and;";
-						$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
+						$(this).parent().parent().parent().find("tbody tr:empty").remove();
+						$(this).parent().parent().parent().find("tbody tr").show();
 					}} else {{
 						this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
 						$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
 							return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-						}}).parent().hide();
-						$("table.git tbody tr:visible").each(colorRows);
+						}}).parent().each(function() {{
+							$(this).after("<tr></tr>").hide();
+						}}).hide();
 					}}
 				}});
 
 				filterResponsibilities();
 				var hiddenResponsibilitiesCount = $("div#responsibilities div h3:hidden").length;
 				if (hiddenResponsibilitiesCount > 0) {{
-					$("div#responsibilities div h3:visible").each(colorRows);
 					$("div#responsibilities").prepend("<div class=\"button\">{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;</div>");
 
 					$("div#responsibilities div.button").click(function() {{
@@ -125,7 +113,6 @@
 				filterTimeLine();
 				var hiddenTimelineCount = $("div#timeline table.git tbody tr:hidden").length;
 				if (hiddenTimelineCount > 0) {{
-					$("div#timeline table.git tbody tr:visible").each(colorRows);
 					$("div#timeline").prepend("<div class=\"button\">{show_minor_rows} (" + hiddenTimelineCount + ") &or;</div>");
 
 					$("div#timeline div.button").click(function() {{
@@ -136,7 +123,6 @@
 						}} else {{
 							this.innerHTML = "{show_minor_rows} (" + hiddenTimelineCount + ") &or;";
 							filterTimeLine();
-							$("div#timeline table.git tbody tr:visible").each(colorRows);
 						}}
 					}});
 				}}
@@ -208,39 +194,68 @@
 		</script>
 		<style type="text/css">
 			body {{
-				background: -webkit-linear-gradient(left, #8f8a9a, #dad2d7, #8f8a9a);
-				background: -moz-linear-gradient(left, #8f8a9a, #dad2d7, #8f8a9a);
+				background: -webkit-linear-gradient(left, #afbaba, #eae2e7, #afbaba);
+				background: -moz-linear-gradient(left, #afbaba, #eae2e7, #afbaba);
 			}}
 			html, body {{
 				margin: 0;
 				font-family: "Arial";
 			}}
-			body > div {{
-				margin: 0 auto;
-				width: 58em;
-			}}
 			div.box {{
-				border: 4px solid #ddd;
-				background-color: #eee;
-				margin: 0.75em;
-				padding: 5px;
+				border: 6px solid #e7e7e7;
+				background-color: #f4f4f4;
+				margin: 2em;
+				padding: 1em;
 				font-size: small;
-				border-radius: 15px;
-				-moz-border-radius: 15px;
+				border-radius: 10px;
+				-moz-border-radius: 10px;
 				box-shadow: 1px 1px 3px #666;
 				-moz-box-shadow: 1px 1px 3px #666;
 			}}
 			div.logo p {{
-				width: 60em;
-				display:inline-block;
-				vertical-align:middle;
+				margin: 0;
+				padding: 15px 0 0 0;
 			}}
 			div.logo img {{
-				vertical-align:middle;
-				padding: 2px 10px 2px 2px;
+				float: left;
+				padding: 0px 1em 0px 0px;
 			}}
-			body > div {{
-				display: block-inline;
+			table {{
+				font-size: small;
+			}}
+			table.table > thead > tr > th, table.table > tbody > tr > td {{
+				border: 1px solid #efefef;
+				vertical-align: middle;
+				padding: 6px;
+			}}
+			thead tr th.header {{
+				background-color: #e7b7a5;
+			}}
+
+			th:first-child {{
+				border-top-left-radius: 10px;
+			}}
+			th:last-child {{
+				border-top-right-radius: 10px;
+			}}
+			td img, h3 img {{
+				border-radius: 14px;
+				-moz-border-radius: 14px;
+				vertical-align: middle;
+				margin-right: 0.5em;
+				opacity: 0.85;
+			}}
+			h1 {{
+				font-size: 18px;
+				text-align: center;
+				margin-top: 10px;
+			}}
+			hr {{
+				border: 3px solid #e7e7e7;
+			}}
+			/*body > div {{
+				width: 100%;
+				display: inline-block;
 			}}
 			body > div > div > div {{
 				position: relative;
@@ -359,11 +374,11 @@
 				padding: 0.5em;
 				background-color: #ddcece;
 				min-height: 0;
-			}}
+			}}*/
 		</style>
 	</head>
 	<body>
-		<div><div class="box logo">
+		<div><div class="row box logo">
 			<a href="https://github.com/ejwa/gitinspector"><img src="data:image/png;base64,{logo}" /></a>
 			<p>{repo_text}<br>{logo_text}</p>
 		</div></div>
