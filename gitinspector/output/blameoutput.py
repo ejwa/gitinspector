@@ -54,13 +54,12 @@ class BlameOutput(Outputable):
 
 		for i, entry in enumerate(blames):
 			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
-			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
 				author_email = self.changes.get_latest_email_by_author(entry[0])
-				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
+				blame_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
-				blame_xml += "<td>" + entry[0] + "</td>"
+				blame_xml += "<tr><td>" + entry[0] + "</td>"
 
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].rows, self.changes)) + "</td>")

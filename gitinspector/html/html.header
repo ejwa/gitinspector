@@ -41,15 +41,11 @@
 					}}
 				}});
 
-				$("table#changes tbody tr td:last-child").filter(function() {{
+				$("table#changes tbody tr td:last-child, table#blame tbody tr td:last-child").filter(function() {{
 					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 				}}).parent().each(function() {{
 					$(this).after("<tr></tr>").hide();
 				}}).hide();
-
-				$("table#blame tbody tr td:last-child").filter(function() {{
-					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-				}}).parent().hide();
 
 				$("table#changes thead tr th, table#blame thead tr th").click(function() {{
 					$(this).parent().find("th strong").remove();
@@ -68,7 +64,7 @@
 					$(this).append("<strong> &#x25bc;</strong>");
 				}});
 
-				$("table#changes tfoot tr td:first-child").filter(function() {{
+				$("table#changes tfoot tr td:first-child, table#blame tfoot tr td:first-child").filter(function() {{
 					this.hiddenCount = $(this).parent().parent().parent().find("tbody tr:hidden").length;
 					return this.hiddenCount > 0;
 				}}).each(function() {{
