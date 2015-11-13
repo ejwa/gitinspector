@@ -64,22 +64,17 @@
 					$(this).append("<strong> &#x25bc;</strong>");
 				}});
 
-				$("table#changes tfoot tr td:first-child, table#blame tfoot tr td:first-child").filter(function() {{
-					this.hiddenCount = $(this).parent().parent().parent().find("tbody tr:hidden").length;
+				$("table#changes, table#blame").parent().find("button").filter(function() {{
+					this.hiddenCount = $(this).parent().find("tbody tr:hidden").length;
 					return this.hiddenCount > 0;
-				}}).each(function() {{
-					$(this).addClass("hoverable");
-					this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &#x25bc;";
 				}}).click(function() {{
 					this.clicked = !this.clicked;
 
 					if (this.clicked) {{
-						this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &#x25b2;";
-						$(this).parent().parent().parent().find("tbody tr:empty").remove();
-						$(this).parent().parent().parent().find("tbody tr").show();
+						$(this).parent().find("tbody tr:empty").remove();
+						$(this).parent().find("tbody tr").show();
 					}} else {{
-						this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &#x25bc;";
-						$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
+						$(this).parent().find("tbody tr td:last-child").filter(function() {{
 							return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 						}}).parent().each(function() {{
 							$(this).after("<tr></tr>").hide();
@@ -207,6 +202,9 @@
 				box-shadow: 1px 1px 3px #666;
 				-moz-box-shadow: 1px 1px 3px #666;
 			}}
+			div.box div {{
+				text-align: center;
+			}}
 			div.logo p {{
 				margin: 0;
 				padding: 15px 0 0 0;
@@ -218,13 +216,20 @@
 			table {{
 				font-size: small;
 			}}
+			table.table > tbody > tr > td {{
+				border: 1px solid #e8e8e8;
+			}}
 			table.table > thead > tr > th, table.table > tbody > tr > td {{
-				border: 1px solid #efefef;
 				vertical-align: middle;
-				padding: 6px;
+				padding: 8px 0px 8px 12px;
 			}}
 			thead tr th.header {{
 				background-color: #e7b7a5;
+				border-width: 0px;
+			}}
+			thead tr th:hover {{
+				color: #fff;
+				background-color: #b78775;
 			}}
 
 			th:first-child {{
@@ -251,6 +256,32 @@
 			}}
 			hr {{
 				border: 3px solid #e7e7e7;
+			}}
+			button.btn.btn-primary {{
+				font-weight: bold;
+				color: rgb(51, 51, 51);
+				background-color: #e7b7a5;
+				border-color: #e2b2a0;
+				margin-bottom: 20px;
+				padding: 10px 25px 10px 15px;
+				text-align: center;
+			}}
+			button.btn.btn-primary:hover {{
+				color: #fff;
+				background-color: #b78775;
+				border-color: #a77765;
+			}}
+			button.btn.btn-primary.active {{
+				color: #fff;
+				background-color: #b78775;
+				border-color: #b28270;
+			}}
+			button.btn span {{
+				color: transparent;
+			}}
+
+			button.btn.active span {{
+				color: white;
 			}}
 			/*body > div {{
 				width: 100%;

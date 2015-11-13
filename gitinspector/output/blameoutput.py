@@ -41,7 +41,12 @@ class BlameOutput(Outputable):
 
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
-		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1><hr /><div><table id=\"blame\" class=\"table table-striped\">"
+		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1><hr /><div>"
+		blame_xml += "<button type=\"button\" class=\"btn btn-primary\""
+		blame_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\">"
+		blame_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
+		blame_xml += "</button>"
+		blame_xml += "<table id=\"blame\" class=\"table table-striped\">"
 		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>".format(
 		             _("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
 		blame_xml += "<tbody>"
@@ -72,8 +77,7 @@ class BlameOutput(Outputable):
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "<tfoot><tr> <td colspan=\"5\">&nbsp;</td> </tr></tfoot></tbody></table>"
-		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
+		blame_xml += "</tbody></table><div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
 		blame_xml += "        series: {"

@@ -44,7 +44,12 @@ class ChangesOutput(Outputable):
 			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
-			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1><hr /><div><table id=\"changes\" class=\"table table-striped\">"
+			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1><hr /><div>"
+			changes_xml += "<button type=\"button\" class=\"btn btn-primary\""
+			changes_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\">"
+			changes_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
+			changes_xml += "</button>"
+			changes_xml += "<table id=\"changes\" class=\"table table-striped\">"
 			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
 			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
 			changes_xml += "</tr></thead><tbody>"
@@ -52,13 +57,12 @@ class ChangesOutput(Outputable):
 			for i, entry in enumerate(sorted(authorinfo_list)):
 				authorinfo = authorinfo_list.get(entry)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
-				changes_xml += "<tr>"
 
 				if format.get_selected() == "html":
-					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
+					changes_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(
 					               gravatar.get_url(self.changes.get_latest_email_by_author(entry)), entry)
 				else:
-					changes_xml += "<td>" + entry + "</td>"
+					changes_xml += "<tr><td>" + entry + "</td>"
 
 				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
 				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
