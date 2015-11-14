@@ -67,6 +67,8 @@
 				$("table#changes, table#blame").parent().find("button").filter(function() {{
 					this.hiddenCount = $(this).parent().find("tbody tr:hidden").length;
 					return this.hiddenCount > 0;
+				}}).each(function() {{
+					$(this).prop("disabled", false);
 				}}).click(function() {{
 					this.clicked = !this.clicked;
 

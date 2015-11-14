@@ -46,7 +46,7 @@ class ChangesOutput(Outputable):
 		if authorinfo_list:
 			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1><hr /><div>"
 			changes_xml += "<button type=\"button\" class=\"btn btn-primary\""
-			changes_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\">"
+			changes_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
 			changes_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
 			changes_xml += "</button>"
 			changes_xml += "<table id=\"changes\" class=\"table table-striped\">"

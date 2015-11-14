@@ -43,7 +43,7 @@ class BlameOutput(Outputable):
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1><hr /><div>"
 		blame_xml += "<button type=\"button\" class=\"btn btn-primary\""
-		blame_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\">"
+		blame_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
 		blame_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
 		blame_xml += "</button>"
 		blame_xml += "<table id=\"blame\" class=\"table table-striped\">"
