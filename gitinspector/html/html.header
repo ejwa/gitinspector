@@ -215,8 +215,9 @@
 				float: left;
 				padding: 0px 1em 0px 0px;
 			}}
-			table {{
+			table.table {{
 				font-size: small;
+				margin-bottom: 0px;
 			}}
 			table.table > tbody > tr > td {{
 				border: 1px solid #e8e8e8;
