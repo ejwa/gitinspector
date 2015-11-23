@@ -231,6 +231,7 @@
 				border-width: 0px;
 			}}
 			thead tr th:hover {{
+				cursor: pointer;
 				color: #fff;
 				background-color: #b78775;
 			}}
