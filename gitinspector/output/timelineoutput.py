@@ -134,18 +134,18 @@ class TimelineOutput(Outputable):
 
 	def output_json(self):
 		if self.changes.get_commits():
-			message_xml = "\t\t\t\"message\": \"" + _(TIMELINE_INFO_TEXT) + "\",\n"
-			timeline_xml = ""
-			periods_xml = "\t\t\t\"period_length\": \"{0}\",\n".format("week" if self.useweeks else "month")
-			periods_xml += "\t\t\t\"periods\": [\n\t\t\t"
+			message_json = "\t\t\t\"message\": \"" + _(TIMELINE_INFO_TEXT) + "\",\n"
+			timeline_json = ""
+			periods_json = "\t\t\t\"period_length\": \"{0}\",\n".format("week" if self.useweeks else "month")
+			periods_json += "\t\t\t\"periods\": [\n\t\t\t"
 
 			timeline_data = timeline.TimelineData(self.changes, self.useweeks)
 			periods = timeline_data.get_periods()
 			names = timeline_data.get_authors()
 
 			for period in periods:
-				name_xml = "\t\t\t\t\"name\": \"" + str(period) + "\",\n"
-				authors_xml = "\t\t\t\t\"authors\": [\n\t\t\t\t"
+				name_json = "\t\t\t\t\"name\": \"" + str(period) + "\",\n"
+				authors_json = "\t\t\t\t\"authors\": [\n\t\t\t\t"
 
 				for name in names:
 					if timeline_data.is_author_in_period(period, name[0]):
@@ -156,21 +156,21 @@ class TimelineOutput(Outputable):
 						if len(signs_str) == 0:
 							signs_str = "."
 
-						authors_xml += "{\n\t\t\t\t\t\"name\": \"" + name[0] + "\",\n"
-						authors_xml += "\t\t\t\t\t\"email\": \"" + name[1] + "\",\n"
-						authors_xml += "\t\t\t\t\t\"gravatar\": \"" + gravatar.get_url(name[1]) + "\",\n"
-						authors_xml += "\t\t\t\t\t\"work\": \"" + signs_str + "\"\n\t\t\t\t},"
+						authors_json += "{\n\t\t\t\t\t\"name\": \"" + name[0] + "\",\n"
+						authors_json += "\t\t\t\t\t\"email\": \"" + name[1] + "\",\n"
+						authors_json += "\t\t\t\t\t\"gravatar\": \"" + gravatar.get_url(name[1]) + "\",\n"
+						authors_json += "\t\t\t\t\t\"work\": \"" + signs_str + "\"\n\t\t\t\t},"
 				else:
-					authors_xml = authors_xml[:-1]
+					authors_json = authors_json[:-1]
 
-				authors_xml += "],\n"
-				modified_rows_xml = "\t\t\t\t\"modified_rows\": " + \
+				authors_json += "],\n"
+				modified_rows_json = "\t\t\t\t\"modified_rows\": " + \
 				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "\n"
-				timeline_xml += "{\n" + name_xml + authors_xml + modified_rows_xml + "\t\t\t},"
+				timeline_json += "{\n" + name_json + authors_json + modified_rows_json + "\t\t\t},"
 			else:
-				timeline_xml = timeline_xml[:-1]
+				timeline_json = timeline_json[:-1]
 
-			print(",\n\t\t\"timeline\": {\n" + message_xml + periods_xml + timeline_xml + "]\n\t\t}", end="")
+			print(",\n\t\t\"timeline\": {\n" + message_json + periods_json + timeline_json + "]\n\t\t}", end="")
 
 	def output_xml(self):
 		if self.changes.get_commits():

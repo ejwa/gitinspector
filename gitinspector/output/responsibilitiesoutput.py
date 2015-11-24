@@ -83,8 +83,8 @@ class ResponsibilitiesOutput(Outputable):
 		print(resp_xml)
 
 	def output_json(self):
-		message_xml = "\t\t\t\"message\": \"" + _(RESPONSIBILITIES_INFO_TEXT) + "\",\n"
-		resp_xml = ""
+		message_json = "\t\t\t\"message\": \"" + _(RESPONSIBILITIES_INFO_TEXT) + "\",\n"
+		resp_json = ""
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
@@ -92,27 +92,26 @@ class ResponsibilitiesOutput(Outputable):
 			if responsibilities:
 				author_email = self.changes.get_latest_email_by_author(i)
 
-				resp_xml += "{\n"
-				resp_xml += "\t\t\t\t\"name\": \"" + i + "\",\n"
-				resp_xml += "\t\t\t\t\"email\": \"" + author_email + "\",\n"
-				resp_xml += "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
-				resp_xml += "\t\t\t\t\"files\": [\n\t\t\t\t"
+				resp_json += "{\n"
+				resp_json += "\t\t\t\t\"name\": \"" + i + "\",\n"
+				resp_json += "\t\t\t\t\"email\": \"" + author_email + "\",\n"
+				resp_json += "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+				resp_json += "\t\t\t\t\"files\": [\n\t\t\t\t"
 
 				for j, entry in enumerate(responsibilities):
-					resp_xml += "{\n"
-					resp_xml += "\t\t\t\t\t\"name\": \"" + entry[1] + "\",\n"
-					resp_xml += "\t\t\t\t\t\"rows\": " + str(entry[0]) + "\n"
-					resp_xml += "\t\t\t\t},"
+					resp_json += "{\n"
+					resp_json += "\t\t\t\t\t\"name\": \"" + entry[1] + "\",\n"
+					resp_json += "\t\t\t\t\t\"rows\": " + str(entry[0]) + "\n"
+					resp_json += "\t\t\t\t},"
 
 					if j >= 9:
 						break
 
-				resp_xml = resp_xml[:-1]
-				resp_xml += "]\n"
-				resp_xml += "\t\t\t},"
+				resp_json = resp_json[:-1]
+				resp_json += "]\n\t\t\t},"
 
-		resp_xml = resp_xml[:-1]
-		print(",\n\t\t\"responsibilities\": {\n" + message_xml + "\t\t\t\"authors\": [\n\t\t\t" + resp_xml + "]\n\t\t}", end="")
+		resp_json = resp_json[:-1]
+		print(",\n\t\t\"responsibilities\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + resp_json + "]\n\t\t}", end="")
 
 	def output_xml(self):
 		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"

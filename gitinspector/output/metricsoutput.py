@@ -98,38 +98,38 @@ class MetricsOutput(Outputable):
 		if not self.metrics.eloc and not self.metrics.cyclomatic_complexity and not self.metrics.cyclomatic_complexity_density:
 			print(",\n\t\t\"metrics\": {\n\t\t\t\"message\": \"" + _(METRICS_MISSING_INFO_TEXT) + "\"\n\t\t}", end="")
 		else:
-			eloc_xml = ""
+			eloc_json = ""
 
 			if self.metrics.eloc:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.eloc.items()]), reverse=True):
-					eloc_xml += "{\n\t\t\t\t\"type\": \"estimated-lines-of-code\",\n"
-					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
-					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
-					eloc_xml += "\t\t\t},"
+					eloc_json += "{\n\t\t\t\t\"type\": \"estimated-lines-of-code\",\n"
+					eloc_json += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
+					eloc_json += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
+					eloc_json += "\t\t\t},"
 				else:
 					if not self.metrics.cyclomatic_complexity:
-						eloc_xml = eloc_xml[:-1]
+						eloc_json = eloc_json[:-1]
 
 			if self.metrics.cyclomatic_complexity:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity.items()]), reverse=True):
-					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity\",\n"
-					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
-					eloc_xml += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
-					eloc_xml += "\t\t\t},"
+					eloc_json += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity\",\n"
+					eloc_json += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
+					eloc_json += "\t\t\t\t\"value\": " + str(i[0]) + "\n"
+					eloc_json += "\t\t\t},"
 				else:
 					if not self.metrics.cyclomatic_complexity_density:
-						eloc_xml = eloc_xml[:-1]
+						eloc_json = eloc_json[:-1]
 
 			if self.metrics.cyclomatic_complexity_density:
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True):
-					eloc_xml += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity-density\",\n"
-					eloc_xml += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
-					eloc_xml += "\t\t\t\t\"value\": {0:.3f} \"\n".format(i[0])
-					eloc_xml += "\t\t\t},"
+					eloc_json += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity-density\",\n"
+					eloc_json += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
+					eloc_json += "\t\t\t\t\"value\": {0:.3f} \"\n".format(i[0])
+					eloc_json += "\t\t\t},"
 				else:
-					eloc_xml = eloc_xml[:-1]
+					eloc_json = eloc_json[:-1]
 
-			print(",\n\t\t\"metrics\": {\n\t\t\t\"violations\": [\n\t\t\t" + eloc_xml + "]\n\t\t}", end="")
+			print(",\n\t\t\"metrics\": {\n\t\t\t\"violations\": [\n\t\t\t" + eloc_json + "]\n\t\t}", end="")
 	def output_xml(self):
 		if not self.metrics.eloc and not self.metrics.cyclomatic_complexity and not self.metrics.cyclomatic_complexity_density:
 			print("\t<metrics>\n\t\t<message>" + _(METRICS_MISSING_INFO_TEXT) + "</message>\n\t</metrics>")
