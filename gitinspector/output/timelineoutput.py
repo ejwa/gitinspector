@@ -157,6 +157,7 @@ class TimelineOutput(Outputable):
 							signs_str = "."
 
 						authors_xml += "{\n\t\t\t\t\t\"name\": \"" + name[0] + "\",\n"
+						authors_xml += "\t\t\t\t\t\"email\": \"" + name[1] + "\",\n"
 						authors_xml += "\t\t\t\t\t\"gravatar\": \"" + gravatar.get_url(name[1]) + "\",\n"
 						authors_xml += "\t\t\t\t\t\"work\": \"" + signs_str + "\"\n\t\t\t\t},"
 				else:
@@ -195,6 +196,7 @@ class TimelineOutput(Outputable):
 							signs_str = "."
 
 						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name[0] + "</name>\n"
+						authors_xml += "\t\t\t\t\t\t<email>" + name[1] + "</email>\n"
 						authors_xml += "\t\t\t\t\t\t<gravatar>" + gravatar.get_url(name[1]) + "</gravatar>\n"
 						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 

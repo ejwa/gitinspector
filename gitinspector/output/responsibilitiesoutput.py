@@ -94,6 +94,7 @@ class ResponsibilitiesOutput(Outputable):
 
 				resp_xml += "{\n"
 				resp_xml += "\t\t\t\t\"name\": \"" + i + "\",\n"
+				resp_xml += "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 				resp_xml += "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
 				resp_xml += "\t\t\t\t\"files\": [\n\t\t\t\t"
 
@@ -124,6 +125,7 @@ class ResponsibilitiesOutput(Outputable):
 
 				resp_xml += "\t\t\t<author>\n"
 				resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
+				resp_xml += "\t\t\t\t<email>" + author_email + "</email>\n"
 				resp_xml += "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 				resp_xml += "\t\t\t\t<files>\n"
 

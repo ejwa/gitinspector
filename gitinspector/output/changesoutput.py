@@ -108,16 +108,19 @@ class ChangesOutput(Outputable):
 			changes_xml = ""
 
 			for i in sorted(authorinfo_list):
+				author_email = self.changes.get_latest_email_by_author(i)
 				authorinfo = authorinfo_list.get(i)
+
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 				name_xml = "\t\t\t\t\"name\": \"" + i + "\",\n"
-				gravatar_xml = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(self.changes.get_latest_email_by_author(i)) + "\",\n"
+				email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
+				gravatar_xml = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
 				commits_xml = "\t\t\t\t\"commits\": " + str(authorinfo.commits) + ",\n"
 				insertions_xml = "\t\t\t\t\"insertions\": " + str(authorinfo.insertions) + ",\n"
 				deletions_xml = "\t\t\t\t\"deletions\": " + str(authorinfo.deletions) + ",\n"
 				percentage_xml = "\t\t\t\t\"percentage_of_changes\": " + "{0:.2f}".format(percentage) + "\n"
 
-				changes_xml += ("{\n" + name_xml + gravatar_xml + commits_xml + insertions_xml +
+				changes_xml += ("{\n" + name_xml + email_json + gravatar_xml + commits_xml + insertions_xml +
 				                deletions_xml + percentage_xml + "\t\t\t}")
 				changes_xml += ","
 			else:
@@ -166,17 +169,20 @@ class ChangesOutput(Outputable):
 			changes_xml = ""
 
 			for i in sorted(authorinfo_list):
+				author_email = self.changes.get_latest_email_by_author(i)
 				authorinfo = authorinfo_list.get(i)
+
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
-				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(self.changes.get_latest_email_by_author(i)) + "</gravatar>\n"
+				email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
 				percentage_xml = "\t\t\t\t<percentage-of-changes>" + "{0:.2f}".format(percentage) + "</percentage-of-changes>\n"
 
-				changes_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + commits_xml + insertions_xml +
-				                deletions_xml + percentage_xml + "\t\t\t</author>\n")
+				changes_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + commits_xml +
+				                insertions_xml + deletions_xml + percentage_xml + "\t\t\t</author>\n")
 
 			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
 		else:

@@ -102,6 +102,7 @@ class BlameOutput(Outputable):
 			author_email = self.changes.get_latest_email_by_author(i[0])
 
 			name_xml = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
+			email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 			gravatar_xml = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
 			rows_xml = "\t\t\t\t\"rows\": " + str(i[1].rows) + ",\n"
 			stability_xml = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
@@ -109,8 +110,8 @@ class BlameOutput(Outputable):
 			age_xml = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
 			percentage_in_comments_xml = ("\t\t\t\t\"percentage_in_comments\": " + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "\n")
-			blame_xml += ("{\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +
-			             percentage_in_comments_xml + "\t\t\t},")
+			blame_xml += ("{\n" + name_xml + email_json + gravatar_xml + rows_xml + stability_xml + age_xml +
+			              percentage_in_comments_xml + "\t\t\t},")
 		else:
 			blame_xml = blame_xml[:-1]
 
@@ -139,6 +140,7 @@ class BlameOutput(Outputable):
 			author_email = self.changes.get_latest_email_by_author(i[0])
 
 			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
+			email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
 			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
@@ -146,7 +148,7 @@ class BlameOutput(Outputable):
 			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
-			blame_xml += ("\t\t\t<author>\n" + name_xml + gravatar_xml + rows_xml + stability_xml + age_xml +
-			             percentage_in_comments_xml + "\t\t\t</author>\n")
+			blame_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + rows_xml + stability_xml +
+			              age_xml + percentage_in_comments_xml + "\t\t\t</author>\n")
 
 		print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")
