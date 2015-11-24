@@ -85,7 +85,7 @@ class BlameOutput(Outputable):
 		blame_xml += "                innerRadius: 0.4,"
 		blame_xml += "                show: true,"
 		blame_xml += "                combine: {"
-		blame_xml += "                    threshold: 0.01,"
+		blame_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
 		blame_xml += "                    label: \"" + _("Minor Authors") + "\""
 		blame_xml += "                }"
 		blame_xml += "            }"

@@ -82,7 +82,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "                innerRadius: 0.4,"
 			changes_xml += "                show: true,"
 			changes_xml += "                combine: {"
-			changes_xml += "                    threshold: 0.01,"
+			changes_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
 			changes_xml += "                    label: \"" + _("Minor Authors") + "\""
 			changes_xml += "                }"
 			changes_xml += "            }"

@@ -11,9 +11,10 @@
 		{bootstrap_css}
 		<script type="application/javascript"{bootstrap}</script>
 		<script type="application/javascript">
+			var MINOR_AUTHOR_PERCENTAGE = 1.00;
+
 			$(document).ready(function() {{
 				var row = 0;
-				var MINOR_AUTHOR_PERCENTAGE = 1.00;
 				var isReversed = false;
 
 				// Fix header and set it to the right width.
