@@ -60,19 +60,19 @@ class Runner(object):
 		terminal.skip_escapes(not sys.stdout.isatty())
 		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
-		summed_blames = None
-		summed_changes = None
-		summed_metrics = None
+		summed_blames = Blame.__new__(Blame)
+		summed_changes = Changes.__new__(Changes)
+		summed_metrics = MetricsLogic.__new__(MetricsLogic)
 
 		for repo in repos:
 			os.chdir(repo.location)
 			repo = repo if len(repos) > 1 else None
 			changes = Changes(repo, self.hard)
-			summed_blames = Blame(repo, self.hard, self.useweeks, changes) + summed_blames
-			summed_changes = changes + summed_changes
+			summed_blames += Blame(repo, self.hard, self.useweeks, changes)
+			summed_changes += changes
 
 			if self.include_metrics:
-				summed_metrics = MetricsLogic() + summed_metrics
+				summed_metrics += MetricsLogic()
 
 			if sys.stdout.isatty() and format.is_interactive_format():
 				terminal.clear_row()
@@ -80,7 +80,7 @@ class Runner(object):
 			os.chdir(previous_directory)
 
 		format.output_header(repos)
-		outputable.output(ChangesOutput(changes))
+		outputable.output(ChangesOutput(summed_changes))
 
 		if changes.get_commits():
 			outputable.output(BlameOutput(summed_changes, summed_blames))

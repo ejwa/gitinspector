@@ -156,12 +156,12 @@ class Blame(object):
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.release()
 
-	def __add__(self, other):
-		if other == None:
-			return self
-
-		self.blames.update(other.blames)
-		return self
+	def __iadd__(self, other):
+		try:
+			self.blames.update(other.blames)
+			return self;
+		except AttributeError:
+			return other;
 
 	@staticmethod
 	def is_revision(string):

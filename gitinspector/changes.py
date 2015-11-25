@@ -230,19 +230,19 @@ class Changes(object):
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
 			                                      int(self.commits[-1].date[8:10]))
 
-	def __add__(self, other):
-		if other == None:
+	def __iadd__(self, other):
+		try:
+			self.authors.update(other.authors)
+			self.authors_dateinfo.update(other.authors_dateinfo)
+			self.authors_by_email.update(other.authors_by_email)
+			self.emails_by_author.update(other.emails_by_author)
+
+			for commit in other.commits:
+				bisect.insort(self.commits, commit)
+
 			return self
-
-		self.authors.update(other.authors)
-		self.authors_dateinfo.update(other.authors_dateinfo)
-		self.authors_by_email.update(other.authors_by_email)
-		self.emails_by_author.update(other.emails_by_author)
-
-		for commit in other.commits:
-			bisect.insort(self.commits, commit)
-
-		return self
+		except AttributeError:
+			return other;
 
 	def get_commits(self):
 		return self.commits
