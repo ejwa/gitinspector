@@ -49,7 +49,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
 			changes_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
 			changes_xml += "</button>"
-			changes_xml += "<table id=\"changes\" class=\"table table-striped\">"
+			changes_xml += "<div class=\"row\"><div class=\"col-md-8\"><table id=\"changes\" class=\"table table-striped\">"
 			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
 			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
 			changes_xml += "</tr></thead><tbody>"
@@ -74,7 +74,7 @@ class ChangesOutput(Outputable):
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
 
-			changes_xml += "</tbody></table><div class=\"chart\" id=\"changes_chart\"></div></div>"
+			changes_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"changes_chart\"></div></div></div>"
 			changes_xml += "<script type=\"text/javascript\">"
 			changes_xml += "    changes_plot = $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
 			changes_xml += "        series: {"

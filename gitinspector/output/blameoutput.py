@@ -46,7 +46,7 @@ class BlameOutput(Outputable):
 		blame_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
 		blame_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
 		blame_xml += "</button>"
-		blame_xml += "<table id=\"blame\" class=\"table table-striped\">"
+		blame_xml += "<div class=\"row\"><div class=\"col-md-8\"><table id=\"blame\" class=\"table table-striped\">"
 		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>".format(
 		             _("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
 		blame_xml += "<tbody>"
@@ -77,7 +77,7 @@ class BlameOutput(Outputable):
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "</tbody></table><div class=\"chart\" id=\"blame_chart\"></div></div>"
+		blame_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"blame_chart\"></div></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
 		blame_xml += "        series: {"

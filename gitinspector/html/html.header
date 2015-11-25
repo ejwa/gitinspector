@@ -65,7 +65,7 @@
 					$(this).append("<strong> &#x25bc;</strong>");
 				}});
 
-				$("table#changes, table#blame").parent().find("button").filter(function() {{
+				$("table#changes, table#blame").closest("div.box").find("div > button").filter(function() {{
 					this.hiddenCount = $(this).parent().find("tbody tr:hidden").length;
 					return this.hiddenCount > 0;
 				}}).each(function() {{
@@ -183,6 +183,13 @@
 
 					$(this).css("background-color", "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
 				}});
+
+				// Restyle pie chart legends.
+
+				$("div.legend table").css("position", "relative");
+				$("div.chart").resize(function() {{
+					$(this).find("div.legend table").css("position", "relative");
+				}});
 			}});
 		</script>
 		<style type="text/css">
@@ -220,6 +227,9 @@
 				font-size: small;
 				margin-bottom: 0px;
 			}}
+			table#changes tr.piehover, table#blame tr.piehover {{
+				background-color: #e7e8d8;
+			}}
 			table.table > tbody > tr > td {{
 				border: 1px solid #e8e8e8;
 			}}
@@ -236,7 +246,6 @@
 				color: #fff;
 				background-color: #b78775;
 			}}
-
 			th:first-child {{
 				border-top-left-radius: 10px;
 			}}
@@ -287,6 +296,34 @@
 
 			button.btn.active span {{
 				color: white;
+			}}
+			@media (min-width: 992px) {{
+				div.row {{
+					display: flex;
+				}}
+			}}
+			div.chart {{
+				height: 300px;
+				margin: 30px 15px 15px 15px;
+			}}
+			@media (min-width: 992px) {{
+				div.chart {{
+					height: auto;
+					max-height: 400px;
+					margin: 0px 30px 0px 15px;
+					padding: 15px;
+				}}
+			}}
+			div.legend > table > tbody > tr > td {{
+				padding: 5px;
+			}}
+			div.legend {{
+				float: right;
+				padding-bottom: 10px;
+				pointer-events: none;
+			}}
+			div.legend > div, div.legend td.legendColorBox > div, div.legend td.legendColorBox > div > div {{
+				border-radius: 3px;
 			}}
 			/*body > div {{
 				width: 100%;
