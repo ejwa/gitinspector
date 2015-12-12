@@ -239,6 +239,8 @@ class Changes(object):
 
 			for commit in other.commits:
 				bisect.insort(self.commits, commit)
+			if not self.commits and not other.commits:
+				self.commits = []
 
 			return self
 		except AttributeError:
