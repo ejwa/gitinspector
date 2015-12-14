@@ -80,10 +80,10 @@ Mandatory arguments to long options are mandatory for short options too. Boolean
 [[X1]]
 OUTPUT FORMATS
 --------------
-There are support for multiple output formats in gitinspector. They can be selected using the *-F*/*--format* flags when running the main gitinspector script.
+There is support for multiple output formats in gitinspector. They can be selected using the *-F*/*--format* flags when running the main gitinspector script.
 
 *text (plain text)*::
-	Plain text with some very simple ANSI formatting, suitable for console output. This is the format chosen by default by gitinspector.
+	Plain text with some very simple ANSI formatting, suitable for console output. This is the format chosen by default in gitinspector.
 
 *html*::
 	HTML with external links. The generated HTML page links to some external resources; such as the JavaScript library JQuery. It requires an active internet connection to properly function. This output format will most likely also link to additional external resources in the future.
@@ -124,7 +124,7 @@ Sometimes, sub-string matching (as described above) is simply not enough. Theref
 
 USING GIT TO CONFIGURE GITINSPECTOR
 -----------------------------------
-Options in gitinspector can be set using *git config*. Consequently, it is possible to configure gitinspector behavior globally (in all git repositories) or locally (in a specific git repository). It also means that settings will be permanently stored. All the long options that can be given to gitinspector can also be configure via git config (and take the same arguments).
+Options in gitinspector can be set using *git config*. Consequently, it is possible to configure gitinspector behavior globally (in all git repositories) or locally (in a specific git repository). It also means that settings will be permanently stored. All the long options that can be given to gitinspector can also be configured via git config (and take the same arguments).
 
 To configure how gitinspector should behave in all git repositories, execute the following git command:
 
