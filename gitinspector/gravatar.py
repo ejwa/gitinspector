@@ -32,9 +32,9 @@ def get_url(email, size=20):
 	base_url = "https://www.gravatar.com/avatar/" + md5hash
 	params = None
 
-	if format.get_selected() == "html" or format.get_selected() == "json":
+	if format.get_selected() == "html":
 		params = {"default": "identicon", "size": size}
-	elif format.get_selected() == "xml":
+	elif format.get_selected() == "xml" or format.get_selected() == "json":
 		params = {"default": "identicon"}
 
 	return base_url + "?" + urlencode(params)
