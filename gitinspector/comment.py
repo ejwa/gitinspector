@@ -30,8 +30,9 @@ __comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/",
                    "go": "*/", "ly": "%}", "ily": "%}"}
 
 __comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
-               "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "robot": "#", "js": "//", "scala": "//", "sql": "--",
-               "tex": "%", "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#", "go": "//", "ly": "%", "ily": "%"}
+               "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "robot": "#", "rs": "//", "rlib": "//", "js": "//",
+               "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#", "go": "//",
+               "ly": "%", "ily": "%"}
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 
