@@ -124,7 +124,7 @@ class MetricsOutput(Outputable):
 				for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True):
 					eloc_json += "{\n\t\t\t\t\"type\": \"cyclomatic-complexity-density\",\n"
 					eloc_json += "\t\t\t\t\"file_name\": \"" + i[1] + "\",\n"
-					eloc_json += "\t\t\t\t\"value\": {0:.3f} \"\n".format(i[0])
+					eloc_json += "\t\t\t\t\"value\": {0:.3f}\n".format(i[0])
 					eloc_json += "\t\t\t},"
 				else:
 					eloc_json = eloc_json[:-1]
