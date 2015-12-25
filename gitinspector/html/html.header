@@ -294,16 +294,14 @@
 			button.btn.active span {{
 				color: white;
 			}}
-			@media (min-width: 992px) {{
-				div.row {{
-					display: flex;
-				}}
-			}}
 			div.chart {{
 				height: 300px;
 				margin: 30px 15px 15px 15px;
 			}}
 			@media (min-width: 992px) {{
+				div.row {{
+					display: flex;
+				}}
 				div.chart {{
 					height: auto;
 					max-height: 400px;
