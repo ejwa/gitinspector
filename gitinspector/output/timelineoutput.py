@@ -60,17 +60,17 @@ def __output_row__text__(timeline_data, periods, names):
 	print("")
 
 def __output_row__html__(timeline_data, periods, names):
-	timeline_xml = "<table class=\"git full\"><thead><tr><th>" + _("Author") + "</th>"
+	timeline_xml = "<table id=\"timeline\" class=\"table table-striped\"><thead><tr><th class=\"header\">" + _("Author") + "</th>"
 
 	for period in periods:
-		timeline_xml += "<th>" + str(period) + "</th>"
+		timeline_xml += "<th class=\"header\">" + str(period) + "</th>"
 
 	timeline_xml += "</tr></thead><tbody>"
 	i = 0
 
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name[0]):
-			timeline_xml += "<tr" + (" class=\"odd\">" if i % 2 == 1 else ">")
+			timeline_xml += "<tr>"
 
 			if format.get_selected() == "html":
 				timeline_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(name[1]), name[0])
@@ -78,11 +78,13 @@ def __output_row__html__(timeline_data, periods, names):
 				timeline_xml += "<td>" + name[0] + "</td>"
 
 			for period in periods:
-				multiplier = timeline_data.get_multiplier(period, 18)
+				multiplier = timeline_data.get_multiplier(period, 20)
 				signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
 				signs_str = (signs[1] * "<div class=\"remove\">&nbsp;</div>" + signs[0] * "<div class=\"insert\">&nbsp;</div>")
 
-				timeline_xml += "<td>" + ("." if timeline_data.is_author_in_period(period, name[0]) and len(signs_str) == 0 else signs_str)
+				timeline_xml += "<td class=\"insertremove\">" + \
+				                ("." if timeline_data.is_author_in_period(period, name[0]) and
+				                 len(signs_str) == 0 else signs_str)
 				timeline_xml += "</td>"
 			timeline_xml += "</tr>"
 			i = i + 1

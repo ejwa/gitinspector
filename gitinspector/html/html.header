@@ -227,6 +227,9 @@
 			table#changes tr.piehover, table#blame tr.piehover {{
 				background-color: #e7e8d8;
 			}}
+			table#timeline {{
+				margin-bottom: 15px;
+			}}
 			table.table > tbody > tr > td {{
 				border: 1px solid #e8e8e8;
 			}}
@@ -234,7 +237,7 @@
 				vertical-align: middle;
 				padding: 8px 0px 8px 12px;
 			}}
-			thead tr th.header {{
+			thead tr th.header, tfoot tr td {{
 				background-color: #e7b7a5;
 				border-width: 0px;
 			}}
@@ -319,6 +322,23 @@
 			}}
 			div.legend > div, div.legend td.legendColorBox > div, div.legend td.legendColorBox > div > div {{
 				border-radius: 3px;
+			}}
+			div.insert {{
+				background-color: #8a8;
+			}}
+			div.remove {{
+				background-color: #c77;
+			}}
+			div.insert, div.remove {{
+				width: 5%;
+				height: 100%;
+				float: left;
+				padding: 0;
+				margin: 0
+			}}
+			table#timeline td.insertremove {{
+				padding-left: 12px;
+				padding-right: 12px;
 			}}
 			/*body > div {{
 				width: 100%;
