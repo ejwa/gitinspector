@@ -77,7 +77,7 @@ def __get_size_linux__():
 	return int(size[1]), int(size[0])
 
 def clear_row():
-	print("\b" * 200, end="")
+	print("\r", end="")
 
 def skip_escapes(skip):
 	if skip:
