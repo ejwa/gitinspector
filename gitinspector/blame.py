@@ -137,7 +137,7 @@ class Blame(object):
 			row = row.encode("latin-1", "replace")
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if FileDiff.get_extension(row) in extensions.get_located() and not \
+			if FileDiff.get_extension(row) in extensions.get_located() and FileDiff.is_valid_extension(row) and not \
 			   filtering.set_filtered(FileDiff.get_filename(row)):
 				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 						(["-C", "-C", "-M"] if hard else []) +
