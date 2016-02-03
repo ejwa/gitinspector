@@ -42,6 +42,9 @@ def add_located(string):
 	else:
 		__located_extensions__.add(string)
 
+def get_located():
+	return __located_extensions__
+
 EXTENSIONS_INFO_TEXT = N_("The extensions below were found in the repository history")
 EXTENSIONS_MARKED_TEXT = N_("(extensions used during statistical analysis are marked)")
 

@@ -24,6 +24,7 @@ from outputable import Outputable
 from changes import FileDiff
 import comment
 import datetime
+import extensions
 import filtering
 import format
 import gravatar
@@ -142,11 +143,13 @@ class Blame:
 			row = row.encode("latin-1", "replace")
 			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
+			if FileDiff.get_extension(row) in extensions.get_located() and not \
+			   filtering.set_filtered(FileDiff.get_filename(row)):
 				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 						(["-C", "-C", "-M"] if hard else []) +
 				                [interval.get_since(), interval.get_ref(), "--", row])
-				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
+				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row),
+				                     self.blames, row.strip())
 				thread.daemon = True
 				thread.start()
 
