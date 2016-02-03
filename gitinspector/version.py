@@ -27,9 +27,9 @@ except:
 	import gitinspector.localization
 	gitinspector.localization.init()
 
-__version__ = "0.4.3"
+__version__ = "0.4.4"
 
-__doc__ = _("""Copyright © 2012-2015 Ejwa Software. All rights reserved.
+__doc__ = _("""Copyright © 2012-2016 Ejwa Software. All rights reserved.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.

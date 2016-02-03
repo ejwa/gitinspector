@@ -1,4 +1,4 @@
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2016 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# Adam Waldenberg <adam.waldenberg@ejwa.se>, 2013-2015.
+# Adam Waldenberg <adam.waldenberg@ejwa.se>, 2013-2016.
 
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.4.3\n"
+"Project-Id-Version: gitinspector 0.4.4\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2015-10-02 03:35+0200\n"
-"PO-Revision-Date: 2015-10-02 04:12+0200\n"
+"POT-Creation-Date: 2015-02-03 13:40+0200\n"
+"PO-Revision-Date: 2016-02-03 13:58+0200\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,7 @@ msgid "Commits"
 msgstr "Inlämningar"
 
 msgid ""
-"Copyright © 2012-2015 Ejwa Software. All rights reserved.\n"
+"Copyright © 2012-2016 Ejwa Software. All rights reserved.\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
 "html>.\n"
 "This is free software: you are free to change and redistribute it.\n"
@@ -73,7 +73,7 @@ msgid ""
 "\n"
 "Written by Adam Waldenberg."
 msgstr ""
-"Upphovsrätt © 2012-2015 Ejwa Software. Alla rättigheter förbehållna.\n"
+"Upphovsrätt © 2012-2016 Ejwa Software. Alla rättigheter förbehållna.\n"
 "Licens GPLv3+: GNU GPL version 3 eller senare <http://gnu.org/licenses/gpl."
 "html>.\n"
 "Detta är fri programvara: du får lov att ändra och vidaredistribuera den.\n"
