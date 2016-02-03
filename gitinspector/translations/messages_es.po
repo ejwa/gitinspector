@@ -1,4 +1,4 @@
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2016 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -15,14 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# Agustín Cañas <agustincanas@gmail.com>, 2015
+# Agustín Cañas <agustincanas@gmail.com>, 2015-2016
 
 msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.4.3\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2015-10-02 03:35+0200\n"
-"PO-Revision-Date: 2015-10-02 22:17+0100\n"
+"PO-Revision-Date: 2016-02-03 13:46+0200\n"
 "Last-Translator: Agustín Cañas <agustincanas@gmail.com>\n"
 "Language-Team: Spanish <>\n"
 "Language: es\n"
@@ -237,6 +237,8 @@ msgid ""
 "                                   include when computing statistics. The\n"
 "                                   default extensions used are:\n"
 "                                   {1}\n"
+"                                   Specifying * includes files with no\n"
+"                                   extension, while ** includes all files\n"
 "  -F, --format=FORMAT            define in which format output should be\n"
 "                                   generated; the default format is 'text' "
 "and\n"
@@ -275,7 +277,8 @@ msgid ""
 "  -w, --weeks[=BOOL]             show all statistical information in weeks\n"
 "                                   instead of in months\n"
 "  -x, --exclude=PATTERN          an exclusion pattern describing the file\n"
-"                                   paths, revisions, author names or author\n"
+"                                   paths, revisions, revisions with certain\n"
+"                                   commit messages, author names or author\n"
 "                                   emails that should be excluded from the\n"
 "                                   statistics; can be specified multiple "
 "times\n"
