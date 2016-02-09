@@ -173,10 +173,10 @@ class BlameOutput(Outputable):
 			                 self.changes)) + "</stability>\n")
 			if self.forcemonths and self.blame.useweeks:
 				age_xml = ("\t\t\t\t<age_months>" + "{0:.1f}".format(float(i[1].get_skew(True)) / i[1].rows) + "</age_months>\n")
-				age_t_name = 'age_weeks'
+				age_t_name = "age_weeks"
 			else:
-				age_xml = ''
-				age_t_name = 'age'
+				age_xml = ""
+				age_t_name = "age"
 			age_xml += (("\t\t\t\t<%s>" % age_t_name) + "{0:.1f}".format(float(i[1].get_skew()) / i[1].rows) + ("</%s>\n" % age_t_name))
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
