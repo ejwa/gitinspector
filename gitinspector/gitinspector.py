@@ -84,7 +84,7 @@ class Runner(object):
 		outputable.output(ChangesOutput(summed_changes))
 
 		if changes.get_commits():
-			outputable.output(BlameOutput(summed_changes, summed_blames))
+			outputable.output(BlameOutput(summed_changes, summed_blames, self.forcemonths))
 
 			if self.timeline:
 				if self.useweeks and self.forcemonths:
