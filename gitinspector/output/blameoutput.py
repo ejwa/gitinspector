@@ -140,7 +140,7 @@ class BlameOutput(Outputable):
 			fparams = (18, 8, 10, 12, 14)
 		else:
 			fparams = (20, 10, 14, 12, 19)
-                auwidth, rwidth, swidth, awidth, cwidth = fparams
+		auwidth, rwidth, swidth, awidth, cwidth = fparams
 		prints = terminal.ljust(_("Author"), auwidth + 1) + terminal.rjust(_("Rows"), rwidth) + terminal.rjust(_("Stability"), swidth + 1)
 		if self.forcemonths and self.blame.useweeks:
 			prints += terminal.rjust(_("Age, months"), awidth + 1) + terminal.rjust(_("Age, weeks"), awidth + 1)
