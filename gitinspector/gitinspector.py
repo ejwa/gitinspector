@@ -139,7 +139,7 @@ def main():
 		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwMx:", ["exclude=", "file-types=", "format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
-		                                         "timeline:true", "until=", "version", "weeks:true"])
+		                                         "timeline:true", "until=", "version", "weeks:true", "forcemonths:false"])
 		repos = __get_validated_git_repos__(set(args))
 
 		#We need the repos above to be set before we read the git config.
@@ -197,10 +197,12 @@ def main():
 				interval.set_until(a)
 			elif o == "-w":
 				run.useweeks = True
-			elif o == "-M":
-				run.forcemonths = True
 			elif o == "--weeks":
 				run.useweeks = optval.get_boolean_argument(a)
+			elif o == "-M":
+				run.forcemonths = True
+			elif o == "--forcemonths":
+				run.forcemonths = optval.get_boolean_argument(a)
 			elif o in("-x", "--exclude"):
 				if clear_x_on_next_pass:
 					clear_x_on_next_pass = False
