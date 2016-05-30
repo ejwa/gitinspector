@@ -82,22 +82,22 @@ class Runner(object):
 		format.output_header(repos)
 		outputable.output(ChangesOutput(summed_changes))
 
-		if changes.get_commits():
-			outputable.output(BlameOutput(summed_changes, summed_blames))
+		#if changes.get_commits():
+		outputable.output(BlameOutput(summed_changes, summed_blames))
 
-			if self.timeline:
-				outputable.output(TimelineOutput(summed_changes, self.useweeks))
+		if self.timeline:
+			outputable.output(TimelineOutput(summed_changes, self.useweeks))
 
-			if self.include_metrics:
-				outputable.output(MetricsOutput(summed_metrics))
+		if self.include_metrics:
+			outputable.output(MetricsOutput(summed_metrics))
 
-			if self.responsibilities:
-				outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
+		if self.responsibilities:
+			outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
 
-			outputable.output(FilteringOutput())
+		outputable.output(FilteringOutput())
 
-			if self.list_file_types:
-				outputable.output(ExtensionsOutput())
+		if self.list_file_types:
+			outputable.output(ExtensionsOutput())
 
 		format.output_footer()
 		os.chdir(previous_directory)
