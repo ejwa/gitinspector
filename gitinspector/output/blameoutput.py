@@ -50,10 +50,10 @@ class BlameOutput(Outputable):
 		total_blames = 0
 
 		for i in blames:
-			total_blames += i[1].rows
+			total_blames += i[1].lines
 
 		for i, entry in enumerate(blames):
-			work_percentage = str("{0:.2f}".format(100.0 * entry[1].rows / total_blames))
+			work_percentage = str("{0:.2f}".format(100.0 * entry[1].lines / total_blames))
 			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
@@ -62,10 +62,10 @@ class BlameOutput(Outputable):
 			else:
 				blame_xml += "<td>" + entry[0] + "</td>"
 
-			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
-			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].rows, self.changes)) + "</td>")
-			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
-			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
+			blame_xml += "<td>" + str(entry[1].lines) + "</td>"
+			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].lines, self.changes)) + "</td>")
+			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].skew) / entry[1].lines) + "</td>"
+			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].lines) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
 			chart_data += "{{label: {0}, data: {1}}}".format(json.dumps(entry[0]), work_percentage)
@@ -104,13 +104,13 @@ class BlameOutput(Outputable):
 			name_json = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
 			email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 			gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
-			rows_json = "\t\t\t\t\"lines\": " + str(i[1].rows) + ",\n"
-			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
+			lines_json = "\t\t\t\t\"lines\": " + str(i[1].lines) + ",\n"
+			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].lines,
 			                  self.changes)) + ",\n")
-			age_json = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
+			age_json = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].lines) + ",\n")
 			percentage_in_comments_json = ("\t\t\t\t\"percentage_in_comments\": " +
-			                               "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) + "\n")
-			blame_json += ("{\n" + name_json + email_json + gravatar_json + rows_json + stability_json + age_json +
+			                               "{0:.2f}".format(100.0 * i[1].comments / i[1].lines) + "\n")
+			blame_json += ("{\n" + name_json + email_json + gravatar_json + lines_json + stability_json + age_json +
 			              percentage_in_comments_json + "\t\t\t},")
 		else:
 			blame_json = blame_json[:-1]
@@ -127,10 +127,10 @@ class BlameOutput(Outputable):
 
 		for i in sorted(self.blame.get_summed_blames().items()):
 			print(terminal.ljust(i[0], 20)[0:20 - terminal.get_excess_column_count(i[0])], end=" ")
-			print(str(i[1].rows).rjust(10), end=" ")
-			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(14), end=" ")
-			print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
-			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
+			print(str(i[1].lines).rjust(10), end=" ")
+			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].lines, self.changes)).rjust(14), end=" ")
+			print("{0:.1f}".format(float(i[1].skew) / i[1].lines).rjust(12), end=" ")
+			print("{0:.2f}".format(100.0 * i[1].comments / i[1].lines).rjust(19))
 
 	def output_xml(self):
 		message_xml = "\t\t<message>" + _(BLAME_INFO_TEXT) + "</message>\n"
@@ -142,13 +142,13 @@ class BlameOutput(Outputable):
 			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
 			email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
 			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
-			rows_xml = "\t\t\t\t<lines>" + str(i[1].rows) + "</lines>\n"
-			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
+			lines_xml = "\t\t\t\t<lines>" + str(i[1].lines) + "</lines>\n"
+			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].lines,
 			                 self.changes)) + "</stability>\n")
-			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
-			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
+			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].lines) + "</age>\n")
+			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].lines) +
 			                              "</percentage-in-comments>\n")
-			blame_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + rows_xml + stability_xml +
+			blame_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + lines_xml + stability_xml +
 			              age_xml + percentage_in_comments_xml + "\t\t\t</author>\n")
 
 		print("\t<blame>\n" + message_xml + "\t\t<authors>\n" + blame_xml + "\t\t</authors>\n\t</blame>")

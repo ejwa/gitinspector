@@ -10,19 +10,19 @@
 		<script type="application/javascript">{jquery_flot_resize}</script>
 		<script type="application/javascript">
 			$(document).ready(function() {{
-				var row = 0;
+				var line = 0;
 				var MINOR_AUTHOR_PERCENTAGE = 1.00;
 				var isReversed = false;
 
 				var colorRows = function() {{
 					$(this).removeClass("odd");
 
-					if (row++ % 2 == 1) {{
+					if (line++ % 2 == 1) {{
 						$(this).addClass("odd");
 					}}
 
 					if(this == $(this).parent().find("tr:visible").get(-1)) {{
-						row = 0;
+						line = 0;
 					}}
 				}}
 
