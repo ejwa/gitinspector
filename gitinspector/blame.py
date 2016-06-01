@@ -118,7 +118,7 @@ class BlameThread(threading.Thread):
 
 		__thread_lock__.release() # Lock controlling the number of threads running
 
-PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0f}%")
+PROGRESS_TEXT = N_("Checking how many lines belong to each author (2 of 2): {0:.0f}%")
 
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):

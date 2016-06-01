@@ -106,8 +106,8 @@ def output_header(repos):
 		                                     repos_string, localization.get_date()),
 		                         show_minor_authors=_("Show minor authors"),
 		                         hide_minor_authors=_("Hide minor authors"),
-		                         show_minor_rows=_("Show rows with minor work"),
-		                         hide_minor_rows=_("Hide rows with minor work")))
+		                         show_minor_rows=_("Show lines with minor work"),
+		                         hide_minor_rows=_("Hide lines with minor work")))
 	elif __selected_format__ == "json":
 		print("{\n\t\"gitinspector\": {")
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
