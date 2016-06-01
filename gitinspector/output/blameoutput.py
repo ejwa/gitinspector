@@ -104,7 +104,7 @@ class BlameOutput(Outputable):
 			name_json = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
 			email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 			gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
-			rows_json = "\t\t\t\t\"rows\": " + str(i[1].rows) + ",\n"
+			rows_json = "\t\t\t\t\"lines\": " + str(i[1].rows) + ",\n"
 			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                  self.changes)) + ",\n")
 			age_json = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
@@ -119,10 +119,10 @@ class BlameOutput(Outputable):
 
 	def output_text(self):
 		if sys.stdout.isatty() and format.is_interactive_format():
-			terminal.clear_row()
+			terminal.clear_line()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(terminal.ljust(_("Author"), 21) + terminal.rjust(_("Rows"), 10) + terminal.rjust(_("Stability"), 15) +
+		terminal.printb(terminal.ljust(_("Author"), 21) + terminal.rjust(_("Lines"), 10) + terminal.rjust(_("Stability"), 15) +
 		                terminal.rjust(_("Age"), 13) + terminal.rjust(_("% in comments"), 20))
 
 		for i in sorted(self.blame.get_summed_blames().items()):
@@ -142,7 +142,7 @@ class BlameOutput(Outputable):
 			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
 			email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
 			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
-			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
+			rows_xml = "\t\t\t\t<lines>" + str(i[1].rows) + "</lines>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                 self.changes)) + "</stability>\n")
 			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
