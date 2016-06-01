@@ -50,11 +50,11 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgid "Below are the number of lines from each author that have survived and are still intact in the current revision"
 msgstr ""
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr ""
 
 msgid "Commits"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Hide minor authors"
 msgstr ""
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr ""
 
 msgid "Insertions"
@@ -91,7 +91,7 @@ msgstr ""
 msgid "Minor Authors"
 msgstr ""
 
-msgid "Modified Rows:"
+msgid "Modified lines:"
 msgstr ""
 
 msgid "No commited files with the specified extensions were found"
@@ -104,13 +104,13 @@ msgstr ""
 msgid "Repository statistics for {0}"
 msgstr ""
 
-msgid "Rows"
+msgid "lines"
 msgstr ""
 
 msgid "Show minor authors"
 msgstr ""
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr ""
 
 msgid "Stability"
@@ -193,7 +193,7 @@ msgid ""
 "                                   is formatted for grading of student\n"
 "                                   projects; this is the same as supplying the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
 "                                   current branch of the repository\n"
