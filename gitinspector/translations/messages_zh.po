@@ -46,7 +46,7 @@ msgid "Author"
 msgstr "作者"
 
 msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
-msgstr "下面是过于每位作者在现在的版本了存留下来的行数"
+msgstr "下面是对于每位作者在现在的版本了存留下来的行数"
 
 #, python-brace-format
 msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
