@@ -20,7 +20,7 @@
 # xgettext --no-wrap -s -w 140 --language=Python --keyword="N_"
 # --no-location --output=messages.pot *.py
 #
-# Moses kim <creatinov.kim@gmail.com>, 2016
+# Moses Kim <creatinov.kim@gmail.com>, 2016
 
 msgid ""
 msgstr ""
