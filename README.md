@@ -37,7 +37,7 @@ Below are some example outputs for a number of famous open source projects. All 
   * Agustín Cañas, Spanish translation
   * Bill Wang, Chinese translation
   * Christian Kastner, Debian package maintainer
-  * Jiwon Kim, Korean translation
+  * Moses Kim, Korean translation
   * Kamila Chyla, Polish translation
   * Luca Motta, Italian translation
   * Philipp Nowak, German translation
