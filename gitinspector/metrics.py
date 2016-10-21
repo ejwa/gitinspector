@@ -44,10 +44,14 @@ class MetricsLogic(object):
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
 
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", ref], bufsize=1,
+		ls_tree_r = subprocess.Popen(["git", "ls-tree", "-r", ref], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
+  
+
 
 		for i in ls_tree_r.readlines():
+			if i.startswith("160000"): continue  # skip submodules
+			i = i.split("\t")[-1]
 			i = i.strip().decode("unicode_escape", "ignore")
 			i = i.encode("latin-1", "replace")
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
