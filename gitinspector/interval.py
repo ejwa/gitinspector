@@ -28,8 +28,6 @@ __since__ = ""
 
 __until__ = ""
 
-__ref__ = "HEAD"
-
 def has_interval():
 	return __since__ + __until__ != ""
 
@@ -47,9 +45,3 @@ def set_until(until):
 	global __until__
 	__until__ = "--until=" + quote(until)
 
-def get_ref():
-	return __ref__
-
-def set_ref(ref):
-	global __ref__
-	__ref__ = ref

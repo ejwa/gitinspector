@@ -39,12 +39,12 @@ METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 
 class MetricsLogic(object):
-	def __init__(self):
+	def __init__(self, ref):
 		self.eloc = {}
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
 
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", ref], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 
 		for i in ls_tree_r.readlines():
@@ -53,7 +53,7 @@ class MetricsLogic(object):
 			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
 			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-				file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
+				file_r = subprocess.Popen(["git", "show", ref + ":{0}".format(i.strip())],
 				                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
 				extension = FileDiff.get_extension(i)
