@@ -2,5 +2,7 @@ build
 debian
 deb_dist
 dist
+node_modules
 *.egg-info
 *.pyc
+*.tgz
