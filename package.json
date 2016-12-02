@@ -1,0 +1,59 @@
+{
+  "name": "gitinspector",
+  "version": "0.5.0-dev",
+  "description": "Gitinspector is a statistical analysis tool for git repositories. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author. Under normal operation, it filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis.",
+  "main": "gitinspector.py",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "clean": "rimraf **/*.pyc",
+    "prepublish": "npm run clean",
+    "release": "with-package git commit -am pkg.version && with-package git tag pkg.version && git push && npm publish && git push --tags",
+    "release:beta": "npm run release && npm run tag:beta",
+    "tag:beta": "with-package npm dist-tag add pkg.name@pkg.version beta",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gitinspector": "gitinspector.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejwa/gitinspector.git"
+  },
+  "keywords": [
+    "git",
+    "statistics",
+    "stats"
+  ],
+  "author": {
+    "name": "Adam Waldenberg",
+    "email": "adam.waldenberg@ejwa.se",
+    "url": "https://github.com/adam-waldenberg"
+  },
+  "contributors": [
+    "Agustín Cañas",
+    "Bart van Andel <bavanandel@gmail.com>",
+    "Bill Wang",
+    "Christian Kastner",
+    "Jiwon Kim",
+    "Kamila Chyla",
+    "Luca Motta",
+    "Philipp Nowak",
+    "Sergei Lomakov",
+    "Yannick Moy"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/ejwa/gitinspector/issues"
+  },
+  "homepage": "https://github.com/ejwa/gitinspector#readme",
+  "devDependencies": {
+    "rimraf": "^2.5.4",
+    "with-package": "^0.2.0"
+  },
+  "dependencies": {
+    "python-shell": "^0.4.0"
+  }
+}
