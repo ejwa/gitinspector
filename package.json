@@ -1,7 +1,7 @@
 {
   "name": "gitinspector",
   "version": "0.5.0-dev",
-  "description": "Gitinspector is a statistical analysis tool for git repositories. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author. Under normal operation, it filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis.",
+  "description": "Gitinspector is a statistical analysis tool for git repositories. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author.",
   "preferGlobal": true,
   "main": "gitinspector.py",
   "directories": {
