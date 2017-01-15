@@ -10,7 +10,8 @@
   },
   "scripts": {
     "clean": "rimraf **/*.pyc",
-    "prepublish": "npm run clean",
+    "crlf": "crlf --set=LF **/*.py",
+    "prepublish": "npm run clean && npm run crlf",
     "release": "with-package git commit -am pkg.version && with-package git tag pkg.version && git push && npm publish && git push --tags",
     "release:beta": "npm run release && npm run tag:beta",
     "tag:beta": "with-package npm dist-tag add pkg.name@pkg.version beta",
@@ -53,6 +54,7 @@
   },
   "homepage": "https://github.com/ejwa/gitinspector#readme",
   "devDependencies": {
+    "crlf": "^1.1.0",
     "rimraf": "^2.5.4",
     "with-package": "^0.2.0"
   },
