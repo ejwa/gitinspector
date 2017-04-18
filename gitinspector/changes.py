@@ -160,10 +160,9 @@ class ChangesThread(threading.Thread):
 				   filtering.set_filtered(commit.sha, "message")):
 					is_filtered = True
 
-			if commit is not None:
-				if FileDiff.is_filediff_line(j) and not \
-				filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
-					extensions.add_located(FileDiff.get_extension(j))
+			if FileDiff.is_filediff_line(j) and not \
+			   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
+				extensions.add_located(FileDiff.get_extension(j))
 
 				if FileDiff.is_valid_extension(j):
 					found_valid_extension = True
@@ -199,14 +198,18 @@ class Changes(object):
 			first_hash = ""
 
 			for i, entry in enumerate(lines):
+				if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
+					entry = entry.decode("utf-8", "replace").strip()
+					second_hash = entry
+					ChangesThread.create(hard, self, first_hash, second_hash, i)
+					first_hash = entry + ".."
+
+					if format.is_interactive_format():
+						terminal.output_progress(progress_text, i, len(lines))
+			else:
 				entry = entry.decode("utf-8", "replace").strip()
 				second_hash = entry
 				ChangesThread.create(hard, self, first_hash, second_hash, i)
-				if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
-					first_hash = entry + ".."
-					if format.is_interactive_format():
-						terminal.output_progress(progress_text, i, len(lines))
-
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
@@ -217,22 +220,15 @@ class Changes(object):
 			__thread_lock__.release()
 
 		self.commits = [item for sublist in self.commits for item in sublist]
-		flatten = lambda l: [item for sublist in l for item in sublist]
-		self.commits = [x for x in flatten(self.commits) if x is not None]
 
-		if self.commits:
-			first = self.commits[0]
-			last = self.commits[-1]
+		if len(self.commits) > 0:
+			if interval.has_interval() and len(self.commits) > 0:
+				interval.set_ref(self.commits[-1].sha)
 
-			if first and last:
-				if interval.has_interval() and last:
-					interval.set_ref(last.sha)
-				self.first_commit_date = self.get_commit_date(first)
-				self.last_commit_date = self.get_commit_date(last)
-
-	@classmethod
-	def get_commit_date(cls, commit):
-		return datetime.date(int(commit.date[0:4]), int(commit.date[5:7]), int(commit.date[8:10]))
+			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
+			                                       int(self.commits[0].date[8:10]))
+			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
+			                                      int(self.commits[-1].date[8:10]))
 
 	def __iadd__(self, other):
 		try:
