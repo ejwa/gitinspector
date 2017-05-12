@@ -32,8 +32,18 @@ NUM_THREADS = multiprocessing.cpu_count()
 
 class BlameEntry(object):
 	rows = 0
-	skew = 0 # Used when calculating average code age.
+	skew_w = 0 # Used when calculating average code age.
+	skew_m = 0 # Used when calculating average code age.
 	comments = 0
+	useweeks = None
+
+	def __init__(self, useweeks):
+		self.useweeks = useweeks
+
+        def get_skew(self, forcemonths = False):
+                if not self.useweeks or forcemonths:
+                        return self.skew_m
+                return self.skew_w
 
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
@@ -79,14 +89,15 @@ class BlameThread(threading.Thread):
 			__blame_lock__.acquire() # Global lock used to protect calls from here...
 
 			if self.blames.get((author, self.filename), None) == None:
-				self.blames[(author, self.filename)] = BlameEntry()
+				self.blames[(author, self.filename)] = BlameEntry(self.useweeks)
 
 			self.blames[(author, self.filename)].comments += comments
 			self.blames[(author, self.filename)].rows += 1
 
 			if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
-				self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - self.blamechunk_time).days /
-				                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
+				skew = (self.changes.last_commit_date - self.blamechunk_time).days;
+				self.blames[(author, self.filename)].skew_w += (skew / 7.0)
+				self.blames[(author, self.filename)].skew_m += (skew / AVG_DAYS_PER_MONTH)
 
 			__blame_lock__.release() # ...to here.
 
@@ -123,6 +134,7 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
+		self.useweeks = useweeks
 		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
 		lines = ls_tree_r.readlines()
@@ -190,10 +202,11 @@ class Blame(object):
 		summed_blames = {}
 		for i in self.blames.items():
 			if summed_blames.get(i[0][0], None) == None:
-				summed_blames[i[0][0]] = BlameEntry()
+				summed_blames[i[0][0]] = BlameEntry(self.useweeks)
 
 			summed_blames[i[0][0]].rows += i[1].rows
-			summed_blames[i[0][0]].skew += i[1].skew
+			summed_blames[i[0][0]].skew_w += i[1].skew_w
+			summed_blames[i[0][0]].skew_m += i[1].skew_m
 			summed_blames[i[0][0]].comments += i[1].comments
 
 		return summed_blames

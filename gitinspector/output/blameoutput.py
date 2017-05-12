@@ -31,19 +31,25 @@ BLAME_INFO_TEXT = N_("Below are the number of rows from each author that have su
                      "intact in the current revision")
 
 class BlameOutput(Outputable):
-	def __init__(self, changes, blame):
+	def __init__(self, changes, blame, forcemonths):
 		if format.is_interactive_format():
 			print("")
 
 		self.changes = changes
 		self.blame = blame
+		self.forcemonths = forcemonths
 		Outputable.__init__(self)
 
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
-		blame_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>".format(
-		             _("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
+		if self.forcemonths and self.blame.useweeks:
+			formtup = (_("Author"), _("Rows"), _("Stability"), _("Age, months"), _("Age, weeks"), _("% in comments"))
+			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> <th>{5}</th> </tr></thead>"
+		else:
+			formtup = (_("Author"), _("Rows"), _("Stability"), _("Age"), _("% in comments"))
+			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>"
+		blame_xml += formmkup.format(*formtup)
 		blame_xml += "<tbody>"
 		chart_data = ""
 		blames = sorted(self.blame.get_summed_blames().items())
@@ -64,7 +70,9 @@ class BlameOutput(Outputable):
 
 			blame_xml += "<td>" + str(entry[1].rows) + "</td>"
 			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].rows, self.changes)) + "</td>")
-			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].skew) / entry[1].rows) + "</td>"
+			if self.forcemonths and self.blame.useweeks:
+				blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].get_skew(True)) / entry[1].rows) + "</td>"
+			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].get_skew()) / entry[1].rows) + "</td>"
 			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].rows) + "</td>"
 			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
 			blame_xml += "</tr>"
@@ -73,7 +81,7 @@ class BlameOutput(Outputable):
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "<tfoot><tr> <td colspan=\"5\">&nbsp;</td> </tr></tfoot></tbody></table>"
+		blame_xml += "<tfoot><tr> <td colspan=\"%d\">&nbsp;</td> </tr></tfoot></tbody></table>" % len(formtup)
 		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
@@ -107,7 +115,13 @@ class BlameOutput(Outputable):
 			rows_json = "\t\t\t\t\"rows\": " + str(i[1].rows) + ",\n"
 			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                  self.changes)) + ",\n")
-			age_json = ("\t\t\t\t\"age\": " + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + ",\n")
+			if self.forcemonths and self.blame.useweeks:
+				age_json = ("\t\t\t\t\"age_months\": " + "{0:.1f}".format(float(i[1].get_skew(True)) / i[1].rows) + ",\n")
+				age_t_name = "age_weeks"
+			else:
+				age_json = ""
+				age_t_name = "age"
+			age_json += (("\t\t\t\t\"%s\": " % age_t_name) + "{0:.1f}".format(float(i[1].get_skew()) / i[1].rows) + ",\n")
 			percentage_in_comments_json = ("\t\t\t\t\"percentage_in_comments\": " +
 			                               "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) + "\n")
 			blame_json += ("{\n" + name_json + email_json + gravatar_json + rows_json + stability_json + age_json +
@@ -122,15 +136,27 @@ class BlameOutput(Outputable):
 			terminal.clear_row()
 
 		print(textwrap.fill(_(BLAME_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
-		terminal.printb(terminal.ljust(_("Author"), 21) + terminal.rjust(_("Rows"), 10) + terminal.rjust(_("Stability"), 15) +
-		                terminal.rjust(_("Age"), 13) + terminal.rjust(_("% in comments"), 20))
+		if self.forcemonths and self.blame.useweeks:
+			fparams = (18, 8, 10, 12, 14)
+		else:
+			fparams = (20, 10, 14, 12, 19)
+		auwidth, rwidth, swidth, awidth, cwidth = fparams
+		prints = terminal.ljust(_("Author"), auwidth + 1) + terminal.rjust(_("Rows"), rwidth) + terminal.rjust(_("Stability"), swidth + 1)
+		if self.forcemonths and self.blame.useweeks:
+			prints += terminal.rjust(_("Age, months"), awidth + 1) + terminal.rjust(_("Age, weeks"), awidth + 1)
+		else:
+			prints += terminal.rjust(_("Age"), awidth + 1)
+		prints += terminal.rjust(_("% in comments"), cwidth + 1)
+		terminal.printb(prints)
 
 		for i in sorted(self.blame.get_summed_blames().items()):
-			print(terminal.ljust(i[0], 20)[0:20 - terminal.get_excess_column_count(i[0])], end=" ")
-			print(str(i[1].rows).rjust(10), end=" ")
-			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(14), end=" ")
-			print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")
-			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(19))
+			print(terminal.ljust(i[0], auwidth)[0:auwidth - terminal.get_excess_column_count(i[0])], end=" ")
+			print(str(i[1].rows).rjust(rwidth), end=" ")
+			print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(swidth), end=" ")
+			if self.forcemonths and self.blame.useweeks:
+				print("{0:.1f}".format(float(i[1].get_skew(True)) / i[1].rows).rjust(awidth), end=" ")
+			print("{0:.1f}".format(float(i[1].get_skew()) / i[1].rows).rjust(awidth), end=" ")
+			print("{0:.2f}".format(100.0 * i[1].comments / i[1].rows).rjust(cwidth))
 
 	def output_xml(self):
 		message_xml = "\t\t<message>" + _(BLAME_INFO_TEXT) + "</message>\n"
@@ -145,7 +171,13 @@ class BlameOutput(Outputable):
 			rows_xml = "\t\t\t\t<rows>" + str(i[1].rows) + "</rows>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                 self.changes)) + "</stability>\n")
-			age_xml = ("\t\t\t\t<age>" + "{0:.1f}".format(float(i[1].skew) / i[1].rows) + "</age>\n")
+			if self.forcemonths and self.blame.useweeks:
+				age_xml = ("\t\t\t\t<age_months>" + "{0:.1f}".format(float(i[1].get_skew(True)) / i[1].rows) + "</age_months>\n")
+				age_t_name = "age_weeks"
+			else:
+				age_xml = ""
+				age_t_name = "age"
+			age_xml += (("\t\t\t\t<%s>" % age_t_name) + "{0:.1f}".format(float(i[1].get_skew()) / i[1].rows) + ("</%s>\n" % age_t_name))
 			percentage_in_comments_xml = ("\t\t\t\t<percentage-in-comments>" + "{0:.2f}".format(100.0 * i[1].comments / i[1].rows) +
 			                              "</percentage-in-comments>\n")
 			blame_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + rows_xml + stability_xml +

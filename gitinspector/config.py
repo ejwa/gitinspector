@@ -73,6 +73,7 @@ class GitConfig(object):
 		self.run.metrics = self.__read_git_config_bool__("metrics")
 		self.run.responsibilities = self.__read_git_config_bool__("responsibilities")
 		self.run.useweeks = self.__read_git_config_bool__("weeks")
+		self.run.forcemonths = self.__read_git_config_bool__("forcemonths")
 
 		var = self.__read_git_config_string__("since")
 		if var[0]:
