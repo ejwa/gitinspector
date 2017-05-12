@@ -219,7 +219,8 @@ class Changes(object):
 		for i in range(0, NUM_THREADS):
 			__thread_lock__.release()
 
-		self.commits = [item for sublist in self.commits for item in sublist]
+		sublist = [sub for sub in self.commits if sub is not None]
+		self.commits = [item for s in sublist for item in s]
 
 		if len(self.commits) > 0:
 			if interval.has_interval() and len(self.commits) > 0:
@@ -229,6 +230,8 @@ class Changes(object):
 			                                       int(self.commits[0].date[8:10]))
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
 			                                      int(self.commits[-1].date[8:10]))
+			else:
+				interval.set_ref('HEAD')
 
 	def __iadd__(self, other):
 		try:
