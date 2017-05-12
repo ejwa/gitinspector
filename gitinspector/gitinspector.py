@@ -116,10 +116,10 @@ def __get_validated_git_repos__(repos_relative):
 	#Try to clone the repos or return the same directory and bail out.
 	for repo in repos_relative:
 		cloned_repo = clone.create(repo)
-		basedir_path = basedir.get_basedir_git(cloned_repo.location)
 
 		if cloned_repo.name == None:
-			cloned_repo.name = os.path.basename(basedir_path)
+			cloned_repo.location = basedir.get_basedir_git(cloned_repo.location)
+			cloned_repo.name = os.path.basename(cloned_repo.location)
 
 		repos.append(cloned_repo)
 
