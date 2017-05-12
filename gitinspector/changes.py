@@ -180,6 +180,7 @@ class Changes(object):
 	authors_dateinfo = {}
 	authors_by_email = {}
 	emails_by_author = {}
+	ref = "HEAD"
 
 	def __init__(self, repo, hard):
 		self.commits = []
@@ -223,7 +224,7 @@ class Changes(object):
 
 		if len(self.commits) > 0:
 			if interval.has_interval() and len(self.commits) > 0:
-				interval.set_ref(self.commits[-1].sha)
+				self.ref = self.commits[-1].sha
 
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
 			                                       int(self.commits[0].date[8:10]))

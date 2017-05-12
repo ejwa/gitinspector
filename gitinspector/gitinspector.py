@@ -72,7 +72,7 @@ class Runner(object):
 			summed_changes += changes
 
 			if self.include_metrics:
-				summed_metrics += MetricsLogic()
+				summed_metrics += MetricsLogic(changes.ref)
 
 			if sys.stdout.isatty() and format.is_interactive_format():
 				terminal.clear_row()

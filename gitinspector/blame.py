@@ -123,9 +123,10 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_r = subprocess.Popen(["git", "ls-tree", "-r", changes.ref], bufsize=1,
 		                             stdout=subprocess.PIPE).stdout
-		lines = ls_tree_r.readlines()
+                # skip submodules
+		lines = [ l.split("\t",1)[-1] for l in ls_tree_r.readlines() if not l.startswith("160000") ]
 		ls_tree_r.close()
 
 		progress_text = _(PROGRESS_TEXT)
@@ -141,7 +142,7 @@ class Blame(object):
 			   filtering.set_filtered(FileDiff.get_filename(row)):
 				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 						(["-C", "-C", "-M"] if hard else []) +
-				                [interval.get_since(), interval.get_ref(), "--", row])
+				                [interval.get_since(), changes.ref, "--", row])
 				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row),
 				                     self.blames, row.strip())
 				thread.daemon = True
