@@ -245,7 +245,7 @@ class Changes(object):
 
 			return self
 		except AttributeError:
-			return other;
+			return other
 
 	def get_commits(self):
 		return self.commits
