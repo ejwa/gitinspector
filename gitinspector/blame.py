@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2017 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -123,40 +123,42 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
-		                             stdout=subprocess.PIPE).stdout
-		lines = ls_tree_r.readlines()
-		ls_tree_r.close()
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		lines = ls_tree_p.communicate()[0].splitlines()
+		ls_tree_p.stdout.close()
 
-		progress_text = _(PROGRESS_TEXT)
-		if repo != None:
-			progress_text = "[%s] " % repo.name + progress_text
+		if ls_tree_p.returncode == 0:
+			progress_text = _(PROGRESS_TEXT)
 
-		for i, row in enumerate(lines):
-			row = row.strip().decode("unicode_escape", "ignore")
-			row = row.encode("latin-1", "replace")
-			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
+			if repo != None:
+				progress_text = "[%s] " % repo.name + progress_text
 
-			if FileDiff.get_extension(row) in extensions.get_located() and FileDiff.is_valid_extension(row) and not \
-			   filtering.set_filtered(FileDiff.get_filename(row)):
-				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
-						(["-C", "-C", "-M"] if hard else []) +
-				                [interval.get_since(), interval.get_ref(), "--", row])
-				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row),
-				                     self.blames, row.strip())
-				thread.daemon = True
-				thread.start()
+			for i, row in enumerate(lines):
+				row = row.strip().decode("unicode_escape", "ignore")
+				row = row.encode("latin-1", "replace")
+				row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-				if format.is_interactive_format():
-					terminal.output_progress(progress_text, i, len(lines))
+				if FileDiff.get_extension(row) in extensions.get_located() and \
+				   FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
+					blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
+							(["-C", "-C", "-M"] if hard else []) +
+					                [interval.get_since(), interval.get_ref(), "--", row])
+					thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row),
+					                     self.blames, row.strip())
+					thread.daemon = True
+					thread.start()
 
-		# Make sure all threads have completed.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.acquire()
+					if format.is_interactive_format():
+						terminal.output_progress(progress_text, i, len(lines))
 
-		# We also have to release them for future use.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.release()
+			# Make sure all threads have completed.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.acquire()
+
+			# We also have to release them for future use.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.release()
 
 	def __iadd__(self, other):
 		try:

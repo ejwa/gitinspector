@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2017 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -183,13 +183,13 @@ class Changes(object):
 
 	def __init__(self, repo, hard):
 		self.commits = []
-		git_log_hashes_r = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                    interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
-		                                    stdout=subprocess.PIPE).stdout
-		lines = git_log_hashes_r.readlines()
-		git_log_hashes_r.close()
+		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
+		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		lines = git_rev_list_p.communicate()[0].splitlines()
+		git_rev_list_p.stdout.close()
 
-		if len(lines) > 0:
+		if git_rev_list_p.returncode == 0 and len(lines) > 0:
 			progress_text = _(PROGRESS_TEXT)
 			if repo != None:
 				progress_text = "[%s] " % repo.name + progress_text

@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2017 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -44,30 +44,33 @@ class MetricsLogic(object):
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
 
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
-		                             stdout=subprocess.PIPE).stdout
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		lines = ls_tree_p.communicate()[0].splitlines()
+		ls_tree_p.stdout.close()
 
-		for i in ls_tree_r.readlines():
-			i = i.strip().decode("unicode_escape", "ignore")
-			i = i.encode("latin-1", "replace")
-			i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
+		if ls_tree_p.returncode == 0:
+			for i in lines:
+				i = i.strip().decode("unicode_escape", "ignore")
+				i = i.encode("latin-1", "replace")
+				i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-			if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-				file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
-				                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
+				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
+					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
+					                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
-				extension = FileDiff.get_extension(i)
-				lines = MetricsLogic.get_eloc(file_r, extension)
-				cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
+					extension = FileDiff.get_extension(i)
+					lines = MetricsLogic.get_eloc(file_r, extension)
+					cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 
-				if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
-					self.eloc[i.strip()] = lines
+					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
+						self.eloc[i.strip()] = lines
 
-				if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
-					self.cyclomatic_complexity[i.strip()] = cycc
+					if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
+						self.cyclomatic_complexity[i.strip()] = cycc
 
-				if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
-					self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
+					if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
+						self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
 
 	def __iadd__(self, other):
 		try:
