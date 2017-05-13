@@ -279,8 +279,11 @@ class Changes(object):
 	def get_latest_author_by_email(self, name):
 		if not hasattr(name, "decode"):
 			name = str.encode(name)
+		try:
+			name = name.decode("unicode_escape", "ignore")
+		except UnicodeEncodeError:
+			pass
 
-		name = name.decode("unicode_escape", "ignore")
 		return self.authors_by_email[name]
 
 	def get_latest_email_by_author(self, name):
