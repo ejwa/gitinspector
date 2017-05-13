@@ -222,7 +222,7 @@ class Changes(object):
 		self.commits = [item for sublist in self.commits for item in sublist]
 
 		if len(self.commits) > 0:
-			if interval.has_interval() and len(self.commits) > 0:
+			if interval.has_interval():
 				interval.set_ref(self.commits[-1].sha)
 
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
