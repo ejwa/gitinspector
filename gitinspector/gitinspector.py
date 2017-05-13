@@ -82,7 +82,7 @@ class Runner(object):
 		format.output_header(repos)
 		outputable.output(ChangesOutput(summed_changes))
 
-		if changes.get_commits():
+		if summed_changes.get_commits():
 			outputable.output(BlameOutput(summed_changes, summed_blames))
 
 			if self.timeline:
