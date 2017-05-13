@@ -183,6 +183,7 @@ class Changes(object):
 
 	def __init__(self, repo, hard):
 		self.commits = []
+		interval.set_ref("HEAD");
 		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
 		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
