@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import division
 from __future__ import unicode_literals
 import bisect
 import datetime
@@ -195,7 +196,8 @@ class Changes(object):
 			if repo != None:
 				progress_text = "[%s] " % repo.name + progress_text
 
-			self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
+			chunks = len(lines) // CHANGES_PER_THREAD
+			self.commits = [None] * (chunks if len(lines) % CHANGES_PER_THREAD == 0 else chunks + 1)
 			first_hash = ""
 
 			for i, entry in enumerate(lines):
@@ -208,9 +210,10 @@ class Changes(object):
 					if format.is_interactive_format():
 						terminal.output_progress(progress_text, i, len(lines))
 			else:
-				entry = entry.decode("utf-8", "replace").strip()
-				second_hash = entry
-				ChangesThread.create(hard, self, first_hash, second_hash, i)
+				if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
+					entry = entry.decode("utf-8", "replace").strip()
+					second_hash = entry
+					ChangesThread.create(hard, self, first_hash, second_hash, i)
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
