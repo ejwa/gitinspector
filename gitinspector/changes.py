@@ -251,7 +251,10 @@ class Changes(object):
 			return other
 
 	def get_commits(self):
-		return self.commits
+		try:
+			return self.commits
+		except AttributeError:
+			return []
 
 	@staticmethod
 	def modify_authorinfo(authors, key, commit):
