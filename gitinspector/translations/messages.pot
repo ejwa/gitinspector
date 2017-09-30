@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2015-10-02 03:35+0200\n"
+"POT-Creation-Date: 2017-09-30 18:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid "Below are the number of rows from each author that have survived and are 
 msgstr ""
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many rows belong to each author (2 of 2): {0:.0f}%"
 msgstr ""
 
 msgid "Commits"
@@ -76,6 +76,10 @@ msgstr ""
 msgid "Error processing git repository at \"%s\"."
 msgstr ""
 
+#, python-brace-format
+msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"
+msgstr ""
+
 msgid "HTML output not yet supported in"
 msgstr ""
 
@@ -86,6 +90,9 @@ msgid "Hide rows with minor work"
 msgstr ""
 
 msgid "Insertions"
+msgstr ""
+
+msgid "JSON output not yet supported in"
 msgstr ""
 
 msgid "Minor Authors"
@@ -101,7 +108,7 @@ msgid "No metrics violations were found in the repository"
 msgstr ""
 
 #, python-brace-format
-msgid "Repository statistics for {0}"
+msgid "Repository statistics for '{0}'"
 msgstr ""
 
 msgid "Rows"
@@ -114,6 +121,10 @@ msgid "Show rows with minor work"
 msgstr ""
 
 msgid "Stability"
+msgstr ""
+
+#, python-brace-format
+msgid "Statistical information for the repositories '{0}' was gathered on {1}."
 msgstr ""
 
 #, python-brace-format
@@ -147,7 +158,7 @@ msgstr ""
 msgid "The following files were excluded from the statistics due to the specified exclusion patterns"
 msgstr ""
 
-msgid "The following historical commit information, by author, was found in the repository"
+msgid "The following historical commit information, by author, was found"
 msgstr ""
 
 msgid "The following history timeline has been gathered from the repository"
@@ -172,10 +183,10 @@ msgstr ""
 
 #, python-brace-format
 msgid ""
-"Usage: {0} [OPTION]... [REPOSITORY]\n"
+"Usage: {0} [OPTION]... [REPOSITORY]...\n"
 "List information about the repository in REPOSITORY. If no repository is\n"
 "specified, the current directory is used. If multiple repositories are\n"
-"given, information will be fetched from the last repository specified.\n"
+"given, information will be merged into a unified statistical report.\n"
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Boolean arguments can only be given to long options.\n"
