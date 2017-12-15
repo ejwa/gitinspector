@@ -125,7 +125,10 @@ def __get_validated_git_repos__(repos_relative):
 
 	return repos
 
+github_usernames = None
+
 def main():
+	global github_usernames
 	terminal.check_terminal_encoding()
 	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8()
@@ -136,7 +139,7 @@ def main():
 		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
-		                                         "timeline:true", "until=", "version", "weeks:true"])
+		                                         "timeline:true", "until=", "version", "weeks:true", "github="])
 		repos = __get_validated_git_repos__(set(args))
 
 		#We need the repos above to be set before we read the git config.
@@ -149,6 +152,13 @@ def main():
 				sys.exit(0)
 			elif o in("-f", "--file-types"):
 				extensions.define(a)
+			elif o == "--github":
+				import csv
+				github_usernames = {}
+				with open(a, 'rt') as f:
+					reader = csv.reader(f)
+					for row in reader:
+						github_usernames[row[0]] = row[1]
 			elif o in("-F", "--format"):
 				if not format.select(a):
 					raise format.InvalidFormatError(_("specified output format not supported."))
