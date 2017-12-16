@@ -41,3 +41,8 @@ def get_url(email, size=20):
 		params = {"default": "identicon"}
 
 	return base_url + "?" + urlencode(params)
+
+def get_username(email):
+	if gitinspector.github_usernames and email in gitinspector.github_usernames:
+		return gitinspector.github_usernames[email]
+	return None

@@ -56,8 +56,13 @@ class ChangesOutput(Outputable):
 				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 				if format.get_selected() == "html":
-					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
-					               gravatar.get_url(self.changes.get_latest_email_by_author(entry)), entry)
+					author_email = self.changes.get_latest_email_by_author(entry)
+					username = gravatar.get_username(author_email)
+					if username:
+						changes_xml += "<td><img src=\"{0}\"/> {1} <a title=\"{2}\" href=\"https://github.com/{2}\">@{2}</a></td>".format(gravatar.get_url(author_email),entry,gravatar.get_username(author_email))
+					else:
+						changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
+							gravatar.get_url(author_email), entry)
 				else:
 					changes_xml += "<td>" + entry + "</td>"
 

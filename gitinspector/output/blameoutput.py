@@ -58,7 +58,11 @@ class BlameOutput(Outputable):
 
 			if format.get_selected() == "html":
 				author_email = self.changes.get_latest_email_by_author(entry[0])
-				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
+				username = gravatar.get_username(author_email)
+				if username:
+					blame_xml += "<td><img src=\"{0}\"/> {1} <a title=\"{2}\" href=\"https://github.com/{2}\">@{2}</a></td>".format(gravatar.get_url(author_email),entry[0],gravatar.get_username(author_email))
+				else:
+					blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
 				blame_xml += "<td>" + entry[0] + "</td>"
 
