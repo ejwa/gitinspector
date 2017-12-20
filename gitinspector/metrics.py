@@ -34,9 +34,8 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*
                                 ["assert", "break", "continue", "return"]],
                        [["py"], [r"^\s+elif .*:$", r"^\s+else:$", r"^\s+for .*:", r"^\s+if .*:$", r"^\s+while .*:$"],
                                 [r"^\s+assert", "break", "continue", "return"]],
-                       [["go"], ["else", r"for\s+.*\{", r"if\s+.*\{", r"case\s+\w+:", "default:", r"goto\s+\w"],
-                                ["break", "continue", "return"]]]
-                                # check ast.CommClause and range statements
+                       [["go"], ["else", "range" "defer", r"for\s+.*\{", r"if\s+.*\{", r"case\s+\w+:", "default:", r"goto\s+\w"],
+                                ["break", "continue", "return", "quit"]]]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
