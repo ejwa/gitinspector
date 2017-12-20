@@ -25,7 +25,6 @@ from . import comment, filtering, interval
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go":500}
-                   # added eloc -- must test at 500 before opening request
 
 __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:",
                                                             "default:", r"while\s+\(.*\)"],
