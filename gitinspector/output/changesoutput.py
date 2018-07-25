@@ -93,7 +93,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "<p>" + _(NO_COMMITED_FILES_TEXT) + ".</p>"
 
 		changes_xml += "</div></div>"
-		print(changes_xml)
+		print(changes_xml.encode("utf-8"))
 
 	def output_json(self):
 		authorinfo_list = self.changes.get_authorinfo_list()

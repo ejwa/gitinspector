@@ -92,7 +92,7 @@ class BlameOutput(Outputable):
 		blame_xml += "    });"
 		blame_xml += "</script></div></div>"
 
-		print(blame_xml)
+		print(blame_xml.encode("utf-8"))
 
 	def output_json(self):
 		message_json = "\t\t\t\"message\": \"" + _(BLAME_INFO_TEXT) + "\",\n"
