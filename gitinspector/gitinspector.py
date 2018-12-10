@@ -32,6 +32,7 @@ from . import (basedir, clone, extensions, filtering, format, help, interval,
 from .output import outputable
 from .output.blameoutput import BlameOutput
 from .output.changesoutput import ChangesOutput
+from .output.changesblameoutput import ChangesBlameOutput
 from .output.extensionsoutput import ExtensionsOutput
 from .output.filteringoutput import FilteringOutput
 from .output.metricsoutput import MetricsOutput
@@ -79,28 +80,33 @@ class Runner(object):
 		else:
 			os.chdir(previous_directory)
 
-		format.output_header(repos)
-		outputable.output(ChangesOutput(summed_changes))
+		# print("current format: " + format.get_selected())
+		if format.get_selected() == "csv":
+			# print("output format: " + format.get_selected())
+			outputable.output(ChangesBlameOutput(summed_changes, summed_blames))
+		else:
+			format.output_header(repos)
+			outputable.output(ChangesOutput(summed_changes))
 
-		if summed_changes.get_commits():
-			outputable.output(BlameOutput(summed_changes, summed_blames))
+			if summed_changes.get_commits():
+				outputable.output(BlameOutput(summed_changes, summed_blames))
 
-			if self.timeline:
-				outputable.output(TimelineOutput(summed_changes, self.useweeks))
+				if self.timeline:
+					outputable.output(TimelineOutput(summed_changes, self.useweeks))
 
-			if self.include_metrics:
-				outputable.output(MetricsOutput(summed_metrics))
+				if self.include_metrics:
+					outputable.output(MetricsOutput(summed_metrics))
 
-			if self.responsibilities:
-				outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
+				if self.responsibilities:
+					outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
 
-			outputable.output(FilteringOutput())
+				outputable.output(FilteringOutput())
 
-			if self.list_file_types:
-				outputable.output(ExtensionsOutput())
-
-		format.output_footer()
+				if self.list_file_types:
+					outputable.output(ExtensionsOutput())
+			format.output_footer()
 		os.chdir(previous_directory)
+
 
 def __check_python_version__():
 	if sys.version_info < (2, 6):
@@ -133,12 +139,13 @@ def main():
 	repos = []
 
 	try:
-		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
+		opts, args = optval.gnu_getopt(argv[1:], "f:t:F:hHlLmrTwx:", ["exclude=", "file-types=", "tag=" ,"format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true"])
+		# print("begin git clone")
 		repos = __get_validated_git_repos__(set(args))
-
+		# print("end git clone")
 		#We need the repos above to be set before we read the git config.
 		GitConfig(run, repos[-1].location).read()
 		clear_x_on_next_pass = True
@@ -149,6 +156,8 @@ def main():
 				sys.exit(0)
 			elif o in("-f", "--file-types"):
 				extensions.define(a)
+			elif o in("-t", "--tag"):
+				format.set_tag(a)
 			elif o in("-F", "--format"):
 				if not format.select(a):
 					raise format.InvalidFormatError(_("specified output format not supported."))
@@ -213,6 +222,7 @@ def main():
 @atexit.register
 def cleanup():
 	clone.delete()
+	# pass
 
 if __name__ == "__main__":
 	main()

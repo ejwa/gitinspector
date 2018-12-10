@@ -119,3 +119,18 @@ class FilteringOutput(Outputable):
 			FilteringOutput.__output_xml_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1], "emails")
 			FilteringOutput.__output_xml_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1], "revision")
 			print("\t</filtering>")
+
+	@staticmethod
+	def __output_csv_section__(info_string, filtered):
+		if filtered:
+			print("\n" + textwrap.fill(info_string + ":", width=terminal.get_size()[0]))
+
+			for i in filtered:
+				(width, _unused) = terminal.get_size()
+				print("...%s" % i[-width+3:] if len(i) > width else i)
+
+	def output_csv(self):
+		FilteringOutput.__output_csv_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
+		FilteringOutput.__output_csv_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
+		FilteringOutput.__output_csv_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
+		FilteringOutput.__output_csv_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])

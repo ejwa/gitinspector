@@ -27,11 +27,13 @@ import zipfile
 from .localization import N_
 from . import basedir, localization, terminal, version
 
-__available_formats__ = ["html", "htmlembedded", "json", "text", "xml"]
+__available_formats__ = ["html", "htmlembedded", "json", "text", "xml", "csv"]
 
 DEFAULT_FORMAT = __available_formats__[3]
 
 __selected_format__ = DEFAULT_FORMAT
+
+__selected_format_tag__ = ""
 
 class InvalidFormatError(Exception):
 	def __init__(self, msg):
@@ -46,6 +48,17 @@ def select(format):
 
 def get_selected():
 	return __selected_format__
+
+
+def set_tag(format):
+	global __selected_format_tag__
+	__selected_format_tag__ = format
+
+
+def get_tag():
+	return __selected_format_tag__
+
+
 
 def is_interactive_format():
 	return __selected_format__ == "text"
