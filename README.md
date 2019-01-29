@@ -23,15 +23,6 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Supports HTML, JSON, XML and plain text output (console).
   * Can report violations of different code metrics.
 
-### Example outputs
-Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlrm"* flags.
-
-| Project name | | | | |
-|---|---|---|---|---|
-| Django | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.xml) |
-| JQuery | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.xml) |
-| Pango | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.xml) |
-
 ### The Team
   * Adam Waldenberg, Lead maintainer and Swedish translation
   * Agustín Cañas, Spanish translation
