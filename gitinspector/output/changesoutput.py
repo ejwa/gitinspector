@@ -25,7 +25,7 @@ from ..localization import N_
 from .. import format, gravatar, terminal
 from .outputable import Outputable
 
-HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found")
+HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
 
 class ChangesOutput(Outputable):
