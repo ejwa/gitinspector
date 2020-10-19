@@ -16,7 +16,7 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
 
 ### Some of the features
   * Shows cumulative work by each author in the history.
-  * Filters results by extension (default: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql).
+  * Filters results by extension (default: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql,go).
   * Can display a statistical timeline analysis.
   * Scans for all filetypes (by extension) found in the repository.
   * Multi-threaded; uses multiple instances of git to speed up analysis when possible.
