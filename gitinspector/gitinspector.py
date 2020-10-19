@@ -75,7 +75,7 @@ class Runner(object):
 				summed_metrics += MetricsLogic()
 
 			if sys.stdout.isatty() and format.is_interactive_format():
-				terminal.clear_row()
+				terminal.clear_line()
 		else:
 			os.chdir(previous_directory)
 

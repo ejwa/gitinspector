@@ -25,9 +25,9 @@ from .. import format, gravatar, terminal, timeline
 from .outputable import Outputable
 
 TIMELINE_INFO_TEXT = N_("The following history timeline has been gathered from the repository")
-MODIFIED_ROWS_TEXT = N_("Modified Rows:")
+MODIFIED_LINES_TEXT = N_("Modified Lines:")
 
-def __output_row__text__(timeline_data, periods, names):
+def __output_line__text__(timeline_data, periods, names):
 	print("\n" + terminal.__bold__ + terminal.ljust(_("Author"), 20), end=" ")
 
 	for period in periods:
@@ -47,7 +47,7 @@ def __output_row__text__(timeline_data, periods, names):
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
 			print("")
 
-	print(terminal.__bold__  + terminal.ljust(_(MODIFIED_ROWS_TEXT), 20) + terminal.__normal__, end=" ")
+	print(terminal.__bold__  + terminal.ljust(_(MODIFIED_LINES_TEXT), 20) + terminal.__normal__, end=" ")
 
 	for period in periods:
 		total_changes = str(timeline_data.get_total_changes_in_period(period)[2])
@@ -59,7 +59,7 @@ def __output_row__text__(timeline_data, periods, names):
 
 	print("")
 
-def __output_row__html__(timeline_data, periods, names):
+def __output_line__html__(timeline_data, periods, names):
 	timeline_xml = "<table class=\"git full\"><thead><tr><th>" + _("Author") + "</th>"
 
 	for period in periods:
@@ -87,7 +87,7 @@ def __output_row__html__(timeline_data, periods, names):
 			timeline_xml += "</tr>"
 			i = i + 1
 
-	timeline_xml += "<tfoot><tr><td><strong>" + _(MODIFIED_ROWS_TEXT) + "</strong></td>"
+	timeline_xml += "<tfoot><tr><td><strong>" + _(MODIFIED_LINES_TEXT) + "</strong></td>"
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)
@@ -110,24 +110,24 @@ class TimelineOutput(Outputable):
 			periods = timeline_data.get_periods()
 			names = timeline_data.get_authors()
 			(width, _unused) = terminal.get_size()
-			max_periods_per_row = int((width - 21) / 11)
+			max_periods_per_line = int((width - 21) / 11)
 
-			for i in range(0, len(periods), max_periods_per_row):
-				__output_row__text__(timeline_data, periods[i:i+max_periods_per_row], names)
+			for i in range(0, len(periods), max_periods_per_line):
+				__output_line__text__(timeline_data, periods[i:i+max_periods_per_line], names)
 
 	def output_html(self):
 		if self.changes.get_commits():
 			timeline_data = timeline.TimelineData(self.changes, self.useweeks)
 			periods = timeline_data.get_periods()
 			names = timeline_data.get_authors()
-			max_periods_per_row = 8
+			max_periods_per_line = 8
 
 			timeline_xml = "<div><div id=\"timeline\" class=\"box\">"
 			timeline_xml += "<p>" + _(TIMELINE_INFO_TEXT) + ".</p>"
 			print(timeline_xml)
 
-			for i in range(0, len(periods), max_periods_per_row):
-				__output_row__html__(timeline_data, periods[i:i+max_periods_per_row], names)
+			for i in range(0, len(periods), max_periods_per_line):
+				__output_line__html__(timeline_data, periods[i:i+max_periods_per_line], names)
 
 			timeline_xml = "</div></div>"
 			print(timeline_xml)
@@ -164,9 +164,9 @@ class TimelineOutput(Outputable):
 					authors_json = authors_json[:-1]
 
 				authors_json += "],\n"
-				modified_rows_json = "\t\t\t\t\"modified_rows\": " + \
+				modified_lines_json = "\t\t\t\t\"modified_lines\": " + \
 				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "\n"
-				timeline_json += "{\n" + name_json + authors_json + modified_rows_json + "\t\t\t},"
+				timeline_json += "{\n" + name_json + authors_json + modified_lines_json + "\t\t\t},"
 			else:
 				timeline_json = timeline_json[:-1]
 
@@ -201,8 +201,8 @@ class TimelineOutput(Outputable):
 						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 
 				authors_xml += "\t\t\t\t</authors>\n"
-				modified_rows_xml = "\t\t\t\t<modified_rows>" + \
-				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "</modified_rows>\n"
-				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + modified_rows_xml + "\t\t\t</period>\n"
+				modified_lines_xml = "\t\t\t\t<modified_lines>" + \
+				                    str(timeline_data.get_total_changes_in_period(period)[2]) + "</modified_lines>\n"
+				timeline_xml += "\t\t\t<period>\n" + name_xml + authors_xml + modified_lines_xml + "\t\t\t</period>\n"
 
 			print("\t<timeline>\n" + message_xml + periods_xml + timeline_xml + "\t\t</periods>\n\t</timeline>")
