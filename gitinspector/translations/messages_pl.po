@@ -50,8 +50,8 @@ msgid "Below are the number of rows from each author that have survived and are 
 msgstr "Poniżej podano liczbę wierszy przypadających na autora, które w niezmienionej postaci przetrwały do obecnego stanu rezpozytorium"
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
-msgstr "Sprawdzam ile wierszy należy do każdego z autorów (Postęp): {0:.0f}%"
+msgid "Checking how many rows belong to each author (2 of 2): {0:.0f}%"
+msgstr "Sprawdzam ile wierszy należy do każdego z autorów (2 z 2): {0:.0f}%"
 
 msgid "Commits"
 msgstr "Komity"
@@ -78,6 +78,10 @@ msgstr "Usunięcia"
 msgid "Error processing git repository at \"%s\"."
 msgstr "Błąd podczas przetwarzania repozytorium w \"%s\"."
 
+#, python-brace-format
+msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"
+msgstr "Pobieranie i obliczanie statystyk (1 z 2): {0:.0f}%"
+
 msgid "HTML output not yet supported in"
 msgstr "Wyjście w formacie HTML nie jest jeszcze wspierane w"
 
@@ -89,6 +93,9 @@ msgstr "Ukryj wiersze z mniej znaczącymi zmianami"
 
 msgid "Insertions"
 msgstr "Wstawienia"
+
+msgid "JSON output not yet supported in"
+msgstr "Wyjście w formacie JSON nie jest jeszcze obsługiwane w"
 
 msgid "Minor Authors"
 msgstr "Mniej znaczący autorzy"
@@ -103,8 +110,8 @@ msgid "No metrics violations were found in the repository"
 msgstr "W repozytorium nie stwierdzono naruszenia metryk."
 
 #, python-brace-format
-msgid "Repository statistics for {0}"
-msgstr "Statystyki repozytorium dla {0}"
+msgid "Repository statistics for '{0}'"
+msgstr "Statystyki repozytorium dla '{0}'"
 
 msgid "Rows"
 msgstr "Wiersze"
@@ -117,6 +124,10 @@ msgstr "Pokaż wiersze z mniej znaczącymi zmianami"
 
 msgid "Stability"
 msgstr "Stabilność"
+
+#, python-brace-format
+msgid "Statistical information for the repositories '{0}' was gathered on {1}."
+msgstr "Informacje statystyczne dla repozytoriów '{0}' zostały zebrane {1}"
 
 #, python-brace-format
 msgid "Statistical information for the repository '{0}' was gathered on {1}."
@@ -149,7 +160,7 @@ msgstr "Następujące pliki mają zwiększoną gęstość złożoności cyklomet
 msgid "The following files were excluded from the statistics due to the specified exclusion patterns"
 msgstr "Ze względu na podane wykluczające wzorce wyrażeń regularnych następujące pliki zostały w statystykach pominięte."
 
-msgid "The following historical commit information, by author, was found in the repository"
+msgid "The following historical commit information, by author, was found"
 msgstr "Informacje o wykonanych komitach, uporządkowane według autorów"
 
 msgid "The following history timeline has been gathered from the repository"
@@ -174,10 +185,10 @@ msgstr "Nie można określić ścieżki bezwzględnej do repozytorium git-a"
 
 #, python-brace-format
 msgid ""
-"Usage: {0} [OPTION]... [REPOSITORY]\n"
+"Usage: {0} [OPTION]... [REPOSITORY]...\n"
 "List information about the repository in REPOSITORY. If no repository is\n"
 "specified, the current directory is used. If multiple repositories are\n"
-"given, information will be fetched from the last repository specified.\n"
+"given, information will be merged into a unified statistical report.\n"
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Boolean arguments can only be given to long options.\n"
@@ -185,6 +196,8 @@ msgid ""
 "                                   include when computing statistics. The\n"
 "                                   default extensions used are:\n"
 "                                   {1}\n"
+"                                   Specifying * includes files with no\n"
+"                                   extension, while ** includes all files\n"
 "  -F, --format=FORMAT            define in which format output should be\n"
 "                                   generated; the default format is 'text' and\n"
 "                                   the available formats are:\n"
@@ -212,7 +225,8 @@ msgid ""
 "  -w, --weeks[=BOOL]             show all statistical information in weeks\n"
 "                                   instead of in months\n"
 "  -x, --exclude=PATTERN          an exclusion pattern describing the file\n"
-"                                   paths, revisions, author names or author\n"
+"                                   paths, revisions, revisions with certain\n"
+"                                   commit messages, author names or author\n"
 "                                   emails that should be excluded from the\n"
 "                                   statistics; can be specified multiple times\n"
 "  -h, --help                     display this help and exit\n"
@@ -225,12 +239,12 @@ msgid ""
 "gitinspector requires that the git executable is available in your PATH.\n"
 "Report gitinspector bugs to gitinspector@ejwa.se."
 msgstr ""
-"Użycie: {0} [OPCJA]... [REPOZYTORIUM]\n"
+"Użycie: {0} [OPCJA]... [REPOZYTORIUM]...\n"
 "Wypisuje informacje o repozytorium znajdującym się w repozytorium REPOZYTORIUM.\n"
 "Jeśli nie podano repozytorium, użyte jest bieżące. Jeśli podano więcej niż jedno,\n"
-"informacje zostaną wygenerowane na podstawie ostatniego z nich.\n"
+"informacje zostaną zebrane w jeden raport zawierający połączone statystyki.\n"
 "\n"
-"Obowiązkowe argumenty długich opcji są obowiązkowe również dla opcji krótkich.\n"
+"Argumenty obowiązkowe dla opcji długich są obowiązkowe również dla opcji krótkich.\n"
 "Argumenty typu Boolean mogą być użyte wyłącznie w opcjach długich.\n"
 "  -f, --file-types=EXTENSIONS    lista rozdzielonych przecinkami rozszerzeń\n"
 "                                   uwzględnionych przy liczeniu statystyk; \n"
@@ -265,8 +279,8 @@ msgstr ""
 "                                   prze dokreśloną datą\n"
 "  -w, --weeks[=BOOL]             pokazuje informacje statystyczne w tygodniach\n"
 "                                   zamiast w miesiącach\n"
-"  -x, --exclude=PATTERN          używa wzorca  wykluczającego z analizy\n"
-"                                   statystycznej nazwy plików, komity, komity"
+"  -x, --exclude=PATTERN          używa wzorca wykluczającego z analizy\n"
+"                                   statystycznej: ścieżki, komity, komity"
 "                                   zawierające określoną treść, imiona i\n"
 "                                   nazwiska, adresy e-mail; opcja może być\n"
 "                                   użyta wielokrotnie\n"
