@@ -29,6 +29,8 @@ __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp"
 __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:",
                                                             "default:", r"while\s+\(.*\)"],
                                                            ["assert", "break", "continue", "return"]],
+                        [["swift"], ["else", r"for\s+.*in", r"if\s+.*", r"while\s+.*"],
+                                                        ["assert", "break", "continue", "return"]],
                        [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
                                  "default:", r"while\s+\(.*\)"],
                                 ["assert", "break", "continue", "return"]],
