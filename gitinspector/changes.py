@@ -152,6 +152,8 @@ class ChangesThread(threading.Thread):
 
 				found_valid_extension = False
 				is_filtered = False
+				if (j == ""): # jmvidal: ignore empty line.
+					continue
 				commit = Commit(j)
 
 				if Commit.is_commit_line(j) and \
