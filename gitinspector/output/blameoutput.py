@@ -108,6 +108,11 @@ class BlameOutput(Outputable):
 			name_json = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
 			email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 			gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+			username = gravatar.get_username(author_email)
+			if username:
+				gravatar_json = "\t\t\t\t\"github\": \"" + username + "\",\n"
+			else:
+				gravatar_json = "\t\t\t\t\"github\": \"" + "None" + "\",\n"
 			rows_json = "\t\t\t\t\"rows\": " + str(i[1].rows) + ",\n"
 			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].rows,
 			                  self.changes)) + ",\n")
