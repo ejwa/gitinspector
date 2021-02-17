@@ -17,8 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import division
-from __future__ import unicode_literals
+
+
 import bisect
 import datetime
 import multiprocessing
@@ -122,10 +122,10 @@ class ChangesThread(threading.Thread):
 		thread.start()
 
 	def run(self):
-		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
+		git_log_r = subprocess.Popen([_f for _f in ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
 		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
 		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
-		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
+		                             [self.first_hash + self.second_hash] if _f], bufsize=1, stdout=subprocess.PIPE).stdout
 		lines = git_log_r.readlines()
 		git_log_r.close()
 
@@ -185,8 +185,8 @@ class Changes(object):
 	def __init__(self, repo, hard):
 		self.commits = []
 		interval.set_ref("HEAD");
-		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+		git_rev_list_p = subprocess.Popen([_f for _f in ["git", "rev-list", "--reverse", "--no-merges",
+		                                  interval.get_since(), interval.get_until(), "HEAD"] if _f], bufsize=1,
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()

@@ -17,8 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
 import datetime
 import multiprocessing
 import re
@@ -141,9 +141,9 @@ class Blame(object):
 
 				if FileDiff.get_extension(row) in extensions.get_located() and \
 				   FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-					blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
+					blame_command = [_f for _f in ["git", "blame", "--line-porcelain", "-w"] + \
 							(["-C", "-C", "-M"] if hard else []) +
-					                [interval.get_since(), interval.get_ref(), "--", row])
+					                [interval.get_since(), interval.get_ref(), "--", row] if _f]
 					thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row),
 					                     self.blames, row.strip())
 					thread.daemon = True
@@ -190,7 +190,7 @@ class Blame(object):
 
 	def get_summed_blames(self):
 		summed_blames = {}
-		for i in self.blames.items():
+		for i in list(self.blames.items()):
 			if summed_blames.get(i[0][0], None) == None:
 				summed_blames[i[0][0]] = BlameEntry()
 

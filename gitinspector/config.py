@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 import os
 import subprocess
 from . import extensions, filtering, format, interval, optval
@@ -31,8 +31,8 @@ class GitConfig(object):
 	def __read_git_config__(self, variable):
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
-		setting = subprocess.Popen(filter(None, ["git", "config", "--global" if self.global_only else "",
-		                           "inspector." + variable]), bufsize=1, stdout=subprocess.PIPE).stdout
+		setting = subprocess.Popen([_f for _f in ["git", "config", "--global" if self.global_only else "",
+		                           "inspector." + variable] if _f], bufsize=1, stdout=subprocess.PIPE).stdout
 		os.chdir(previous_directory)
 
 		try:

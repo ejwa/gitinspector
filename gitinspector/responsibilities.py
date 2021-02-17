@@ -17,8 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
-from __future__ import unicode_literals
+
+
 
 class ResponsibiltyEntry(object):
 	blames = {}
@@ -28,7 +28,7 @@ class Responsibilities(object):
 	def get(blame, author_name):
 		author_blames = {}
 
-		for i in blame.blames.items():
+		for i in list(blame.blames.items()):
 			if author_name == i[0][0]:
 				total_rows = i[1].rows - i[1].comments
 				if total_rows > 0:
