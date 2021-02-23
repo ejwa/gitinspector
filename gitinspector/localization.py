@@ -68,7 +68,7 @@ def init():
 
 		__enabled__ = True
 		__installed__ = True
-		__translation__.install(True)
+		__translation__.install()
 
 def check_compatibility(version):
 	if isinstance(__translation__, gettext.GNUTranslations):
@@ -103,4 +103,4 @@ def disable():
 	__enabled__ = False
 
 	if __installed__:
-		gettext.NullTranslations().install(True)
+		gettext.NullTranslations().install()

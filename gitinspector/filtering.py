@@ -58,7 +58,7 @@ def has_filtered():
 	return False
 
 def __find_commit_message__(sha):
-	git_show_r = subprocess.Popen([_f for _f in ["git", "show", "-s", "--pretty=%B", "-w", sha] if _f], bufsize=1,
+	git_show_r = subprocess.Popen([_f for _f in ["git", "show", "-s", "--pretty=%B", "-w", sha] if _f], 
 	                              stdout=subprocess.PIPE).stdout
 
 	commit_message = git_show_r.read()

@@ -125,7 +125,7 @@ class ChangesThread(threading.Thread):
 		git_log_r = subprocess.Popen([_f for _f in ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
 		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
 		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
-		                             [self.first_hash + self.second_hash] if _f], bufsize=1, stdout=subprocess.PIPE).stdout
+		                             [self.first_hash + self.second_hash] if _f], stdout=subprocess.PIPE).stdout
 		lines = git_log_r.readlines()
 		git_log_r.close()
 
@@ -186,7 +186,7 @@ class Changes(object):
 		self.commits = []
 		interval.set_ref("HEAD");
 		git_rev_list_p = subprocess.Popen([_f for _f in ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"] if _f], bufsize=1,
+		                                  interval.get_since(), interval.get_until(), "HEAD"] if _f], 
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()
