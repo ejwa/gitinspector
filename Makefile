@@ -31,9 +31,7 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test: ## remove test and coverage artifacts
-	rm -fr .tox/
 	rm -f .coverage
-	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
@@ -42,7 +40,7 @@ lint: ## check style with flake8
 	flake8 gitinspector tests --max-line-length=120
 
 test: ## run tests quickly with the default Python
-	py.test
+	pytest
 
 test-debug: ## run tests with debugging enabled
 	LOGLEVEL=debug; py.test -s --pdb
