@@ -52,7 +52,7 @@ test-coverage: ## check code coverage quickly with the default Python
 release: dist ## package and upload a release
 	twine upload dist/*
 
-dist: clean ## builds source and wheel package
+dist: clean requirements ## builds source and wheel package
 	python3 setup.py sdist
 	python3 setup.py bdist_wheel
 	ls -l dist
@@ -61,4 +61,4 @@ install: clean ## install the package to the active Python's site-packages
 	python3 setup.py install
 
 requirements:
-	pipenv lock -r --dev > requirements_dev.txt
+	pipenv lock -r --dev > requirements.txt
