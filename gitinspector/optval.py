@@ -20,47 +20,53 @@
 
 import getopt
 
+
 class InvalidOptionArgument(Exception):
-	def __init__(self, msg):
-		super(InvalidOptionArgument, self).__init__(msg)
-		self.msg = msg
+    def __init__(self, msg):
+        super(InvalidOptionArgument, self).__init__(msg)
+        self.msg = msg
+
 
 def __find_arg_in_options__(arg, options):
-	for opt in options:
-		if opt[0].find(arg) == 0:
-			return opt
+    for opt in options:
+        if opt[0].find(arg) == 0:
+            return opt
 
-	return None
+    return None
+
 
 def __find_options_to_extend__(long_options):
-	options_to_extend = []
+    options_to_extend = []
 
-	for num, arg in enumerate(long_options):
-		arg = arg.split(":")
-		if len(arg) == 2:
-			long_options[num] = arg[0] + "="
-			options_to_extend.append(("--" + arg[0], arg[1]))
+    for num, arg in enumerate(long_options):
+        arg = arg.split(":")
+        if len(arg) == 2:
+            long_options[num] = arg[0] + "="
+            options_to_extend.append(("--" + arg[0], arg[1]))
 
-	return options_to_extend
+    return options_to_extend
+
 
 # This is a duplicate of gnu_getopt, but with support for optional arguments in long options, in the form; "arg:default_value".
 
+
 def gnu_getopt(args, options, long_options):
-	options_to_extend = __find_options_to_extend__(long_options)
+    options_to_extend = __find_options_to_extend__(long_options)
 
-	for num, arg in enumerate(args):
-		opt = __find_arg_in_options__(arg, options_to_extend)
-		if opt:
-			args[num] = arg + "=" + opt[1]
+    for num, arg in enumerate(args):
+        opt = __find_arg_in_options__(arg, options_to_extend)
+        if opt:
+            args[num] = arg + "=" + opt[1]
 
-	return getopt.gnu_getopt(args, options, long_options)
+    return getopt.gnu_getopt(args, options, long_options)
+
 
 def get_boolean_argument(arg):
-	if isinstance(arg, bool):
-		return arg
-	elif arg == None or arg.lower() == "false" or arg.lower() == "f" or arg == "0":
-		return False
-	elif arg.lower() == "true" or arg.lower() == "t" or arg == "1":
-		return True
+    if isinstance(arg, bool):
+        return arg
+    elif arg is None or arg.lower() == "false" or arg.lower() == "f" or arg == "0":
+        return False
+    elif arg.lower() == "true" or arg.lower() == "t" or arg == "1":
+        return True
 
-	raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))
+    raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))

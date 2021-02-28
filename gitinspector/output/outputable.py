@@ -18,28 +18,29 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 
-
 from .. import format
 
+
 class Outputable(object):
-	def output_html(self):
-		raise NotImplementedError(_("HTML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+    def output_html(self):
+        raise NotImplementedError(_("HTML output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
-	def output_json(self):
-		raise NotImplementedError(_("JSON output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+    def output_json(self):
+        raise NotImplementedError(_("JSON output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
-	def output_text(self):
-		raise NotImplementedError(_("Text output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+    def output_text(self):
+        raise NotImplementedError(_("Text output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
-	def output_xml(self):
-		raise NotImplementedError(_("XML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+    def output_xml(self):
+        raise NotImplementedError(_("XML output not yet supported in") + ' "' + self.__class__.__name__ + '".')
+
 
 def output(outputable):
-	if format.get_selected() == "html" or format.get_selected() == "htmlembedded":
-		outputable.output_html()
-	elif format.get_selected() == "json":
-		outputable.output_json()
-	elif format.get_selected() == "text":
-		outputable.output_text()
-	else:
-		outputable.output_xml()
+    if format.get_selected() == "html" or format.get_selected() == "htmlembedded":
+        outputable.output_html()
+    elif format.get_selected() == "json":
+        outputable.output_json()
+    elif format.get_selected() == "text":
+        outputable.output_text()
+    else:
+        outputable.output_xml()

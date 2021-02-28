@@ -18,20 +18,19 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 
-
-
 class ResponsibiltyEntry(object):
-	blames = {}
+    blames = {}
+
 
 class Responsibilities(object):
-	@staticmethod
-	def get(blame, author_name):
-		author_blames = {}
+    @staticmethod
+    def get(blame, author_name):
+        author_blames = {}
 
-		for i in list(blame.blames.items()):
-			if author_name == i[0][0]:
-				total_rows = i[1].rows - i[1].comments
-				if total_rows > 0:
-					author_blames[i[0][1]] = total_rows
+        for i in list(blame.blames.items()):
+            if author_name == i[0][0]:
+                total_rows = i[1].rows - i[1].comments
+                if total_rows > 0:
+                    author_blames[i[0][1]] = total_rows
 
-		return sorted(author_blames.items())
+        return sorted(author_blames.items())
