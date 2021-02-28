@@ -4,14 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-twine = "*"
-coverage = "*"
 
 [dev-packages]
 pytest = "*"
 flake8 = "*"
 autopep8 = "*"
 black = "*"
+twine = "*"
+coverage = "*"
+coveralls = "*"
 
 [requires]
 python_version = "3.8"

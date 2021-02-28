@@ -52,6 +52,7 @@ test-debug: ## run tests with debugging enabled
 test-coverage: ## check code coverage quickly with the default Python
 	coverage run --source gitinspector -m pytest
 	coverage report -m
+	coveralls
 
 release: dist ## package and upload a release
 	twine upload dist/*
