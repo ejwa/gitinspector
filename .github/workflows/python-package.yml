@@ -10,7 +10,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
     strategy:
@@ -33,17 +33,18 @@ jobs:
     - name: Test with pytest
       run: |
         make test-coverage
-    - name: Report coverage to Coveralls
-      uses: AndreMiras/coveralls-python-action@develop
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         parallel: true
-        flag-name: Unit Test
   
   coveralls_finish:
     needs: test
     runs-on: ubuntu-latest
     steps:
     - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
+      uses: coverallsapp/github-action@master
       with:
+        github-token: ${{ secrets.github_token }}
         parallel-finished: true
