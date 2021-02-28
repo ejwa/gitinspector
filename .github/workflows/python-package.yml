@@ -31,6 +31,8 @@ jobs:
       run: |
         make lint
     - name: Test with pytest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         make test-coverage-report
     - name: Coveralls
