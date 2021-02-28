@@ -1,14 +1,14 @@
 ![Build Status](https://github.com/jpwhite3/gitinspector/actions/workflows/python-package.yml/badge.svg)
-
 [![Coverage Status](https://coveralls.io/repos/github/jpwhite3/gitinspector/badge.svg?branch=master)](https://coveralls.io/github/jpwhite3/gitinspector?branch=master)
 [![Latest release](https://img.shields.io/github/release/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/releases/latest)
 [![License](https://img.shields.io/github/license/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/blob/master/LICENSE.txt)
+
 <h2>
  <img align="left" height="65px"
       src="https://raw.githubusercontent.com/jpwhite3/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
       &nbsp;About Gitinspector
 </h2>
-<img align="right" width="30%" src="https://raw.github.com/wiki/jpwhite3/gitinspector/images/html_example.jpg" /> 
+<img align="right" width="30%" src="https://raw.github.com/wiki/ejwa/gitinspector/images/html_example.jpg" /> 
 Gitinspector is a statistical analysis tool for git repositories. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author. Under normal operation, it filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis.
 
 This tool was originally written to help fetch repository statistics from student projects in the course Object-oriented Programming Project (TDA367/DIT211) at Chalmers University of Technology and Gothenburg University.
