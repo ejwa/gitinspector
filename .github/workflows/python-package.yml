@@ -32,7 +32,7 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
-        make test-coverage
+        make test-coverage-report
     - name: Coveralls
       uses: coverallsapp/github-action@master
       env:
