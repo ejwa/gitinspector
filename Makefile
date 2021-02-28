@@ -52,6 +52,8 @@ test-debug: ## run tests with debugging enabled
 test-coverage: ## check code coverage quickly with the default Python
 	coverage run --source gitinspector -m pytest
 	coverage report -m
+
+test-coverage-report: test-coverage ## Report coverage to Coveralls
 	coveralls
 
 release: dist ## package and upload a release
