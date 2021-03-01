@@ -1,5 +1,5 @@
 ![Build Status](https://github.com/jpwhite3/gitinspector/actions/workflows/python-package.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/jpwhite3/gitinspector/badge.svg?branch=master)](https://coveralls.io/github/jpwhite3/gitinspector?branch=master)
+[[Coverage Status](https://coveralls.io/repos/github/jpwhite3/gitinspector/badge.svg?branch=master)](https://coveralls.io/github/jpwhite3/gitinspector?branch=master)
 [![Latest release](https://img.shields.io/github/release/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/releases/latest)
 [![License](https://img.shields.io/github/license/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/blob/master/LICENSE.txt)
 
