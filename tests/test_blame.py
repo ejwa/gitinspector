@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 from gitinspector import blame
 
+
 class TestBlameModule(unittest.TestCase):
 
     @classmethod
@@ -21,4 +22,3 @@ class TestBlameModule(unittest.TestCase):
         self.assertEqual(expected, blame_entry.rows)
         self.assertEqual(expected, blame_entry.skew)
         self.assertEqual(expected, blame_entry.comments)
-

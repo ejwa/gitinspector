@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 from gitinspector import basedir
 
+
 class TestBasedirModule(unittest.TestCase):
 
     @classmethod
