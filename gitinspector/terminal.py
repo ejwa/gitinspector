@@ -173,7 +173,7 @@ def output_progress(text, pos, length):
         progress_text = text.format(100 * pos / length)
 
         if len(progress_text) > width:
-            progress_text = "...%s" % progress_text[-width + 3:]
+            progress_text = "...%s" % progress_text[-width + 3 :]
 
         print("\r{0}\r{1}".format(" " * width, progress_text), end="")
         sys.stdout.flush()

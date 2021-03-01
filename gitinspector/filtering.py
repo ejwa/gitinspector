@@ -42,8 +42,8 @@ def get():
 
 def __add_one__(string):
     for i in __filters__:
-        if (i + ":").lower() == string[0:len(i) + 1].lower():
-            __filters__[i][0].add(string[len(i) + 1:])
+        if (i + ":").lower() == string[0 : len(i) + 1].lower():
+            __filters__[i][0].add(string[len(i) + 1 :])
             return
     __filters__["file"][0].add(string)
 

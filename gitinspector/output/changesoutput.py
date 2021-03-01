@@ -163,7 +163,7 @@ class ChangesOutput(Outputable):
                 authorinfo = authorinfo_list.get(i)
                 percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-                print(terminal.ljust(i, 20)[0:20 - terminal.get_excess_column_count(i)], end=" ")
+                print(terminal.ljust(i, 20)[0 : 20 - terminal.get_excess_column_count(i)], end=" ")
                 print(str(authorinfo.commits).rjust(13), end=" ")
                 print(str(authorinfo.insertions).rjust(13), end=" ")
                 print(str(authorinfo.deletions).rjust(14), end=" ")

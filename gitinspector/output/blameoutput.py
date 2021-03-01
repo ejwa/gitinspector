@@ -144,7 +144,7 @@ class BlameOutput(Outputable):
         )
 
         for i in sorted(self.blame.get_summed_blames().items()):
-            print(terminal.ljust(i[0], 20)[0:20 - terminal.get_excess_column_count(i[0])], end=" ")
+            print(terminal.ljust(i[0], 20)[0 : 20 - terminal.get_excess_column_count(i[0])], end=" ")
             print(str(i[1].rows).rjust(10), end=" ")
             print("{0:.1f}".format(Blame.get_stability(i[0], i[1].rows, self.changes)).rjust(14), end=" ")
             print("{0:.1f}".format(float(i[1].skew) / i[1].rows).rjust(12), end=" ")

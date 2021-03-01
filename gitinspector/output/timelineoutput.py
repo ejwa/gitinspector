@@ -37,7 +37,7 @@ def __output_row__text__(timeline_data, periods, names):
 
     for name in names:
         if timeline_data.is_author_in_periods(periods, name[0]):
-            print(terminal.ljust(name[0], 20)[0:20 - terminal.get_excess_column_count(name[0])], end=" ")
+            print(terminal.ljust(name[0], 20)[0 : 20 - terminal.get_excess_column_count(name[0])], end=" ")
 
             for period in periods:
                 multiplier = timeline_data.get_multiplier(period, 9)
@@ -121,7 +121,7 @@ class TimelineOutput(Outputable):
             max_periods_per_row = int((width - 21) / 11)
 
             for i in range(0, len(periods), max_periods_per_row):
-                __output_row__text__(timeline_data, periods[i:i + max_periods_per_row], names)
+                __output_row__text__(timeline_data, periods[i : i + max_periods_per_row], names)
 
     def output_html(self):
         if self.changes.get_commits():
@@ -135,7 +135,7 @@ class TimelineOutput(Outputable):
             print(timeline_xml)
 
             for i in range(0, len(periods), max_periods_per_row):
-                __output_row__html__(timeline_data, periods[i:i + max_periods_per_row], names)
+                __output_row__html__(timeline_data, periods[i : i + max_periods_per_row], names)
 
             timeline_xml = "</div></div>"
             print(timeline_xml)

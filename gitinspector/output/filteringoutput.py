@@ -103,7 +103,7 @@ class FilteringOutput(Outputable):
 
             for i in filtered:
                 (width, _unused) = terminal.get_size()
-                print("...%s" % i[-width + 3:] if len(i) > width else i)
+                print("...%s" % i[-width + 3 :] if len(i) > width else i)
 
     def output_text(self):
         FilteringOutput.__output_text_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])

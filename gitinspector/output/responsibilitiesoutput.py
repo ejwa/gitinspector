@@ -52,7 +52,7 @@ class ResponsibilitiesOutput(Outputable):
                     width -= 7
 
                     print(str(entry[0]).rjust(6), end=" ")
-                    print("...%s" % entry[1][-width + 3:] if len(entry[1]) > width else entry[1])
+                    print("...%s" % entry[1][-width + 3 :] if len(entry[1]) > width else entry[1])
 
                     if j >= 9:
                         break
