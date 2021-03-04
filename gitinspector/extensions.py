@@ -18,7 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 
-DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "py", "glsl", "rb", "js", "sql"]
+DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "py", "glsl", "rb", "js", "sql", "go"]
 
 __extensions__ = DEFAULT_EXTENSIONS
 __located_extensions__ = set()

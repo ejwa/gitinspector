@@ -95,3 +95,21 @@ class TestCommitClass(unittest.TestCase):
         self.assertEqual(expected_sha, commit.sha)
         self.assertEqual(expected_author, commit.author)
         self.assertEqual(expected_email, commit.email)
+
+    def test_get_author_and_email(self):
+        expected_author = 'JP White'
+        expected_email = 'jpwhite3@gmail.com'
+        actual_author, actual_email = changes.Commit.get_author_and_email(FAKE_COMMIT_STRING)
+        self.assertEqual(expected_author, actual_author)
+        self.assertEqual(expected_email, actual_email)
+
+    def test_is_commit_line(self):
+        result = changes.Commit.is_commit_line(FAKE_COMMIT_STRING)
+        self.assertTrue(result)
+
+    def test_add_filediff(self):
+        commit = changes.Commit(FAKE_COMMIT_STRING)
+        commit.add_filediff(1)
+        expected = [1]
+        actual = commit.get_filediffs()
+        self.assertEqual(expected, actual)
