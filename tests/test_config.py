@@ -19,18 +19,6 @@ class TestConfig(unittest.TestCase):
         actual_result = test_config.__read_git_config__('unknown')
         self.assertEqual(expected_result, actual_result)
 
-    def test_read_git_config(self):
-        expected_result = '1'
-        test_config = config.GitConfig('arbitrary', '.')
-        actual_result = test_config.__read_git_config__('arbitrary')
-        self.assertEqual(expected_result, actual_result)
-
-    def test_read_git_config_string(self):
-        expected_result = (True, '1')
-        test_config = config.GitConfig('arbitrary', '.')
-        actual_result = test_config.__read_git_config_string__('arbitrary')
-        self.assertEqual(expected_result, actual_result)
-
     def test_read_git_config_string_unknown(self):
         expected_result = (False, None)
         test_config = config.GitConfig('arbitrary', '.')
