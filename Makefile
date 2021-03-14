@@ -41,7 +41,7 @@ lint: ## check style with flake8
 	flake8 gitinspector tests --count --ignore=E203,E722,W503,E401,C901 --exit-zero --max-complexity=10 --max-line-length=127 --statistics --builtins="_"
 
 format: ## auto format all the code with black
-	black gitinspector --line-length 127
+	black ./gitinspector --line-length 127
 
 test: ## run tests quickly with the default Python
 	pytest

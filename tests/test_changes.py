@@ -65,13 +65,13 @@ class TestFileDiff(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_is_not_valid_extension(self):
-        result = changes.FileDiff.is_valid_extension(FAKE_FILE_NAME)
-        self.assertFalse(result)
+        return_value = changes.FileDiff.is_valid_extension(FAKE_FILE_NAME)
+        self.assertFalse(return_value)
 
     def test_is_valid_extension(self):
         test_file_name = 'Arbitrary.cpp'
-        result = changes.FileDiff.is_valid_extension(test_file_name)
-        self.assertTrue(result)
+        return_value = changes.FileDiff.is_valid_extension(test_file_name)
+        self.assertTrue(return_value)
 
 
 class TestCommitClass(unittest.TestCase):
@@ -104,8 +104,8 @@ class TestCommitClass(unittest.TestCase):
         self.assertEqual(expected_email, actual_email)
 
     def test_is_commit_line(self):
-        result = changes.Commit.is_commit_line(FAKE_COMMIT_STRING)
-        self.assertTrue(result)
+        return_value = changes.Commit.is_commit_line(FAKE_COMMIT_STRING)
+        self.assertTrue(return_value)
 
     def test_add_filediff(self):
         commit = changes.Commit(FAKE_COMMIT_STRING)

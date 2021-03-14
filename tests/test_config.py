@@ -14,16 +14,16 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(expected_global_only, test_config.global_only)
 
     def test_read_git_config_unknown_variable(self):
-        expected_result = ''
+        expected_return_value = ''
         test_config = config.GitConfig('arbitrary', '.')
-        actual_result = test_config.__read_git_config__('unknown')
-        self.assertEqual(expected_result, actual_result)
+        actual_return_value = test_config.__read_git_config__('unknown')
+        self.assertEqual(expected_return_value, actual_return_value)
 
     def test_read_git_config_string_unknown(self):
-        expected_result = (False, None)
+        expected_return_value = (False, None)
         test_config = config.GitConfig('arbitrary', '.')
-        actual_result = test_config.__read_git_config_string__('unknown')
-        self.assertEqual(expected_result, actual_result)
+        actual_return_value = test_config.__read_git_config_string__('unknown')
+        self.assertEqual(expected_return_value, actual_return_value)
 
     def test_read(self):
         class Dummy():
