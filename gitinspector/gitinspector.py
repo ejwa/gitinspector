@@ -103,9 +103,9 @@ class Runner(object):
 
 
 def __check_python_version__():
-    if sys.version_info < (2, 6):
+    if sys.version_info < (3, 6):
         python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
-        sys.exit(_("gitinspector requires at least Python 2.6 to run (version {0} was found).").format(python_version))
+        sys.exit(_("gitinspector requires at least Python 3.6 to run (version {0} was found).").format(python_version))
 
 
 def __get_validated_git_repos__(repos_relative):
@@ -127,10 +127,10 @@ def __get_validated_git_repos__(repos_relative):
     return repos
 
 
-def main():
+def main(argv=None):
     terminal.check_terminal_encoding()
     terminal.set_stdin_encoding()
-    argv = terminal.convert_command_line_to_utf8()
+    argv = terminal.convert_command_line_to_utf8() if argv is None else argv
     run = Runner()
     repos = []
 
