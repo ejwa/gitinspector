@@ -7,5 +7,4 @@ node_modules
 *.pyc
 *.tgz
 .DS_Store
-Pipfile.lock
 .coverage
