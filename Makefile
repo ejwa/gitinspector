@@ -59,7 +59,19 @@ test-coverage-report: test-coverage ## Report coverage to Coveralls
 release: dist ## package and upload a release
 	twine upload dist/*
 
-dist: clean requirements ## builds source and wheel package
+tag-version:
+	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	&& git tag v$$VERSION_TAG
+
+untag-version:
+	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	&& git tag -d v$$VERSION_TAG
+
+push-tagged-version: tag-version
+	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	&& git push origin v$$VERSION_TAG
+
+dist: clean ## builds source and wheel package
 	python3 setup.py sdist
 	python3 setup.py bdist_wheel
 	ls -l dist
