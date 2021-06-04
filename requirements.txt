@@ -1,21 +1,21 @@
 -i https://pypi.org/simple/
 appdirs==1.4.4
-attrs==20.3.0
+attrs==21.2.0
 black==20.8b1
 bleach==3.3.0
-certifi==2020.12.5
+certifi==2021.5.30
 cffi==1.14.5
 chardet==4.0.0
-click==8.0.0a1
+click==8.0.1
 colorama==0.4.4
 coverage==5.5
 coveralls==3.0.1
 cryptography==3.4.7
 docopt==0.6.2
-docutils==0.17
+docutils==0.17.1
 flake8==3.8.4
 idna==2.10
-importlib-metadata==3.10.0
+importlib-metadata==4.4.0
 iniconfig==1.1.1
 jeepney==0.6.0 ; sys_platform == 'linux'
 keyring==23.0.1
@@ -29,21 +29,21 @@ py==1.10.0
 pycodestyle==2.6.0
 pycparser==2.20
 pyflakes==2.2.0
-pygments==2.8.1
+pygments==2.9.0
 pyparsing==3.0.0b2
 pytest==6.2.2
 readme-renderer==29.0
 regex==2021.4.4
 requests-toolbelt==0.9.1
 requests==2.25.1
-rfc3986==1.4.0
+rfc3986==1.5.0
 secretstorage==3.3.1 ; sys_platform == 'linux'
-six==1.15.0
+six==1.16.0
 toml==0.10.2
-tqdm==4.60.0
+tqdm==4.61.0
 twine==3.3.0
-typed-ast==1.4.2
-typing-extensions==3.7.4.3
-urllib3==1.26.4
+typed-ast==1.4.3
+typing-extensions==3.10.0.0
+urllib3==1.26.5
 webencodings==0.5.1
 zipp==3.4.1
