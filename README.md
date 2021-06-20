@@ -1,11 +1,8 @@
-![Build Status](https://github.com/jpwhite3/gitinspector/actions/workflows/python-package.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/jpwhite3/gitinspector/badge.svg?branch=master)](https://coveralls.io/github/jpwhite3/gitinspector?branch=master)
-[![Latest release](https://img.shields.io/github/release/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/releases/latest)
-[![License](https://img.shields.io/github/license/jpwhite3/gitinspector.svg?style=flat-square)](https://github.com/jpwhite3/gitinspector/blob/master/LICENSE.txt)
-
+[![Latest release](https://img.shields.io/github/release/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/releases/latest)
+[![License](https://img.shields.io/github/license/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/blob/master/LICENSE.txt)
 <h2>
  <img align="left" height="65px"
-      src="https://raw.githubusercontent.com/jpwhite3/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
+      src="https://raw.githubusercontent.com/ejwa/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
       &nbsp;About Gitinspector
 </h2>
 <img align="right" width="30%" src="https://raw.github.com/wiki/ejwa/gitinspector/images/html_example.jpg" /> 

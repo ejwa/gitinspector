@@ -37,17 +37,4 @@ jobs:
     - name: Test with pytest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: make test-coverage-report
-  
-  coverage:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-    - name: Send Results to Coveralls
-      uses: coverallsapp/github-action@master
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
