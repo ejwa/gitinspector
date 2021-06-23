@@ -25,20 +25,20 @@ __located_extensions__ = set()
 
 
 def get():
-    return __extensions__
+	return __extensions__
 
 
 def define(string):
-    global __extensions__
-    __extensions__ = string.split(",")
+	global __extensions__
+	__extensions__ = string.split(",")
 
 
 def add_located(string):
-    if len(string) == 0:
-        __located_extensions__.add("*")
-    else:
-        __located_extensions__.add(string)
+	if len(string) == 0:
+		__located_extensions__.add("*")
+	else:
+		__located_extensions__.add(string)
 
 
 def get_located():
-    return __located_extensions__
+	return __located_extensions__

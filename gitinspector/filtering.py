@@ -22,83 +22,83 @@ import re
 import subprocess
 
 __filters__ = {
-    "file": [set(), set()],
-    "author": [set(), set()],
-    "email": [set(), set()],
-    "revision": [set(), set()],
-    "message": [set(), None],
+	"file": [set(), set()],
+	"author": [set(), set()],
+	"email": [set(), set()],
+	"revision": [set(), set()],
+	"message": [set(), None],
 }
 
 
 class InvalidRegExpError(ValueError):
-    def __init__(self, msg):
-        super(InvalidRegExpError, self).__init__(msg)
-        self.msg = msg
+	def __init__(self, msg):
+		super(InvalidRegExpError, self).__init__(msg)
+		self.msg = msg
 
 
 def get():
-    return __filters__
+	return __filters__
 
 
 def __add_one__(string):
-    for i in __filters__:
-        if (i + ":").lower() == string[0 : len(i) + 1].lower():
-            __filters__[i][0].add(string[len(i) + 1 :])
-            return
-    __filters__["file"][0].add(string)
+	for i in __filters__:
+		if (i + ":").lower() == string[0 : len(i) + 1].lower():
+			__filters__[i][0].add(string[len(i) + 1 :])
+			return
+	__filters__["file"][0].add(string)
 
 
 def add(string):
-    rules = string.split(",")
-    for rule in rules:
-        __add_one__(rule)
+	rules = string.split(",")
+	for rule in rules:
+		__add_one__(rule)
 
 
 def clear():
-    for i in __filters__:
-        __filters__[i][0] = set()
+	for i in __filters__:
+		__filters__[i][0] = set()
 
 
 def get_filered(filter_type="file"):
-    return __filters__[filter_type][1]
+	return __filters__[filter_type][1]
 
 
 def has_filtered():
-    for i in __filters__:
-        if __filters__[i][1]:
-            return True
-    return False
+	for i in __filters__:
+		if __filters__[i][1]:
+			return True
+	return False
 
 
 def __find_commit_message__(sha):
-    git_show_r = subprocess.Popen(
-        [_f for _f in ["git", "show", "-s", "--pretty=%B", "-w", sha] if _f], stdout=subprocess.PIPE
-    ).stdout
+	git_show_r = subprocess.Popen(
+		[_f for _f in ["git", "show", "-s", "--pretty=%B", "-w", sha] if _f], stdout=subprocess.PIPE
+	).stdout
 
-    commit_message = git_show_r.read()
-    git_show_r.close()
+	commit_message = git_show_r.read()
+	git_show_r.close()
 
-    commit_message = commit_message.strip().decode("unicode_escape", "ignore")
-    commit_message = commit_message.encode("latin-1", "replace")
-    return commit_message.decode("utf-8", "replace")
+	commit_message = commit_message.strip().decode("unicode_escape", "ignore")
+	commit_message = commit_message.encode("latin-1", "replace")
+	return commit_message.decode("utf-8", "replace")
 
 
 def set_filtered(string, filter_type="file"):
-    string = string.strip()
+	string = string.strip()
 
-    if len(string) > 0:
-        for i in __filters__[filter_type][0]:
-            search_for = string
+	if len(string) > 0:
+		for i in __filters__[filter_type][0]:
+			search_for = string
 
-            if filter_type == "message":
-                search_for = __find_commit_message__(string)
-            try:
-                if re.search(i, search_for) is not None:
-                    if filter_type == "message":
-                        __add_one__("revision:" + string)
-                    else:
-                        __filters__[filter_type][1].add(string)
-                    return True
-            except:
-                raise InvalidRegExpError(_("invalid regular expression specified"))
-    return False
+			if filter_type == "message":
+				search_for = __find_commit_message__(string)
+			try:
+				if re.search(i, search_for) is not None:
+					if filter_type == "message":
+						__add_one__("revision:" + string)
+					else:
+						__filters__[filter_type][1].add(string)
+					return True
+			except:
+				raise InvalidRegExpError(_("invalid regular expression specified"))
+	return False

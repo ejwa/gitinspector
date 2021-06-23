@@ -4,11 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+black-but-with-tabs-instead-of-spaces = "*"
 
 [dev-packages]
 pytest = "*"
 flake8 = "*"
-black = "*"
 twine = "*"
 coverage = "*"
 coveralls = "*"

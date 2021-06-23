@@ -25,41 +25,41 @@ import sys
 import tempfile
 
 try:
-    from urllib.parse import urlparse
+	from urllib.parse import urlparse
 except:
-    from urllib.parse import urlparse
+	from urllib.parse import urlparse
 
 __cloned_paths__ = []
 
 
 def create(url):
-    class Repository(object):
-        def __init__(self, name, location):
-            self.name = name
-            self.location = location
+	class Repository(object):
+		def __init__(self, name, location):
+			self.name = name
+			self.location = location
 
-    parsed_url = urlparse(url)
+	parsed_url = urlparse(url)
 
-    if (
-        parsed_url.scheme == "file"
-        or parsed_url.scheme == "git"
-        or parsed_url.scheme == "http"
-        or parsed_url.scheme == "https"
-        or parsed_url.scheme == "ssh"
-    ):
-        path = tempfile.mkdtemp(suffix=".gitinspector")
-        git_clone = subprocess.Popen(["git", "clone", url, path], stdout=sys.stderr)
-        git_clone.wait()
+	if (
+		parsed_url.scheme == "file"
+		or parsed_url.scheme == "git"
+		or parsed_url.scheme == "http"
+		or parsed_url.scheme == "https"
+		or parsed_url.scheme == "ssh"
+	):
+		path = tempfile.mkdtemp(suffix=".gitinspector")
+		git_clone = subprocess.Popen(["git", "clone", url, path], stdout=sys.stderr)
+		git_clone.wait()
 
-        if git_clone.returncode != 0:
-            sys.exit(git_clone.returncode)
+		if git_clone.returncode != 0:
+			sys.exit(git_clone.returncode)
 
-        __cloned_paths__.append(path)
-        return Repository(os.path.basename(parsed_url.path), path)
+		__cloned_paths__.append(path)
+		return Repository(os.path.basename(parsed_url.path), path)
 
-    return Repository(None, os.path.abspath(url))
+	return Repository(None, os.path.abspath(url))
 
 
 def delete():
-    for path in __cloned_paths__:
-        shutil.rmtree(path, ignore_errors=True)
+	for path in __cloned_paths__:
+		shutil.rmtree(path, ignore_errors=True)
