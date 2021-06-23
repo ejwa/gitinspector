@@ -34,7 +34,8 @@ clean-test: ## remove test and coverage artifacts
 	rm -f .coverage
 	rm -fr .pytest_cache
 
-lint: ## check style with flake8
+lint: ## check style with flake8 and pylint
+	pylint --rcfile=.pylintrc gitinspector
 	# stop the build if there are Python syntax errors or undefined names
 	flake8 gitinspector tests --count --select=E9,F63,F7,F82 --show-source --statistics --builtins="_"
 	# exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide

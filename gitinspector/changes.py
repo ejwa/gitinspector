@@ -34,7 +34,7 @@ __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __changes_lock__ = threading.Lock()
 
 
-class FileDiff(object):
+class FileDiff():
 	def __init__(self, string):
 		commit_line = string.split("|")
 
@@ -67,7 +67,7 @@ class FileDiff(object):
 		return False
 
 
-class Commit(object):
+class Commit():
 	def __init__(self, string):
 		self.filediffs = []
 		commit_line = string.split("|")
@@ -100,7 +100,7 @@ class Commit(object):
 		return string.split("|").__len__() == 5
 
 
-class AuthorInfo(object):
+class AuthorInfo():
 	email = None
 	insertions = 0
 	deletions = 0
@@ -198,7 +198,7 @@ class ChangesThread(threading.Thread):
 PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
 
 
-class Changes(object):
+class Changes():
 	authors = {}
 	authors_dateinfo = {}
 	authors_by_email = {}

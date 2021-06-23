@@ -70,7 +70,7 @@ METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 
 
-class MetricsLogic(object):
+class MetricsLogic():
 	def __init__(self):
 		self.eloc = {}
 		self.cyclomatic_complexity = {}

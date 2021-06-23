@@ -33,7 +33,7 @@ __cloned_paths__ = []
 
 
 def create(url):
-	class Repository(object):
+	class Repository():
 		def __init__(self, name, location):
 			self.name = name
 			self.location = location

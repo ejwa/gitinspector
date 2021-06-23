@@ -21,7 +21,7 @@
 import datetime
 
 
-class TimelineData(object):
+class TimelineData():
 	def __init__(self, changes, useweeks):
 		authordateinfo_list = sorted(changes.get_authordateinfo_list().items())
 		self.changes = changes

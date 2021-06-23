@@ -30,7 +30,7 @@ from . import comment, extensions, filtering, format, interval, terminal
 NUM_THREADS = multiprocessing.cpu_count()
 
 
-class BlameEntry(object):
+class BlameEntry():
 	rows = 0
 	skew = 0  # Used when calculating average code age.
 	comments = 0
@@ -127,7 +127,7 @@ class BlameThread(threading.Thread):
 PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0f}%")
 
 
-class Blame(object):
+class Blame():
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
 		ls_tree_p = subprocess.Popen(

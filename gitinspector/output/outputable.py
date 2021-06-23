@@ -21,7 +21,7 @@
 from .. import format
 
 
-class Outputable(object):
+class Outputable():
 	def output_html(self):
 		raise NotImplementedError(_("HTML output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 

@@ -39,7 +39,7 @@ from .output.timelineoutput import TimelineOutput
 localization.init()
 
 
-class Runner(object):
+class Runner():
 	def __init__(self):
 		self.hard = False
 		self.include_metrics = False

@@ -23,7 +23,7 @@ import subprocess
 from . import extensions, filtering, format, interval, optval
 
 
-class GitConfig(object):
+class GitConfig():
 	def __init__(self, run, repo, global_only=False):
 		self.run = run
 		self.repo = repo

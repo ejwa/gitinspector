@@ -18,11 +18,11 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 
-class ResponsibiltyEntry(object):
+class ResponsibiltyEntry():
 	blames = {}
 
 
-class Responsibilities(object):
+class Responsibilities():
 	@staticmethod
 	def get(blame, author_name):
 		author_blames = {}
