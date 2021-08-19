@@ -36,6 +36,7 @@ from .output.extensionsoutput import ExtensionsOutput
 from .output.filteringoutput import FilteringOutput
 from .output.metricsoutput import MetricsOutput
 from .output.responsibilitiesoutput import ResponsibilitiesOutput
+from .output.responsibility_per_file_output import Responsibility_Per_File_Output
 from .output.timelineoutput import TimelineOutput
 
 localization.init()
@@ -92,7 +93,7 @@ class Runner(object):
 				outputable.output(MetricsOutput(summed_metrics))
 
 			if self.responsibilities:
-				outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
+				outputable.output(Responsibility_Per_File_Output(summed_changes, summed_blames))
 
 			outputable.output(FilteringOutput())
 
