@@ -51,6 +51,11 @@ class Runner(object):
 		self.grading = False
 		self.timeline = False
 		self.useweeks = False
+                self.per_file = False
+                self.per_branch = False
+                self.per_tag = False
+                self.blame = False
+                self.suppress = False
 
 	def process(self, repos):
 		localization.check_compatibility(version.__version__)
@@ -81,10 +86,12 @@ class Runner(object):
 			os.chdir(previous_directory)
 
 		format.output_header(repos)
-		outputable.output(ChangesOutput(summed_changes))
+                if (self.suppress == False):
+		        outputable.output(ChangesOutput(summed_changes))
 
 		if summed_changes.get_commits():
-			outputable.output(BlameOutput(summed_changes, summed_blames))
+                        if self.blame:
+                                outputable.output(BlameOutput(summed_changes, summed_blames))
 
 			if self.timeline:
 				outputable.output(TimelineOutput(summed_changes, self.useweeks))
@@ -92,7 +99,10 @@ class Runner(object):
 			if self.include_metrics:
 				outputable.output(MetricsOutput(summed_metrics))
 
-			if self.responsibilities:
+                        if self.responsibilities:
+                                outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
+
+			if self.per_file:
 				outputable.output(Responsibility_Per_File_Output(summed_changes, summed_blames))
 
 			outputable.output(FilteringOutput())
@@ -134,10 +144,10 @@ def main():
 	repos = []
 
 	try:
-		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwx:", ["exclude=", "file-types=", "format=",
+		opts, args = optval.gnu_getopt(argv[1:], "f:F:hHlLmrTwxb:", ["exclude=", "file-types=", "format=",
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
-		                                         "timeline:true", "until=", "version", "weeks:true"])
+		                                         "timeline:true", "until=", "version", "weeks:true", "per-file:true", "blame:true", "suppress:false"])
 		repos = __get_validated_git_repos__(set(args))
 
 		#We need the repos above to be set before we read the git config.
@@ -173,6 +183,16 @@ def main():
 				run.responsibilities = True
 			elif o == "--responsibilities":
 				run.responsibilities = optval.get_boolean_argument(a)
+                        elif o == "--per-file":
+                                run.per_file = True
+                        elif o == "--per-branch":
+                                run.per_branch = True
+                        elif o == "--per-tag":
+                                run.per_tag = True
+                        elif o == "--blame":
+                                run.blame = True
+                        elif o == "--suppress":
+                                run.suppress = True
 			elif o == "--since":
 				interval.set_since(a)
 			elif o == "--version":
