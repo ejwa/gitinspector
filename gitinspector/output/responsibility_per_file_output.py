@@ -72,7 +72,7 @@ class Responsibility_Per_File_Output(Outputable):
                 resp_json += "\t\t\t\t\t\"author name\": \"" + author_dict["author_name"] + "\",\n"
                 resp_json += "\t\t\t\t\t\"author email\": \"" + author_dict["author_email"] + "\", \n"
                 resp_json += "\t\t\t\t\t\"rows owned\": " + str(author_dict["rows_owned"]) + ",\n"
-                resp_json += "\t\t\t\t\t\"perctenage of document\": " + str(float(author_dict["rows_owned"])/float(total_rows_dict[file])) + "\n"
+                resp_json += "\t\t\t\t\t\"perctenage of document\": " + str(float(author_dict["rows_owned"])/float(total_rows_dict[file])*100) + "\n"
                 resp_json += "\t\t\t\t},"
 
             #next 3 lines are diddo from responsibilitiesoutput.py
