@@ -152,3 +152,17 @@ def output_footer():
 		print("\n\t}\n}")
 	elif __selected_format__ == "xml":
 		print("</gitinspector>")
+
+def output_footer_per_tag_or_branch():
+	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
+		base = basedir.get_basedir()
+		html_footer = __output_html_template__(base + "/html/html.footer")
+		print(html_footer)
+	elif __selected_format__ == "json":
+		print("\t\t},")
+	elif __selected_format__ == "xml":
+		print("</gitinspector>")
+
+def output_footer_end_of_tag_or_branch():
+	if __selected_format__ == "json":
+		print("\t\t}\n\t}\n}")

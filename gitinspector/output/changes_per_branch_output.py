@@ -28,10 +28,10 @@ from .outputable import Outputable
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, for this tag:was found")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
 
-class Changes_Per_Tag_Output(Outputable):
-	def __init__(self, changes, tag):
+class Changes_Per_Branch_Output(Outputable):
+	def __init__(self, changes, branch):
 		self.changes = changes
-                self.tag = tag
+                self.branch = branch
 		Outputable.__init__(self)
 
 	def output_json(self):
@@ -43,7 +43,7 @@ class Changes_Per_Tag_Output(Outputable):
 			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
-			message_json = "\t\t\t\"tag\": \"" + self.tag.strip() + "\",\n"
+			message_json = "\t\t\t\"branch\": \"" + self.branch.strip() + "\",\n"
 			changes_json = ""
 
 			for i in sorted(authorinfo_list):
@@ -65,9 +65,9 @@ class Changes_Per_Tag_Output(Outputable):
 			else:
 				changes_json = changes_json[:-1]
 
-			print("\t\t\"" + self.tag.strip() + "\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + changes_json + "\n\t\t\t]\n", end="")
+			print("\t\t\"" + self.branch.strip() + "\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + changes_json + "\n\t\t\t]\n", end="")
 		else:
-			print("\t\t\"exception\": \"" + "No commited files with the specified extensions were found for this tag" + self.tag + "\"")
+			print("\t\t\"exception\": \"" + "No commited files with the specified extensions were found for this branch" + self.branch + "\"")
 
 	def output_text(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
@@ -78,7 +78,7 @@ class Changes_Per_Tag_Output(Outputable):
 			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
-			print(textwrap.fill("The following historical commit information, by author, for this tag:" + self.tag + " was found" + ":", width=terminal.get_size()[0]) + "\n")
+			print(textwrap.fill("The following historical commit information, by author, for this tag:" + self.branch + " was found" + ":", width=terminal.get_size()[0]) + "\n")
 			terminal.printb(terminal.ljust(_("Author"), 21) + terminal.rjust(_("Commits"), 13) +
 			                terminal.rjust(_("Insertions"), 14) + terminal.rjust(_("Deletions"), 15) +
 					terminal.rjust(_("% of changes"), 16))

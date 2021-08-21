@@ -39,6 +39,7 @@ from .output.metricsoutput import MetricsOutput
 from .output.responsibilitiesoutput import ResponsibilitiesOutput
 from .output.responsibility_per_file_output import Responsibility_Per_File_Output
 from .output.changes_per_tag_output import Changes_Per_Tag_Output
+from .output.changes_per_branch_output import Changes_Per_Branch_Output
 from .output.timelineoutput import TimelineOutput
 
 localization.init()
@@ -58,6 +59,7 @@ class Runner(object):
                 self.per_tag = False
                 self.blame = False
                 self.suppress = False
+                self.standard = False
 
 	def process(self, repos):
 		localization.check_compatibility(version.__version__)
@@ -90,20 +92,20 @@ class Runner(object):
                                 os.chdir(repo.location)
                                 repo = repo if len(repos) > 1 else None
                                 #get list of branches
-                                
+                                process = subprocess.Popen(['git', 'branch', '-r'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                                branches = process.communicate()[0].splitlines()
                                 for branch in branches:
-                                        changes = Changes(repo, self.hard, "", branch)
-                                       	summed_blames.append(Blame(repo, self.hard, self.useweeks, changes))
-                                        summed_changes.append(changes)
-                        
+                                        if (branch.find("->") == -1):
+                                                changes = Changes(repo, self.hard, "", branch.strip())
+                                       	        summed_blames.append(Blame(repo, self.hard, self.useweeks, changes))
+                                                summed_changes.append(changes)
+                                        
                         else:
 			        os.chdir(repo.location)
 			        repo = repo if len(repos) > 1 else None
-                                summed_blames = Blame.__new__(Blame)
-		                summed_changes = Changes.__new__(Changes)
-                                changes =  Changes(repo, self.hard, False, False)
-                                summed_blames += Blame(repo, self.hard, self.useweeks, changes)
-			        summed_changes += changes
+                                changes =  Changes(repo, self.hard, "", "")
+                                summed_blames.append(Blame(repo, self.hard, self.useweeks, changes))
+			        summed_changes.append(changes)
                                 
                         if self.include_metrics:
                                 summed_metrics += MetricsLogic()
@@ -117,7 +119,7 @@ class Runner(object):
                 if self.per_tag:
                         i = 0
                         while (i < len(summed_changes)):
-                                if (self.suppress == False):
+                                if (self.suppress == False or self.standard == True):
                                         outputable.output(Changes_Per_Tag_Output(summed_changes[i], tags[i]))
                                 if summed_changes[i].get_commits():
                                         if (self.suppress == False or self.blame == True):
@@ -139,38 +141,72 @@ class Runner(object):
                                         
                                         if self.list_file_types:
                                                 outputable.output(ExtensionsOutput())
-
-                                format.output_footer()
+                                i = i + 1
+                                if (i < len(summed_changes)):
+                                    format.output_footer_per_tag_or_branch()
                                 os.chdir(previous_directory)
-                                i = i + 1 
-                else:                
-                        if (self.suppress == False):
-		                outputable.output(ChangesOutput(summed_changes))
+                        format.output_footer_end_of_tag_or_branch()
+                               
+                                
+                elif self.per_branch:
+                        i = 0
+                        while (i < len(summed_changes)):
+                                if (self.suppress == False or self.standard == True ):
+                                        outputable.output(Changes_Per_Branch_Output(summed_changes[i], branches[i]))
+                                if summed_changes[i].get_commits():
+                                        if (self.suppress == False or self.blame == True):
+                                                outputable.output(BlameOutput(summed_changes[i], summed_blames[i]))
 
-		        if summed_changes.get_commits():
+                                        if self.timeline:
+                                                outputable.output(TimelineOutput(summed_changes[i], self.useweeks))
+
+                                        if self.include_metrics:
+                                                outputable.output(MetricsOutput(summed_metrics))
+
+                                        if self.responsibilities:
+                                                outputable.output(ResponsibilitiesOutput(summed_changes[i], summed_blames[i]))
+
+                                        if self.per_file:
+                                                outputable.output(Responsibility_Per_File_Output(summed_changes[i], summed_blames[i]))
+
+                                        outputable.output(FilteringOutput())
+
+                                        if self.list_file_types:
+                                                outputable.output(ExtensionsOutput())
+                                i = i + 1
+                                if (i < len(summed_changes)):
+                                    format.output_footer_per_tag_or_branch()
+                                os.chdir(previous_directory)
+                        format.output_footer_end_of_tag_or_branch()
+                else:               
+                        if (self.suppress == False or self.standard == True):
+		                outputable.output(ChangesOutput(summed_changes[0]))
+
+		        if summed_changes[0].get_commits():
                                 if (self.suppress == False or self.blame == True):
-                                        outputable.output(BlameOutput(summed_changes, summed_blames))
+                                        outputable.output(BlameOutput(summed_changes[0], summed_blames[0]))
 
 			        if self.timeline:
-				        outputable.output(TimelineOutput(summed_changes, self.useweeks))
+				        outputable.output(TimelineOutput(summed_changes[0], self.useweeks))
 
 			        if self.include_metrics:
 				        outputable.output(MetricsOutput(summed_metrics))
 
                                 if self.responsibilities:
-                                        outputable.output(ResponsibilitiesOutput(summed_changes, summed_blames))
+                                        outputable.output(ResponsibilitiesOutput(summed_changes[0], summed_blames[0]))
 
 			        if self.per_file:
-				        outputable.output(Responsibility_Per_File_Output(summed_changes, summed_blames))
+				        outputable.output(Responsibility_Per_File_Output(summed_changes[0], summed_blames[0]))
 
 			        outputable.output(FilteringOutput())
 
 			        if self.list_file_types:
 				        outputable.output(ExtensionsOutput())
-
+                                        
 		        format.output_footer()
 		        os.chdir(previous_directory)
-
+                        
+                        
 def __check_python_version__():
 	if sys.version_info < (2, 6):
 		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
@@ -206,7 +242,7 @@ def main():
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true", "per-file:true", "blame:true", "suppress:false",
-                                                         "per-branch:false", "per-tag:false"])
+                                                                             "per-branch:false", "per-tag:false", "standard:true"])
 		repos = __get_validated_git_repos__(set(args))
 
 		#We need the repos above to be set before we read the git config.
@@ -252,6 +288,8 @@ def main():
                                 run.blame = True
                         elif o == "--suppress":
                                 run.suppress = True
+                        elif o == "--standard":
+                                run.standard = True
 			elif o == "--since":
 				interval.set_since(a)
 			elif o == "--version":

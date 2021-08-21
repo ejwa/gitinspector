@@ -235,12 +235,58 @@ class Changes(object):
 			                                      int(self.commits[-1].date[8:10]))
 
 		elif (branch != ""):
-			asdad
+			self.commits = []
+			interval.set_ref("HEAD");
+			git_rev_list_p = subprocess.Popen(["git", "rev-list", "--reverse", branch], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+			lines = git_rev_list_p.communicate()[0].splitlines()
+			git_rev_list_p.stdout.close()
+
+			if git_rev_list_p.returncode == 0 and len(lines) > 0:
+				progress_text = _(PROGRESS_TEXT)
+				if repo != None:
+					progress_text = "[%s] " % repo.name + progress_text
+
+				chunks = len(lines) // CHANGES_PER_THREAD
+				self.commits = [None] * (chunks if len(lines) % CHANGES_PER_THREAD == 0 else chunks + 1)
+				first_hash = ""
+
+				for i, entry in enumerate(lines):
+
+					if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
+						entry = entry.decode("utf-8", "replace").strip()
+						second_hash = entry
+						ChangesThread.create(hard, self, first_hash, second_hash, i)
+						first_hash = entry + ".."
+
+						if format.is_interactive_format():
+							terminal.output_progress(progress_text, i, len(lines))
+				else:
+					if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
+						entry = entry.decode("utf-8", "replace").strip()
+						second_hash = entry
+						ChangesThread.create(hard, self, first_hash, second_hash, i)
+
+			# Make sure all threads have completed.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.acquire()
+
+			# We also have to release them for future use.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.release()
+			self.commits = [item for sublist in self.commits for item in sublist]
+
+			if len(self.commits) > 0:
+				if interval.has_interval():
+					interval.set_ref(self.commits[-1].sha)
+
+				self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
+			                                       int(self.commits[0].date[8:10]))
+				self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
+			                                      int(self.commits[-1].date[8:10]))
 		else:
 			self.commits = []
 			interval.set_ref("HEAD");
-			git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+			git_rev_list_p = subprocess.Popen(["git", "rev-list", "--reverse", "HEAD"],
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 			lines = git_rev_list_p.communicate()[0].splitlines()
 			git_rev_list_p.stdout.close()
@@ -263,11 +309,11 @@ class Changes(object):
 
 						if format.is_interactive_format():
 							terminal.output_progress(progress_text, i, len(lines))
-			else:
-				if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
-					entry = entry.decode("utf-8", "replace").strip()
-					second_hash = entry
-					ChangesThread.create(hard, self, first_hash, second_hash, i)
+				else:
+					if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
+						entry = entry.decode("utf-8", "replace").strip()
+						second_hash = entry
+						ChangesThread.create(hard, self, first_hash, second_hash, i)
 
 			# Make sure all threads have completed.
 			for i in range(0, NUM_THREADS):
@@ -276,7 +322,6 @@ class Changes(object):
 			# We also have to release them for future use.
 			for i in range(0, NUM_THREADS):
 				__thread_lock__.release()
-
 			self.commits = [item for sublist in self.commits for item in sublist]
 
 			if len(self.commits) > 0:
