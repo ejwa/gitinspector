@@ -17,25 +17,28 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
-DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "py", "glsl", "rb", "js", "sql"]
+DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "py", "glsl", "rb", "js", "sql", "go"]
 
 __extensions__ = DEFAULT_EXTENSIONS
 __located_extensions__ = set()
 
+
 def get():
 	return __extensions__
+
 
 def define(string):
 	global __extensions__
 	__extensions__ = string.split(",")
+
 
 def add_located(string):
 	if len(string) == 0:
 		__located_extensions__.add("*")
 	else:
 		__located_extensions__.add(string)
+
 
 def get_located():
 	return __located_extensions__

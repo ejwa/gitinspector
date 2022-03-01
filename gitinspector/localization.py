@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
-from __future__ import unicode_literals
+
 import gettext
 import locale
 import os
@@ -31,9 +30,11 @@ __enabled__ = False
 __installed__ = False
 __translation__ = None
 
-#Dummy function used to handle string constants
+
+# Dummy function used to handle string constants
 def N_(message):
 	return message
+
 
 def init():
 	global __enabled__
@@ -48,12 +49,12 @@ def init():
 		else:
 			lang = locale.getlocale()
 
-			#Fix for non-POSIX-compliant systems (Windows et al.).
-			if os.getenv('LANG') is None:
+			# Fix for non-POSIX-compliant systems (Windows et al.).
+			if os.getenv("LANG") is None:
 				lang = locale.getdefaultlocale()
 
 				if lang[0]:
-					os.environ['LANG'] = lang[0]
+					os.environ["LANG"] = lang[0]
 
 			if lang[0] is not None:
 				filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
@@ -68,7 +69,8 @@ def init():
 
 		__enabled__ = True
 		__installed__ = True
-		__translation__.install(True)
+		__translation__.install()
+
 
 def check_compatibility(version):
 	if isinstance(__translation__, gettext.GNUTranslations):
@@ -76,20 +78,24 @@ def check_compatibility(version):
 		header_entries = dict(header_pattern.findall(_("")))
 
 		if header_entries["Project-Id-Version"] != "gitinspector {0}".format(version):
-			print("WARNING: The translation for your system locale is not up to date with the current gitinspector "
-			      "version. The current maintainer of this locale is {0}.".format(header_entries["Last-Translator"]),
-			      file=sys.stderr)
+			print(
+				"WARNING: The translation for your system locale is not up to date with the current gitinspector "
+				"version. The current maintainer of this locale is {0}.".format(header_entries["Last-Translator"]),
+				file=sys.stderr,
+			)
+
 
 def get_date():
 	if __enabled__ and isinstance(__translation__, gettext.GNUTranslations):
 		date = time.strftime("%x")
 
-		if hasattr(date, 'decode'):
+		if hasattr(date, "decode"):
 			date = date.decode("utf-8", "replace")
 
 		return date
 	else:
 		return time.strftime("%Y/%m/%d")
+
 
 def enable():
 	if isinstance(__translation__, gettext.GNUTranslations):
@@ -98,9 +104,10 @@ def enable():
 		global __enabled__
 		__enabled__ = True
 
+
 def disable():
 	global __enabled__
 	__enabled__ = False
 
 	if __installed__:
-		gettext.NullTranslations().install(True)
+		gettext.NullTranslations().install()

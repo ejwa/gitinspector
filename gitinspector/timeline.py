@@ -17,10 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 import datetime
 
-class TimelineData(object):
+
+class TimelineData():
 	def __init__(self, changes, useweeks):
 		authordateinfo_list = sorted(changes.get_authordateinfo_list().items())
 		self.changes = changes
@@ -37,7 +38,7 @@ class TimelineData(object):
 			else:
 				key = (i[0][1], i[0][0][0:7])
 
-			if self.entries.get(key, None) == None:
+			if self.entries.get(key, None) is None:
 				self.entries[key] = i[1]
 			else:
 				self.entries[key].insertions += i[1].insertions
@@ -49,12 +50,11 @@ class TimelineData(object):
 
 			for author in self.get_authors():
 				entry = self.entries.get((author[0], period), None)
-				if entry != None:
+				if entry is not None:
 					total_insertions += entry.insertions
 					total_deletions += entry.deletions
 
-			self.total_changes_by_period[period] = (total_insertions, total_deletions,
-			                                        total_insertions + total_deletions)
+			self.total_changes_by_period[period] = (total_insertions, total_deletions, total_insertions + total_deletions)
 
 	def get_periods(self):
 		return sorted(set([i[1] for i in self.entries]))
@@ -63,7 +63,7 @@ class TimelineData(object):
 		return self.total_changes_by_period[period]
 
 	def get_authors(self):
-		return sorted(set([(i[0][0], self.changes.get_latest_email_by_author(i[0][0])) for i in self.entries.items()]))
+		return sorted(set([(i[0][0], self.changes.get_latest_email_by_author(i[0][0])) for i in list(self.entries.items())]))
 
 	def get_author_signs_in_period(self, author, period, multiplier):
 		authorinfo = self.entries.get((author, period), None)
@@ -91,7 +91,7 @@ class TimelineData(object):
 					multiplier += 0.25
 
 	def is_author_in_period(self, period, author):
-		return self.entries.get((author, period), None) != None
+		return self.entries.get((author, period), None) is not None
 
 	def is_author_in_periods(self, periods, author):
 		for period in periods:

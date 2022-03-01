@@ -17,35 +17,68 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 import re
 import subprocess
 from .changes import FileDiff
 from . import comment, filtering, interval
 
-__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
-                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000}
+__metric_eloc__ = {
+	"java": 500,
+	"c": 500,
+	"cpp": 500,
+	"cs": 500,
+	"h": 300,
+	"hpp": 300,
+	"php": 500,
+	"py": 500,
+	"glsl": 1000,
+	"rb": 500,
+	"js": 500,
+	"sql": 1000,
+	"xml": 1000,
+}
 
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:",
-                                                            "default:", r"while\s+\(.*\)"],
-                                                           ["assert", "break", "continue", "return"]],
-                       [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
-                                 "default:", r"while\s+\(.*\)"],
-                                ["assert", "break", "continue", "return"]],
-                       [["py"], [r"^\s+elif .*:$", r"^\s+else:$", r"^\s+for .*:", r"^\s+if .*:$", r"^\s+while .*:$"],
-                                [r"^\s+assert", "break", "continue", "return"]]]
+__metric_cc_tokens__ = [
+	[
+		["java", "js", "c", "cc", "cpp"],
+		["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
+		["assert", "break", "continue", "return"],
+	],
+	[
+		["cs"],
+		[
+			"else",
+			r"for\s+\(.*\)",
+			r"foreach\s+\(.*\)",
+			r"goto\s+\w+:",
+			r"if\s+\(.*\)",
+			r"case\s+\w+:",
+			"default:",
+			r"while\s+\(.*\)",
+		],
+		["assert", "break", "continue", "return"],
+	],
+	[
+		["py"],
+		[r"^\s+elif .*:$", r"^\s+else:$", r"^\s+for .*:", r"^\s+if .*:$", r"^\s+while .*:$"],
+		[r"^\s+assert", "break", "continue", "return"],
+	],
+]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 
-class MetricsLogic(object):
+
+class MetricsLogic():
 	def __init__(self):
 		self.eloc = {}
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
 
-		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
-		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		ls_tree_p = subprocess.Popen(
+			["git", "ls-tree", "--name-only", "-r", interval.get_ref()], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+		)
 		lines = ls_tree_p.communicate()[0].splitlines()
 		ls_tree_p.stdout.close()
 
@@ -53,17 +86,18 @@ class MetricsLogic(object):
 			for i in lines:
 				i = i.strip().decode("unicode_escape", "ignore")
 				i = i.encode("latin-1", "replace")
-				i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
+				i = i.decode("utf-8", "replace").strip('"').strip("'").strip()
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
-					                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
+					file_r = subprocess.Popen(
+						["git", "show", interval.get_ref() + ":{0}".format(i.strip())], stdout=subprocess.PIPE
+					).stdout.readlines()
 
 					extension = FileDiff.get_extension(i)
 					lines = MetricsLogic.get_eloc(file_r, extension)
 					cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
 
-					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
+					if __metric_eloc__.get(extension, None) is not None and __metric_eloc__[extension] < lines:
 						self.eloc[i.strip()] = lines
 
 					if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
@@ -79,7 +113,7 @@ class MetricsLogic(object):
 			self.cyclomatic_complexity_density.update(other.cyclomatic_complexity_density)
 			return self
 		except AttributeError:
-			return other;
+			return other
 
 	@staticmethod
 	def get_cyclomatic_complexity(file_r, extension):

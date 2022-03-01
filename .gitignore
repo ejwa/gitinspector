@@ -6,3 +6,5 @@ node_modules
 *.egg-info
 *.pyc
 *.tgz
+.DS_Store
+.coverage

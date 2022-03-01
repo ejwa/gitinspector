@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+black-but-with-tabs-instead-of-spaces = "*"
+pytest = "*"
+
+[dev-packages]
+pytest = "*"
+flake8 = "*"
+twine = "*"
+coverage = "*"
+coveralls = "*"
+
+[pipenv]
+allow_prereleases = true

@@ -17,22 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function
-from __future__ import unicode_literals
+
 from .. import format
 
-class Outputable(object):
+
+class Outputable():
 	def output_html(self):
-		raise NotImplementedError(_("HTML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+		raise NotImplementedError(_("HTML output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
 	def output_json(self):
-		raise NotImplementedError(_("JSON output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+		raise NotImplementedError(_("JSON output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
 	def output_text(self):
-		raise NotImplementedError(_("Text output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+		raise NotImplementedError(_("Text output not yet supported in") + ' "' + self.__class__.__name__ + '".')
 
 	def output_xml(self):
-		raise NotImplementedError(_("XML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
+		raise NotImplementedError(_("XML output not yet supported in") + ' "' + self.__class__.__name__ + '".')
+
 
 def output(outputable):
 	if format.get_selected() == "html" or format.get_selected() == "htmlembedded":

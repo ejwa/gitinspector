@@ -17,8 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import division
-from __future__ import unicode_literals
+
 import bisect
 import datetime
 import multiprocessing
@@ -34,7 +33,8 @@ NUM_THREADS = multiprocessing.cpu_count()
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __changes_lock__ = threading.Lock()
 
-class FileDiff(object):
+
+class FileDiff():
 	def __init__(self, string):
 		commit_line = string.split("|")
 
@@ -46,27 +46,28 @@ class FileDiff(object):
 	@staticmethod
 	def is_filediff_line(string):
 		string = string.split("|")
-		return string.__len__() == 2 and string[1].find("Bin") == -1 and ('+' in string[1] or '-' in string[1])
+		return string.__len__() == 2 and string[1].find("Bin") == -1 and ("+" in string[1] or "-" in string[1])
 
 	@staticmethod
 	def get_extension(string):
-		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
+		string = string.split("|")[0].strip().strip("{}").strip('"').strip("'")
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
 	def get_filename(string):
-		return string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
+		return string.split("|")[0].strip().strip("{}").strip('"').strip("'")
 
 	@staticmethod
 	def is_valid_extension(string):
 		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
-			if (extension == "" and i == "*") or extension == i or i == '**':
+			if (extension == "" and i == "*") or extension == i or i == "**":
 				return True
 		return False
 
-class Commit(object):
+
+class Commit():
 	def __init__(self, string):
 		self.filediffs = []
 		commit_line = string.split("|")
@@ -79,7 +80,7 @@ class Commit(object):
 			self.email = commit_line[4].strip()
 
 	def __lt__(self, other):
-		return self.timestamp.__lt__(other.timestamp) # only used for sorting; we just consider the timestamp.
+		return self.timestamp.__lt__(other.timestamp)  # only used for sorting; we just consider the timestamp.
 
 	def add_filediff(self, filediff):
 		self.filediffs.append(filediff)
@@ -98,15 +99,17 @@ class Commit(object):
 	def is_commit_line(string):
 		return string.split("|").__len__() == 5
 
-class AuthorInfo(object):
+
+class AuthorInfo():
 	email = None
 	insertions = 0
 	deletions = 0
 	commits = 0
 
+
 class ChangesThread(threading.Thread):
 	def __init__(self, hard, changes, first_hash, second_hash, offset):
-		__thread_lock__.acquire() # Lock controlling the number of threads running
+		__thread_lock__.acquire()  # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
 		self.hard = hard
@@ -122,10 +125,27 @@ class ChangesThread(threading.Thread):
 		thread.start()
 
 	def run(self):
-		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
-		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
-		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
-		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
+		git_log_r = subprocess.Popen(
+			[
+				_f
+				for _f in [
+					"git",
+					"log",
+					"--reverse",
+					"--pretty=%ct|%cd|%H|%aN|%aE",
+					"--stat=100000,8192",
+					"--no-merges",
+					"-w",
+					interval.get_since(),
+					interval.get_until(),
+					"--date=short",
+				]
+				+ (["-C", "-C", "-M"] if self.hard else [])
+				+ [self.first_hash + self.second_hash]
+				if _f
+			],
+			stdout=subprocess.PIPE,
+		).stdout
 		lines = git_log_r.readlines()
 		git_log_r.close()
 
@@ -134,7 +154,7 @@ class ChangesThread(threading.Thread):
 		is_filtered = False
 		commits = []
 
-		__changes_lock__.acquire() # Global lock used to protect calls from here...
+		__changes_lock__.acquire()  # Global lock used to protect calls from here...
 
 		for i in lines:
 			j = i.strip().decode("unicode_escape", "ignore")
@@ -154,15 +174,15 @@ class ChangesThread(threading.Thread):
 				is_filtered = False
 				commit = Commit(j)
 
-				if Commit.is_commit_line(j) and \
-				   (filtering.set_filtered(commit.author, "author") or \
-				   filtering.set_filtered(commit.email, "email") or \
-				   filtering.set_filtered(commit.sha, "revision") or \
-				   filtering.set_filtered(commit.sha, "message")):
+				if Commit.is_commit_line(j) and (
+					filtering.set_filtered(commit.author, "author")
+					or filtering.set_filtered(commit.email, "email")
+					or filtering.set_filtered(commit.sha, "revision")
+					or filtering.set_filtered(commit.sha, "message")
+				):
 					is_filtered = True
 
-			if FileDiff.is_filediff_line(j) and not \
-			   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
+			if FileDiff.is_filediff_line(j) and not filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
 				extensions.add_located(FileDiff.get_extension(j))
 
 				if FileDiff.is_valid_extension(j):
@@ -171,12 +191,14 @@ class ChangesThread(threading.Thread):
 					commit.add_filediff(filediff)
 
 		self.changes.commits[self.offset // CHANGES_PER_THREAD] = commits
-		__changes_lock__.release() # ...to here.
-		__thread_lock__.release() # Lock controlling the number of threads running
+		__changes_lock__.release()  # ...to here.
+		__thread_lock__.release()  # Lock controlling the number of threads running
+
 
 PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
 
-class Changes(object):
+
+class Changes():
 	authors = {}
 	authors_dateinfo = {}
 	authors_by_email = {}
@@ -184,16 +206,18 @@ class Changes(object):
 
 	def __init__(self, repo, hard):
 		self.commits = []
-		interval.set_ref("HEAD");
-		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
-		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		interval.set_ref("HEAD")
+		git_rev_list_p = subprocess.Popen(
+			[_f for _f in ["git", "rev-list", "--reverse", "--no-merges", interval.get_since(), interval.get_until(), "HEAD"] if _f],
+			stdout=subprocess.PIPE,
+			stderr=subprocess.STDOUT,
+		)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()
 
 		if git_rev_list_p.returncode == 0 and len(lines) > 0:
 			progress_text = _(PROGRESS_TEXT)
-			if repo != None:
+			if repo is not None:
 				progress_text = "[%s] " % repo.name + progress_text
 
 			chunks = len(lines) // CHANGES_PER_THREAD
@@ -229,10 +253,12 @@ class Changes(object):
 			if interval.has_interval():
 				interval.set_ref(self.commits[-1].sha)
 
-			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
-			                                       int(self.commits[0].date[8:10]))
-			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
-			                                      int(self.commits[-1].date[8:10]))
+			self.first_commit_date = datetime.date(
+				int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]), int(self.commits[0].date[8:10])
+			)
+			self.last_commit_date = datetime.date(
+				int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]), int(self.commits[-1].date[8:10])
+			)
 
 	def __iadd__(self, other):
 		try:
@@ -255,7 +281,7 @@ class Changes(object):
 
 	@staticmethod
 	def modify_authorinfo(authors, key, commit):
-		if authors.get(key, None) == None:
+		if authors.get(key, None) is None:
 			authors[key] = AuthorInfo()
 
 		if commit.get_filediffs():
