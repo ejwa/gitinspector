@@ -1,0 +1,313 @@
+# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+#
+# This file is part of gitinspector.
+#
+# gitinspector is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# gitinspector is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
+#
+# Juraj Virgovič <virgoj@protonmail.com>, 2022.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: gitinspector 0.5.0dev\n"
+"Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
+"POT-Creation-Date: 2015-10-02 03:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Juraj Virgovič <virgoj@protonmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#, python-format
+msgid "% in comments"
+msgstr "% v komentároch"
+
+#, python-format
+msgid "% of changes"
+msgstr "% zmien"
+
+msgid "(extensions used during statistical analysis are marked)"
+msgstr "(rozšírenia použité počas štatistickej analýzy sú označené)"
+
+msgid "Age"
+msgstr "Vek"
+
+msgid "Author"
+msgstr "Autor"
+
+msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgstr "Nižšie je uvedený počet riadkov od každého autora, ktorý 'prežil' a je stále neporušený v aktuálnej revízii"
+
+#, python-brace-format
+msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgstr "Kontrola počtu riadkov, ktoré patria každému autorovi"
+
+msgid "Commits"
+msgstr "Komity"
+
+msgid ""
+"Copyright © 2012-2015 Ejwa Software. All rights reserved.\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+"Written by Adam Waldenberg."
+msgstr ""
+"Copyright © 2012-2015 Ejwa Software. Všetky práva vyhradené.\n"
+"License GPLv3+: GNU GPL verzia 3 alebo neskôršia <http://gnu.org/licenses/gpl.html>.\n"
+"Jedná sa o slobodný software, môžete ho slobodne zmeniť a distribuovať.\n"
+"Neexistuje žiadna záruka v rozsahu povolenom zákonom.\n"
+"\n"
+"Vytvorené Adamom Waldenbergom."
+
+msgid "Deletions"
+msgstr "Odstránenia"
+
+#, python-format
+msgid "Error processing git repository at \"%s\"."
+msgstr "Chyba pri spracovaní git úložiska na \"%s\"."
+
+msgid "HTML output not yet supported in"
+msgstr "HTML output zatiaľ nie je podporovaný"
+
+msgid "Hide minor authors"
+msgstr "Skrytie menej značných autorov"
+
+msgid "Hide rows with minor work"
+msgstr "Skrytie riadkov s menej značnou prácou"
+
+msgid "Insertions"
+msgstr "Vloženia"
+
+msgid "Minor Authors"
+msgstr "Menej znační autori"
+
+msgid "Modified Rows:"
+msgstr "Upravené riadky"
+
+msgid "No commited files with the specified extensions were found"
+msgstr "Nenašli sa žiadne vložené súbory so zadanými príponami"
+
+msgid "No metrics violations were found in the repository"
+msgstr "V úložisku sa nenašli žiadne porušenia metrík"
+
+#, python-brace-format
+msgid "Repository statistics for {0}"
+msgstr "Štatistika úložiska pre {0}"
+
+msgid "Rows"
+msgstr "Riadky"
+
+msgid "Show minor authors"
+msgstr "Ukázať menej značných autorov"
+
+msgid "Show rows with minor work"
+msgstr "Ukázať riadky s menej značnou prácou"
+
+msgid "Stability"
+msgstr "Stabilita"
+
+#, python-brace-format
+msgid "Statistical information for the repository '{0}' was gathered on {1}."
+msgstr "Štatistické informácie pre úložisko '{0}' sa zhromaždili na {1}"
+
+msgid "Text output not yet supported in"
+msgstr "Textový výstup zatiaľ nie je podporovaný"
+
+msgid "The authors with the following emails were excluded from the statistics due to the specified exclusion patterns"
+msgstr "Autori s nasledujúcimi e-mailmi boli vylúčení zo štatistík z dôvodu špecifických vylučovacích vzorov."
+
+msgid "The extensions below were found in the repository history"
+msgstr "Nižšie uvedené rozšírenia sa našli v histórii úložiska"
+
+msgid "The following authors were excluded from the statistics due to the specified exclusion patterns"
+msgstr "Nasledujúci autori boli vylúčení zo štatistík z dôvodu špecifických modelov vylúčenia"
+
+msgid "The following commit revisions were excluded from the statistics due to the specified exclusion patterns"
+msgstr "Nasledujúce revízie komitov boli zo štatistiky vylúčené z dôvodu špecifických modelov vylúčenia"
+
+msgid "The following files are suspiciously big (in order of severity)"
+msgstr "Nasledujúce súbory sú podozrivo veľké (podľa závažnosti)"
+
+msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
+msgstr "Nasledujúce súbory majú zvýšenú cyklomatickú zložitosť (v poradí závažnosti)"
+
+msgid "The following files have an elevated cyclomatic complexity density (in order of severity)"
+msgstr "Nasledujúce súbory majú zvýšenú hustotu cyklomatickej zložitosti (v poradí závažnosti)"
+
+msgid "The following files were excluded from the statistics due to the specified exclusion patterns"
+msgstr "Nasledujúce súbory boli zo štatistiky vylúčené z dôvodu špecifických modelov vylúčenia"
+
+msgid "The following historical commit information, by author, was found in the repository"
+msgstr "Nasledujúce historické informácie o komite sa podľa autora našli v úložisku"
+
+msgid "The following history timeline has been gathered from the repository"
+msgstr "Nasledujúca časová os bola zhromaždená z úložiska"
+
+msgid "The following responsibilities, by author, were found in the current revision of the repository (comments are excluded from the line count, if possible)"
+msgstr "Následujúce povinnosti vypracované autorom, boli najdené v aktuálnej revízii úložiska (komenty sú vylúčené z počtu riadkov, ak je to možné)"
+
+msgid "The given option argument is not a valid boolean."
+msgstr "Zadaný argument nie je platný boolovský."
+
+#, python-brace-format
+msgid "The output has been generated by {0} {1}. The statistical analysis tool for git repositories."
+msgstr "Výstup bol vygenerovaný {0} {1}. Nástroj štatistickej analýzy pre git úložiská."
+
+#, python-brace-format
+msgid "Try `{0} --help' for more information."
+msgstr "Vyskúšajte '{0} --help' pre viac informácií."
+
+msgid "Unable to determine absolute path of git repository."
+msgstr "Nie je možné určiť absolútnu cestu git úložiska."
+
+#, python-brace-format
+msgid ""
+"Usage: {0} [OPTION]... [REPOSITORY]\n"
+"List information about the repository in REPOSITORY. If no repository is\n"
+"specified, the current directory is used. If multiple repositories are\n"
+"given, information will be fetched from the last repository specified.\n"
+"\n"
+"Mandatory arguments to long options are mandatory for short options too.\n"
+"Boolean arguments can only be given to long options.\n"
+"  -f, --file-types=EXTENSIONS    a comma separated list of file extensions to\n"
+"                                   include when computing statistics. The\n"
+"                                   default extensions used are:\n"
+"                                   {1}\n"
+"                                   Specifying * includes files with no\n"
+"                                   extension, while ** includes all files\n"
+"  -F, --format=FORMAT            define in which format output should be\n"
+"                                   generated; the default format is 'text' and\n"
+"                                   the available formats are:\n"
+"                                   {2}\n"
+"      --grading[=BOOL]           show statistics and information in a way that\n"
+"                                   is formatted for grading of student\n"
+"                                   projects; this is the same as supplying the\n"
+"                                   options -HlmrTw\n"
+"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"                                   this can be quite slow with big repositories\n"
+"  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
+"                                   current branch of the repository\n"
+"  -L, --localize-output[=BOOL]   localize the generated output to the selected\n"
+"                                   system language if a translation is\n"
+"                                   available\n"
+"  -m  --metrics[=BOOL]           include checks for certain metrics during the\n"
+"                                   analysis of commits\n"
+"  -r  --responsibilities[=BOOL]  show which files the different authors seem\n"
+"                                   most responsible for\n"
+"      --since=DATE               only show statistics for commits more recent\n"
+"                                   than a specific date\n"
+"  -T, --timeline[=BOOL]          show commit timeline, including author names\n"
+"      --until=DATE               only show statistics for commits older than a\n"
+"                                   specific date\n"
+"  -w, --weeks[=BOOL]             show all statistical information in weeks\n"
+"                                   instead of in months\n"
+"  -x, --exclude=PATTERN          an exclusion pattern describing the file\n"
+"                                   paths, revisions, revisions with certain\n"
+"                                   commit messages, author names or author\n"
+"                                   emails that should be excluded from the\n"
+"                                   statistics; can be specified multiple times\n"
+"  -h, --help                     display this help and exit\n"
+"      --version                  output version information and exit\n"
+"\n"
+"gitinspector will filter statistics to only include commits that modify,\n"
+"add or remove one of the specified extensions, see -f or --file-types for\n"
+"more information.\n"
+"\n"
+"gitinspector requires that the git executable is available in your PATH.\n"
+"Report gitinspector bugs to gitinspector@ejwa.se."
+msgstr ""
+"Využitie: {0} [MOŽNOSŤ]... [ÚLOŽISKO]\n"
+"Uveďte informácie o úložisku v ÚLOŽISKU. Ak nie je úložisko\n"
+"špecifikovaní, tak bude použité aktuálne úložisko. Ak je zadaných viacero úložisiek tak, \n"
+"informácie sa načítajú z posledného zadaného git úložiska.\n"
+"\n"
+"Povinné argumenty k predĺženým možnostiam sú povinné aj pre krátke možnosti.\n"
+"Boolovské argumenty môžu byť zadané iba pre predĺžené argumenty.\n"
+"  -f, --file-types=EXTENSIONS    zoznam prípon súborov oddelených čiarkou, ktorý\n"
+"                                   bude zahrnutý do výpočtovej štatistiky.\n"
+"                                   Použité predvolené rozšírenia sú:\n"
+"                                   {1}\n"
+"                                   Zadaním * zahŕňame súbory bez\n"
+"                                   prípony, zatiaľ čo použitím ** zahŕňame všetky súbory, ktoré\n"
+"  -F, --format=FORMAT            definujú v akom formáte bude vygenerovaný výstup\n"
+"                                   Predvolený formát je 'text' a\n"
+"                                   dostupné formáty sú:\n"
+"                                   {2}\n"
+"      --grading[=BOOL]           zobraziť štatistiky a informácie spôsobom, ktorý\n"
+"                                   je formátovaný na klasifikáciu študentských\n"
+"                                   projektov; je to rovnaké ako poskytovanie\n"
+"                                   možností -HlmrTw\n"
+"  -H, --hard[=BOOL]              sledovať riadky a hladať duplikáty s väčším úsilím;\n"
+"                                   toto môže byť veľmi časovo náročné s veľkými úložiskami\n"
+"  -l, --list-file-types[=BOOL]   vypísať zoznam všetkých prípon súborov dostupných v\n"
+"                                   aktuálnej vetve úložiska\n"
+"  -L, --localize-output[=BOOL]   lokalizovať vygenerovaný output do vybratého\n"
+"                                   systémového jazyka, ak je preklad\n"
+"                                   k dispozícii\n"
+"  -m  --metrics[=BOOL]           zahŕňať kontroly určitých metrík počas\n"
+"                                   analýzy komitov\n"
+"  -r  --responsibilities[=BOOL]  zobraziť súbory, za ktoré sa rôzni autori zdajú\n"
+"                                   byť najviac zodpovední\n"
+"      --since=DATE               zobrazovať iba štatistiky komitov, ktoré sú novšie\n"
+"                                   ako určený dátum\n"
+"  -T, --timeline[=BOOL]          zobraziť časovú os komitov vrátane mien autorov\n"
+"      --until=DATE               zobrazovať iba štatistiky komitov štaršie ako\n"
+"                                   zadaný dátum\n"
+"  -w, --weeks[=BOOL]             zobraziť všeky štatistické informácie v týždňoch\n"
+"                                   namiesto v mesiacoch\n"
+"  -x, --exclude=PATTERN          vzorka vylúčenia popisujúca cesty\n"
+"                                   súvorov, revízie, revízie s určitými\n"
+"                                   komit správami, mena autorov alebo autorské\n"
+"                                   emaily, ktoré by mali byť vylúčené zo\n"
+"                                   štatistík; je možné zadať viackrát\n"
+"  -h, --help                     zobraziť pomocník a ukončiť\n"
+"      --version                  informácie o výstupovej verzii a ukončiť\n"
+"\n"
+"gitinspector bude filtrovať štatistiky tak, aby zahŕňali iba komity, ktoré upravujú\n"
+"pridávajú alebo odstraňujú jednu zo zadaných rozšírení, pozri -f alebo --file-types pre\n"
+"viac informácií.\n"
+"\n"
+"gitinspector vyžaduje, aby spustiteľný súbor git bol k dispozícii vo vašom PATH.\n"
+"Nahlasovanie gitinspector bugov na: gitinspector@ejwa.se."
+
+msgid "WARNING: The terminal encoding is not correctly configured. gitinspector might malfunction. The encoding can be configured with the environment variable 'PYTHONIOENCODING'."
+msgstr "VAROVANIE: Kódovanie terminálu nie je správne nakonfigurované. gitinspector môže zlyhať. Kódovanie je možné nakonfigurovať pomocou premennej prostredia 'PYTHONIOENCODING'."
+
+msgid "XML output not yet supported in"
+msgstr "XML output zatiaľ nie je podporovaný"
+
+#, python-brace-format
+msgid "gitinspector requires at least Python 2.6 to run (version {0} was found)."
+msgstr "gitinspector vyžaduje aspoň verziu Python 2.6 (verzia {0} bola nájdená)"
+
+msgid "invalid regular expression specified"
+msgstr "zadaný nesprávný regulárny výraz"
+
+msgid "is mostly responsible for"
+msgstr "je väčšinou zodpovedný za"
+
+msgid "specified output format not supported."
+msgstr "zadaný výstupný formát zatiaľ nie je podporovaný"
+
+#, python-brace-format
+msgid "{0} ({1:.3f} in cyclomatic complexity density)"
+msgstr "{0} ({1:.3f} v zahustení cyklomatickej komplexnosti)"
+
+#, python-brace-format
+msgid "{0} ({1} estimated lines of code)"
+msgstr "{0} ({1} odhadovných riadkov kódu)"
+
+#, python-brace-format
+msgid "{0} ({1} in cyclomatic complexity)"
+msgstr "{0} ({1} v cyklomatickej komplexnosti)"
