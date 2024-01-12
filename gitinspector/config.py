@@ -32,7 +32,7 @@ class GitConfig(object):
 		previous_directory = os.getcwd()
 		os.chdir(self.repo)
 		setting = subprocess.Popen(filter(None, ["git", "config", "--global" if self.global_only else "",
-		                           "inspector." + variable]), bufsize=1, stdout=subprocess.PIPE).stdout
+		                           "inspector." + variable]), stdout=subprocess.PIPE).stdout
 		os.chdir(previous_directory)
 
 		try:

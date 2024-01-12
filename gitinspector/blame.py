@@ -91,7 +91,7 @@ class BlameThread(threading.Thread):
 			__blame_lock__.release() # ...to here.
 
 	def run(self):
-		git_blame_r = subprocess.Popen(self.blame_command, bufsize=1, stdout=subprocess.PIPE).stdout
+		git_blame_r = subprocess.Popen(self.blame_command, stdout=subprocess.PIPE).stdout
 		rows = git_blame_r.readlines()
 		git_blame_r.close()
 
@@ -123,7 +123,7 @@ PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()],
 		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = ls_tree_p.communicate()[0].splitlines()
 		ls_tree_p.stdout.close()
