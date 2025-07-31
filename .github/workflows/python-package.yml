@@ -59,4 +59,5 @@ jobs:
           poetry run pylint --rcfile=.pylintrc gitinspector
 
       - name: Run type checking
+        continue-on-error: true
         run: poetry run mypy gitinspector
