@@ -35,4 +35,4 @@ Written by Adam Waldenberg."""
 
 
 def output():
-	print("gitinspector {0}\n".format(__version__) + __doc__)
+	print(f"gitinspector {__version__}\n" + __doc__)

@@ -114,7 +114,7 @@ __comment_markers_must_be_at_begining__ = {"tex": True}
 def __has_comment_begining__(extension, string):
 	if __comment_markers_must_be_at_begining__.get(extension, None):
 		return string.find(__comment_begining__[extension]) == 0
-	elif __comment_begining__.get(extension, None) is not None and string.find(__comment_end__[extension], 2) == -1:
+	if __comment_begining__.get(extension, None) is not None and string.find(__comment_end__[extension], 2) == -1:
 		return string.find(__comment_begining__[extension]) != -1
 
 	return False
@@ -123,7 +123,7 @@ def __has_comment_begining__(extension, string):
 def __has_comment_end__(extension, string):
 	if __comment_markers_must_be_at_begining__.get(extension, None):
 		return string.find(__comment_end__[extension]) == 0
-	elif __comment_end__.get(extension, None) is not None:
+	if __comment_end__.get(extension, None) is not None:
 		return string.find(__comment_end__[extension]) != -1
 
 	return False

@@ -25,7 +25,7 @@ import re
 import sys
 import time
 from pathlib import Path
-from typing import Optional, Tuple, List
+from typing import Optional
 from . import basedir
 
 __enabled__: bool = False
@@ -82,10 +82,10 @@ def check_compatibility(version: str) -> None:
 		header_pattern = re.compile("^([^:\n]+): *(.*?) *$", re.MULTILINE)
 		header_entries = dict(header_pattern.findall(_("")))
 
-		if header_entries["Project-Id-Version"] != "gitinspector {0}".format(version):
+		if header_entries["Project-Id-Version"] != f"gitinspector {version}":
 			print(
 				"WARNING: The translation for your system locale is not up to date with the current gitinspector "
-				"version. The current maintainer of this locale is {0}.".format(header_entries["Last-Translator"]),
+				f"version. The current maintainer of this locale is {header_entries['Last-Translator']}.",
 				file=sys.stderr,
 			)
 
@@ -98,8 +98,7 @@ def get_date() -> str:
 			date = date.decode("utf-8", "replace")
 
 		return date
-	else:
-		return time.strftime("%Y/%m/%d")
+	return time.strftime("%Y/%m/%d")
 
 
 def enable() -> None:

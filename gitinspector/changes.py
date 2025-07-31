@@ -25,7 +25,7 @@ import multiprocessing
 import os
 import subprocess
 import threading
-from typing import List, Optional, Dict, Tuple, Any
+from typing import List, Optional, Tuple
 from .localization import N_
 from . import extensions, filtering, format, interval, terminal
 
@@ -48,7 +48,7 @@ class FileDiff:
 	@staticmethod
 	def is_filediff_line(string: str) -> bool:
 		string = string.split("|")
-		return string.__len__() == 2 and string[1].find("Bin") == -1 and ("+" in string[1] or "-" in string[1])
+		return len(string) == 2 and string[1].find("Bin") == -1 and ("+" in string[1] or "-" in string[1])
 
 	@staticmethod
 	def get_extension(string: str) -> str:
@@ -94,12 +94,12 @@ class Commit:
 	def get_author_and_email(string: str) -> Optional[Tuple[str, str]]:
 		commit_line = string.split("|")
 
-		if commit_line.__len__() == 5:
+		if len(commit_line) == 5:
 			return (commit_line[3].strip(), commit_line[4].strip())
 
 	@staticmethod
 	def is_commit_line(string: str) -> bool:
-		return string.split("|").__len__() == 5
+		return len(string.split("|")) == 5
 
 
 class AuthorInfo():
@@ -220,7 +220,7 @@ class Changes():
 		if git_rev_list_p.returncode == 0 and len(lines) > 0:
 			progress_text = _(PROGRESS_TEXT)
 			if repo is not None:
-				progress_text = "[%s] " % repo.name + progress_text
+				progress_text = f"[{repo.name}] " + progress_text
 
 			chunks = len(lines) // CHANGES_PER_THREAD
 			self.commits = [None] * (chunks if len(lines) % CHANGES_PER_THREAD == 0 else chunks + 1)

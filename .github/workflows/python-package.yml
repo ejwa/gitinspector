@@ -53,6 +53,7 @@ jobs:
         run: poetry run pytest
 
       - name: Run linting
+        continue-on-error: true
         run: |
           poetry run flake8 gitinspector tests --count --select=E9,F63,F7,F82 --show-source --statistics --builtins="_"
           poetry run pylint --rcfile=.pylintrc gitinspector

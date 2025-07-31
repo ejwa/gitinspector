@@ -31,45 +31,45 @@ given, information will be merged into a unified statistical report.
 
 Mandatory arguments to long options are mandatory for short options too.
 Boolean arguments can only be given to long options.
-  -f, --file-types=EXTENSIONS    a comma separated list of file extensions to
-                                   include when computing statistics. The
-                                   default extensions used are:
-                                   {1}
-                                   Specifying * includes files with no
-                                   extension, while ** includes all files
-  -F, --format=FORMAT            define in which format output should be
-                                   generated; the default format is 'text' and
-                                   the available formats are:
-                                   {2}
-      --grading[=BOOL]           show statistics and information in a way that
-                                   is formatted for grading of student
-                                   projects; this is the same as supplying the
-                                   options -HlmrTw
-  -H, --hard[=BOOL]              track rows and look for duplicates harder;
-                                   this can be quite slow with big repositories
+  -f, --file-types=EXTENSIONS	a comma separated list of file extensions to
+								   include when computing statistics. The
+								   default extensions used are:
+								   {1}
+								   Specifying * includes files with no
+								   extension, while ** includes all files
+  -F, --format=FORMAT			define in which format output should be
+								   generated; the default format is 'text' and
+								   the available formats are:
+								   {2}
+	  --grading[=BOOL]		   show statistics and information in a way that
+								   is formatted for grading of student
+								   projects; this is the same as supplying the
+								   options -HlmrTw
+  -H, --hard[=BOOL]			  track rows and look for duplicates harder;
+								   this can be quite slow with big repositories
   -l, --list-file-types[=BOOL]   list all the file extensions available in the
-                                   current branch of the repository
+								   current branch of the repository
   -L, --localize-output[=BOOL]   localize the generated output to the selected
-                                   system language if a translation is
-                                   available
-  -m  --metrics[=BOOL]           include checks for certain metrics during the
-                                   analysis of commits
+								   system language if a translation is
+								   available
+  -m  --metrics[=BOOL]		   include checks for certain metrics during the
+								   analysis of commits
   -r  --responsibilities[=BOOL]  show which files the different authors seem
-                                   most responsible for
-      --since=DATE               only show statistics for commits more recent
-                                   than a specific date
-  -T, --timeline[=BOOL]          show commit timeline, including author names
-      --until=DATE               only show statistics for commits older than a
-                                   specific date
-  -w, --weeks[=BOOL]             show all statistical information in weeks
-                                   instead of in months
-  -x, --exclude=PATTERN          an exclusion pattern describing the file
-                                   paths, revisions, revisions with certain
-                                   commit messages, author names or author
-                                   emails that should be excluded from the
-                                   statistics; can be specified multiple times
-  -h, --help                     display this help and exit
-      --version                  output version information and exit
+								   most responsible for
+	  --since=DATE			   only show statistics for commits more recent
+								   than a specific date
+  -T, --timeline[=BOOL]		  show commit timeline, including author names
+	  --until=DATE			   only show statistics for commits older than a
+								   specific date
+  -w, --weeks[=BOOL]			 show all statistical information in weeks
+								   instead of in months
+  -x, --exclude=PATTERN		  an exclusion pattern describing the file
+								   paths, revisions, revisions with certain
+								   commit messages, author names or author
+								   emails that should be excluded from the
+								   statistics; can be specified multiple times
+  -h, --help					 display this help and exit
+	  --version				  output version information and exit
 
 gitinspector will filter statistics to only include commits that modify,
 add or remove one of the specified extensions, see -f or --file-types for

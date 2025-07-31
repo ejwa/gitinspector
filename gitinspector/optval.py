@@ -64,9 +64,9 @@ def gnu_getopt(args, options, long_options):
 def get_boolean_argument(arg):
 	if isinstance(arg, bool):
 		return arg
-	elif arg is None or arg.lower() == "false" or arg.lower() == "f" or arg == "0":
+	if arg is None or arg.lower() == "false" or arg.lower() == "f" or arg == "0":
 		return False
-	elif arg.lower() == "true" or arg.lower() == "t" or arg == "1":
+	if arg.lower() == "true" or arg.lower() == "t" or arg == "1":
 		return True
 
 	raise InvalidOptionArgument(_("The given option argument is not a valid boolean."))

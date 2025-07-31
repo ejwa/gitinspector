@@ -33,7 +33,7 @@ __cloned_paths__: List[Path] = []
 
 class Repository:
 	"""Represents a git repository with name and location."""
-	
+
 	def __init__(self, name: Optional[str], location: str) -> None:
 		self.name = name
 		self.location = location
@@ -42,13 +42,13 @@ class Repository:
 def create(url: str) -> Repository:
 	"""
 	Create a Repository object, cloning remote URLs or using local paths.
-	
+
 	Args:
 		url: URL or path to the repository
-		
+
 	Returns:
 		Repository: Repository object with name and location
-		
+
 	Raises:
 		SystemExit: If git clone fails
 		GitNotFoundError: If git command is not found
@@ -60,17 +60,17 @@ def create(url: str) -> Repository:
 		try:
 			# Create temporary directory for cloning
 			temp_dir = Path(tempfile.mkdtemp(suffix=".gitinspector"))
-			
+
 			# Clone the repository using our improved git command detection
-			result = run_git_command(
+			run_git_command(
 				["clone", url, str(temp_dir)],
 				capture_output=False,  # Let git output go to stderr
 				check=True
 			)
-			
+
 			__cloned_paths__.append(temp_dir)
 			return Repository(Path(parsed_url.path).name, str(temp_dir))
-			
+
 		except (GitCommandError, GitNotFoundError) as e:
 			print(f"Error cloning repository: {e}", file=sys.stderr)
 			sys.exit(1)

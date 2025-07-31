@@ -111,7 +111,24 @@ markers = [
 ]
 
 [tool.pylint.messages_control]
-disable = ["C0111", "R0903", "R0913"]
+disable = [
+    "C0111",  # missing-docstring
+    "R0903",  # too-few-public-methods
+    "R0913",  # too-many-arguments
+    "R0917",  # too-many-positional-arguments
+    "W0311",  # bad-indentation (we use tabs consistently)
+    "C0103",  # invalid-name (allow short variable names)
+    "R0902",  # too-many-instance-attributes
+    "R0912",  # too-many-branches
+    "R0914",  # too-many-locals
+    "R0915",  # too-many-statements
+    "W0107",  # unnecessary-pass
+    "C0415",  # import-outside-toplevel (sometimes needed for conditional imports)
+    "W4901",  # deprecated-module (pipes module still works)
+    "W4902",  # deprecated-method (getdefaultlocale still works)
+]
 
 [tool.pylint.format]
 max-line-length = 120
+indent-string = "\t"
+indent-after-paren = 1

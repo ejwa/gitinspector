@@ -26,35 +26,33 @@ from .git_utils import GitCommandError, get_git_repository_root, is_bare_reposit
 
 
 def get_basedir() -> str:
-    """Get the base directory of the gitinspector package."""
-    if hasattr(sys, "frozen"):  # exists when running via py2exe
-        return sys.prefix
-    else:
-        return str(Path(__file__).parent.resolve())
+	"""Get the base directory of the gitinspector package."""
+	if hasattr(sys, "frozen"):  # exists when running via py2exe
+		return sys.prefix
+	return str(Path(__file__).parent.resolve())
 
 
 def get_basedir_git(path: Optional[Union[str, Path]] = None) -> str:
-    """
-    Get the base directory of a git repository.
+	"""
+	Get the base directory of a git repository.
 
-    Args:
-        path: Optional path to check (defaults to current directory)
+	Args:
+		path: Optional path to check (defaults to current directory)
 
-    Returns:
-        str: Absolute path to the git repository base directory
+	Returns:
+		str: Absolute path to the git repository base directory
 
-    Raises:
-        SystemExit: If not in a git repository or git command fails
-    """
-    try:
-        if is_bare_repository(path):
-            # For bare repositories, return the git directory path
-            git_dir = get_git_dir(path)
-            return str(git_dir.resolve())
-        else:
-            # For regular repositories, return the working tree root
-            repo_root = get_git_repository_root(path)
-            return str(repo_root.resolve())
-    except GitCommandError as e:
-        current_path = Path(path).resolve() if path else Path.cwd()
-        sys.exit(f'Error processing git repository at "{current_path}": {e}')
+	Raises:
+		SystemExit: If not in a git repository or git command fails
+	"""
+	try:
+		if is_bare_repository(path):
+			# For bare repositories, return the git directory path
+			git_dir = get_git_dir(path)
+			return str(git_dir.resolve())
+		# For regular repositories, return the working tree root
+		repo_root = get_git_repository_root(path)
+		return str(repo_root.resolve())
+	except GitCommandError as e:
+		current_path = Path(path).resolve() if path else Path.cwd()
+		sys.exit(f'Error processing git repository at "{current_path}": {e}')
