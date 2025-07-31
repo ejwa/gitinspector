@@ -23,8 +23,9 @@ from gitinspector.version import __version__
 from glob import glob
 from setuptools import setup, find_packages
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def read(fname: str) -> str:
+    with open(os.path.join(os.path.dirname(__file__), fname), encoding='utf-8') as f:
+        return f.read()
 
 setup(
 	name = "gitinspector",
@@ -41,12 +42,18 @@ setup(
 		"Environment :: Console",
 		"Intended Audience :: Developers",
 		"License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+		"Programming Language :: Python :: 3",
+		"Programming Language :: Python :: 3.10",
+		"Programming Language :: Python :: 3.11",
+		"Programming Language :: Python :: 3.12",
+		"Programming Language :: Python :: 3.13",
 		"Topic :: Software Development :: Version Control",
 		"Topic :: Utilities"
 	],
 	packages = find_packages(exclude = ['tests']),
 	package_data = {"": ["html/*", "translations/*"]},
 	data_files = [("share/doc/gitinspector", glob("*.txt"))],
+	python_requires = ">=3.10",
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = False
 )

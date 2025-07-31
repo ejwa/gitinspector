@@ -140,7 +140,7 @@ class Blame():
 			progress_text = _(PROGRESS_TEXT)
 
 			if repo is not None:
-				progress_text = "[%s] " % repo.name + progress_text
+				progress_text = f"[{repo.name}] " + progress_text
 
 			for i, row in enumerate(lines):
 				row = row.strip().decode("unicode_escape", "ignore")

@@ -13,7 +13,7 @@ endef
 export PRINT_HELP_PYSCRIPT
 
 help:
-	@python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
+	@poetry run python -c "$$PRINT_HELP_PYSCRIPT" < $(MAKEFILE_LIST)
 
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
@@ -36,40 +36,49 @@ clean-test: ## remove test and coverage artifacts
 
 lint: ## check style with flake8 and pylint
 	# stop the build if there are Python syntax errors or undefined names
-	flake8 gitinspector tests --count --select=E9,F63,F7,F82 --show-source --statistics --builtins="_"
+	poetry run flake8 gitinspector tests --count --select=E9,F63,F7,F82 --show-source --statistics --builtins="_"
 	# exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-	flake8 gitinspector tests --count --ignore=E203,E722,W503,E401,C901 --exit-zero --max-complexity=10 --max-line-length=127 --statistics --builtins="_"
-	pylint --rcfile=.pylintrc gitinspector
+	poetry run flake8 gitinspector tests --count --ignore=E203,E722,W503,E401,C901 --exit-zero --max-complexity=10 --max-line-length=127 --statistics --builtins="_"
+	poetry run pylint --rcfile=.pylintrc gitinspector
 
 test: ## run tests quickly with the default Python
-	pytest
+	poetry run pytest
 
 test-coverage: ## check code coverage quickly with the default Python
-	coverage run --source gitinspector -m pytest
-	coverage report -m
+	poetry run coverage run --source gitinspector -m pytest
+	poetry run coverage report -m
 
 release: dist ## package and upload a release
-	twine upload dist/*
+	poetry publish
 
 tag-version:
-	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	@export VERSION_TAG=`poetry run python3 -c "from gitinspector.version import __version__; print(__version__)"` \
 	&& git tag v$$VERSION_TAG
 
 untag-version:
-	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	@export VERSION_TAG=`poetry run python3 -c "from gitinspector.version import __version__; print(__version__)"` \
 	&& git tag -d v$$VERSION_TAG
 
 push-tagged-version: tag-version
-	@export VERSION_TAG=`python3 -c "from gitinspector.version import __version__; print(__version__)"` \
+	@export VERSION_TAG=`poetry run python3 -c "from gitinspector.version import __version__; print(__version__)"` \
 	&& git push origin v$$VERSION_TAG
 
 dist: clean ## builds source and wheel package
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
+	poetry build
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python3 setup.py install
+	poetry install
 
-requirements:
-	pipenv requirements > requirements.txt
+format: ## format code with black and isort
+	poetry run black gitinspector tests
+	poetry run isort gitinspector tests
+
+type-check: ## run type checking with mypy
+	poetry run mypy gitinspector
+
+dev-install: ## install development dependencies
+	poetry install --with dev
+
+update-deps: ## update dependencies
+	poetry update

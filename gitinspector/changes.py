@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
 
 import bisect
 import datetime
@@ -24,6 +25,7 @@ import multiprocessing
 import os
 import subprocess
 import threading
+from typing import List, Optional, Dict, Tuple, Any
 from .localization import N_
 from . import extensions, filtering, format, interval, terminal
 
@@ -34,8 +36,8 @@ __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __changes_lock__ = threading.Lock()
 
 
-class FileDiff():
-	def __init__(self, string):
+class FileDiff:
+	def __init__(self, string: str) -> None:
 		commit_line = string.split("|")
 
 		if commit_line.__len__() == 2:
@@ -44,21 +46,21 @@ class FileDiff():
 			self.deletions = commit_line[1].count("-")
 
 	@staticmethod
-	def is_filediff_line(string):
+	def is_filediff_line(string: str) -> bool:
 		string = string.split("|")
 		return string.__len__() == 2 and string[1].find("Bin") == -1 and ("+" in string[1] or "-" in string[1])
 
 	@staticmethod
-	def get_extension(string):
+	def get_extension(string: str) -> str:
 		string = string.split("|")[0].strip().strip("{}").strip('"').strip("'")
 		return os.path.splitext(string)[1][1:]
 
 	@staticmethod
-	def get_filename(string):
+	def get_filename(string: str) -> str:
 		return string.split("|")[0].strip().strip("{}").strip('"').strip("'")
 
 	@staticmethod
-	def is_valid_extension(string):
+	def is_valid_extension(string: str) -> bool:
 		extension = FileDiff.get_extension(string)
 
 		for i in extensions.get():
@@ -67,7 +69,7 @@ class FileDiff():
 		return False
 
 
-class Commit():
+class Commit:
 	def __init__(self, string):
 		self.filediffs = []
 		commit_line = string.split("|")
@@ -79,24 +81,24 @@ class Commit():
 			self.author = commit_line[3].strip()
 			self.email = commit_line[4].strip()
 
-	def __lt__(self, other):
+	def __lt__(self, other: Commit) -> bool:
 		return self.timestamp.__lt__(other.timestamp)  # only used for sorting; we just consider the timestamp.
 
-	def add_filediff(self, filediff):
+	def add_filediff(self, filediff: FileDiff) -> None:
 		self.filediffs.append(filediff)
 
-	def get_filediffs(self):
+	def get_filediffs(self) -> List[FileDiff]:
 		return self.filediffs
 
 	@staticmethod
-	def get_author_and_email(string):
+	def get_author_and_email(string: str) -> Optional[Tuple[str, str]]:
 		commit_line = string.split("|")
 
 		if commit_line.__len__() == 5:
 			return (commit_line[3].strip(), commit_line[4].strip())
 
 	@staticmethod
-	def is_commit_line(string):
+	def is_commit_line(string: str) -> bool:
 		return string.split("|").__len__() == 5
 
 

@@ -1,2 +1,117 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "gitinspector"
+version = "0.4.4"
+description = "A statistical analysis tool for git repositories"
+authors = ["Ejwa Software <gitinspector@ejwa.se>"]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://github.com/ejwa/gitinspector"
+repository = "https://github.com/ejwa/gitinspector"
+keywords = ["analysis", "analyzer", "git", "python", "statistics", "stats", "vc", "vcs", "timeline"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Version Control",
+    "Topic :: Utilities"
+]
+packages = [{include = "gitinspector"}]
+include = [
+    "gitinspector/html/*",
+    "gitinspector/translations/*",
+    "*.txt"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "^7.4.0"
+coverage = "^7.3.0"
+
+# Code quality
+black = "^23.7.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+pylint = "^3.0.0"
+mypy = "^1.5.0"
+
+# Documentation
+sphinx = "^7.1.0"
+sphinx-rtd-theme = "^1.3.0"
+
+# Build and release
+twine = "^4.0.0"
+build = "^0.10.0"
+
+[tool.poetry.scripts]
+gitinspector = "gitinspector.gitinspector:main"
+
 [tool.coverage.run]
 relative_files = true
+source = ["gitinspector"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "setup.py"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError"
+]
+
+[tool.black]
+target-version = ['py310', 'py311', 'py312', 'py313']
+line-length = 120
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --strict-markers"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests"
+]
+
+[tool.pylint.messages_control]
+disable = ["C0111", "R0903", "R0913"]
+
+[tool.pylint.format]
+max-line-length = 120

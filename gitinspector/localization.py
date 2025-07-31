@@ -17,26 +17,28 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
 
 import gettext
 import locale
-import os
 import re
 import sys
 import time
+from pathlib import Path
+from typing import Optional, Tuple, List
 from . import basedir
 
-__enabled__ = False
-__installed__ = False
-__translation__ = None
+__enabled__: bool = False
+__installed__: bool = False
+__translation__: Optional[gettext.GNUTranslations] = None
 
 
 # Dummy function used to handle string constants
-def N_(message):
+def N_(message: str) -> str:
 	return message
 
 
-def init():
+def init() -> None:
 	global __enabled__
 	global __installed__
 	global __translation__
@@ -50,6 +52,7 @@ def init():
 			lang = locale.getlocale()
 
 			# Fix for non-POSIX-compliant systems (Windows et al.).
+			import os
 			if os.getenv("LANG") is None:
 				lang = locale.getdefaultlocale()
 
@@ -57,11 +60,13 @@ def init():
 					os.environ["LANG"] = lang[0]
 
 			if lang[0] is not None:
-				filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
+				base_dir = Path(basedir.get_basedir())
+				translation_file = base_dir / "translations" / f"messages_{lang[0][0:2]}.mo"
 
 				try:
-					__translation__ = gettext.GNUTranslations(open(filename, "rb"))
-				except IOError:
+					with translation_file.open("rb") as f:
+						__translation__ = gettext.GNUTranslations(f)
+				except (IOError, OSError):
 					__translation__ = gettext.NullTranslations()
 			else:
 				print("WARNING: Localization disabled because the system language could not be determined.", file=sys.stderr)
@@ -72,7 +77,7 @@ def init():
 		__translation__.install()
 
 
-def check_compatibility(version):
+def check_compatibility(version: str) -> None:
 	if isinstance(__translation__, gettext.GNUTranslations):
 		header_pattern = re.compile("^([^:\n]+): *(.*?) *$", re.MULTILINE)
 		header_entries = dict(header_pattern.findall(_("")))
@@ -85,7 +90,7 @@ def check_compatibility(version):
 			)
 
 
-def get_date():
+def get_date() -> str:
 	if __enabled__ and isinstance(__translation__, gettext.GNUTranslations):
 		date = time.strftime("%x")
 
@@ -97,7 +102,7 @@ def get_date():
 		return time.strftime("%Y/%m/%d")
 
 
-def enable():
+def enable() -> None:
 	if isinstance(__translation__, gettext.GNUTranslations):
 		__translation__.install(True)
 
@@ -105,7 +110,7 @@ def enable():
 		__enabled__ = True
 
 
-def disable():
+def disable() -> None:
 	global __enabled__
 	__enabled__ = False
 

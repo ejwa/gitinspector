@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright 2012-2015 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -17,49 +17,44 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import subprocess
+from __future__ import annotations
+
 import sys
+from pathlib import Path
+from typing import Optional, Union
+from .git_utils import GitCommandError, get_git_repository_root, is_bare_repository, get_git_dir
 
 
-def get_basedir():
-	if hasattr(sys, "frozen"):  # exists when running via py2exe
-		return sys.prefix
-	else:
-		return os.path.dirname(os.path.realpath(__file__))
+def get_basedir() -> str:
+    """Get the base directory of the gitinspector package."""
+    if hasattr(sys, "frozen"):  # exists when running via py2exe
+        return sys.prefix
+    else:
+        return str(Path(__file__).parent.resolve())
 
 
-def get_basedir_git(path=None):
-	previous_directory = None
+def get_basedir_git(path: Optional[Union[str, Path]] = None) -> str:
+    """
+    Get the base directory of a git repository.
 
-	if path is not None:
-		previous_directory = os.getcwd()
-		os.chdir(path)
+    Args:
+        path: Optional path to check (defaults to current directory)
 
-	bare_command = subprocess.Popen(
-		["git", "rev-parse", "--is-bare-repository"], stdout=subprocess.PIPE, stderr=open(os.devnull, "w")
-	)
+    Returns:
+        str: Absolute path to the git repository base directory
 
-	isbare = bare_command.stdout.readlines()
-	bare_command.wait()
-
-	if bare_command.returncode != 0:
-		sys.exit(_('Error processing git repository at "%s".' % os.getcwd()))
-
-	isbare = isbare[0].decode("utf-8", "replace").strip() == "true"
-	absolute_path = None
-
-	if isbare:
-		absolute_path = subprocess.Popen(["git", "rev-parse", "--git-dir"], stdout=subprocess.PIPE).stdout
-	else:
-		absolute_path = subprocess.Popen(["git", "rev-parse", "--show-toplevel"], stdout=subprocess.PIPE).stdout
-
-	absolute_path = absolute_path.readlines()
-
-	if len(absolute_path) == 0:
-		sys.exit(_("Unable to determine absolute path of git repository."))
-
-	if path is not None:
-		os.chdir(previous_directory)
-
-	return absolute_path[0].decode("utf-8", "replace").strip()
+    Raises:
+        SystemExit: If not in a git repository or git command fails
+    """
+    try:
+        if is_bare_repository(path):
+            # For bare repositories, return the git directory path
+            git_dir = get_git_dir(path)
+            return str(git_dir.resolve())
+        else:
+            # For regular repositories, return the working tree root
+            repo_root = get_git_repository_root(path)
+            return str(repo_root.resolve())
+    except GitCommandError as e:
+        current_path = Path(path).resolve() if path else Path.cwd()
+        sys.exit(f'Error processing git repository at "{current_path}": {e}')

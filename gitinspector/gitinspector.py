@@ -18,10 +18,13 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 
+from __future__ import annotations
+
 import atexit
 import getopt
 import os
 import sys
+from typing import Optional, List, Any
 from .blame import Blame
 from .changes import Changes
 from .config import GitConfig
@@ -39,8 +42,8 @@ from .output.timelineoutput import TimelineOutput
 localization.init()
 
 
-class Runner():
-	def __init__(self):
+class Runner:
+	def __init__(self) -> None:
 		self.hard = False
 		self.include_metrics = False
 		self.list_file_types = False
@@ -50,7 +53,7 @@ class Runner():
 		self.timeline = False
 		self.useweeks = False
 
-	def process(self, repos):
+	def process(self, repos: List[Any]) -> None:
 		localization.check_compatibility(version.__version__)
 
 		if not self.localize_output:
@@ -102,13 +105,13 @@ class Runner():
 		os.chdir(previous_directory)
 
 
-def __check_python_version__():
-	if sys.version_info < (3, 6):
-		python_version = str(sys.version_info[0]) + "." + str(sys.version_info[1])
-		sys.exit(_("gitinspector requires at least Python 3.6 to run (version {0} was found).").format(python_version))
+def __check_python_version__() -> None:
+	if sys.version_info < (3, 10):
+		python_version = f"{sys.version_info[0]}.{sys.version_info[1]}"
+		sys.exit(_(f"gitinspector requires at least Python 3.10 to run (version {python_version} was found)."))
 
 
-def __get_validated_git_repos__(repos_relative):
+def __get_validated_git_repos__(repos_relative: Any) -> List[Any]:
 	if not repos_relative:
 		repos_relative = "."
 
@@ -127,7 +130,7 @@ def __get_validated_git_repos__(repos_relative):
 	return repos
 
 
-def main(argv=None):
+def main(argv: Optional[List[str]] = None) -> None:
 	terminal.check_terminal_encoding()
 	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8() if argv is None else argv
@@ -231,7 +234,7 @@ def main(argv=None):
 
 
 @atexit.register
-def cleanup():
+def cleanup() -> None:
 	clone.delete()
 
 
