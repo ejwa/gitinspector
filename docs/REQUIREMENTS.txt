@@ -1,0 +1,60 @@
+gitinspector requirements
+=========================
+
+Runtime
+-------
+gitinspector is written in Python and only depends on the Python standard
+library. Besides a Python interpreter it needs:
+
+  * The git executable, available in the PATH of the user running it.
+
+The "html" output format references jQuery, Flot and Bootstrap from public
+content delivery networks, so a generated report needs internet access when
+viewed. The "htmlembedded" format bundles everything into the report and can
+be viewed offline.
+
+
+Python compatibility
+--------------------
+gitinspector retains compatibility with both Python 2 and Python 3. Changes
+to the code base must keep it working on all of the following versions:
+
+  * Python 2.7, the last release of the Python 2 line.
+  * Python 3.5, as shipped with Debian 9.
+  * Python 3.7, as shipped with Debian 10.
+  * Python 3.9, as shipped with Debian 11.
+  * Python 3.11, as shipped with Debian 12 and Red Hat Enterprise Linux 9.
+  * Python 3.12, as shipped with Ubuntu 24.04 LTS.
+  * Python 3.13, as shipped with Debian 13.
+  * Python 3.14, the latest stable release of Python.
+
+Older Python 2 releases down to 2.6 are still accepted by the version check,
+but are no longer a target. A Python 3 release stays on the list for as long
+as a Debian release that ships it is still supported, even after the Python
+release itself has reached its end of life upstream.
+
+To stay compatible with every listed version, the code:
+
+  * Imports unicode_literals from the __future__ module in every module that
+    handles text, together with print_function in modules that print and
+    division where integer division would differ, as the existing modules do.
+  * Avoids syntax introduced after Python 2.7, such as f-strings, keyword-only
+    arguments, type annotations and the async keywords.
+  * Handles the differences between text and bytes explicitly when reading
+    from git and writing to the terminal, instead of relying on the implicit
+    conversions of Python 2.
+  * Uses standard library APIs in a way that works on both lines, adding a
+    fallback whenever an API only exists or behaves differently on one of
+    them.
+
+
+Development
+-----------
+The following tools are needed when working on gitinspector, but not when
+running it:
+
+  * unittest2, used by the test suite under the tests directory.
+  * GNU gettext (xgettext, msgmerge and msgfmt), used to regenerate the
+    translation template and to compile the translation catalogs.
+  * AsciiDoc (a2x), used to build the manual page and the HTML manual from
+    docs/gitinspector.txt.
