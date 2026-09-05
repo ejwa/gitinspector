@@ -23,7 +23,7 @@ import json
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
@@ -44,7 +44,9 @@ class ChangesOutput(Outputable):
 			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
-			changes_xml += "<p>" + _(HISTORICAL_INFO_TEXT) + ".</p><div><table id=\"changes\" class=\"git\">"
+			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1>"
+			changes_xml += html_toggle_button(_("Show minor authors"))
+			changes_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"changes\" class=\"table\">"
 			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
 			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
 			changes_xml += "</tr></thead><tbody>"
@@ -53,13 +55,11 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(entry)
 				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
 
-				changes_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
-
 				if format.get_selected() == "html":
-					changes_xml += "<td><img src=\"{0}\"/>{1}</td>".format(
+					changes_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(
 					               gravatar.get_url(self.changes.get_latest_email_by_author(entry)), entry)
 				else:
-					changes_xml += "<td>" + entry + "</td>"
+					changes_xml += "<tr><td>" + entry + "</td>"
 
 				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
 				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
@@ -71,8 +71,7 @@ class ChangesOutput(Outputable):
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
 
-			changes_xml += ("<tfoot><tr> <td colspan=\"5\">&nbsp;</td> </tr></tfoot></tbody></table>")
-			changes_xml += "<div class=\"chart\" id=\"changes_chart\"></div></div>"
+			changes_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"changes_chart\"></div></div>"
 			changes_xml += "<script type=\"text/javascript\">"
 			changes_xml += "    changes_plot = $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
 			changes_xml += "        series: {"
@@ -80,7 +79,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "                innerRadius: 0.4,"
 			changes_xml += "                show: true,"
 			changes_xml += "                combine: {"
-			changes_xml += "                    threshold: 0.01,"
+			changes_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
 			changes_xml += "                    label: \"" + _("Minor Authors") + "\""
 			changes_xml += "                }"
 			changes_xml += "            }"
@@ -90,7 +89,7 @@ class ChangesOutput(Outputable):
 			changes_xml += "    });"
 			changes_xml += "</script>"
 		else:
-			changes_xml += "<p>" + _(NO_COMMITED_FILES_TEXT) + ".</p>"
+			changes_xml += "<h1>" + _(NO_COMMITED_FILES_TEXT) + "</h1>"
 
 		changes_xml += "</div></div>"
 		print(changes_xml)

@@ -25,7 +25,7 @@ import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
 from ..blame import Blame
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 BLAME_INFO_TEXT = N_("Below are the number of lines from each author that have survived and are still "
                      "intact in the current revision")
@@ -42,7 +42,9 @@ class BlameOutput(Outputable):
 
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
-		blame_xml += "<p>" + _(BLAME_INFO_TEXT) + ".</p><div><table id=\"blame\" class=\"git\">"
+		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1>"
+		blame_xml += html_toggle_button(_("Show minor authors"))
+		blame_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"blame\" class=\"table\">"
 		if self.forcemonths and self.blame.useweeks:
 			formtup = (_("Author"), _("Lines"), _("Stability"), _("Age, months"), _("Age, weeks"), _("% in comments"))
 			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> <th>{5}</th> </tr></thead>"
@@ -60,13 +62,12 @@ class BlameOutput(Outputable):
 
 		for i, entry in enumerate(blames):
 			work_percentage = str("{0:.2f}".format(100.0 * entry[1].lines / total_blames))
-			blame_xml += "<tr " + ("class=\"odd\">" if i % 2 == 1 else ">")
 
 			if format.get_selected() == "html":
 				author_email = self.changes.get_latest_email_by_author(entry[0])
-				blame_xml += "<td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
+				blame_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
 			else:
-				blame_xml += "<td>" + entry[0] + "</td>"
+				blame_xml += "<tr><td>" + entry[0] + "</td>"
 
 			blame_xml += "<td>" + str(entry[1].lines) + "</td>"
 			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].lines, self.changes)) + "</td>")
@@ -81,8 +82,7 @@ class BlameOutput(Outputable):
 			if blames[-1] != entry:
 				chart_data += ", "
 
-		blame_xml += "<tfoot><tr> <td colspan=\"%d\">&nbsp;</td> </tr></tfoot></tbody></table>" % len(formtup)
-		blame_xml += "<div class=\"chart\" id=\"blame_chart\"></div></div>"
+		blame_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"blame_chart\"></div></div>"
 		blame_xml += "<script type=\"text/javascript\">"
 		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
 		blame_xml += "        series: {"
@@ -90,7 +90,7 @@ class BlameOutput(Outputable):
 		blame_xml += "                innerRadius: 0.4,"
 		blame_xml += "                show: true,"
 		blame_xml += "                combine: {"
-		blame_xml += "                    threshold: 0.01,"
+		blame_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
 		blame_xml += "                    label: \"" + _("Minor Authors") + "\""
 		blame_xml += "                }"
 		blame_xml += "            }"

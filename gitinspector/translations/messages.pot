@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 00:06+0200\n"
+"POT-Creation-Date: 2026-09-06 00:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -86,12 +86,6 @@ msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"
 msgstr ""
 
 msgid "HTML output not yet supported in"
-msgstr ""
-
-msgid "Hide lines with minor work"
-msgstr ""
-
-msgid "Hide minor authors"
 msgstr ""
 
 msgid "Insertions"

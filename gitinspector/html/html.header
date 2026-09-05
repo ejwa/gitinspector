@@ -2,142 +2,104 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{title}</title>
 		<script type="application/javascript"{jquery}</script>
 		<script type="application/javascript">{jquery_tablesorter}</script>
-		<script type="application/javascript">{jquery_flot}</script>
-		<script type="application/javascript">{jquery_flot_pie}</script>
-		<script type="application/javascript">{jquery_flot_resize}</script>
+		<script type="application/javascript"{jquery_flot}</script>
+		<script type="application/javascript"{jquery_flot_pie}</script>
+		<script type="application/javascript"{jquery_flot_resize}</script>
+		{bootstrap_css}
 		<script type="application/javascript">
+			var MINOR_AUTHOR_PERCENTAGE = 1.00;
+
 			$(document).ready(function() {{
-				var line = 0;
-				var MINOR_AUTHOR_PERCENTAGE = 1.00;
-				var isReversed = false;
+				var isMinorPercentage = function() {{
+					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
+				}};
 
-				var colorLines = function() {{
-					$(this).removeClass("odd");
+				var minorAuthorRows = function(table) {{
+					return table.find("tbody tr td:last-child").filter(isMinorPercentage).parent();
+				}};
 
-					if (line++ % 2 == 1) {{
-						$(this).addClass("odd");
-					}}
-
-					if(this == $(this).parent().find("tr:visible").get(-1)) {{
-						line = 0;
-					}}
-				}}
-
-				// Fix header and set it to the right width.
-				var remainingHeaderWidth = ($("div.logo").width() - 4) - ($("div.logo img").innerWidth() + 48)
-				$("div.logo p").css("width", remainingHeaderWidth);
-
-				var filterResponsibilities = function() {{
-					$("table#blame tbody tr td:last-child").filter(function() {{
-						return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-					}}).parent().find("td:first-child").each(function() {{
-						$("div#responsibilities div h3:contains(\"" + $(this).text() + "\")").parent().hide();
+				var idleRows = function(table) {{
+					return table.find("tbody tr").filter(function() {{
+						return $(this).find("td div").length == 0;
 					}});
-				}}
+				}};
 
-				var filterTimeLine = function() {{
-					$("div#timeline table.git tbody tr").filter(function() {{
-						return $(this).find("td:has(div)").length == 0;
-					}}).hide();
-				}}
+				var minorAuthorNames = minorAuthorRows($("table#blame")).find("td:first-child").map(function() {{
+					return $(this).text();
+				}}).get();
 
-				$("table#changes tbody tr td:last-child").filter(function() {{
-					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-				}}).parent().hide();
-
-				$("table#blame tbody tr td:last-child").filter(function() {{
-					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-				}}).parent().hide();
-
-				$("table.git tbody tr:visible").each(colorLines);
-
-				$("table#changes, table#blame").tablesorter({{
-					sortList: [[0,0]],
-					headers: {{
-						0: {{ sorter: "text" }}
-					}}
-				}}).bind("sortEnd", function() {{
-					$(this).find("tbody tr:visible").each(colorLines);
+				var minorResponsibilities = $("div#responsibilities div.author").filter(function() {{
+					return $.inArray($(this).find("span.name").text(), minorAuthorNames) >= 0;
 				}});
 
-				$("table#changes thead tr th, table#blame thead tr th").click(function() {{
-					$(this).parent().find("th strong").remove();
-					var parentIndex = $(this).index();
+				// Hidden rows would otherwise break the striping, as CSS cannot tell visible rows apart.
+				var stripe = function(rows) {{
+					rows.filter(":visible").each(function(i) {{
+						$(this).toggleClass("odd", i % 2 == 1);
+					}});
+				}};
 
-					if (this.isReversed) {{
-						$(this).append("<strong> &and;</strong>");
-					}} else {{
-						$(this).append("<strong> &or;</strong>");
+				// The button of a box stays disabled unless there is something for it to reveal.
+				var setupToggle = function(box, hidden, onToggle) {{
+					if (hidden.length == 0) {{
+						return;
 					}}
+
+					hidden.hide();
+					onToggle();
+					box.find("button.btn").prop("disabled", false).click(function() {{
+						var pressed = !$(this).hasClass("active");
+						$(this).toggleClass("active", pressed).attr("aria-pressed", pressed);
+						hidden.toggle(pressed);
+						onToggle();
+					}});
+				}};
+
+				$("table#changes, table#blame").each(function() {{
+					var table = $(this);
+					var restripe = function() {{
+						stripe(table.find("tbody tr"));
+					}};
+
+					table.tablesorter({{
+						sortList: [[0,0]],
+						headers: {{
+							0: {{ sorter: "text" }}
+						}}
+					}}).bind("sortEnd", restripe);
+
+					setupToggle(table.closest("div.box"), minorAuthorRows(table), restripe);
+					restripe();
+				}});
+
+				$("table#changes thead th, table#blame thead th").click(function() {{
+					$(this).parent().find("th strong").remove();
+					$(this).append(this.isReversed ? "<strong> &#x25b2;</strong>" : "<strong> &#x25bc;</strong>");
 					this.isReversed = !this.isReversed;
 				}});
 
-				$("table#changes thead tr th:first-child, table#blame thead tr th:first-child").each(function() {{
+				$("table#changes thead th:first-child, table#blame thead th:first-child").each(function() {{
 					this.isReversed = true;
-					$(this).append("<strong> &or;</strong>");
+					$(this).append("<strong> &#x25bc;</strong>");
 				}});
 
-				$("table.git tfoot tr td:first-child").filter(function() {{
-					this.hiddenCount = $(this).parent().parent().parent().find("tbody tr:hidden").length;
-					return this.hiddenCount > 0;
-				}}).each(function() {{
-					$(this).addClass("hoverable");
-					this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
-				}}).click(function() {{
-					this.clicked = !this.clicked;
+				$("div.box.timeline").each(function() {{
+					var box = $(this);
+					var restripe = function() {{
+						box.find("table").each(function() {{
+							stripe($(this).find("tbody tr"));
+						}});
+					}};
 
-					if (this.clicked) {{
-						this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &and;";
-						$(this).parent().parent().parent().find("tbody tr").show().each(colorLines);
-					}} else {{
-						this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
-						$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
-							return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
-						}}).parent().hide();
-						$("table.git tbody tr:visible").each(colorLines);
-					}}
+					setupToggle(box, idleRows(box.find("table")), restripe);
+					restripe();
 				}});
 
-				filterResponsibilities();
-				var hiddenResponsibilitiesCount = $("div#responsibilities div h3:hidden").length;
-				if (hiddenResponsibilitiesCount > 0) {{
-					$("div#responsibilities div h3:visible").each(colorLines);
-					$("div#responsibilities").prepend("<div class=\"button\">{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;</div>");
-
-					$("div#responsibilities div.button").click(function() {{
-						this.clicked = !this.clicked;
-						if (this.clicked) {{
-							this.innerHTML = "{hide_minor_authors} (" + hiddenResponsibilitiesCount + ") &and;";
-							$("div#responsibilities div").show();
-						}} else {{
-							this.innerHTML = "{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;";
-							filterResponsibilities();
-						}}
-					}});
-				}}
-
-
-				filterTimeLine();
-				var hiddenTimelineCount = $("div#timeline table.git tbody tr:hidden").length;
-				if (hiddenTimelineCount > 0) {{
-					$("div#timeline table.git tbody tr:visible").each(colorLines);
-					$("div#timeline").prepend("<div class=\"button\">{show_minor_lines} (" + hiddenTimelineCount + ") &or;</div>");
-
-					$("div#timeline div.button").click(function() {{
-						this.clicked = !this.clicked;
-						if (this.clicked) {{
-							this.innerHTML = "{hide_minor_lines} (" + hiddenTimelineCount + ") &and;";
-							$("div#timeline table.git tbody tr").show().each(colorLines);
-						}} else {{
-							this.innerHTML = "{show_minor_lines} (" + hiddenTimelineCount + ") &or;";
-							filterTimeLine();
-							$("div#timeline table.git tbody tr:visible").each(colorLines);
-						}}
-					}});
-				}}
+				setupToggle($("div#responsibilities"), minorResponsibilities, function() {{}});
 
 				$("#blame_chart, #changes_chart").bind("plothover", function(event, pos, obj) {{
 					if (obj) {{
@@ -158,210 +120,225 @@
 				}});
 
 				// Make sure the two pie charts use the same colors.
+				if (window.changes_plot && window.blame_plot) {{
+					var author_colors = {{}};
+					$.each(changes_plot.getData(), function(i, v) {{
+						author_colors[v["label"]] = v["color"];
+					}});
 
-				var author_colors = {{}};
-				$.each(changes_plot.getData(), function(i, v) {{
-					author_colors[v["label"]] = v["color"];
-				}});
+					$.each(blame_plot.getData(), function(i, v) {{
+						if (author_colors[v["label"]] != undefined) {{
+							v["color"] = author_colors[v["label"]];
+						}}
+					}});
 
-				$.each(blame_plot.getData(), function(i, v) {{
-					if (author_colors[v["label"]] != undefined) {{
-						v["color"] = author_colors[v["label"]];
-					}}
-				}});
+					blame_plot.setupGrid();
+					blame_plot.draw();
+				}}
 
-				blame_plot.setupGrid();
-				blame_plot.draw();
-
-				// Color in metrics levels.
-
-				$("div#metrics div div").each(function() {{
-					var rgb = $(this).css("background-color").match(/\d+/g);
-					rgb[0] = parseInt(rgb[0]);
-					rgb[1] = parseInt(rgb[1]);
-					rgb[2] = parseInt(rgb[2]);
-
-					if ($(this).hasClass("minimal")) {{
-						rgb[0] -= 10;
-						rgb[1] += 10;
-						rgb[2] -= 10;
-					}} else if ($(this).hasClass("minor")) {{
-						rgb[1] += 10;
-					}} else if ($(this).hasClass("medium")) {{
-						rgb[0] += 10;
-						rgb[1] += 10;
-					}} else if ($(this).hasClass("bad")) {{
-						rgb[0] += 10;
-						rgb[1] -= 10;
-						rgb[2] -= 10;
-					}} else if ($(this).hasClass("severe")) {{
-						rgb[0] += 20;
-						rgb[1] -= 20;
-						rgb[2] -= 20;
-					}}
-
-					$(this).css("background-color", "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")");
+				// Restyle pie chart legends.
+				$("div.legend table").css("position", "relative");
+				$("div.chart").resize(function() {{
+					$(this).find("div.legend table").css("position", "relative");
 				}});
 			}});
 		</script>
 		<style type="text/css">
 			body {{
-				background: -webkit-linear-gradient(left, #8f8a9a, #dad2d7, #8f8a9a);
-				background: -moz-linear-gradient(left, #8f8a9a, #dad2d7, #8f8a9a);
-			}}
-			html, body {{
 				margin: 0;
-				font-family: "Arial";
-			}}
-			body > div {{
-				margin: 0 auto;
-				width: 58em;
+				font-family: "Arial", sans-serif;
+				background: linear-gradient(to right, #afbaba, #eae2e7, #afbaba);
 			}}
 			div.box {{
-				border: 4px solid #ddd;
-				background-color: #eee;
-				margin: 0.75em;
-				padding: 5px;
-				font-size: small;
-				border-radius: 15px;
-				-moz-border-radius: 15px;
+				margin: 2em;
+				padding: 1em;
+				border: 6px solid #e7e7e7;
+				border-radius: 10px;
+				background-color: #f4f4f4;
 				box-shadow: 1px 1px 3px #666;
-				-moz-box-shadow: 1px 1px 3px #666;
-			}}
-			div.logo p {{
-				width: 60em;
-				display:inline-block;
-				vertical-align:middle;
+				font-size: small;
+				text-align: center;
 			}}
 			div.logo img {{
-				vertical-align:middle;
-				padding: 2px 10px 2px 2px;
-			}}
-			body > div {{
-				display: block-inline;
-			}}
-			body > div > div > div {{
-				position: relative;
-				width: 100%;
-				min-height: 140px;
-			}}
-			table.git {{
-				font-size: small;
-				width: 65%;
-				padding-right: 5px;
-			}}
-			table.full {{
-				width: 100%;
-			}}
-			table.git th, table.git tfoot tr td {{
-				padding: 0.3em;
-				background-color: #ddcece;
-				border-radius: 8px 8px 0px 0px;
-				-moz-border-radius: 8px 8px 0px 0px;
-			}}
-			table#changes thead tr th, table#blame thead tr th, table.git tfoot tr td {{
-				border: 1px solid #eee;
-				text-align: center;
-			}}
-			table.git tfoot tr td {{
-				border-radius: 0px 0px 8px 8px;
-				-moz-border-radius: 0px 0px 8px 8px;
-				text-align: center;
-			}}
-			table.git td, table.git th, table#timeline td, table#timeline th {{
-				padding: 0.35em;
-				height: 2em;
-			}}
-			table.git td div.insert {{
-				background-color: #7a7;
-			}}
-			table.git td div.remove {{
-				background-color: #c66;
-			}}
-			table.git td div.insert, table.git td div.remove {{
-				height: 100%;
 				float: left;
+				padding: 0 1em 0 0;
 			}}
-			table.git tr.odd {{
-				background-color: #dbdbdb;
+			div.logo p {{
+				margin: 0;
+				padding: 15px 0 0 0;
 			}}
-			table.git tr.piehover {{
-				background-color: #dddece;
+			h1 {{
+				margin-top: 10px;
+				font-size: 18px;
 			}}
-			div.chart {{
-				position: absolute;
-				top: 5px;
-				bottom: 5px;
-				right: 0px;
-				width: 35%;
-				min-height: 100px;
-				max-height: 210px;
-				font-size: x-small;
+			h3 {{
+				margin: 20px 0 8px 0;
+				font-size: 16px;
 			}}
-			p.error {{
-				color: #700;
+			hr {{
+				border: 3px solid #e7e7e7;
 			}}
-			table#changes thead tr th:hover, table#blame thead tr th:hover,
-			table#changes tfoot tr td.hoverable:hover, table#blame tfoot tr td.hoverable:hover,
-			div.button:hover, div#responsibilities div.button:hover {{
-				background-color: #eddede;
-				border: 1px solid #bbb;
-				cursor: hand;
+			button.btn.btn-primary {{
+				margin-top: 10px;
+				padding: 10px 25px 10px 15px;
+				border-color: #e2b2a0;
+				background-color: #e7b7a5;
+				color: #333;
+				font-weight: bold;
 			}}
-			div#responsibilities div, div#responsibilities div div, div#metrics div, div#metrics div div {{
-				min-height: 0px;
-				padding: 0.5em 0.2em;
-				width: auto;
+			button.btn.btn-primary:hover, button.btn.btn-primary.active {{
+				border-color: #a77765;
+				background-color: #b78775;
+				color: #fff;
 			}}
-			div#metrics div {{
-				background-color: #eee;
+			button.btn span {{
+				color: transparent;
 			}}
-			div#responsibilities div.odd, div#metrics div.odd {{
-				background-color: #dbdbdb;
+			button.btn.active span {{
+				color: #fff;
 			}}
-			div#responsibilities p {{
-				margin-bottom: 0px;
+			div.table-responsive {{
+				border: 0;
+			}}
+			table.table {{
+				margin-bottom: 0;
+				font-size: small;
+			}}
+			table.table > thead > tr > th, table.table > tbody > tr > td, table.table > tfoot > tr > td {{
+				padding: 8px 12px;
+				border: 1px solid #e8e8e8;
+				vertical-align: middle;
+			}}
+			table.table > thead > tr > th, table.table > tfoot > tr > td {{
+				border-width: 0;
+				background-color: #e7b7a5;
+			}}
+			table.table > thead > tr > th:first-child {{
+				border-top-left-radius: 10px;
+			}}
+			table.table > thead > tr > th:last-child {{
+				border-top-right-radius: 10px;
+			}}
+			table#changes thead th:hover, table#blame thead th:hover {{
+				background-color: #b78775;
+				color: #fff;
+				cursor: pointer;
+			}}
+			table.table > tbody > tr.odd > td {{
+				background-color: #e9e9e9;
+			}}
+			table.table > tbody > tr.piehover > td {{
+				background-color: #e7e8d8;
+			}}
+			table.timeline {{
+				margin-bottom: 15px;
+			}}
+			table.timeline td.insertremove {{
+				padding-left: 12px;
+				padding-right: 12px;
+			}}
+			div.insert {{
+				background-color: #8a8;
+			}}
+			div.remove {{
+				background-color: #c77;
+			}}
+			div.insert, div.remove {{
+				float: left;
+				width: 5%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
 			}}
 			td img, h3 img {{
-				border-radius: 3px 3px 3px 3px;
-				-moz-border-radius: 3px 3px 3px 3px;
+				margin-right: 0.5em;
+				border-radius: 14px;
 				vertical-align: middle;
-				margin-right: 0.4em;
 				opacity: 0.85;
 			}}
 			td img {{
-				width: 20px;
-				height: 20px;
+				width: 24px;
+				height: 24px;
 			}}
 			h3 img {{
 				width: 32px;
 				height: 32px;
+				border-radius: 16px;
 			}}
-			h3, h4 {{
-				border-radius: 8px 8px 8px 8px;
-				-moz-border-radius: 8px 8px 8px 8px;
-				background-color: #ddcece;
-				margin-bottom: 0.2em;
-				margin-top: 0.6em;
+			div.chart {{
+				height: 300px;
+				margin: 30px 15px 15px 15px;
 			}}
-			h4 {{
-				margin-top: 0.2em;
-				padding: 0.5em;
-			}}
-			div.button, div#responsibilities div.button {{
-				border-radius: 8px 8px 8px 8px;
-				-moz-border-radius: 8px 8px 8px 8px;
-				border: 1px solid #eee;
+			div.legend {{
 				float: right;
-				width: auto;
-				padding: 0.5em;
-				background-color: #ddcece;
-				min-height: 0;
+				padding-bottom: 10px;
+				pointer-events: none;
+			}}
+			div.legend > table > tbody > tr > td {{
+				padding: 5px;
+			}}
+			div.legend > div, div.legend td.legendColorBox > div, div.legend td.legendColorBox > div > div {{
+				border-radius: 3px;
+			}}
+			ul.list-group {{
+				max-width: 60em;
+				margin: 0 auto 15px auto;
+				text-align: left;
+			}}
+			li.list-group-item {{
+				padding: 6px 12px;
+			}}
+			li.list-group-item span.badge {{
+				background-color: #b78775;
+			}}
+			li.violation-minimal {{
+				background-color: #e9f1e4;
+			}}
+			li.violation-minor {{
+				background-color: #f1f1e0;
+			}}
+			li.violation-medium {{
+				background-color: #f7ecd6;
+			}}
+			li.violation-bad {{
+				background-color: #f7dfd6;
+			}}
+			li.violation-severe {{
+				background-color: #f4cfcf;
+			}}
+			span.label {{
+				display: inline-block;
+				margin: 2px;
+				font-size: 90%;
+			}}
+			span.label-primary {{
+				background-color: #b78775;
+			}}
+			@media (min-width: 992px) {{
+				div.row {{
+					display: flex;
+				}}
+				div.chart {{
+					height: auto;
+					max-height: 400px;
+					margin: 0 30px 0 15px;
+					padding: 15px;
+				}}
+			}}
+			@media (max-width: 767px) {{
+				div.box {{
+					margin: 1em 0.5em;
+					padding: 0.5em;
+				}}
+				div.logo img {{
+					float: none;
+					padding: 0;
+				}}
 			}}
 		</style>
 	</head>
 	<body>
 		<div><div class="box logo">
 			<a href="https://github.com/ejwa/gitinspector"><img src="data:image/png;base64,{logo}" /></a>
-			<p>{repo_text}<br>{logo_text}</p>
+			<p>{repo_text}<br />{logo_text}</p>
 		</div></div>

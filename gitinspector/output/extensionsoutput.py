@@ -39,14 +39,11 @@ class ExtensionsOutput(Outputable):
 	def output_html(self):
 		if extensions.__located_extensions__:
 			extensions_xml = "<div><div class=\"box\">"
-			extensions_xml += "<p>{0} {1}.</p><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
+			extensions_xml += "<h1>{0} {1}</h1><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
 
 			for i in sorted(extensions.__located_extensions__):
-				if ExtensionsOutput.is_marked(i):
-					extensions_xml += "<strong>" + i + "</strong>"
-				else:
-					extensions_xml += i
-				extensions_xml += " "
+				label_style = "primary" if ExtensionsOutput.is_marked(i) else "default"
+				extensions_xml += "<span class=\"label label-{0}\">{1}</span> ".format(label_style, i)
 
 			extensions_xml += "</p></div></div>"
 			print(extensions_xml)
