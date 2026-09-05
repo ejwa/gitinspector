@@ -35,6 +35,13 @@ __translation__ = None
 def N_(message):
 	return message
 
+def __install_translation__(translation):
+	# Python 2 wants a flag asking for unicode strings, which Python 3 replaced with a list of names.
+	if sys.version_info[0] < 3:
+		translation.install(True)
+	else:
+		translation.install()
+
 def init():
 	global __enabled__
 	global __installed__
@@ -68,7 +75,7 @@ def init():
 
 		__enabled__ = True
 		__installed__ = True
-		__translation__.install(True)
+		__install_translation__(__translation__)
 
 def check_compatibility(version):
 	if isinstance(__translation__, gettext.GNUTranslations):
@@ -93,7 +100,7 @@ def get_date():
 
 def enable():
 	if isinstance(__translation__, gettext.GNUTranslations):
-		__translation__.install(True)
+		__install_translation__(__translation__)
 
 		global __enabled__
 		__enabled__ = True
@@ -103,4 +110,4 @@ def disable():
 	__enabled__ = False
 
 	if __installed__:
-		gettext.NullTranslations().install(True)
+		__install_translation__(gettext.NullTranslations())
