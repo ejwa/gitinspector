@@ -49,6 +49,20 @@ class IntervalTest(unittest.TestCase):
 		result = analyze_changes(self.repository, WINDOW_START, WINDOW_END)
 		self.assertEqual(authors_of(result), ["First Author", "Second Author"])
 
+	def test_commits_on_merged_branches_are_found(self):
+		self.repository.commit("base", {"base.py": "base\n"}, "Zero Author", "zero@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.branch("feature")
+		self.repository.commit("feature", {"feature.py": "f\n"}, "First Author", "first@example.com", "2018-05-07T15:02:05+0000")
+		self.repository.checkout(self.repository.default_branch)
+		self.repository.commit("master", {"master.py": "m\n"}, "Second Author", "second@example.com", "2018-05-07T15:02:30+0000")
+		self.repository.merge("feature", "merge", "2018-05-07T15:04:00+0000")
+
+		result = analyze_changes(self.repository, WINDOW_START, WINDOW_END)
+		self.assertEqual(authors_of(result), ["First Author", "Second Author"])
+
+		result = analyze_changes(self.repository)
+		self.assertEqual(authors_of(result), ["Zero Author", "First Author", "Second Author"])
+
 class ThreadingTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
@@ -62,8 +76,11 @@ class ThreadingTest(unittest.TestCase):
 	def test_commits_are_gathered_across_threads(self):
 		self.repository.commit("one", {"one.py": "1\n"}, "One", "one@example.com", "2018-05-07T15:01:00+0000")
 		self.repository.commit("two", {"two.py": "2\n2\n"}, "Two", "two@example.com", "2018-05-07T15:02:00+0000")
+		self.repository.branch("feature")
 		self.repository.commit("three", {"three.py": "3\n"}, "Three", "three@example.com", "2018-05-07T15:03:00+0000")
+		self.repository.checkout(self.repository.default_branch)
 		self.repository.commit("four", {"four.py": "4\n"}, "Four", "four@example.com", "2018-05-07T15:04:00+0000")
+		self.repository.merge("feature", "merge", "2018-05-07T15:05:00+0000")
 		self.repository.commit("five", {"five.py": "5\n"}, "Five", "five@example.com", "2018-05-07T15:06:00+0000")
 
 		result = analyze_changes(self.repository)

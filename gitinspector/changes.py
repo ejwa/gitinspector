@@ -105,29 +105,26 @@ class AuthorInfo(object):
 	commits = 0
 
 class ChangesThread(threading.Thread):
-	def __init__(self, hard, changes, first_hash, second_hash, offset):
+	def __init__(self, hard, changes, hashes, index):
 		__thread_lock__.acquire() # Lock controlling the number of threads running
 		threading.Thread.__init__(self)
 
 		self.hard = hard
 		self.changes = changes
-		self.first_hash = first_hash
-		self.second_hash = second_hash
-		self.offset = offset
+		self.hashes = hashes
+		self.index = index
 
 	@staticmethod
-	def create(hard, changes, first_hash, second_hash, offset):
-		thread = ChangesThread(hard, changes, first_hash, second_hash, offset)
+	def create(hard, changes, hashes, index):
+		thread = ChangesThread(hard, changes, hashes, index)
 		thread.daemon = True
 		thread.start()
 
 	def run(self):
-		git_log_r = subprocess.Popen(filter(None, ["git", "log", "--reverse", "--pretty=%ct|%cd|%H|%aN|%aE",
-		                             "--stat=100000,8192", "--no-merges", "-w", interval.get_since(),
-		                             interval.get_until(), "--date=short"] + (["-C", "-C", "-M"] if self.hard else []) +
-		                             [self.first_hash + self.second_hash]), bufsize=1, stdout=subprocess.PIPE).stdout
-		lines = git_log_r.readlines()
-		git_log_r.close()
+		git_log_p = subprocess.Popen(["git", "log", "--no-walk=unsorted", "--stdin", "--pretty=%ct|%cd|%H|%aN|%aE",
+		                             "--stat=100000,8192", "--no-merges", "-w", "--date=short"] +
+		                             (["-C", "-C", "-M"] if self.hard else []), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+		lines = git_log_p.communicate("\n".join(self.hashes).encode("utf-8"))[0].splitlines()
 
 		commit = None
 		found_valid_extension = False
@@ -170,21 +167,20 @@ class ChangesThread(threading.Thread):
 					filediff = FileDiff(j)
 					commit.add_filediff(filediff)
 
-		self.changes.commits[self.offset // CHANGES_PER_THREAD] = commits
+		self.changes.commits[self.index] = commits
 		__changes_lock__.release() # ...to here.
 		__thread_lock__.release() # Lock controlling the number of threads running
 
 PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
 
 class Changes(object):
-	authors = {}
-	authors_dateinfo = {}
-	authors_by_email = {}
-	emails_by_author = {}
-
 	def __init__(self, repo, hard):
 		self.commits = []
-		interval.set_ref("HEAD");
+		self.authors = {}
+		self.authors_dateinfo = {}
+		self.authors_by_email = {}
+		self.emails_by_author = {}
+		interval.set_ref("HEAD")
 		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
 		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -196,24 +192,15 @@ class Changes(object):
 			if repo != None:
 				progress_text = "[%s] " % repo.name + progress_text
 
-			chunks = len(lines) // CHANGES_PER_THREAD
-			self.commits = [None] * (chunks if len(lines) % CHANGES_PER_THREAD == 0 else chunks + 1)
-			first_hash = ""
+			hashes = [entry.decode("utf-8", "replace").strip() for entry in lines]
+			chunks = [hashes[i:i + CHANGES_PER_THREAD] for i in range(0, len(hashes), CHANGES_PER_THREAD)]
+			self.commits = [None] * len(chunks)
 
-			for i, entry in enumerate(lines):
-				if i % CHANGES_PER_THREAD == CHANGES_PER_THREAD - 1:
-					entry = entry.decode("utf-8", "replace").strip()
-					second_hash = entry
-					ChangesThread.create(hard, self, first_hash, second_hash, i)
-					first_hash = entry + ".."
+			for i, chunk in enumerate(chunks):
+				ChangesThread.create(hard, self, chunk, i)
 
-					if format.is_interactive_format():
-						terminal.output_progress(progress_text, i, len(lines))
-			else:
-				if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
-					entry = entry.decode("utf-8", "replace").strip()
-					second_hash = entry
-					ChangesThread.create(hard, self, first_hash, second_hash, i)
+				if format.is_interactive_format():
+					terminal.output_progress(progress_text, i * CHANGES_PER_THREAD, len(hashes))
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
