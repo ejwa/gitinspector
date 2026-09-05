@@ -52,5 +52,8 @@ The Debian packages offered with releases of gitinspector are unofficial and ver
 
 An [npm](https://npmjs.com) package is provided for convenience as well. To install it globally, execute `npm i -g gitinspector`.
 
+### Forks
+[GitInspectorGUI](https://gitlab.com/edu-boost/gitinspectorgui) started out as an extension of gitinspector and has since been rewritten from scratch. It offers a graphical interface next to the command line, HTML and Excel output with blame information per file, and stand-alone apps for Windows and macOS. Its documentation lives at [edu-boost.gitlab.io/gitinspectorgui](https://edu-boost.gitlab.io/gitinspectorgui).
+
 ### License
 gitinspector is licensed under the *GNU GPL v3*. The gitinspector logo is partly based on the git logo; based on the work of Jason Long. The logo is licensed under the *Creative Commons Attribution 3.0 Unported License*.
