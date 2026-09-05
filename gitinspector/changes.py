@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2017 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import division
 from __future__ import unicode_literals
 import bisect
 import datetime
@@ -183,18 +184,20 @@ class Changes(object):
 
 	def __init__(self, repo, hard):
 		self.commits = []
-		git_log_hashes_r = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                    interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
-		                                    stdout=subprocess.PIPE).stdout
-		lines = git_log_hashes_r.readlines()
-		git_log_hashes_r.close()
+		interval.set_ref("HEAD");
+		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
+		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		lines = git_rev_list_p.communicate()[0].splitlines()
+		git_rev_list_p.stdout.close()
 
-		if len(lines) > 0:
+		if git_rev_list_p.returncode == 0 and len(lines) > 0:
 			progress_text = _(PROGRESS_TEXT)
 			if repo != None:
 				progress_text = "[%s] " % repo.name + progress_text
 
-			self.commits = [None] * (len(lines) // CHANGES_PER_THREAD + 1)
+			chunks = len(lines) // CHANGES_PER_THREAD
+			self.commits = [None] * (chunks if len(lines) % CHANGES_PER_THREAD == 0 else chunks + 1)
 			first_hash = ""
 
 			for i, entry in enumerate(lines):
@@ -207,9 +210,10 @@ class Changes(object):
 					if format.is_interactive_format():
 						terminal.output_progress(progress_text, i, len(lines))
 			else:
-				entry = entry.decode("utf-8", "replace").strip()
-				second_hash = entry
-				ChangesThread.create(hard, self, first_hash, second_hash, i)
+				if CHANGES_PER_THREAD - 1 != i % CHANGES_PER_THREAD:
+					entry = entry.decode("utf-8", "replace").strip()
+					second_hash = entry
+					ChangesThread.create(hard, self, first_hash, second_hash, i)
 
 		# Make sure all threads have completed.
 		for i in range(0, NUM_THREADS):
@@ -222,7 +226,7 @@ class Changes(object):
 		self.commits = [item for sublist in self.commits for item in sublist]
 
 		if len(self.commits) > 0:
-			if interval.has_interval() and len(self.commits) > 0:
+			if interval.has_interval():
 				interval.set_ref(self.commits[-1].sha)
 
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
@@ -230,19 +234,21 @@ class Changes(object):
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),
 			                                      int(self.commits[-1].date[8:10]))
 
-	def __add__(self, other):
-		if other == None:
+	def __iadd__(self, other):
+		try:
+			self.authors.update(other.authors)
+			self.authors_dateinfo.update(other.authors_dateinfo)
+			self.authors_by_email.update(other.authors_by_email)
+			self.emails_by_author.update(other.emails_by_author)
+
+			for commit in other.commits:
+				bisect.insort(self.commits, commit)
+			if not self.commits and not other.commits:
+				self.commits = []
+
 			return self
-
-		self.authors.update(other.authors)
-		self.authors_dateinfo.update(other.authors_dateinfo)
-		self.authors_by_email.update(other.authors_by_email)
-		self.emails_by_author.update(other.emails_by_author)
-
-		for commit in other.commits:
-			bisect.insort(self.commits, commit)
-
-		return self
+		except AttributeError:
+			return other
 
 	def get_commits(self):
 		return self.commits
@@ -276,8 +282,11 @@ class Changes(object):
 	def get_latest_author_by_email(self, name):
 		if not hasattr(name, "decode"):
 			name = str.encode(name)
+		try:
+			name = name.decode("unicode_escape", "ignore")
+		except UnicodeEncodeError:
+			pass
 
-		name = name.decode("unicode_escape", "ignore")
 		return self.authors_by_email[name]
 
 	def get_latest_email_by_author(self, name):

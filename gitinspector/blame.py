@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2017 Ejwa Software. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -26,14 +26,24 @@ import subprocess
 import threading
 from .localization import N_
 from .changes import FileDiff
-from . import comment, filtering, format, interval, terminal
+from . import comment, extensions, filtering, format, interval, terminal
 
 NUM_THREADS = multiprocessing.cpu_count()
 
 class BlameEntry(object):
-	rows = 0
-	skew = 0 # Used when calculating average code age.
+	lines = 0
+	skew_w = 0 # Used when calculating average code age.
+	skew_m = 0 # Used when calculating average code age.
 	comments = 0
+	useweeks = None
+
+	def __init__(self, useweeks):
+		self.useweeks = useweeks
+
+	def get_skew(self, forcemonths=False):
+		if not self.useweeks or forcemonths:
+			return self.skew_m
+		return self.skew_w
 
 __thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
@@ -79,31 +89,32 @@ class BlameThread(threading.Thread):
 			__blame_lock__.acquire() # Global lock used to protect calls from here...
 
 			if self.blames.get((author, self.filename), None) == None:
-				self.blames[(author, self.filename)] = BlameEntry()
+				self.blames[(author, self.filename)] = BlameEntry(self.useweeks)
 
 			self.blames[(author, self.filename)].comments += comments
-			self.blames[(author, self.filename)].rows += 1
+			self.blames[(author, self.filename)].lines += 1
 
 			if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
-				self.blames[(author, self.filename)].skew += ((self.changes.last_commit_date - self.blamechunk_time).days /
-				                                             (7.0 if self.useweeks else AVG_DAYS_PER_MONTH))
+				skew = (self.changes.last_commit_date - self.blamechunk_time).days
+				self.blames[(author, self.filename)].skew_w += (skew / 7.0)
+				self.blames[(author, self.filename)].skew_m += (skew / AVG_DAYS_PER_MONTH)
 
 			__blame_lock__.release() # ...to here.
 
 	def run(self):
 		git_blame_r = subprocess.Popen(self.blame_command, bufsize=1, stdout=subprocess.PIPE).stdout
-		rows = git_blame_r.readlines()
+		lines = git_blame_r.readlines()
 		git_blame_r.close()
 
 		self.__clear_blamechunk_info__()
 
 		#pylint: disable=W0201
-		for j in range(0, len(rows)):
-			row = rows[j].decode("utf-8", "replace").strip()
-			keyval = row.split(" ", 2)
+		for j in range(0, len(lines)):
+			line = lines[j].decode("utf-8", "replace").strip()
+			keyval = line.split(" ", 2)
 
 			if self.blamechunk_is_last:
-				self.__handle_blamechunk_content__(row)
+				self.__handle_blamechunk_content__(line)
 				self.__clear_blamechunk_info__()
 			elif keyval[0] == "boundary":
 				self.blamechunk_is_prior = True
@@ -118,50 +129,55 @@ class BlameThread(threading.Thread):
 
 		__thread_lock__.release() # Lock controlling the number of threads running
 
-PROGRESS_TEXT = N_("Checking how many rows belong to each author (2 of 2): {0:.0f}%")
+PROGRESS_TEXT = N_("Checking how many lines belong to each author (2 of 2): {0:.0f}%")
 
 class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
-		ls_tree_r = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
-		                             stdout=subprocess.PIPE).stdout
-		lines = ls_tree_r.readlines()
-		ls_tree_r.close()
+		self.useweeks = useweeks
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+		lines = ls_tree_p.communicate()[0].splitlines()
+		ls_tree_p.stdout.close()
 
-		progress_text = _(PROGRESS_TEXT)
-		if repo != None:
-			progress_text = "[%s] " % repo.name + progress_text
+		if ls_tree_p.returncode == 0:
+			progress_text = _(PROGRESS_TEXT)
 
-		for i, row in enumerate(lines):
-			row = row.strip().decode("unicode_escape", "ignore")
-			row = row.encode("latin-1", "replace")
-			row = row.decode("utf-8", "replace").strip("\"").strip("'").strip()
+			if repo != None:
+				progress_text = "[%s] " % repo.name + progress_text
 
-			if FileDiff.is_valid_extension(row) and not filtering.set_filtered(FileDiff.get_filename(row)):
-				blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
-						(["-C", "-C", "-M"] if hard else []) +
-				                [interval.get_since(), interval.get_ref(), "--", row])
-				thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(row), self.blames, row.strip())
-				thread.daemon = True
-				thread.start()
+			for i, line in enumerate(lines):
+				line = line.strip().decode("unicode_escape", "ignore")
+				line = line.encode("latin-1", "replace")
+				line = line.decode("utf-8", "replace").strip("\"").strip("'").strip()
 
-				if format.is_interactive_format():
-					terminal.output_progress(progress_text, i, len(lines))
+				if FileDiff.get_extension(line) in extensions.get_located() and \
+				   FileDiff.is_valid_extension(line) and not filtering.set_filtered(FileDiff.get_filename(line)):
+					blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
+							(["-C", "-C", "-M"] if hard else []) +
+					                [interval.get_since(), interval.get_ref(), "--", line])
+					thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(line),
+					                     self.blames, line.strip())
+					thread.daemon = True
+					thread.start()
 
-		# Make sure all threads have completed.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.acquire()
+					if format.is_interactive_format():
+						terminal.output_progress(progress_text, i, len(lines))
 
-		# We also have to release them for future use.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.release()
+			# Make sure all threads have completed.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.acquire()
 
-	def __add__(self, other):
-		if other == None:
-			return self
+			# We also have to release them for future use.
+			for i in range(0, NUM_THREADS):
+				__thread_lock__.release()
 
-		self.blames.update(other.blames)
-		return self
+	def __iadd__(self, other):
+		try:
+			self.blames.update(other.blames)
+			return self;
+		except AttributeError:
+			return other;
 
 	@staticmethod
 	def is_revision(string):
@@ -173,10 +189,10 @@ class Blame(object):
 		return revision.group(1).strip()
 
 	@staticmethod
-	def get_stability(author, blamed_rows, changes):
+	def get_stability(author, blamed_lines, changes):
 		if author in changes.get_authorinfo_list():
 			author_insertions = changes.get_authorinfo_list()[author].insertions
-			return 100 if author_insertions == 0 else 100.0 * blamed_rows / author_insertions
+			return 100 if author_insertions == 0 else 100.0 * blamed_lines / author_insertions
 		return 100
 
 	@staticmethod
@@ -188,10 +204,11 @@ class Blame(object):
 		summed_blames = {}
 		for i in self.blames.items():
 			if summed_blames.get(i[0][0], None) == None:
-				summed_blames[i[0][0]] = BlameEntry()
+				summed_blames[i[0][0]] = BlameEntry(self.useweeks)
 
-			summed_blames[i[0][0]].rows += i[1].rows
-			summed_blames[i[0][0]].skew += i[1].skew
+			summed_blames[i[0][0]].lines += i[1].lines
+			summed_blames[i[0][0]].skew_w += i[1].skew_w
+			summed_blames[i[0][0]].skew_m += i[1].skew_m
 			summed_blames[i[0][0]].comments += i[1].comments
 
 		return summed_blames

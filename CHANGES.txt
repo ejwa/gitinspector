@@ -1,3 +1,10 @@
+gitinspector (0.4.4)
+
+	Minor release with some minor fixes.
+
+	* Better support for additional terminals.
+	* -f "**" now properly ignores binary files.
+
 gitinspector (0.4.3)
 
 	Minor release with updated language locales.

@@ -51,11 +51,11 @@ msgid "Author"
 msgstr "Autor"
 
 # spaces because this needs to override the progress message displayed before
-msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgid "Below are the number of lines from each author that have survived and are still intact in the current revision"
 msgstr "Noch intakte Codezeilen nach Autoren  "
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr "Berechne intakte Zeilen pro Autor...{0:.0f}%"
 
 msgid "Commits"
@@ -92,7 +92,7 @@ msgstr "HTML-Ausgabe ist noch nicht unterstützt in"
 msgid "Hide minor authors"
 msgstr "Verstecke irrelevante Autoren"
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr "Verstecke irrelevante Autoren"
 
 msgid "Insertions"
@@ -101,7 +101,7 @@ msgstr "hinzugefügt"
 msgid "Minor Authors"
 msgstr "Sonstige"
 
-msgid "Modified Rows:"
+msgid "Modified Lines:"
 msgstr "Bearbeitete Zeilen:"
 
 msgid "No commited files with the specified extensions were found"
@@ -114,13 +114,13 @@ msgstr "Im Repo wurde keine Verletzung der Metriken gefunden"
 msgid "Repository statistics for {0}"
 msgstr "Repositorystatistiken für {0}"
 
-msgid "Rows"
+msgid "Lines"
 msgstr "Zeilen"
 
 msgid "Show minor authors"
 msgstr "Zeige irrelevante Autoren"
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr "Zeige irrelevante Autoren"
 
 msgid "Stability"
@@ -203,7 +203,7 @@ msgid ""
 "                                   is formatted for grading of student\n"
 "                                   projects; this is the same as supplying the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
 "                                   current branch of the repository\n"

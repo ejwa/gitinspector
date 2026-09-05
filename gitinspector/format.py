@@ -53,10 +53,15 @@ def is_interactive_format():
 def __output_html_template__(name):
 	template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
 	file_r = open(template_path, "rb")
-	return file_r.read().decode("utf-8", "replace")
+	template = file_r.read().decode("utf-8", "replace")
+
+	file_r.close()
+	return template
+
 def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 	zip_file = zipfile.ZipFile(basedir.get_basedir() + file_name, "r")
 	content = zip_file.read(name)
+
 	zip_file.close()
 	return content.decode("utf-8", "replace")
 
@@ -114,14 +119,14 @@ def output_header(repos):
 		                                     repos_string, localization.get_date()),
 		                         show_minor_authors=_("Show minor authors"),
 		                         hide_minor_authors=_("Hide minor authors"),
-		                         show_minor_rows=_("Show rows with minor work"),
-		                         hide_minor_rows=_("Hide rows with minor work")))
+		                         show_minor_lines=_("Show lines with minor work"),
+		                         hide_minor_lines=_("Hide lines with minor work")))
 	elif __selected_format__ == "json":
 		print("{\n\t\"gitinspector\": {")
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
 
 		if len(repos) <= 1:
-			print("\t\t\"repository\": \"" + repos[0].name + "\",")
+			print("\t\t\"repository\": \"" + repos_string + "\",")
 		else:
 			repos_json = "\t\t\"repositories\": [ "
 

@@ -45,7 +45,7 @@ Boolean arguments can only be given to long options.
                                    is formatted for grading of student
                                    projects; this is the same as supplying the
                                    options -HlmrTw
-  -H, --hard[=BOOL]              track rows and look for duplicates harder;
+  -H, --hard[=BOOL]              track lines and look for duplicates harder;
                                    this can be quite slow with big repositories
   -l, --list-file-types[=BOOL]   list all the file extensions available in the
                                    current branch of the repository

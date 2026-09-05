@@ -59,16 +59,16 @@ class FilteringOutput(Outputable):
 	@staticmethod
 	def __output_json_section__(info_string, filtered, container_tagname):
 		if filtered:
-			message_xml = "\t\t\t\t\"message\": \"" + info_string + "\",\n"
-			filtering_xml = ""
+			message_json = "\t\t\t\t\"message\": \"" + info_string + "\",\n"
+			filtering_json = ""
 
 			for i in filtered:
-				filtering_xml += "\t\t\t\t\t\"" + i + "\",\n"
+				filtering_json += "\t\t\t\t\t\"" + i + "\",\n"
 			else:
-				filtering_xml = filtering_xml[:-3]
+				filtering_json = filtering_json[:-3]
 
-			return "\n\t\t\t\"{0}\": {{\n".format(container_tagname) + message_xml + \
-			"\t\t\t\t\"entries\": [\n" + filtering_xml + "\"\n\t\t\t\t]\n\t\t\t},"
+			return "\n\t\t\t\"{0}\": {{\n".format(container_tagname) + message_json + \
+			"\t\t\t\t\"entries\": [\n" + filtering_json + "\"\n\t\t\t\t]\n\t\t\t},"
 
 		return ""
 

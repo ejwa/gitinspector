@@ -36,3 +36,6 @@ def add_located(string):
 		__located_extensions__.add("*")
 	else:
 		__located_extensions__.add(string)
+
+def get_located():
+	return __located_extensions__

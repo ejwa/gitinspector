@@ -53,21 +53,21 @@ class ExtensionsOutput(Outputable):
 
 	def output_json(self):
 		if extensions.__located_extensions__:
-			message_xml = "\t\t\t\"message\": \"" + _(EXTENSIONS_INFO_TEXT) + "\",\n"
-			used_extensions_xml = ""
-			unused_extensions_xml = ""
+			message_json = "\t\t\t\"message\": \"" + _(EXTENSIONS_INFO_TEXT) + "\",\n"
+			used_extensions_json = ""
+			unused_extensions_json = ""
 
 			for i in sorted(extensions.__located_extensions__):
 				if ExtensionsOutput.is_marked(i):
-					used_extensions_xml += "\"" + i + "\", "
+					used_extensions_json += "\"" + i + "\", "
 				else:
-					unused_extensions_xml += "\"" + i + "\", "
+					unused_extensions_json += "\"" + i + "\", "
 
-			used_extensions_xml = used_extensions_xml[:-2]
-			unused_extensions_xml = unused_extensions_xml[:-2]
+			used_extensions_json = used_extensions_json[:-2]
+			unused_extensions_json = unused_extensions_json[:-2]
 
-			print(",\n\t\t\"extensions\": {\n" + message_xml + "\t\t\t\"used\": [ " + used_extensions_xml + " ],\n" +
-			      "\t\t\t\"unused\": [ " + unused_extensions_xml + " ]\n" + "\t\t}", end="")
+			print(",\n\t\t\"extensions\": {\n" + message_json + "\t\t\t\"used\": [ " + used_extensions_json +
+			      " ],\n\t\t\t\"unused\": [ " + unused_extensions_json + " ]\n" + "\t\t}", end="")
 
 	def output_text(self):
 		if extensions.__located_extensions__:

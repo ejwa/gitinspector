@@ -102,15 +102,15 @@
 				filterTimeLine();
 				var hiddenTimelineCount = $("div#timeline table.git tbody tr:hidden").length;
 				if (hiddenTimelineCount > 0) {{
-					$("div#timeline").prepend("<div class=\"button\">{show_minor_rows} (" + hiddenTimelineCount + ") &#x25bc;</div>");
+					$("div#timeline").prepend("<div class=\"button\">{show_minor_lines} (" + hiddenTimelineCount + ") &#x25bc;</div>");
 
 					$("div#timeline div.button").click(function() {{
 						this.clicked = !this.clicked;
 						if (this.clicked) {{
-							this.innerHTML = "{hide_minor_rows} (" + hiddenTimelineCount + ") &#x25b2;";
+							this.innerHTML = "{hide_minor_lines} (" + hiddenTimelineCount + ") &#x25b2;";
 							$("div#timeline table.git tbody tr").show().each(colorRows);
 						}} else {{
-							this.innerHTML = "{show_minor_rows} (" + hiddenTimelineCount + ") &#x25bc;";
+							this.innerHTML = "{show_minor_lines} (" + hiddenTimelineCount + ") &#x25bc;";
 							filterTimeLine();
 						}}
 					}});

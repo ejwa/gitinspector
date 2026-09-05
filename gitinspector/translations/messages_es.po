@@ -49,14 +49,14 @@ msgid "Author"
 msgstr "Autor"
 
 msgid ""
-"Below are the number of rows from each author that have survived and are "
+"Below are the number of lines from each author that have survived and are "
 "still intact in the current revision"
 msgstr ""
 "El bloque siguiente muestra el número de líneas de cada autor que todavía "
 "permanecen intactas en la versión actual"
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr ""
 "Comprobando cuantas líneas pertenecen a cada autor (Progreso): {0:.0f}%"
 
@@ -99,7 +99,7 @@ msgstr "La salida en HTML no está soportada"
 msgid "Hide minor authors"
 msgstr "Ocultar los autores menos prolíficos"
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr "Ocultar las filas con menor trabajo"
 
 msgid "Insertions"
@@ -108,7 +108,7 @@ msgstr "Inserciones"
 msgid "Minor Authors"
 msgstr "Autores menos prolíficos"
 
-msgid "Modified Rows:"
+msgid "Modified Lines:"
 msgstr "Líneas modificadas:"
 
 msgid "No commited files with the specified extensions were found"
@@ -121,13 +121,13 @@ msgstr "No se encontraron violaciones de la métrica en el repositorio"
 msgid "Repository statistics for {0}"
 msgstr "Estadísticas del repositorio para {0}"
 
-msgid "Rows"
+msgid "Lines"
 msgstr "Registros"
 
 msgid "Show minor authors"
 msgstr "Mostrar los autores menos prolíficos"
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr "Mostrar las aportaciones menores"
 
 msgid "Stability"
@@ -248,7 +248,7 @@ msgid ""
 "                                   projects; this is the same as supplying "
 "the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big "
 "repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in "
