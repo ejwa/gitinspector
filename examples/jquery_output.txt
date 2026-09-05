@@ -1,0 +1,1836 @@
+Statistical information for the repository 'jquery' was gathered on 2015/10/25.
+The following historical commit information, by author, was found in the
+repository:
+
+Author                     Commits    Insertions      Deletions    % of changes
+Adam Coulombe                    1            50              2            0.01
+Adam J. Sontag                   5            20              7            0.01
+Aditya Raghavan                  3            47              3            0.01
+Akintayo Akinwunmi               1             9              3            0.00
+Alex Sexton                      5            23             17            0.01
+Alexander Farkas                 5            92             79            0.04
+Alexander O'Mara                 1             1              1            0.00
+Alexis Abril                     1            24              3            0.01
+Allen J Schmidt Jr               1            38              1            0.01
+Amey Sakhadeo                    2            22              6            0.01
+Andrea Giammarchi                1             1              1            0.00
+Andrew E Monat                   1             0              6            0.00
+Andrew Plummer                   1            16              2            0.00
+Anne-Gaelle Colom                1             2              3            0.00
+Anthony Ryan                     2             7             14            0.00
+Anton Kovalyov                   1             7              2            0.00
+Anton Matzneller                31           253          14091            3.41
+Anton Ryzhov                     2            15              2            0.00
+Ariel Flesler                  192         14569           3101            4.20
+Arne de Bree                     2            31              3            0.01
+Arthur Stolyar                   1            33             17            0.01
+Arthur Verschaeve                1             1              1            0.00
+Aurelio De Rosa                  2            74              7            0.02
+Bastian Buchholz                 1             1              1            0.00
+Batiste Bieler                   1            19              3            0.01
+Ben Alman                       12           288            133            0.10
+Ben Toews                        1            31             20            0.01
+Benjamin Truyman                 2            49              4            0.01
+Benjy Cui                        1             2              2            0.00
+Bennett Sorbo                    1            13              3            0.00
+Berker Peksag                    1             2              7            0.00
+Bin Xin                          1            10              0            0.00
+Brandon Aaron                  239          5912           4368            2.44
+Brandon Sterne                   1            21             11            0.01
+Brian Brennan                    2            38              4            0.01
+Bruno Pérel                     1             5              5            0.00
+Carl Danley                      1            54             43            0.02
+Carl Fürstenberg                 1            15              0            0.00
+Chad Killingsworth               1           585            575            0.28
+Charles McNulty                  5            47             22            0.02
+Chris Antaki                     7            66             64            0.03
+Chris Faulkner                   1            19             19            0.01
+Chris Price                      1             1              1            0.00
+Chris Rebert                     1             0              1            0.00
+Chris Talkington                 2            32              6            0.01
+Christian Grete                  1            14              1            0.00
+Christian Kosmowski              1             1              1            0.00
+Christopher Jones                1           534            215            0.18
+Colin Snover                    52          4435            631            1.20
+Connor Atherton                  1            23              0            0.01
+Corey Frang                     52          8483           1387            2.35
+Corey Jewett                     6            43             14            0.01
+Dan Hart                         1            23              0            0.01
+Dan Heberden                    14           158             94            0.06
+Daniel Chatfield                 2            27              7            0.01
+Daniel Gálvez                    2            67             37            0.02
+Daniel Herman                    4            10              5            0.00
+Daniel Husar                     1             5             14            0.00
+Daniel Nill                      1             5              2            0.00
+Daniel Pihlstrom                 1            18              7            0.01
+Danil Somsikov                   1            17              1            0.00
+Dave Methvin                   389          5776          12404            4.32
+Dave Reed                        5           154             78            0.06
+David Benjamin                   1             6              3            0.00
+David Bonner                     1           105            107            0.05
+David Corbacho                   1             3              1            0.00
+David Fox                        1             6              1            0.00
+David Hong                       1            15              5            0.00
+David Murdoch                    2             5              6            0.00
+David Petersen                   2            10              1            0.00
+David Serduke                   63          6886           2465            2.22
+Denis Knauf                      1             1              1            0.00
+Devin Cooper                     1            20              2            0.01
+Digitalxero                      1            51              0            0.01
+Dmitry Gusev                     1            27             27            0.01
+Dominik D. Geyer                 1             1              1            0.00
+Earle Castledine                 1            20              3            0.01
+Ed Engelhardt                    7            25             21            0.01
+Eddie Monge                      1             1              1            0.00
+Elijah Manor                     8           650            553            0.29
+Erick Ruiz de Chávez             4           531            222            0.18
+Filipe Fortes                    1            11              6            0.00
+Forbes Lindesay                  1             2              2            0.00
+Franck Marcia                    3           328              7            0.08
+Frederic Hemberger               1            39              3            0.01
+Gabriel Schulhof                 1            60              2            0.01
+Gary Ye                          1             6              6            0.00
+George Kats                      1            21              1            0.01
+George Mauer                     1            23              2            0.01
+Gianni Alessandro Ch             6            77             33            0.03
+Gilad Peleg                      1            49             47            0.02
+Gilles van den Hoven            24           661            263            0.22
+Gilmore Davidson                 1             5              0            0.00
+Greg Hazel                       1             1              1            0.00
+Greg Lavallee                    1            68             38            0.03
+Guy Bedford                      1             1              1            0.00
+Heungsub Lee                     1             1              1            0.00
+Ilya Kantor                      1             2              7            0.00
+Iraê Carvalho                    3            49              8            0.01
+Isaac Z. Schlueter               1            10              2            0.00
+Ismail Khair                     2             5              7            0.00
+J. Ryan Stinnett                 1             1              1            0.00
+Jacob Wright                     1             6              3            0.00
+Jakob Stoeck                     1             5              2            0.00
+James Burke                      5           112             41            0.04
+James Huston                     7           112             11            0.03
+James Padolsey                   1            42              1            0.01
+Jared Grippe                     1            98              5            0.02
+Jason Bedard                    10           157             92            0.06
+Jason Merino                     1             5              1            0.00
+Jason Moon                       2            71              9            0.02
+Jay Merrifield                   3            64             48            0.03
+Jean Boussier                    1            28              3            0.01
+Jeffery To                       1            42              6            0.01
+Jephte Clain                     3             8              4            0.00
+Jeremy Dunck                     1            13              4            0.00
+Jess Thrysoee                    2             3              3            0.00
+Joe Presbrey                     1             1              1            0.00
+Joelle Fleurantin                2            24              5            0.01
+John Firebaugh                   1             5              2            0.00
+John Hoven                       1            23              0            0.01
+John Paul                        1           144            230            0.09
+John Resig                    1374         57112          45246           24.32
+Jonathan Sampson                 2            10              3            0.00
+Jordan Boesch                   10           165            146            0.07
+Josh Varner                      1             7              0            0.00
+Julian Aubourg                 293         14110          11785            6.15
+Justin                           1             3              3            0.00
+Justin Meyer                     4           316             49            0.09
+Jörn Zaefferer                 288          6969           5113            2.87
+Karl Swedberg                   12           247            178            0.10
+Klaus Hartl                      2            15              8            0.01
+Kyle Robinson Young              1             1              1            0.00
+Lee Carpenter                    1            19              1            0.00
+Leonardo Braga                   2            33              3            0.01
+Li Xudong                        2             2              2            0.00
+Liang Peng                       1             0              1            0.00
+Lihan Li                         1             9              0            0.00
+Liza Ramo                        2            18              1            0.00
+Louis-Rémi Babé                 43          1380           1270            0.63
+MORGAN                           1            10              1            0.00
+Marcel Greter                    1            10              2            0.00
+Marek Lewandowski                1            24             22            0.01
+Marian Sollmann                  1             2              2            0.00
+Mark Raddatz                     1            13              2            0.00
+Martin Naumann                   2            12              1            0.00
+Mathias Bynens                   6            25             23            0.01
+Matt Curry                       1             4              4            0.00
+Matt Farmer                      2            14              8            0.01
+Matt Mueller                     1             0              2            0.00
+Matthias Jäggli                  1            10              1            0.00
+Michael Geary                    1             6              4            0.00
+Michael Monteleone               1            41              5            0.01
+Michael Murray                   1            18              3            0.00
+Michał Gołębiowski             139          4597           3605            1.95
+Mike Alsup                      10            63             30            0.02
+Mike Pennisi                     1             1              1            0.00
+Mike Petrovich                   1             6              1            0.00
+Mike Sherov                     78          8011           8595            3.95
+Mike Sidorov                     2             5              6            0.00
+Mu Haibao                        1             0              4            0.00
+Nazar Mokrynskyi                 1             2             12            0.00
+Neeraj Singh                     2            12              2            0.00
+Nguyen Phuc Lam                  3            38             14            0.01
+Nicolas HENRY                    1            24              2            0.01
+Nikita Govorov                   1            24              1            0.01
+Noah Sloan                       1            13              6            0.00
+Nowres Rafid                     1             5              2            0.00
+Oleg Gaidarenko                212         19681           7736            6.51
+Oskari                           1             1              1            0.00
+Pascal Borreli                   1             2              2            0.00
+Paul Bakaus                      9           340             19            0.09
+Paul Irish                       2            10              2            0.00
+Paul Mclanahan                   1             5              5            0.00
+Paul Ramos                       3           357            211            0.13
+Philip Jägenstedt                1             2              1            0.00
+Pinhook                          1             4              4            0.00
+Rafaël Blais Masson              1             4              5            0.00
+Renato Oliveira dos              1            69              1            0.02
+Rich Dougherty                   1             8              3            0.00
+Richard D. Worth                 3            53              7            0.01
+Richard Gibson                 170          8650           6317            3.56
+Richard McDaniel                 1            17              3            0.00
+Rick Waldron                   248          5187          11025            3.85
+Robert Katić                    22           198             89            0.07
+Rod Vagg                         1            31             16            0.01
+Rodrigo Rosenfeld Ro             1             4              3            0.00
+Roland Eckl                      1             1              1            0.00
+Roman Reiß                       1             2              0            0.00
+Ron Otten                        1             3              1            0.00
+Ronny Springer                   1            46             13            0.01
+Russell Holbrook                 1             1              1            0.00
+S. Andrew Sheppard               1             6              0            0.00
+Sahab Yazdani                    1             1              1            0.00
+Sai Lung Wong                    3           114             45            0.04
+Sam Bisbee                       1            10              7            0.00
+Schalk Neethling                 1             1              1            0.00
+Scott González                  24           134          11232            2.70
+Scott Hughes                     1             2              0            0.00
+Scott Jehl                       4             9              6            0.00
+Sean Catchpole                   5             8              5            0.00
+Sean Henderson                   1             5              1            0.00
+Sebastian Burkhard               2            19              6            0.01
+Shi Chuan                        1             1              1            0.00
+Shivaji Varma                    1             2              3            0.00
+Sindre Sorhus                    7            66             27            0.02
+Steen Nielsen                    1             4              3            0.00
+Stefan Petre                     7           226            204            0.10
+Sylvester Keil                   1            31              3            0.01
+TJ Holowaychuk                   1             4              4            0.00
+TJ VanToll                       2            19              1            0.00
+Terry Jones                      2             3              4            0.00
+Thomas Tortorini                 6           266            114            0.09
+Timmy Willison                 381         45275          34770           19.02
+Timo Tijhof                     21           574            343            0.22
+Toby Brain                       1            32              3            0.01
+Tom H Fuertes                    1            10              1            0.00
+Tom Viner                        1             1              1            0.00
+Uri Gilad                        2            24              6            0.01
+Veaceslav Grimalschi             1             2              1            0.00
+Victor Homyakov                  2             4              3            0.00
+Vladimir Zhuravlev               1            71             37            0.03
+Vladislav Zarakovsky             1            19             21            0.01
+Wesley Walser                    1             8              3            0.00
+Winston Howes                    1            39             44            0.02
+Xavi Ramirez                     6            39             32            0.02
+Yehuda Katz                     50          1594            439            0.48
+Yiming He                        1            22              4            0.01
+Yongwoo Jeon                     1             1              1            0.00
+avaly                            1            54              2            0.01
+cmc3cn                           1             3              3            0.00
+nanto_vi                         2            26             13            0.01
+njhamann                         1             1              1            0.00
+ros3cin                          1             3              4            0.00
+temp01                           1            12              2            0.00
+tsinha                           1            10              7            0.00
+unknown                          1             2              2            0.00
+
+Below are the number of rows from each author that have survived and are still
+intact in the current revision:
+
+Author                     Rows      Stability          Age       % in comments
+Adam Coulombe                35           70.0         33.6               11.43
+Adam J. Sontag                5           25.0         63.1               40.00
+Aditya Raghavan              29           61.7         10.1                0.00
+Alexander Farkas              6            6.5         64.3                0.00
+Alexander O'Mara              1          100.0          6.8                0.00
+Alexis Abril                 10           41.7         54.5                0.00
+Allen J Schmidt Jr           31           81.6         36.2                0.00
+Amey Sakhadeo                10           45.5         25.3                0.00
+Andrew Plummer               13           81.2         32.7                0.00
+Anne-Gaelle Colom             2          100.0          9.7               50.00
+Anthony Ryan                  6           85.7          3.0               50.00
+Anton Kovalyov                2           28.6         56.7                0.00
+Anton Matzneller             67           26.5         57.1               13.43
+Anton Ryzhov                  5           33.3         50.2                0.00
+Ariel Flesler               466            3.2         81.9               12.23
+Arne de Bree                  6           19.4         44.4                0.00
+Arthur Stolyar               14           42.4          5.6                0.00
+Arthur Verschaeve             1          100.0         11.9              100.00
+Aurelio De Rosa              73           98.6          1.1                0.00
+Bastian Buchholz              1          100.0          6.3                0.00
+Batiste Bieler                5           26.3         70.3                0.00
+Ben Alman                    79           27.4         63.1               17.72
+Ben Toews                    30           96.8         11.0               30.00
+Benjamin Truyman             15           30.6         36.2                6.67
+Benjy Cui                     2          100.0         19.2              100.00
+Bennett Sorbo                10           76.9         34.7                0.00
+Bin Xin                       5           50.0         10.8                0.00
+Brandon Aaron               975           16.5         80.3                7.28
+Brandon Sterne                1            4.8         57.2                0.00
+Brian Brennan                 7           18.4         54.2                0.00
+Bruno Pérel                  1           20.0          2.8              100.00
+Carl Danley                  12           22.2         36.2                0.00
+Carl Fürstenberg              1            6.7         54.4                0.00
+Chad Killingsworth          238           40.7         39.6                4.20
+Charles McNulty              12           25.5         45.8               16.67
+Chris Antaki                 37           56.1         23.0                5.41
+Chris Faulkner                5           26.3         39.4              100.00
+Chris Talkington             12           37.5         29.4                0.00
+Christian Grete              13           92.9          0.7                7.69
+Christopher Jones           323           60.5         22.4                0.00
+Colin Snover                251            5.7         58.5               12.75
+Connor Atherton              23          100.0          0.9                0.00
+Corey Frang                7670           90.4         12.3                7.74
+Dan Hart                     20           87.0         15.4                5.00
+Dan Heberden                 43           27.2         55.0                6.98
+Daniel Chatfield              8           29.6         38.9                0.00
+Daniel Gálvez                10           14.9         37.0                0.00
+Daniel Herman                 8           80.0         32.3                0.00
+Daniel Husar                  2           40.0         20.5                0.00
+Daniel Nill                   4           80.0          2.5                0.00
+Daniel Pihlstrom              2           11.1         53.7                0.00
+Danil Somsikov                1            5.9         33.4                0.00
+Dave Methvin               2184           37.8         39.1               17.72
+Dave Reed                    10            6.5         60.8                0.00
+David Corbacho                3          100.0         17.8               33.33
+David Fox                     4           66.7         35.9                0.00
+David Hong                   12           80.0         23.4               41.67
+David Serduke                85            1.2         94.8               27.06
+Devin Cooper                 11           55.0         37.5                0.00
+Dmitry Gusev                  4           14.8         31.8              100.00
+Elijah Manor                 16            2.5         38.4                0.00
+Erick Ruiz de Chávez        196           36.9         36.2                0.00
+Filipe Fortes                 2           18.2         69.6                0.00
+Forbes Lindesay               2          100.0         21.5               50.00
+Gabriel Schulhof             37           61.7          5.4                0.00
+Gary Ye                       5           83.3          1.2               80.00
+George Kats                   1            4.8         24.6              100.00
+George Mauer                 20           87.0          9.5                5.00
+Gianni Alessandro Ch         33           42.9         58.0               39.39
+Gilad Peleg                  30           61.2          4.4                3.33
+Guy Bedford                   1          100.0         26.1                0.00
+Ilya Kantor                   1           50.0         24.3                0.00
+Iraê Carvalho                 3            6.1         69.0                0.00
+Jacob Wright                  1           16.7         61.5                0.00
+James Burke                  35           31.2         50.7               25.71
+James Huston                 19           17.0         36.2                0.00
+James Padolsey               14           33.3         70.6                0.00
+Jared Grippe                  6            6.1         60.5                0.00
+Jason Bedard                118           75.2          5.7               15.25
+Jason Merino                  1           20.0         27.8                0.00
+Jason Moon                   55           77.5         41.1               18.18
+Jay Merrifield               28           43.8         36.2                7.14
+Jean Boussier                28          100.0         32.9               21.43
+Jeffery To                   24           57.1         40.4               16.67
+Jephte Clain                  6           75.0         59.4                0.00
+Jeremy Dunck                  4           30.8         26.1                0.00
+Jess Thrysoee                 2           66.7         55.5                0.00
+Joe Presbrey                  2          200.0         45.0              100.00
+Joelle Fleurantin            24          100.0          0.2               25.00
+John Firebaugh                2           40.0         54.4               50.00
+John Hoven                   12           52.2         19.6                0.00
+John Paul                   126           87.5         30.0                3.17
+John Resig                 3410            6.0         74.5               11.17
+Jonathan Sampson              7           70.0         19.4               14.29
+Jordan Boesch                14            8.5         55.2                0.00
+Julian Aubourg             3722           26.4         46.1               10.96
+Justin Meyer                 47           14.9         70.1               12.77
+Jörn Zaefferer              244            3.5         54.7                3.28
+Karl Swedberg                82           33.2         68.5                0.00
+Lee Carpenter                 8           42.1         57.1                0.00
+Leonardo Braga               19           57.6          9.6                0.00
+Li Xudong                     1           50.0         31.8                0.00
+Lihan Li                      2           22.2         24.8                0.00
+Liza Ramo                    16           88.9          0.2                6.25
+Louis-Rémi Babé             206           14.9         54.3                1.94
+MORGAN                        7           70.0         36.2                0.00
+Marcel Greter                 4           40.0         39.2               25.00
+Marek Lewandowski             4           16.7          3.4                0.00
+Marian Sollmann               3          150.0         23.8                0.00
+Mark Raddatz                  3           23.1         32.5                0.00
+Martin Naumann                9           75.0          3.8               33.33
+Mathias Bynens                5           20.0         49.4               40.00
+Matt Farmer                  14          100.0         38.5               57.14
+Matthias Jäggli               6           60.0         37.8                0.00
+Michael Monteleone            8           19.5         68.9               25.00
+Michał Gołębiowski         2193           47.7         14.9               12.08
+Mike Alsup                    3            4.8         93.2                0.00
+Mike Pennisi                  1          100.0         38.0              100.00
+Mike Sherov                 832           10.4         40.4               10.10
+Mike Sidorov                  4           80.0         14.0                0.00
+Neeraj Singh                  5           41.7         68.7                0.00
+Nguyen Phuc Lam              22           57.9         31.4                0.00
+Nicolas HENRY                14           58.3         10.5                0.00
+Nikita Govorov               12           50.0         38.1                0.00
+Noah Sloan                    1            7.7         68.7                0.00
+Nowres Rafid                  1           20.0         39.6                0.00
+Oleg Gaidarenko           12859           65.3         12.7                7.36
+Paul Irish                    6           60.0         60.2                0.00
+Paul Ramos                  252           70.6         34.6                2.38
+Richard D. Worth              7           13.2         55.0                0.00
+Richard Gibson             5603           64.8         22.8                9.94
+Richard McDaniel             12           70.6         12.2               16.67
+Rick Waldron               1223           23.6         41.9                9.32
+Robert Katić                 73           36.9         68.3               16.44
+Rod Vagg                      2            6.5         34.6                0.00
+Roman Reiß                    2          100.0         19.5                0.00
+Ronny Springer               20           43.5         24.4                5.00
+S. Andrew Sheppard            6          100.0         21.4               66.67
+Sai Lung Wong                30           26.3         36.2                0.00
+Sam Bisbee                   12          120.0         54.3                0.00
+Scott González               53           39.6         42.5                5.66
+Sean Henderson                5          100.0          1.6               60.00
+Sebastian Burkhard            3           15.8         34.2               33.33
+Shivaji Varma                 1           50.0         11.3                0.00
+Sindre Sorhus                20           30.3         40.4                5.00
+Sylvester Keil               22           71.0         57.3                0.00
+TJ Holowaychuk                1           25.0         72.0                0.00
+TJ VanToll                   17           89.5         16.8                5.88
+Thomas Tortorini            246           92.5          6.3                8.13
+Timmy Willison             9358           20.7         24.3               16.68
+Timo Tijhof                 227           39.5         31.2               15.86
+Toby Brain                   12           37.5         47.6                0.00
+Tom H Fuertes                 8           80.0         31.0                0.00
+Uri Gilad                    10           41.7         39.5                0.00
+Veaceslav Grimalschi          2          100.0         12.5                0.00
+Victor Homyakov               1           25.0         10.1                0.00
+Vladimir Zhuravlev            7            9.9         40.2                0.00
+Xavi Ramirez                  5           12.8         57.4               20.00
+Yehuda Katz                 311           19.5         69.9                1.61
+Yiming He                     8           36.4         36.0                0.00
+Yongwoo Jeon                  1          100.0          3.7                0.00
+avaly                        27           50.0         53.4                3.70
+cmc3cn                        2           66.7         45.4                0.00
+nanto_vi                     24           92.3         33.5                0.00
+ros3cin                      20          666.7         31.2               15.00
+tsinha                        2           20.0         42.6                0.00
+
+The following history timeline has been gathered from the repository:
+
+Author                  2006-03    2006-04    2006-05    2006-06    2006-07 
+Gilles van den Hoven                             -+++          +            
+John Resig             ++++++++  --+++++++   ---+++++   ----++++   --++++++ 
+Michael Geary                                                             . 
+Stefan Petre                                                   .            
+Yehuda Katz                                                               . 
+Modified Rows:             1576        104        993       3765       6003 
+
+Author                  2006-08    2006-09    2006-10    2006-11    2006-12 
+Brandon Aaron                                    --++          .          . 
+Corey Jewett                  .                                             
+Dave Methvin                                                              . 
+Franck Marcia                            +                                  
+Gilles van den Hoven                                .                       
+John Resig            ----+++++  ---++++++    ------+          .   ----++++ 
+Jörn Zaefferer                      --++++   --++++++  ----+++++     ----++ 
+Klaus Hartl                              .                     .            
+Mike Alsup                                                     .          . 
+Paul Bakaus                              .         ++                     . 
+Stefan Petre                                                   .            
+Yehuda Katz                                         .                       
+Modified Rows:            18404       4930       1460       2311       4485 
+
+Author                  2007-01    2007-02    2007-03    2007-04    2007-05 
+Brandon Aaron                 .        -++          .          +   ---+++++ 
+Corey Jewett                                                   .            
+Ed Engelhardt                                                             . 
+John Resig             -----+++          .   ---+++++          .     ---+++ 
+Jörn Zaefferer            --+++  ---++++++          +  +++++++++            
+Mike Alsup                    .                                             
+Stefan Petre                  .                                             
+Modified Rows:             5184        506       1147       1713        571 
+
+Author                  2007-06    2007-07    2007-08    2007-09    2007-10 
+Brandon Aaron                 .          .                     .      --+++ 
+Ed Engelhardt                            .                                  
+John Resig             ++++++++  -++++++++   --++++++   ------++  ---++++++ 
+Jörn Zaefferer                .          .          .                     . 
+Paul Mclanahan                                                 .            
+Sean Catchpole                           .                     .            
+Yehuda Katz                              .                                  
+Modified Rows:             2727       1921       1151       5771        246 
+
+Author                  2007-11    2007-12    2008-01    2008-02    2008-03 
+Brandon Aaron                 .          .          +                       
+David Serduke          -+++++++  --+++++++          +                       
+John Resig                    .          .   ---+++++   -+++++++   -+++++++ 
+Jörn Zaefferer                           .          +                       
+Richard D. Worth                         .                                  
+Scott González                                                 .            
+Yehuda Katz                              .          .                       
+Modified Rows:              435      10207        304        177         41 
+
+Author                  2008-04    2008-05    2008-06    2008-07    2008-08 
+Ariel Flesler           --+++++  -++++++++   ---+++++   --++++++          + 
+Brandon Aaron         --+++++++          .                                  
+Ed Engelhardt                            .                                  
+John Resig                                                                . 
+Jörn Zaefferer               ++          .                        --------- 
+Paul Bakaus                              .      ---++                       
+Scott González                .          .          .                       
+Sean Catchpole                .                                             
+Yehuda Katz                   .                                             
+Modified Rows:              757      13587         77       1759        396 
+
+Author                  2008-10    2008-11    2008-12    2009-01    2009-02 
+Ariel Flesler          ---+++++                 --+++          .          . 
+Brandon Aaron                     ----++++                                . 
+John Resig                         ---++++   --++++++  ------+++   ---+++++ 
+Jörn Zaefferer                .                     .          .            
+Paul Bakaus                              .                                  
+Scott González                                                 .            
+Modified Rows:              102        331       3558       7051       1289 
+
+Author                  2009-03    2009-04    2009-05    2009-06    2009-07 
+Ariel Flesler                 .                     .       -+++          . 
+Brandon Aaron          ----++++   ---+++++  --+++++++      --+++       --++ 
+John Resig                    .          .          +  --+++++++  ---++++++ 
+Yehuda Katz                                                        --++++++ 
+Modified Rows:             5497        433        476        191       2470 
+
+Author                  2009-08    2009-09    2009-10    2009-11    2009-12 
+Alexander Farkas                                                          . 
+Andrea Giammarchi                                              .            
+Ariel Flesler                         -+++                                  
+Batiste Bieler                                                            . 
+Ben Alman                                                                 . 
+Brandon Aaron                         -+++                                  
+Dave Methvin                                                              . 
+David Petersen                                                            . 
+Earle Castledine                                               .            
+James Padolsey                                                            . 
+John Resig             ---+++++   ---+++++  ---------    --+++++   ---+++++ 
+Justin Meyer                                                              . 
+Jörn Zaefferer                           .                                . 
+Karl Swedberg                                          ----+++++          . 
+Louis-Rémi Babé                                                +          . 
+Rich Dougherty                                                 .            
+Robert Katić                                               --+++          . 
+Scott González                                                 .            
+TJ Holowaychuk                                      .                       
+Yehuda Katz                              +                     .          . 
+Modified Rows:               30       1929       8096        702       4262 
+
+Author                  2010-01    2010-02    2010-03    2010-04    2010-06 
+Adam J. Sontag                                                            . 
+Ben Alman                     .          .                                  
+Brandon Aaron                            .          .                       
+Filipe Fortes                 .                                             
+Iraê Carvalho                 .                                             
+John Resig             --++++++   ---+++++   ++++++++   ---+++++   ---+++++ 
+Justin Meyer                             .                                  
+Karl Swedberg                 .                                             
+Matt Curry                    .                                             
+Michael Monteleone            .                                             
+Mike Alsup                    .                                           . 
+Neeraj Singh                  .          .                                  
+Noah Sloan                               .                                  
+Paul Irish                    .                                             
+Rick Waldron                  .                                             
+Robert Katić                  .                                             
+Tom Viner                                .                                  
+Yehuda Katz                   .                                             
+Modified Rows:             2830       4932       6629         16        352 
+
+Author                  2010-07    2010-08    2010-09    2010-10    2010-11 
+Adam J. Sontag                                                            . 
+Alex Sexton                                                    .            
+Anton Matzneller                                               .        +++ 
+Brandon Aaron                                       .                       
+Colin Snover                                        .      -++++          . 
+Dan Heberden                                                   .          . 
+Dave Methvin                                        .          .            
+Dave Reed                    ++                     .                       
+David Petersen                                      .                       
+Heungsub Lee                                        .                       
+J. Ryan Stinnett                                    .                       
+Jacob Wright                                        .                       
+Jephte Clain                                                   .          . 
+John Resig                    .  ---++++++ ----+++++++   ---+++++   ---+++++ 
+Justin Meyer                                                   .            
+Jörn Zaefferer         ----++++                                             
+Karl Swedberg                                       .          .            
+Louis-Rémi Babé                                     .          .            
+Paul Irish                                                     .            
+Pinhook                                                        .            
+Rick Waldron                                                   .       ++++ 
+Robert Katić                                        .                       
+Ron Otten                                                      .            
+Russell Holbrook                                                          . 
+Scott González                                                 .            
+Yehuda Katz                                                    .            
+temp01                                              .                       
+unknown                                             .                       
+Modified Rows:              271        219       8420       1662        627 
+
+Author                  2010-12    2011-01    2011-02    2011-03    2011-04 
+Adam J. Sontag                           .                                  
+Alex Sexton                   .          .          .                       
+Alexander Farkas                                                          . 
+Alexis Abril                                                              . 
+Anton Kovalyov                                      .                       
+Anton Matzneller              .          . -----------                       
+Ben Alman                     .                                .            
+Brandon Sterne                           .                                  
+Brian Brennan                                                             . 
+Carl Fürstenberg                                                          . 
+Charles McNulty                                     .          .            
+Colin Snover                  . ++++++++++          .                       
+Corey Frang                              .          .                       
+Dan Heberden                             .          .          .          . 
+Dave Methvin                  .          .          .          .          . 
+David Murdoch                                       .                       
+Digitalxero                              .                                  
+Gianni Alessandro Ch          .          .                                  
+Gilmore Davidson                                                          . 
+James Burke                   .                     .                     . 
+Jared Grippe                             .                                  
+Jess Thrysoee                                                  .            
+John Firebaugh                                                            . 
+John Resig                    .          .          .          +   ---+++++ 
+Jordan Boesch                                       .          .          . 
+Josh Varner                                         .                       
+Julian Aubourg       ----++++++  ----+++++          .  ----+++++        -++ 
+Lee Carpenter                                                             . 
+Louis-Rémi Babé               .                     .          .   ----++++ 
+Mathias Bynens                           .          .                       
+Michael Murray                                                 .            
+Richard D. Worth                                               .            
+Rick Waldron                  .          .          .          .          + 
+Sam Bisbee                                                                . 
+Scott González                           .                                  
+Scott Jehl                    .          .                                  
+Sylvester Keil                           .                                  
+Timmy Willison                           .          .          +      --+++ 
+Xavi Ramirez                             .                                  
+Yehuda Katz                              .                                  
+Modified Rows:            10499       8562      16122       1629       9296 
+
+Author                  2011-05    2011-06    2011-07    2011-08    2011-09 
+Anton Ryzhov                                                   .            
+Corey Frang                   .          +          +                     + 
+Daniel Pihlstrom              .                                             
+Dave Methvin                                                 -++   ----++++ 
+Denis Knauf                                         .                       
+Greg Hazel                               .                                  
+John Resig                -++++          .                                  
+Julian Aubourg                +              -+++++++          .       -+++ 
+Louis-Rémi Babé               .                                             
+Mathias Bynens                .                                           . 
+Mike Sherov                           -+++                                  
+Rick Waldron                  +     -+++++    --+++++       ++++          + 
+Sahab Yazdani                 .                                             
+Schalk Neethling                         .                                  
+Scott Hughes                  .                                             
+Scott Jehl                                                     .            
+Steen Nielsen                                       .                       
+Timmy Willison        ---++++++   ----++++          .   ----++++        -++ 
+avaly                         .                                             
+Modified Rows:             1580        509        385        512       5132 
+
+Author                  2011-10    2011-11    2011-12    2012-01    2012-02 
+Arne de Bree                                                              . 
+Berker Peksag                            .                                  
+Corey Frang                   +          .                                  
+Daniel Herman                            .                                  
+Dave Methvin           ---+++++          +          .          +          . 
+James Burke                              .                                  
+Joe Presbrey                                                   .            
+Julian Aubourg                .          .                     .            
+Justin                                   .                                  
+Mathias Bynens                .                                             
+Matt Mueller                             .                                  
+Mike Sherov                   . -----+++++  -----++++  ---++++++  -----++++ 
+Oleg Gaidarenko                          .                     +            
+Rafaël Blais Masson                                 .                       
+Richard Gibson                                      .          .          + 
+Rick Waldron                 ++          .          .          +            
+Scott González                                                            . 
+Shi Chuan                     .                                             
+Sindre Sorhus                                                             . 
+Timmy Willison          ---++++          +          .          .            
+Toby Brain                               .                                  
+Vladislav Zarakovsky                                                     -+ 
+cmc3cn                                                         .            
+Modified Rows:             1234       4854      10800        522        289 
+
+Author                  2012-03    2012-04    2012-05    2012-06    2012-07 
+Andrew E Monat                           .                                  
+Arne de Bree                             .                                  
+Ben Alman                                           .                       
+Chad Killingsworth                                                 ----++++ 
+Charles McNulty                          .                                  
+Chris Faulkner                                                            . 
+Corey Frang                        ---++++        -++          .          . 
+Daniel Chatfield                                                          . 
+Dave Methvin           -+++++++    ---++++          .          .          + 
+David Benjamin                                                            . 
+Dominik D. Geyer                         .                                  
+Elijah Manor                                                              . 
+Jason Moon                                          .                       
+Jeffery To                                                     .            
+Julian Aubourg          +++++++      --+++          +          .        -++ 
+Jörn Zaefferer                                      .          .            
+Louis-Rémi Babé               .                                             
+Mathias Bynens                .                                             
+Matt Farmer                                         .                       
+Mike Sherov                 +++        -++         -+          .         -+ 
+Nowres Rafid                                                              . 
+Oleg Gaidarenko                          .          +                     . 
+Oskari                                   .                                  
+Richard Gibson                          -+   ---+++++          .         -+ 
+Rick Waldron             -+++++  ----+++++          .   --------          . 
+Robert Katić                             .                                  
+Scott González                                      .                       
+Sindre Sorhus                 +          .          .          .            
+Timmy Willison                +                     +          .          . 
+Timo Tijhof                              .          .          .            
+Uri Gilad                                                                 . 
+Vladimir Zhuravlev                                             .            
+Yehuda Katz                              .                                  
+tsinha                                   .                                  
+Modified Rows:              320       4975       2922      10818       3056 
+
+Author                  2012-08    2012-09    2012-10    2012-11    2012-12 
+Akintayo Akinwunmi                                  .                       
+Alexander Farkas                                               .            
+Allen J Schmidt Jr                                  .                       
+Benjamin Truyman                                    .                       
+Bennett Sorbo                                                             . 
+Carl Danley                                         .                       
+Corey Frang                   .                                .            
+Daniel Gálvez                                       .                       
+Dave Methvin                -++   ---+++++       ---+          .        --- 
+David Bonner                                       -+                       
+David Fox                                           .                       
+Devin Cooper                                                   .            
+Elijah Manor          ----+++++                                             
+Erick Ruiz de Chávez                        --+++++++                       
+Greg Lavallee                                       .                       
+Ismail Khair                                        .                       
+James Huston                                        +                       
+Jay Merrifield                                      .                       
+Jonathan Sampson                                    .                       
+Julian Aubourg                .          +          -  ------+++   ----++++ 
+MORGAN                                              .                       
+Marcel Greter                                       .                       
+Matt Farmer                                                    .            
+Matthias Jäggli                                     .                       
+Mike Pennisi                  .                                             
+Mike Petrovich                                      .                       
+Mike Sherov                   .          +       --++                     . 
+Nikita Govorov                .                                             
+Oleg Gaidarenko               .                     +          .       --++ 
+Paul Ramos                                                                + 
+Richard Gibson                .     ---+++          .   ----++++         -+ 
+Rick Waldron                  .                --++++                    -+ 
+Rod Vagg                                                                  . 
+Roland Eckl                                         .                       
+Sai Lung Wong                                       +                       
+Scott González                                                 .          . 
+Sebastian Burkhard                                                        . 
+Timmy Willison                .          .          .                     - 
+Timo Tijhof                                   ---++++          .          . 
+Wesley Walser                 .                                             
+Yiming He                                           .                       
+Modified Rows:             2042        215       4036       6751       9743 
+
+Author                  2013-01    2013-02    2013-03    2013-04    2013-05 
+Adam Coulombe                 .                                             
+Andrew Plummer                .                                             
+Chris Talkington                                                          + 
+Corey Frang                   +                                .            
+Danil Somsikov                .                                             
+Dave Methvin         ------++++          .                     .      --+++ 
+Dmitry Gusev                             .                                  
+Eddie Monge                                                               . 
+Isaac Z. Schlueter                       .                                  
+James Burke                              .                                  
+Jason Bedard                                                              . 
+Jean Boussier                 .                                             
+Julian Aubourg              --+          .                                . 
+Kyle Robinson Young                                                       . 
+Li Xudong                                           .                       
+Mark Raddatz                             .                                  
+Michał Gołębiowski                           ----++++       --++          + 
+Mike Sherov                   .                                             
+Nguyen Phuc Lam                          .          .                       
+Oleg Gaidarenko              -+          .                     +          . 
+Pascal Borreli                           .                                  
+Renato Oliveira dos                                            .            
+Richard Gibson             --++  ---++++++          .      --+++   --++++++ 
+Rick Waldron                     ----+++++         -+          .          + 
+Scott González                           .                                  
+Timmy Willison                .                     .   ----++++          . 
+Timo Tijhof                              .                                  
+Tom H Fuertes                                       .                       
+nanto_vi                      .                                             
+ros3cin                                                        .            
+Modified Rows:             3011       2172        914       3531        619 
+
+Author                  2013-06    2013-07    2013-08    2013-09    2013-10 
+Amey Sakhadeo                                       .          .            
+Anthony Ryan                                                   .            
+Chris Price                                         .                       
+Daniel Herman                                       .                       
+Dave Methvin                             .                     .          . 
+George Kats                                                               . 
+Guy Bedford                                         .                       
+Jason Bedard               -+++                                             
+Jason Merino                             .                                  
+Jeremy Dunck                                        .                       
+Jörn Zaefferer        ---++++++                                             
+Lihan Li                                                                  . 
+Michał Gołębiowski                       .          .          +          . 
+Mike Sidorov                                                   .            
+Nguyen Phuc Lam                          .                                  
+Oleg Gaidarenko                          .          .          .          . 
+Richard Gibson                                      .          .          . 
+Rick Waldron               ++++                                             
+Ronny Springer                                                            . 
+Scott González                                                            . 
+Terry Jones                   .                     .                       
+Timmy Willison                    ---+++++ ++++++++++  ----+++++  --------- 
+Timo Tijhof                                                    .          . 
+Modified Rows:               78        144      30119       5289      26498 
+
+Author                  2013-11    2013-12    2014-01    2014-02    2014-03 
+Benjy Cui                                                                 . 
+Chris Antaki                  .          .                                  
+Christopher Jones                        .                                  
+Corey Frang                   .                                             
+Dave Methvin                  .          .        -++            ----------- 
+David Hong                    .                                             
+Forbes Lindesay                                     .                       
+Ilya Kantor                   .                                             
+Jakob Stoeck                  .                                             
+John Hoven                                                                . 
+John Paul                     .                                             
+Jonathan Sampson                                                          . 
+Julian Aubourg                                   ++++                       
+Jörn Zaefferer                                      .                     . 
+Louis-Rémi Babé                                                           . 
+Marian Sollmann               .                                             
+Michał Gołębiowski            .          .   -+++++++  ----+++++          . 
+Oleg Gaidarenko      +++++++++++                  --++          .          . 
+Philip Jägenstedt                                                         . 
+Richard Gibson                .          .          .          .          . 
+Rick Waldron                                                   .            
+Rodrigo Rosenfeld Ro                                                      . 
+Roman Reiß                                                                . 
+S. Andrew Sheppard                                                        . 
+Scott González                                                            . 
+Sindre Sorhus                 .                                             
+Timmy Willison                .   ++++++++    ---++++                     . 
+Timo Tijhof                              .                                  
+njhamann                      .                                             
+Modified Rows:            11026       9694        295       2983       6849 
+
+Author                  2014-04    2014-05    2014-06    2014-07    2014-09 
+Aurelio De Rosa                                                           . 
+Chris Antaki                                                   .   -----+++ 
+Christian Kosmowski           .                                             
+Daniel Herman                                                             . 
+Dave Methvin                  .                     .                       
+Jason Bedard                                                              . 
+Liang Peng                               .                                  
+Michał Gołębiowski            .       ++++          .          .            
+Nazar Mokrynskyi                                                         -- 
+Oleg Gaidarenko       ---++++++        --+          .                   -++ 
+Richard Gibson                .                     .                     + 
+Scott González                              ---------                       
+TJ VanToll                                          .                       
+Timmy Willison                    ++++++++          .  ---++++++            
+Timo Tijhof                                                    .            
+Modified Rows:              810        102      11820        711         86 
+
+Author                  2014-10    2014-11    2014-12    2015-01    2015-02 
+Aditya Raghavan                                     .          .            
+Anne-Gaelle Colom                                              .            
+Arthur Verschaeve             .                                             
+Ben Toews                                           .                       
+Bin Xin                                             .                       
+Dan Hart                                 +                                  
+Daniel Husar                                        .                       
+Dave Methvin                                        .          -            
+David Corbacho                                      .                       
+Frederic Hemberger                                  .                       
+George Mauer                                                   .            
+Jörn Zaefferer                                                       --++++ 
+Leonardo Braga                                                 .            
+Michał Gołębiowski     --------   ------++          .          .       -+++ 
+Mike Sidorov                                        .                       
+Nicolas HENRY                                       .                       
+Oleg Gaidarenko               +          +          .          .   --++++++ 
+Richard Gibson                             ----+++++++      --+++            
+Shivaji Varma                                       .                       
+Timmy Willison                           .          .  ---++++++            
+Timo Tijhof                                                    .            
+Veaceslav Grimalschi                                .                       
+Victor Homyakov                                     .          .            
+Modified Rows:               26        216       3637        981        502 
+
+Author                  2015-03    2015-04    2015-05    2015-06    2015-07 
+Alexander O'Mara                         .                                  
+Arthur Stolyar                                      .                       
+Bastian Buchholz                         .                                  
+Bruno Pérel                                                              . 
+Chris Rebert                                        .                       
+Corey Frang                                             ++++++++            
+Dave Methvin                  .                                             
+Gabriel Schulhof                                    .                       
+Gilad Peleg                                                    .            
+Jason Bedard                  .                                           . 
+Marek Lewandowski                                                         . 
+Martin Naumann                                                 .            
+Michał Gołębiowski            .      -++++          .          .   -+++++++ 
+Mu Haibao                                           .                       
+Oleg Gaidarenko               .                     .          .   --++++++ 
+Richard Gibson        -++++++++    --+++++      ---++                       
+Richard McDaniel                                    .                       
+Rick Waldron                  -                                             
+Thomas Tortorini              +                                .          . 
+Timmy Willison                .  ---++++++   ---+++++          .          + 
+Winston Howes                 .                                             
+Modified Rows:             1488        792       2245       7677        731 
+
+Author                  2015-08    2015-09    2015-10 
+Anthony Ryan                             .            
+Aurelio De Rosa                                    ++ 
+Christian Grete                                     . 
+Connor Atherton                                     . 
+Daniel Nill                              .            
+Dave Methvin                                 ----++++ 
+Gary Ye                                             . 
+Jason Bedard                             .            
+Joelle Fleurantin                                   . 
+Liza Ramo                                           . 
+Martin Naumann                                      . 
+Michał Gołębiowski            .       -+++          . 
+Oleg Gaidarenko        ----++++  --+++++++     -+++++ 
+Richard Gibson                .          .        -++ 
+Sean Henderson                           .            
+Thomas Tortorini                         .          . 
+Timmy Willison                                      . 
+Yongwoo Jeon                             .            
+Modified Rows:            10557       2395        978 
+
+The following files are suspiciously big (in order of severity):
+test/data/jquery-1.9.1.js (8381 estimated lines of code)
+external/sinon/sinon-1.14.1.js (5389 estimated lines of code)
+test/unit/event.js (2711 estimated lines of code)
+test/unit/manipulation.js (2581 estimated lines of code)
+external/qunit/qunit.js (2540 estimated lines of code)
+test/unit/effects.js (2380 estimated lines of code)
+test/unit/ajax.js (2366 estimated lines of code)
+external/sizzle/dist/sizzle.js (1717 estimated lines of code)
+test/unit/core.js (1620 estimated lines of code)
+external/requirejs/require.js (1514 estimated lines of code)
+test/unit/attributes.js (1441 estimated lines of code)
+test/unit/css.js (1253 estimated lines of code)
+test/unit/data.js (884 estimated lines of code)
+test/unit/deferred.js (880 estimated lines of code)
+test/unit/traversing.js (855 estimated lines of code)
+src/event.js (792 estimated lines of code)
+src/ajax.js (663 estimated lines of code)
+src/effects.js (622 estimated lines of code)
+test/unit/offset.js (542 estimated lines of code)
+test/unit/wrap.js (524 estimated lines of code)
+
+The following files have an elevated cyclomatic complexity (in order of severity):
+test/data/jquery-1.9.1.js (2837 in cyclomatic complexity)
+external/sinon/sinon-1.14.1.js (2045 in cyclomatic complexity)
+external/qunit/qunit.js (853 in cyclomatic complexity)
+test/unit/manipulation.js (791 in cyclomatic complexity)
+test/unit/core.js (634 in cyclomatic complexity)
+test/unit/event.js (626 in cyclomatic complexity)
+test/unit/ajax.js (609 in cyclomatic complexity)
+external/sizzle/dist/sizzle.js (604 in cyclomatic complexity)
+test/unit/effects.js (564 in cyclomatic complexity)
+test/unit/attributes.js (556 in cyclomatic complexity)
+external/requirejs/require.js (513 in cyclomatic complexity)
+test/unit/traversing.js (414 in cyclomatic complexity)
+test/unit/css.js (368 in cyclomatic complexity)
+test/unit/data.js (313 in cyclomatic complexity)
+src/event.js (242 in cyclomatic complexity)
+test/unit/deferred.js (240 in cyclomatic complexity)
+src/ajax.js (210 in cyclomatic complexity)
+test/unit/offset.js (200 in cyclomatic complexity)
+src/effects.js (199 in cyclomatic complexity)
+test/unit/selector.js (196 in cyclomatic complexity)
+test/unit/dimensions.js (195 in cyclomatic complexity)
+src/manipulation.js (144 in cyclomatic complexity)
+test/unit/wrap.js (128 in cyclomatic complexity)
+src/core.js (116 in cyclomatic complexity)
+test/unit/basic.js (113 in cyclomatic complexity)
+test/unit/tween.js (102 in cyclomatic complexity)
+src/css.js (91 in cyclomatic complexity)
+test/unit/callbacks.js (84 in cyclomatic complexity)
+test/unit/queue.js (83 in cyclomatic complexity)
+test/unit/support.js (76 in cyclomatic complexity)
+src/deferred.js (74 in cyclomatic complexity)
+test/unit/animation.js (73 in cyclomatic complexity)
+test/data/testinit.js (69 in cyclomatic complexity)
+src/selector-native.js (60 in cyclomatic complexity)
+src/offset.js (56 in cyclomatic complexity)
+src/callbacks.js (54 in cyclomatic complexity)
+build/tasks/build.js (54 in cyclomatic complexity)
+test/data/testrunner.js (53 in cyclomatic complexity)
+
+The following files have an elevated cyclomatic complexity density (in order of severity):
+external/sizzle/dist/sizzle.min.js (4.000 in cyclomatic complexity density)
+external/npo/npo.js (1.000 in cyclomatic complexity density)
+
+The following repsonsibilties, by author, were found in the current revision of
+the repository (comments are exluded from the line count, if possible):
+
+Adam Coulombe is mostly responsible for:
+    30 test/unit/callbacks.js
+     1 test/data/jquery-1.9.1.js
+
+Adam J. Sontag is mostly responsible for:
+     2 test/unit/traversing.js
+     1 src/traversing.js
+
+Aditya Raghavan is mostly responsible for:
+    10 test/unit/offset.js
+     9 test/unit/css.js
+     8 test/unit/event.js
+     2 src/offset.js
+
+Alexander Farkas is mostly responsible for:
+     5 test/unit/event.js
+     1 test/unit/attributes.js
+
+Alexander O'Mara is mostly responsible for:
+     1 src/selector.js
+
+Alexis Abril is mostly responsible for:
+     8 test/unit/data.js
+     1 test/data/jquery-1.9.1.js
+     1 src/data.js
+
+Allen J Schmidt Jr is mostly responsible for:
+    31 test/unit/event.js
+
+Amey Sakhadeo is mostly responsible for:
+    10 test/unit/core.js
+
+Andrew Plummer is mostly responsible for:
+    13 test/unit/event.js
+
+Anne-Gaelle Colom is mostly responsible for:
+     1 Gruntfile.js
+
+Anthony Ryan is mostly responsible for:
+     3 src/manipulation/wrapMap.js
+
+Anton Kovalyov is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+     1 src/serialize.js
+
+Anton Matzneller is mostly responsible for:
+    25 test/unit/effects.js
+    15 test/unit/event.js
+    12 test/unit/attributes.js
+     2 test/data/jquery-1.9.1.js
+     2 src/serialize.js
+     1 test/unit/manipulation.js
+     1 test/unit/ajax.js
+
+Anton Ryzhov is mostly responsible for:
+     5 test/unit/core.js
+
+Ariel Flesler is mostly responsible for:
+   108 test/unit/event.js
+    93 test/data/jquery-1.9.1.js
+    56 src/event.js
+    42 test/unit/effects.js
+    35 test/unit/core.js
+    19 test/unit/data.js
+    14 src/effects.js
+    13 src/data.js
+     6 test/unit/ajax.js
+     5 src/queue.js
+
+Arne de Bree is mostly responsible for:
+     6 test/unit/manipulation.js
+
+Arthur Stolyar is mostly responsible for:
+     8 test/unit/offset.js
+     6 src/offset.js
+
+Aurelio De Rosa is mostly responsible for:
+    73 test/unit/core.js
+
+Bastian Buchholz is mostly responsible for:
+     1 src/attributes/attr.js
+
+Batiste Bieler is mostly responsible for:
+     5 test/unit/attributes.js
+
+Ben Alman is mostly responsible for:
+    22 test/unit/ready.js
+    21 test/unit/traversing.js
+     9 test/data/jquery-1.9.1.js
+     5 src/traversing.js
+     4 src/serialize.js
+     2 src/core.js
+     1 test/unit/event.js
+     1 src/ajax.js
+
+Ben Toews is mostly responsible for:
+    17 src/ajax.js
+     4 test/unit/ajax.js
+
+Benjamin Truyman is mostly responsible for:
+    12 test/unit/ajax.js
+     1 test/data/jquery-1.9.1.js
+     1 src/ajax.js
+
+Bennett Sorbo is mostly responsible for:
+     8 test/unit/css.js
+     1 test/data/jquery-1.9.1.js
+     1 src/css.js
+
+Bin Xin is mostly responsible for:
+     4 test/unit/manipulation.js
+     1 src/manipulation/_evalUrl.js
+
+Brandon Aaron is mostly responsible for:
+   174 test/data/jquery-1.9.1.js
+   113 test/unit/manipulation.js
+   103 test/unit/offset.js
+    94 test/unit/attributes.js
+    61 test/unit/event.js
+    49 test/unit/dimensions.js
+    42 src/offset.js
+    41 src/event.js
+    40 test/unit/traversing.js
+    29 test/unit/css.js
+
+Brandon Sterne is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+
+Brian Brennan is mostly responsible for:
+     7 test/unit/event.js
+
+Carl Danley is mostly responsible for:
+    11 src/data.js
+     1 test/unit/data.js
+
+Carl Fürstenberg is mostly responsible for:
+     1 test/unit/css.js
+
+Chad Killingsworth is mostly responsible for:
+    94 test/unit/offset.js
+    27 test/unit/css.js
+    22 test/unit/core.js
+    20 test/unit/event.js
+    19 test/unit/dimensions.js
+    15 test/unit/effects.js
+    13 test/unit/attributes.js
+     6 test/unit/deferred.js
+     5 test/unit/data.js
+     2 test/unit/selector.js
+
+Charles McNulty is mostly responsible for:
+    10 test/unit/manipulation.js
+
+Chris Antaki is mostly responsible for:
+    13 test/unit/manipulation.js
+     5 src/manipulation.js
+     4 src/effects.js
+     3 src/manipulation/buildFragment.js
+     3 src/core/access.js
+     2 src/traversing/findFilter.js
+     2 src/manipulation/setGlobalEval.js
+     1 src/exports/global.js
+     1 src/event.js
+     1 src/ajax.js
+
+Chris Talkington is mostly responsible for:
+    10 build/release/cdn.js
+     2 build/release.js
+
+Christian Grete is mostly responsible for:
+    11 test/unit/core.js
+     1 src/core.js
+
+Christopher Jones is mostly responsible for:
+   272 test/unit/manipulation.js
+    36 test/unit/wrap.js
+     8 test/unit/attributes.js
+     6 test/unit/css.js
+     1 test/data/testrunner.js
+
+Colin Snover is mostly responsible for:
+    61 test/unit/effects.js
+    48 test/unit/data.js
+    33 test/unit/manipulation.js
+    15 test/data/jquery-1.9.1.js
+    13 test/unit/event.js
+    10 test/unit/dimensions.js
+     7 test/unit/css.js
+     6 test/unit/core.js
+     6 test/unit/attributes.js
+     5 test/unit/wrap.js
+
+Connor Atherton is mostly responsible for:
+    23 test/unit/core.js
+
+Corey Frang is mostly responsible for:
+  5287 external/sinon/sinon-1.14.1.js
+   472 test/unit/effects.js
+   457 test/data/jquery-1.9.1.js
+   304 src/effects.js
+   183 test/unit/tween.js
+   135 test/unit/animation.js
+    63 test/unit/queue.js
+    59 src/effects/Tween.js
+    40 test/unit/data.js
+    40 src/queue.js
+
+Dan Hart is mostly responsible for:
+    14 test/unit/ajax.js
+     5 src/ajax.js
+
+Dan Heberden is mostly responsible for:
+    16 test/unit/css.js
+    10 test/data/jquery-1.9.1.js
+     6 src/core.js
+     4 src/css.js
+     3 test/unit/core.js
+     1 src/ajax.js
+
+Daniel Chatfield is mostly responsible for:
+     8 test/unit/manipulation.js
+
+Daniel Gálvez is mostly responsible for:
+     6 test/unit/manipulation.js
+     3 test/data/jquery-1.9.1.js
+     1 src/offset.js
+
+Daniel Herman is mostly responsible for:
+     3 test/unit/deferred.js
+     2 test/data/jquery-1.9.1.js
+     1 test/unit/event.js
+     1 src/event/alias.js
+     1 src/event.js
+
+Daniel Husar is mostly responsible for:
+     2 src/core.js
+
+Daniel Nill is mostly responsible for:
+     4 test/unit/serialize.js
+
+Daniel Pihlstrom is mostly responsible for:
+     2 test/unit/effects.js
+
+Danil Somsikov is mostly responsible for:
+     1 test/unit/data.js
+
+Dave Methvin is mostly responsible for:
+   592 test/unit/event.js
+   332 test/data/jquery-1.9.1.js
+   312 src/event.js
+    63 test/unit/manipulation.js
+    51 test/unit/core.js
+    40 test/unit/deprecated.js
+    34 test/unit/traversing.js
+    32 build/release/cdn.js
+    27 test/unit/attributes.js
+    24 build/tasks/dist.js
+
+Dave Reed is mostly responsible for:
+     6 test/unit/data.js
+     2 test/data/jquery-1.9.1.js
+     2 src/event.js
+
+David Corbacho is mostly responsible for:
+     2 build/tasks/build.js
+
+David Fox is mostly responsible for:
+     4 test/unit/offset.js
+
+David Hong is mostly responsible for:
+     7 test/unit/ajax.js
+
+David Serduke is mostly responsible for:
+    23 test/unit/effects.js
+    14 test/unit/core.js
+    11 test/unit/ajax.js
+     3 test/unit/event.js
+     3 test/data/jquery-1.9.1.js
+     2 test/unit/manipulation.js
+     2 src/effects.js
+     2 src/core.js
+     1 test/unit/traversing.js
+     1 src/ajax/load.js
+
+Devin Cooper is mostly responsible for:
+     9 test/unit/manipulation.js
+     2 src/manipulation.js
+
+Elijah Manor is mostly responsible for:
+    11 test/unit/manipulation.js
+     5 test/unit/css.js
+
+Erick Ruiz de Chávez is mostly responsible for:
+    86 test/unit/ajax.js
+    68 test/unit/attributes.js
+    36 test/unit/deferred.js
+     6 test/unit/callbacks.js
+
+Filipe Fortes is mostly responsible for:
+     2 test/unit/core.js
+
+Forbes Lindesay is mostly responsible for:
+     1 src/intro.js
+
+Gabriel Schulhof is mostly responsible for:
+    35 test/unit/event.js
+     2 src/event.js
+
+Gary Ye is mostly responsible for:
+     1 test/unit/event.js
+
+George Mauer is mostly responsible for:
+    17 test/unit/ajax.js
+     2 src/ajax.js
+
+Gianni Alessandro Chiappetta is mostly responsible for:
+     7 test/data/jquery-1.9.1.js
+     5 test/unit/core.js
+     5 src/core.js
+     3 src/event.js
+
+Gilad Peleg is mostly responsible for:
+    19 src/attributes/prop.js
+    10 src/attributes/attr.js
+
+Guy Bedford is mostly responsible for:
+     1 src/effects/animatedSelector.js
+
+Ilya Kantor is mostly responsible for:
+     1 src/event.js
+
+Iraê Carvalho is mostly responsible for:
+     3 test/unit/event.js
+
+Jacob Wright is mostly responsible for:
+     1 test/unit/data.js
+
+James Burke is mostly responsible for:
+    21 test/data/readywaitloader.js
+     3 test/unit/exports.js
+     1 test/data/testinit.js
+     1 test/data/readywaitasset.js
+
+James Huston is mostly responsible for:
+     7 test/unit/ajax.js
+     5 test/unit/css.js
+     2 test/unit/event.js
+     2 test/unit/core.js
+     1 test/unit/traversing.js
+     1 test/unit/manipulation.js
+     1 test/unit/effects.js
+
+James Padolsey is mostly responsible for:
+    14 test/unit/effects.js
+
+Jared Grippe is mostly responsible for:
+     3 test/data/jquery-1.9.1.js
+     2 src/core/init.js
+     1 src/core.js
+
+Jason Bedard is mostly responsible for:
+    30 test/unit/data.js
+    20 src/data/Data.js
+    17 test/unit/manipulation.js
+    11 src/manipulation.js
+     5 test/unit/event.js
+     4 src/event.js
+     4 src/css/showHide.js
+     4 src/attributes/classes.js
+     2 src/data/var/acceptData.js
+     2 src/attributes/val.js
+
+Jason Merino is mostly responsible for:
+     1 src/css.js
+
+Jason Moon is mostly responsible for:
+    45 test/unit/event.js
+
+Jay Merrifield is mostly responsible for:
+    10 test/unit/offset.js
+    10 src/offset.js
+     6 test/data/jquery-1.9.1.js
+
+Jean Boussier is mostly responsible for:
+    16 test/unit/ajax.js
+     3 test/data/jquery-1.9.1.js
+     3 src/ajax.js
+
+Jeffery To is mostly responsible for:
+    15 test/unit/effects.js
+     4 test/data/jquery-1.9.1.js
+     1 src/css/adjustCSS.js
+
+Jephte Clain is mostly responsible for:
+     3 test/data/jquery-1.9.1.js
+     3 src/exports/global.js
+
+Jeremy Dunck is mostly responsible for:
+     4 src/attributes/classes.js
+
+Jess Thrysoee is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+     1 src/ajax.js
+
+Joelle Fleurantin is mostly responsible for:
+    10 src/attributes/prop.js
+     7 test/unit/attributes.js
+     1 test/unit/offset.js
+
+John Firebaugh is mostly responsible for:
+     1 test/unit/event.js
+
+John Hoven is mostly responsible for:
+     8 test/unit/attributes.js
+     4 src/attributes/val.js
+
+John Paul is mostly responsible for:
+   113 test/unit/effects.js
+     6 test/unit/tween.js
+     3 test/unit/animation.js
+
+John Resig is mostly responsible for:
+   799 test/data/jquery-1.9.1.js
+   344 test/unit/event.js
+   203 test/unit/manipulation.js
+   163 test/unit/attributes.js
+   162 test/unit/effects.js
+   155 test/unit/core.js
+   155 src/core.js
+    97 test/unit/data.js
+    87 src/event.js
+    73 test/unit/ajax.js
+
+Jonathan Sampson is mostly responsible for:
+     6 src/manipulation/support.js
+
+Jordan Boesch is mostly responsible for:
+     6 test/unit/core.js
+     4 test/data/jquery-1.9.1.js
+     4 src/core.js
+
+Julian Aubourg is mostly responsible for:
+  1170 test/unit/ajax.js
+   678 test/data/jquery-1.9.1.js
+   372 src/ajax.js
+   287 test/unit/deferred.js
+   230 test/unit/callbacks.js
+    87 src/deferred.js
+    85 src/callbacks.js
+    70 test/unit/serialize.js
+    69 src/ajax/xhr.js
+    50 src/ajax/script.js
+
+Justin Meyer is mostly responsible for:
+    35 test/unit/event.js
+     3 test/data/jquery-1.9.1.js
+     3 src/event.js
+
+Jörn Zaefferer is mostly responsible for:
+    97 external/qunit/qunit.js
+    25 test/unit/core.js
+    24 build/tasks/testswarm.js
+    23 test/data/jquery-1.9.1.js
+    13 test/unit/ajax.js
+    12 test/unit/event.js
+    11 src/ajax.js
+     9 src/core.js
+     6 test/unit/effects.js
+     3 test/data/testrunner.js
+
+Karl Swedberg is mostly responsible for:
+    26 test/data/jquery-1.9.1.js
+    24 test/unit/effects.js
+    12 src/effects.js
+     7 src/attributes/val.js
+     3 src/queue.js
+     3 src/effects/Tween.js
+     2 test/unit/offset.js
+     2 src/event.js
+     2 src/attributes/attr.js
+     1 test/unit/attributes.js
+
+Lee Carpenter is mostly responsible for:
+     3 test/data/jquery-1.9.1.js
+     3 src/core/init.js
+     2 test/unit/core.js
+
+Leonardo Braga is mostly responsible for:
+     9 test/unit/manipulation.js
+     8 test/unit/core.js
+     1 src/manipulation.js
+     1 src/core/var/rsingleTag.js
+
+Li Xudong is mostly responsible for:
+     1 test/unit/data.js
+
+Lihan Li is mostly responsible for:
+     2 test/unit/css.js
+
+Liza Ramo is mostly responsible for:
+    15 test/unit/core.js
+
+Louis-Rémi Babé is mostly responsible for:
+    56 test/unit/manipulation.js
+    37 test/unit/effects.js
+    33 test/unit/attributes.js
+    16 test/unit/event.js
+    16 test/unit/css.js
+     9 test/unit/queue.js
+     8 test/unit/traversing.js
+     7 test/unit/serialize.js
+     6 test/data/jquery-1.9.1.js
+     4 src/event.js
+
+MORGAN is mostly responsible for:
+     5 test/unit/traversing.js
+     1 test/data/jquery-1.9.1.js
+     1 src/traversing.js
+
+Marcel Greter is mostly responsible for:
+     3 test/unit/core.js
+
+Marek Lewandowski is mostly responsible for:
+     4 src/selector-native.js
+
+Marian Sollmann is mostly responsible for:
+     2 src/traversing.js
+     1 test/data/jquery-1.9.1.js
+
+Mark Raddatz is mostly responsible for:
+     3 test/unit/manipulation.js
+
+Martin Naumann is mostly responsible for:
+     5 src/css.js
+     1 build/tasks/build.js
+
+Mathias Bynens is mostly responsible for:
+     2 test/data/jquery-1.9.1.js
+     1 src/attributes/val.js
+
+Matt Farmer is mostly responsible for:
+     2 test/unit/dimensions.js
+     2 test/data/jquery-1.9.1.js
+     2 src/ajax.js
+
+Matthias Jäggli is mostly responsible for:
+     6 test/unit/attributes.js
+
+Michael Monteleone is mostly responsible for:
+     6 test/unit/manipulation.js
+
+Michał Gołębiowski is mostly responsible for:
+   282 test/unit/basic.js
+   214 external/qunit/qunit.js
+   171 test/unit/event.js
+   130 test/unit/support.js
+   121 test/unit/css.js
+    97 test/integration/data/gh-1764-fullscreen.js
+    95 test/unit/wrap.js
+    74 external/requirejs/require.js
+    51 Gruntfile.js
+    50 src/css/support.js
+
+Mike Alsup is mostly responsible for:
+     1 test/unit/ajax.js
+     1 test/data/jquery-1.9.1.js
+     1 src/ajax/load.js
+
+Mike Sherov is mostly responsible for:
+   201 test/data/jquery-1.9.1.js
+   110 src/css.js
+    96 test/unit/css.js
+    66 test/unit/dimensions.js
+    54 test/unit/effects.js
+    32 test/unit/event.js
+    24 test/unit/core.js
+    18 test/unit/manipulation.js
+    16 test/unit/offset.js
+    13 test/data/testinit.js
+
+Mike Sidorov is mostly responsible for:
+     3 src/data.js
+     1 src/css.js
+
+Neeraj Singh is mostly responsible for:
+     5 test/unit/manipulation.js
+
+Nguyen Phuc Lam is mostly responsible for:
+    11 test/unit/attributes.js
+     7 src/attributes/val.js
+     1 test/unit/queue.js
+     1 test/unit/effects.js
+     1 test/data/jquery-1.9.1.js
+     1 src/manipulation/buildFragment.js
+
+Nicolas HENRY is mostly responsible for:
+    13 test/unit/deferred.js
+     1 src/deferred.js
+
+Nikita Govorov is mostly responsible for:
+    12 test/unit/event.js
+
+Noah Sloan is mostly responsible for:
+     1 test/unit/manipulation.js
+
+Nowres Rafid is mostly responsible for:
+     1 test/unit/offset.js
+
+Oleg Gaidarenko is mostly responsible for:
+  4464 test/data/jquery-1.9.1.js
+   855 test/unit/manipulation.js
+   802 test/unit/ajax.js
+   706 test/unit/event.js
+   582 test/unit/effects.js
+   573 test/unit/core.js
+   519 test/unit/attributes.js
+   412 test/unit/traversing.js
+   393 test/unit/css.js
+   385 test/unit/selector.js
+
+Paul Irish is mostly responsible for:
+     2 test/unit/effects.js
+     2 test/data/jquery-1.9.1.js
+     2 src/effects.js
+
+Paul Ramos is mostly responsible for:
+   201 test/unit/manipulation.js
+    32 test/unit/css.js
+     8 test/unit/wrap.js
+     2 test/data/jquery-1.9.1.js
+     1 src/manipulation/buildFragment.js
+     1 src/manipulation.js
+     1 src/core/parseHTML.js
+
+Richard D. Worth is mostly responsible for:
+     7 test/unit/css.js
+
+Richard Gibson is mostly responsible for:
+  1224 external/qunit/qunit.js
+   618 test/data/jquery-1.9.1.js
+   396 test/unit/deferred.js
+   368 test/unit/manipulation.js
+   355 test/unit/effects.js
+   169 src/deferred.js
+   129 test/unit/css.js
+   129 src/ajax.js
+   128 src/event.js
+   110 test/unit/event.js
+
+Richard McDaniel is mostly responsible for:
+     6 test/unit/offset.js
+     4 src/offset.js
+
+Rick Waldron is mostly responsible for:
+   199 test/unit/data.js
+   176 test/unit/core.js
+   130 test/unit/manipulation.js
+   129 test/unit/event.js
+   111 test/data/jquery-1.9.1.js
+    69 test/unit/attributes.js
+    36 test/unit/effects.js
+    30 src/core.js
+    26 test/unit/css.js
+    25 test/unit/ajax.js
+
+Robert Katić is mostly responsible for:
+    24 test/unit/event.js
+    17 src/core.js
+    11 test/data/jquery-1.9.1.js
+     9 test/unit/core.js
+
+Rod Vagg is mostly responsible for:
+     2 test/unit/manipulation.js
+
+Roman Reiß is mostly responsible for:
+     2 src/css.js
+
+Ronny Springer is mostly responsible for:
+    18 test/unit/data.js
+     1 src/data.js
+
+S. Andrew Sheppard is mostly responsible for:
+     2 src/exports/amd.js
+
+Sai Lung Wong is mostly responsible for:
+    13 test/data/testinit.js
+     8 test/unit/manipulation.js
+     7 test/unit/attributes.js
+     1 test/data/jquery-1.9.1.js
+     1 src/event.js
+
+Sam Bisbee is mostly responsible for:
+     6 test/data/jquery-1.9.1.js
+     6 src/ajax.js
+
+Scott González is mostly responsible for:
+    15 test/data/jquery-1.9.1.js
+     9 Gruntfile.js
+     6 src/traversing.js
+     4 build/release.js
+     3 test/unit/core.js
+     3 src/effects/Tween.js
+     2 src/event.js
+     2 src/css/curCSS.js
+     2 src/css.js
+     1 test/unit/effects.js
+
+Sean Henderson is mostly responsible for:
+     2 src/manipulation.js
+
+Sebastian Burkhard is mostly responsible for:
+     1 test/unit/core.js
+     1 src/core.js
+
+Shivaji Varma is mostly responsible for:
+     1 src/ajax/parseXML.js
+
+Sindre Sorhus is mostly responsible for:
+     8 test/unit/manipulation.js
+     3 test/unit/effects.js
+     2 test/data/jquery-1.9.1.js
+     2 src/manipulation/buildFragment.js
+     2 src/manipulation.js
+     1 test/unit/data.js
+     1 Gruntfile.js
+
+Sylvester Keil is mostly responsible for:
+    12 test/unit/offset.js
+     5 test/data/jquery-1.9.1.js
+     5 src/offset.js
+
+TJ Holowaychuk is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+
+TJ VanToll is mostly responsible for:
+    14 test/unit/ajax.js
+     1 src/wrap.js
+     1 src/ajax.js
+
+Thomas Tortorini is mostly responsible for:
+    49 src/css/adjustCSS.js
+    44 test/unit/css.js
+    43 test/unit/effects.js
+    21 src/attributes/classes.js
+    15 external/qunit-assert-step/qunit-assert-step.js
+     9 test/unit/core.js
+     9 src/core.js
+     7 src/var/rcssNum.js
+     6 src/css/var/getStyles.js
+     6 src/css.js
+
+Timmy Willison is mostly responsible for:
+  1644 external/sizzle/dist/sizzle.js
+  1439 external/requirejs/require.js
+  1001 external/qunit/qunit.js
+   250 test/unit/attributes.js
+   222 test/data/jquery-1.9.1.js
+   202 test/unit/effects.js
+   184 build/tasks/build.js
+   157 test/unit/core.js
+   141 test/unit/event.js
+   116 src/manipulation.js
+
+Timo Tijhof is mostly responsible for:
+    68 test/unit/traversing.js
+    58 test/data/testrunner.js
+    15 test/unit/manipulation.js
+    10 test/unit/effects.js
+     8 test/unit/data.js
+     5 test/unit/attributes.js
+     4 test/unit/event.js
+     4 src/traversing.js
+     3 test/unit/dimensions.js
+     3 build/tasks/testswarm.js
+
+Toby Brain is mostly responsible for:
+     8 test/unit/wrap.js
+     2 test/data/jquery-1.9.1.js
+     2 src/wrap.js
+
+Tom H Fuertes is mostly responsible for:
+     8 Gruntfile.js
+
+Uri Gilad is mostly responsible for:
+     5 test/unit/manipulation.js
+     2 test/unit/offset.js
+     2 test/data/jquery-1.9.1.js
+     1 src/offset.js
+
+Veaceslav Grimalschi is mostly responsible for:
+     2 test/unit/event.js
+
+Victor Homyakov is mostly responsible for:
+     1 test/unit/ajax.js
+
+Vladimir Zhuravlev is mostly responsible for:
+     7 test/unit/manipulation.js
+
+Xavi Ramirez is mostly responsible for:
+     3 src/offset.js
+     1 test/unit/offset.js
+
+Yehuda Katz is mostly responsible for:
+    81 test/unit/css.js
+    40 test/unit/traversing.js
+    36 test/data/testinit.js
+    25 test/unit/attributes.js
+    25 test/data/jquery-1.9.1.js
+    21 test/unit/core.js
+    20 test/unit/manipulation.js
+    14 src/traversing.js
+    10 test/unit/queue.js
+    10 src/core.js
+
+Yiming He is mostly responsible for:
+     8 test/unit/css.js
+
+Yongwoo Jeon is mostly responsible for:
+     1 src/core.js
+
+avaly is mostly responsible for:
+    26 test/unit/css.js
+
+cmc3cn is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+     1 src/css.js
+
+nanto_vi is mostly responsible for:
+    17 test/unit/deferred.js
+     4 src/deferred.js
+     3 test/data/jquery-1.9.1.js
+
+ros3cin is mostly responsible for:
+    14 test/unit/effects.js
+     3 src/effects.js
+
+tsinha is mostly responsible for:
+     1 test/data/jquery-1.9.1.js
+     1 src/serialize.js
+
+The extensions below were found in the repository history (extensions used
+during statistical analysis are marked):
+* bat cgi css html [js] json map markdown md php pl pm sh txt xml xsl yml 

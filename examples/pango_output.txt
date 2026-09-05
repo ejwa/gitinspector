@@ -1,0 +1,1043 @@
+Statistical information for the repository 'pango' was gathered on 2015/10/25.
+The following historical commit information, by author, was found in the
+repository:
+
+Author                     Commits    Insertions      Deletions    % of changes
+3                                2            24              8            0.01
+5                                1             3              1            0.00
+8                                1             4              4            0.00
+Akira TAGOH                      1             3              0            0.00
+Alberto Ruiz                    96           226            207            0.10
+Alessandro Pignotti              9            52             35            0.02
+Alex Larsson                    11           186             74            0.06
+Alexander Larsson               25         11778           8381            4.65
+Anders Carlsson                  5          1634              9            0.38
+Behdad Esfahbod               1373         79962         111021           44.04
+Benjamin Otte                    4           615            601            0.28
+Carl Worth                       1             3              1            0.00
+Changwoo Ryu                    15           677            281            0.22
+Chema Celorio                    1             1              1            0.00
+Chookij Vanatham                11          3450            720            0.96
+Chris Wilson                     2           132             75            0.05
+Christian Persch                 2            40            153            0.04
+Christopher Blizzard             3           419             25            0.10
+Chun-wei Fan                     8           350             18            0.08
+Cody Russell                     2             4              1            0.00
+Colin Walters                    5            62             16            0.02
+Darin Adler                      4            57             63            0.03
+David E. Hollingswor             1             6              7            0.00
+Dominic Lachowicz                1             1              1            0.00
+Dov Grobgeld                    11           830             22            0.20
+Elliot Lee                      11           200             70            0.06
+Emmanuele Bassi                  2             4              3            0.00
+Eric Mader                       4          2077             54            0.49
+Evan Nemerson                    2           381            338            0.17
+Fabian Groffen                   1             1              0            0.00
+Federico Mena Quinte             3          8867            316            2.12
+Hans Breuer                     22          1289            373            0.38
+Havoc Pennington                47          8062           2118            2.35
+Hidetoshi Tajima                 2            39              6            0.01
+James Henstridge                 2           123              0            0.03
+Jasper St. Pierre                3           181             76            0.06
+Javier Jardon                    1             2              2            0.00
+Javier Jardón                   16           134            434            0.13
+Jean Brefort                     1             1              1            0.00
+Jehan                            2             5              8            0.00
+Jody Goldberg                    1            22              3            0.01
+Johan Dahlin                     2           108            105            0.05
+John (J5) Palmieri               1            31             27            0.01
+John Ralls                      12           141            141            0.07
+Jonathan Blandford               1           107              8            0.03
+José Aliste                      1             2             17            0.00
+Kalev Lember                     1             1              1            0.00
+Keith Packard                    2            31             37            0.02
+Khaled Hosny                    15           165            925            0.25
+Kjartan Maraas                   1             1              1            0.00
+Kristian Rietveld               35          4120            680            1.11
+Laszlo Pandy                     2             6              6            0.00
+Manish Singh                    19           278            158            0.10
+Martin Baulig                    2             4              1            0.00
+Matej Knopp                      1             4              6            0.00
+Mathias Hasselmann               3            29              5            0.01
+Matt Wilson                      2            10              8            0.00
+Matthias Clasen                 95          3650           1259            1.13
+Matthias Warkus                  1             1              1            0.00
+Max                              2             4              1            0.00
+Michael Vogt                     1             2              2            0.00
+Morten Welinder                  4            13              7            0.00
+Murray Cumming                   2             3              3            0.00
+Noah Levitt                     13           964            428            0.32
+Owen Taylor                    567         95047          50587           33.58
+Owen W. Taylor                   2            22             10            0.01
+Pablo Saratxaga                  2            21              5            0.01
+Padraig O'Briain                 3            15              6            0.00
+Paolo Borelli                    1             3              3            0.00
+Pavel Holejsovsky                4            28             25            0.01
+Philip Withnall                  1             8              2            0.00
+Richard Hult                    15           671            412            0.25
+Robert Ancell                    2             3              1            0.00
+Robert Brady                     6          4823            880            1.32
+Roozbeh Pournader                3           206            113            0.07
+Ryan Lortie                      1            39             39            0.02
+Sebastian Dröge                  2            13              2            0.00
+Sebastian Wilhelmi               1            33             33            0.02
+Soeren Sandmann                  4           115             98            0.05
+Sven Herzberg                    1            17             23            0.01
+Sven Neumann                    24           587            432            0.23
+Theppitak Karoonboon            12           857            477            0.31
+Tim Janik                        5            39             45            0.02
+Tor Lillqvist                  112         12803           4138            3.91
+Wouter Bolsterlee                1            10             10            0.00
+
+Below are the number of rows from each author that have survived and are still
+intact in the current revision:
+
+Author                     Rows      Stability          Age       % in comments
+Akira TAGOH                   3          100.0         20.3                0.00
+Alberto Ruiz                157           69.5         54.0              100.00
+Alessandro Pignotti          32           61.5         53.0                6.25
+Alex Larsson                941          505.9        109.6               12.86
+Alexander Larsson           749            6.4        167.1                8.14
+Anders Carlsson              70            4.3        119.0               10.00
+Behdad Esfahbod           21476           26.9         85.2               28.25
+Benjamin Otte               608           98.9         35.3                0.49
+Carl Worth                    3          100.0        126.7                0.00
+Chris Wilson                 66           50.0         80.7               12.12
+Christian Persch             39           97.5         89.0                0.00
+Christopher Blizzard        286           68.3        138.0               32.52
+Chun-wei Fan                329           94.0         33.4                6.99
+Cody Russell                  4          100.0         12.0                0.00
+Colin Walters                19           30.6         47.8               63.16
+Darin Adler                  19           33.3        164.6                0.00
+Dominic Lachowicz             1          100.0         92.4                0.00
+Dov Grobgeld                 10            1.2        165.2              100.00
+Elliot Lee                   43           21.5        181.1                9.30
+Emmanuele Bassi               1           25.0         16.1              100.00
+Eric Mader                    2            0.1        161.6                0.00
+Evan Nemerson               353           92.7         24.2               99.15
+Fabian Groffen                1          100.0         40.2                0.00
+Federico Mena Quinte         16            0.2        119.2                6.25
+Hans Breuer                 600           46.5        164.8               11.83
+Havoc Pennington           4833           59.9        179.0               18.75
+James Henstridge             41           33.3        171.6               17.07
+Jasper St. Pierre           114           63.0         39.2               30.70
+Javier Jardón                86           64.2         53.6                8.14
+Jean Brefort                  1          100.0        121.4                0.00
+Jehan                         4           80.0         25.7                0.00
+Jody Goldberg                13           59.1        136.9               15.38
+Johan Dahlin                 78           72.2         87.4                8.97
+John (J5) Palmieri           10           32.3         56.2              100.00
+John Ralls                  107           75.9         49.3                3.74
+Jonathan Blandford          100           93.5        181.5               17.00
+José Aliste                   2          100.0         29.7              100.00
+Kalev Lember                  1          100.0         51.4                0.00
+Keith Packard                11           35.5        127.3                0.00
+Khaled Hosny                 79           47.9          5.8               59.49
+Kristian Rietveld          2684           65.1         54.9                7.75
+Laszlo Pandy                  6          100.0         56.4              100.00
+Manish Singh                179           64.4        138.9                2.79
+Matej Knopp                   3           75.0         52.8                0.00
+Mathias Hasselmann           20           69.0        101.6               20.00
+Matthias Clasen            2577           70.6         40.9               22.89
+Max                           4          100.0         12.0                0.00
+Morten Welinder               9           69.2        142.3                0.00
+Murray Cumming                2           66.7        112.9               50.00
+Noah Levitt                 660           68.5        141.9               23.48
+Owen Taylor               25399           26.7        137.8               27.64
+Owen W. Taylor               15           68.2         50.6                0.00
+Padraig O'Briain             11           73.3        165.8               36.36
+Paolo Borelli                 3          100.0         58.4              100.00
+Pavel Holejsovsky            28          100.0         40.6              100.00
+Philip Withnall               8          100.0         22.8                0.00
+Richard Hult                 58            8.6        100.8               15.52
+Robert Brady                  1            0.0        179.5              100.00
+Roozbeh Pournader            52           25.2        111.5               63.46
+Ryan Lortie                  36           92.3         52.5                0.00
+Sebastian Dröge               9           69.2         22.9                0.00
+Sebastian Wilhelmi           37          112.1        179.4                5.41
+Soeren Sandmann              61           53.0        149.6               22.95
+Sven Herzberg                14           82.4         86.4              100.00
+Sven Neumann                201           34.2        155.6               24.38
+Tim Janik                     3            7.7        171.8                0.00
+Tor Lillqvist              3923           30.6        146.4               10.73
+Wouter Bolsterlee             4           40.0         92.8              100.00
+
+The following history timeline has been gathered from the repository:
+
+Author                  2000-01    2000-02    2000-03    2000-04    2000-05 
+Matt Wilson                                                               . 
+Owen Taylor           -++++++++   -+++++++  --+++++++   ++++++++  ---++++++ 
+Robert Brady                                                   .            
+Modified Rows:            10216       7559       6292       3429       6912 
+
+Author                  2000-06    2000-07    2000-08    2000-09    2000-10 
+Christopher Blizzard          .                                             
+Elliot Lee                    .                     .                       
+Havoc Pennington              +          .             +++++++++            
+Jonathan Blandford                                             +            
+Martin Baulig                            .                     .            
+Owen Taylor            ----++++         ++          .          +       ++++ 
+Pablo Saratxaga               .                                             
+Tim Janik                                                                 . 
+Tor Lillqvist                     -+++++++   ++++++++             -++++++++ 
+Modified Rows:             2951       7313       3654        771        217 
+
+Author                  2000-11    2000-12    2001-01    2001-02    2001-03 
+3                                                   .                       
+8                                                   .                       
+Alexander Larsson                        .  ---------          .            
+Chookij Vanatham             ++                                             
+Elliot Lee                    .          .                                  
+Hans Breuer                                                    +            
+Havoc Pennington         ++++++          +          .  --+++++++          . 
+Owen Taylor                 -++  +++++++++          .                  --++ 
+Pablo Saratxaga               .                                             
+Robert Brady          -++++++++                                             
+Sebastian Wilhelmi            .                                             
+Sven Neumann                                                          -++++ 
+Tim Janik                                                      .  ------+++ 
+Tor Lillqvist                 .          .          .        --+            
+Modified Rows:            13881      23561       4773        418         38 
+
+Author                  2001-04    2001-05    2001-06    2001-07    2001-08 
+Alex Larsson                             .                                  
+Alexander Larsson             .                                   -------++ 
+Anders Carlsson               .                                             
+Chookij Vanatham             ++          .              -+++++++          . 
+Darin Adler                                                   -+            
+Hans Breuer                   .          .          .          .          + 
+Havoc Pennington              +                                             
+James Henstridge                                            ++++            
+Matthias Clasen                                                           . 
+Owen Taylor           --+++++++   ---+++++   ----++++          .   ----++++ 
+Sven Neumann                                                              . 
+Tim Janik                                                      .          . 
+Modified Rows:             3833        581       1721        488       4872 
+
+Author                  2001-09    2001-10    2001-11    2001-12    2002-01 
+Alex Larsson                  .                     .       --++          . 
+Alexander Larsson                           -++++++++          .          . 
+Chookij Vanatham              .                                    --++++++ 
+Darin Adler                                                    .            
+Dov Grobgeld                                                             ++ 
+Hans Breuer                   .                     .                       
+Havoc Pennington              .       -+++                                . 
+Hidetoshi Tajima                                             +++            
+James Henstridge              .                                             
+Kristian Rietveld                                   .                       
+Manish Singh                  .          .          .          .            
+Matt Wilson                              .                                  
+Matthias Clasen               .  --+++++++          .          .            
+Owen Taylor            ---+++++          .          .  -----++++        --- 
+Padraig O'Briain                                    .                       
+Sven Neumann                  .          +                     .          . 
+Tor Lillqvist                            .          .                     . 
+Modified Rows:             5209       1181      14214        208       3829 
+
+Author                  2002-02    2002-03    2002-04    2002-05    2002-06 
+Alex Larsson                  +          .                                  
+Anders Carlsson               .                                             
+Darin Adler                   .                                             
+Dov Grobgeld                  .          .                                  
+Eric Mader                                             +++++++++            
+Matthias Clasen                          .                     .          . 
+Owen Taylor           --+++++++   ---+++++   ++++++++          +  --------- 
+Sven Neumann                             +                                . 
+Tor Lillqvist                 .          .                     .            
+Modified Rows:              572       1591         39       2373      10062 
+
+Author                  2002-07    2002-08    2002-09    2002-10    2002-11 
+Alexander Larsson                                              .            
+Changwoo Ryu                             .                     .  --+++++++ 
+Dov Grobgeld                             .                                  
+Eric Mader                               .          .                       
+Hidetoshi Tajima                                                          . 
+Manish Singh                                                   .            
+Matthias Clasen                                     .                     + 
+Matthias Warkus               .                                             
+Owen Taylor            --++++++  -----++++          .                     . 
+Soeren Sandmann                                                           . 
+Sven Neumann                  .                                             
+Tor Lillqvist                                ---+++++  +++++++++          . 
+Modified Rows:             3890       4224       1280       1310        705 
+
+Author                  2002-12    2003-01    2003-02    2003-03    2003-04 
+Chema Celorio                                       .                       
+Dov Grobgeld                                            -+++++++            
+Matthias Clasen               .                                             
+Owen Taylor           --+++++++   ++++++++  -----++++              -------+ 
+Padraig O'Briain                         .                                  
+Sven Neumann                                                  -+          . 
+Tor Lillqvist                            .                                  
+Modified Rows:             1031        169        241         17       4511 
+
+Author                  2003-05    2003-06    2003-07    2003-08    2003-09 
+Hans Breuer                                         .                       
+Keith Packard                            .                                  
+Matthias Clasen                     ---+++                                . 
+Noah Levitt                                                    .            
+Owen Taylor           -++++++++   ----++++   -+++++++   ------++   --++++++ 
+Soeren Sandmann                                                .            
+Sven Neumann                  +                     .                       
+Tor Lillqvist                 .          .                     .            
+Modified Rows:              479        230       1085      13206       3300 
+
+Author                  2003-10    2003-11    2003-12    2004-01    2004-02 
+Hans Breuer                                         .                     . 
+Manish Singh                             .                                . 
+Matthias Clasen                                     .                       
+Morten Welinder                          .                                  
+Noah Levitt                      ----+++++        +++                     + 
+Owen Taylor            ----++++          .          .  ----+++++  ----+++++ 
+Padraig O'Briain                         .                                  
+Roozbeh Pournader                                              .            
+Sven Neumann                             .          +                       
+Tor Lillqvist                                ----++++                       
+Modified Rows:               21       1077        118         36       3195 
+
+Author                  2004-03    2004-04    2004-05    2004-06    2004-07 
+Anders Carlsson                          .                                  
+Behdad Esfahbod                                                           . 
+Changwoo Ryu                      -+++++++                                . 
+Christopher Blizzard                                         +++            
+Dov Grobgeld                  .                                             
+Jody Goldberg                                       .                       
+Manish Singh              -++++                                           . 
+Morten Welinder                                                           . 
+Murray Cumming                .                                             
+Owen Taylor           --+++++++              ++++++++   --++++++   ---+++++ 
+Theppitak Karoonboon                     .          .          +            
+Tor Lillqvist                 .          .                                  
+Modified Rows:              572         41       1604       1724       3925 
+
+Author                  2004-08    2004-09    2004-10    2004-11    2004-12 
+Dov Grobgeld          +++++++++                                             
+Hans Breuer                   .                                .            
+Manish Singh                                        .                       
+Matthias Clasen                                                .            
+Owen Taylor                 +++   --++++++              -+++++++   ++++++++ 
+Theppitak Karoonboon                         ----++++      --+++            
+Tor Lillqvist                 .          .                                . 
+Modified Rows:              312       4241        440       1799        989 
+
+Author                  2005-01    2005-02    2005-03    2005-04    2005-05 
+5                                                                         . 
+Carl Worth                                                     .            
+Changwoo Ryu                                                   +            
+Hans Breuer                                         .        -++            
+Manish Singh                             .          .          .          . 
+Matthias Clasen               .                                             
+Owen Taylor           +++++++++   --++++++  ---++++++  ----+++++  ----+++++ 
+Theppitak Karoonboon                                .                       
+Tor Lillqvist                                       .   --++++++            
+Modified Rows:             2176       1794       2781        882        228 
+
+Author                  2005-06    2005-07    2005-08    2005-09    2005-10 
+Behdad Esfahbod               .          .         -+        ---     ---+++ 
+Hans Breuer                              .                                  
+Jean Brefort                                                   .            
+Keith Packard                                       -                       
+Manish Singh                             .                                  
+Matthias Clasen                                                .            
+Owen Taylor           -++++++++  --+++++++     -+++++              ++++++++ 
+Roozbeh Pournader                            ---+++++                       
+Tor Lillqvist                            .              --++++++            
+Modified Rows:             1668       2615        640        467         20 
+
+Author                  2005-11    2005-12    2006-01    2006-02    2006-03 
+Anders Carlsson               .                                             
+Behdad Esfahbod       ------+++   ----++++   ---+++++   ----++++   ----++++ 
+Federico Mena Quinte      +++++                                             
+Hans Breuer                                                    .            
+Matthias Clasen               .                                             
+Tor Lillqvist                                                  .          . 
+Modified Rows:            26123        254       4159       6881      32857 
+
+Author                  2006-04    2006-05    2006-06    2006-07    2006-08 
+Behdad Esfahbod        ----++++   ---+++++   ---+++++  ----+++++   --++++++ 
+Hans Breuer                                         +                     . 
+Richard Hult                                                   .            
+Tor Lillqvist                 .          .                                  
+Modified Rows:              985        450        529       2747       1468 
+
+Author                  2006-09    2006-10    2006-11    2006-12    2007-01 
+Behdad Esfahbod        --++++++   -+++++++   --++++++   -+++++++  ---++++++ 
+Changwoo Ryu                                                   +          . 
+Roozbeh Pournader                                   .                       
+Modified Rows:             1357        247        440       1374       3099 
+
+Author                  2007-02    2007-03    2007-04    2007-05    2007-06 
+Behdad Esfahbod               .          .   --++++++  ----+++++  ----+++++ 
+Mathias Hasselmann                                             .            
+Owen Taylor                   .                                             
+Richard Hult                             +          .          .         -+ 
+Tor Lillqvist          --++++++   ------++          .                     - 
+Modified Rows:              680        739        200       6810       3178 
+
+Author                  2007-07    2007-08    2007-09    2007-10    2007-11 
+Behdad Esfahbod        -------+  --------+   ----++++   ----++++   -----+++ 
+Dov Grobgeld                                                   .            
+Mathias Hasselmann                                  .                       
+Tor Lillqvist                                                             + 
+Modified Rows:              693       4089         69       8838       1633 
+
+Author                  2007-12    2008-01    2008-02    2008-03    2008-04 
+Behdad Esfahbod        ---+++++   --++++++        +++      -++++  --+++++++ 
+Dominic Lachowicz                                   .                       
+Kristian Rietveld                                   .                       
+Richard Hult                                            -+++++++            
+Sven Neumann                                        .                       
+Tor Lillqvist                               -++++++++                       
+Wouter Bolsterlee                        .                                  
+Modified Rows:              739       1316        180         22       1673 
+
+Author                  2008-05    2008-06    2008-07    2008-08    2008-09 
+Behdad Esfahbod               .       -+++   ----++++   --++++++    --+++++ 
+Johan Dahlin                      ----++++                                  
+Murray Cumming                                                 .            
+Richard Hult                                                   .            
+Sven Herzberg                                                  .            
+Tor Lillqvist          ---+++++                                .   --++++++ 
+Modified Rows:              851        295          2       2958        101 
+
+Author                  2008-10    2008-11    2008-12    2009-01    2009-02 
+Behdad Esfahbod         --+++++   --++++++   ---+++++   ----++++  -------++ 
+Chris Wilson                      ---+++++                                  
+Christian Persch              .                                             
+Johan Dahlin                                                   .            
+Kjartan Maraas                .                                             
+Richard Hult           -+++++++                                             
+Tor Lillqvist                                                  .            
+Modified Rows:               62        109        800       3773         63 
+
+Author                  2009-03    2009-04    2009-05    2009-06    2009-07 
+Behdad Esfahbod        ----++++  ---++++++  ------+++   ----++++  ---++++++ 
+Chris Wilson                  .                                             
+Sebastian Dröge               .                                             
+Tor Lillqvist                 .                                           . 
+Modified Rows:             2428        150      33647        367       1247 
+
+Author                  2009-08    2009-09    2009-10    2009-11    2009-12 
+Behdad Esfahbod       ---++++++   ----++++   --++++++   --------  ---++++++ 
+David E. Hollingswor          .                                             
+Kristian Rietveld                                                      -+++ 
+Tor Lillqvist                            .                                  
+Modified Rows:             9262         83         23      10460        163 
+
+Author                  2010-01    2010-02    2010-03    2010-04    2010-05 
+Behdad Esfahbod        ---+++++         -+   --++++++  ---++++++   ----++++ 
+Kristian Rietveld                 ---+++++         -+                       
+Tor Lillqvist                                 --+++++                       
+Modified Rows:               17         19        404        315        225 
+
+Author                  2010-06    2010-07    2010-08    2010-09    2010-10 
+Behdad Esfahbod              -+              ++++++++          -  --------- 
+Colin Walters                                                  .            
+Owen W. Taylor                   ---++++++                                  
+Robert Ancell                                       .                       
+Tor Lillqvist          ---+++++                         --------            
+Modified Rows:              110         26         52        108       1602 
+
+Author                  2010-11    2010-12    2011-02    2011-03    2011-04 
+Alberto Ruiz                                                              . 
+Behdad Esfahbod                        +++         ++   ---+++++          . 
+Christian Persch       -------+                                             
+Javier Jardón                                                             - 
+John (J5) Palmieri                           ----++++                       
+John Ralls                                                                . 
+Kristian Rietveld                                                 +++++++++ 
+Laszlo Pandy                                        .                       
+Paolo Borelli                     ----++++                                  
+Modified Rows:              191          8         86         65       3475 
+
+Author                  2011-05    2011-06    2011-07    2011-08    2011-09 
+Behdad Esfahbod       ----+++++       ---+   -----+++              ------++ 
+Benjamin Otte                            .                                  
+Chun-wei Fan                                                          -++++ 
+Colin Walters                            .                                  
+Javier Jardon                            .                                  
+Javier Jardón                            .                                  
+John Ralls                  --+                                             
+Kalev Lember                                        .                       
+Khaled Hosny                                            ---+++++            
+Kristian Rietveld                               -++++                       
+Matej Knopp                   .                                             
+Matthias Clasen              ++          .                                  
+Michael Vogt                                                --++            
+Ryan Lortie                       ----++++                                  
+Modified Rows:              403        145         30         11         53 
+
+Author                  2011-10    2011-11    2012-01    2012-02    2012-03 
+Behdad Esfahbod                                                    -+++++++ 
+Kristian Rietveld                 -+++++++   --++++++   -+++++++     ++++++ 
+Matthias Clasen       +++++++++          .                                  
+Modified Rows:               40         39       1658        389         19 
+
+Author                  2012-04    2012-05    2012-06    2012-07    2012-08 
+Alessandro Pignotti                                                       . 
+Behdad Esfahbod                                                  ---------+ 
+Colin Walters           +++++++                                           . 
+Evan Nemerson                                                             . 
+Fabian Groffen                                      .                       
+John Ralls                                              ----++++          . 
+Khaled Hosny           -+++++++                                             
+Kristian Rietveld                  ---++++  -++++++++                     . 
+Matthias Clasen                   ----++++                                . 
+Pavel Holejsovsky                                --++                       
+Robert Ancell                                       .                       
+Modified Rows:              118         32        167          4      18139 
+
+Author                  2012-09    2012-10    2012-11    2012-12    2013-01 
+Alexander Larsson                                       ++++++++            
+Behdad Esfahbod        -+++++++                     .     -+++++  ----+++++ 
+Benjamin Otte                                ----++++                       
+Chun-wei Fan                  .  +++++++++                                  
+Colin Walters                                                  .            
+Jasper St. Pierre                                          -++++            
+John Ralls                    .                     .          .            
+Matthias Clasen        ---+++++                     .                     . 
+Theppitak Karoonboon                                           .            
+Modified Rows:              274        157       1235        943        686 
+
+Author                  2013-02    2013-03    2013-04    2013-05    2013-06 
+Alexander Larsson     +++++++++                                             
+Behdad Esfahbod            --++    -----++   ---+++++          .       --++ 
+Chun-wei Fan                     +++++++++                                  
+José Aliste                                                    -            
+Matthias Clasen                                        ---++++++  +++++++++ 
+Modified Rows:              153        292         14        168         33 
+
+Author                  2013-07    2013-08    2013-09    2013-12    2014-01 
+Behdad Esfahbod                   ----++++  +++++++++     ++++++          . 
+Benjamin Otte                                       .                       
+Chun-wei Fan                                                   .   ---+++++ 
+Jehan                                   -+          .                       
+Kristian Rietveld      ++++++++                                             
+Matthias Clasen                                     .                       
+Owen W. Taylor                                      .                       
+Philip Withnall                                         -+++++++            
+Modified Rows:               30         45       2025         19         27 
+
+Author                  2014-02    2014-03    2014-04    2014-05    2014-06 
+Akira TAGOH           +++++++++                                             
+Behdad Esfahbod          ---+++             ----+++++   ----++++      ---++ 
+Emmanuele Bassi                                                     ---++++ 
+Matthias Clasen                  ---++++++                               -+ 
+Sebastian Dröge                                                   -++++++++ 
+Modified Rows:                5          3         40          6         23 
+
+Author                  2014-07    2014-08    2014-09    2014-10    2014-12 
+Behdad Esfahbod       ---++++++          .                                  
+Cody Russell                                        .          .            
+Evan Nemerson                                           ----++++            
+Matthias Clasen                  -++++++++   ++++++++                       
+Max                                                                -+++++++ 
+Modified Rows:              169       1025        197        460          5 
+
+Author                  2015-02    2015-03    2015-04    2015-05    2015-06 
+Behdad Esfahbod                          .   ------++   --++++++   -+++++++ 
+Khaled Hosny                                     ----          +            
+Kristian Rietveld                                              +            
+Matthias Clasen       +++++++++   --++++++                     .          . 
+Modified Rows:                1       1009       2875        414        140 
+
+Author                  2015-07    2015-08    2015-09    2015-10 
+Behdad Esfahbod                      -++++       ++++         ++ 
+Chun-wei Fan                                        .            
+Khaled Hosny                             .                       
+Matthias Clasen        --++++++   ++++++++   ---+++++   ----++++ 
+Modified Rows:                4        644         65         27 
+
+The following files are suspiciously big (in order of severity):
+pango/pango-layout.c (4898 estimated lines of code)
+pango/pangofc-fontmap.c (2285 estimated lines of code)
+pango/pangocoretext-fontmap.c (1692 estimated lines of code)
+pango/pangowin32.c (1626 estimated lines of code)
+pango/pangowin32-fontmap.c (1563 estimated lines of code)
+pango/break.c (1543 estimated lines of code)
+pango/pango-markup.c (1511 estimated lines of code)
+pango/pango-attributes.c (1510 estimated lines of code)
+pango/pango-context.c (1354 estimated lines of code)
+pango/pango-color-table.h (1341 estimated lines of code)
+pango/fonts.c (1295 estimated lines of code)
+pango/pango-renderer.c (1087 estimated lines of code)
+pango/pangocairo-render.c (938 estimated lines of code)
+pango/pangofc-font.c (896 estimated lines of code)
+pango/pangoxft-render.c (832 estimated lines of code)
+pango-view/viewer-render.c (784 estimated lines of code)
+pango/pangocairo-font.c (752 estimated lines of code)
+pango/mini-fribidi/fribidi.c (739 estimated lines of code)
+pango/pangowin32-shape.c (691 estimated lines of code)
+pango/pango-utils.c (670 estimated lines of code)
+pango/pangoft2-render.c (614 estimated lines of code)
+tests/testattributes.c (603 estimated lines of code)
+pango/pango-language.c (595 estimated lines of code)
+pango/pango-glyph-item.c (580 estimated lines of code)
+pango/ellipsize.c (570 estimated lines of code)
+examples/cairotwisted.c (529 estimated lines of code)
+pango/pangoft2.c (519 estimated lines of code)
+pango/pango-language-sample-table.h (500 estimated lines of code)
+pango/pango-font.h (327 estimated lines of code)
+
+The following files have an elevated cyclomatic complexity (in order of severity):
+pango/pango-layout.c (1473 in cyclomatic complexity)
+pango/break.c (759 in cyclomatic complexity)
+pango/pangofc-fontmap.c (674 in cyclomatic complexity)
+pango/pangowin32.c (472 in cyclomatic complexity)
+pango/pango-markup.c (384 in cyclomatic complexity)
+pango/fonts.c (349 in cyclomatic complexity)
+pango/pangowin32-fontmap.c (342 in cyclomatic complexity)
+pango/pangocoretext-fontmap.c (335 in cyclomatic complexity)
+pango/pango-context.c (332 in cyclomatic complexity)
+pango/pango-attributes.c (328 in cyclomatic complexity)
+pango/pango-renderer.c (251 in cyclomatic complexity)
+pango/mini-fribidi/fribidi.c (205 in cyclomatic complexity)
+pango/pango-utils.c (186 in cyclomatic complexity)
+pango/pangowin32-shape.c (184 in cyclomatic complexity)
+pango/pangofc-font.c (182 in cyclomatic complexity)
+pango/pangocairo-font.c (173 in cyclomatic complexity)
+pango-view/viewer-render.c (164 in cyclomatic complexity)
+pango/pangocairo-render.c (163 in cyclomatic complexity)
+pango/pango-language.c (163 in cyclomatic complexity)
+pango/pango-glyph-item.c (159 in cyclomatic complexity)
+pango/ellipsize.c (139 in cyclomatic complexity)
+examples/cairotwisted.c (137 in cyclomatic complexity)
+pango/pangoft2.c (128 in cyclomatic complexity)
+pango/pangoft2-render.c (127 in cyclomatic complexity)
+pango/glyphstring.c (124 in cyclomatic complexity)
+pango/pangofc-shape.c (114 in cyclomatic complexity)
+pango/pangoxft-render.c (113 in cyclomatic complexity)
+tests/testboundaries_ucd.c (109 in cyclomatic complexity)
+pango/pango-coverage.c (109 in cyclomatic complexity)
+tests/markup-parse.c (106 in cyclomatic complexity)
+pango/pangowin32-fontcache.c (102 in cyclomatic complexity)
+pango/pango-bidi-type.c (98 in cyclomatic complexity)
+examples/pangowin32tobmp.c (94 in cyclomatic complexity)
+pango/pangoxft-font.c (91 in cyclomatic complexity)
+tests/test-common.c (85 in cyclomatic complexity)
+pango/pangocairo-context.c (82 in cyclomatic complexity)
+pango/pangocoretext-shape.c (79 in cyclomatic complexity)
+pango/pango-color.c (78 in cyclomatic complexity)
+tests/testboundaries.c (75 in cyclomatic complexity)
+tests/test-layout.c (74 in cyclomatic complexity)
+tools/gen-script-for-lang.c (73 in cyclomatic complexity)
+tests/testattributes.c (65 in cyclomatic complexity)
+pango/pango-script.c (64 in cyclomatic complexity)
+pango/pango-matrix.c (62 in cyclomatic complexity)
+pango/pango-gravity.c (61 in cyclomatic complexity)
+pango/mini-fribidi/fribidi_types.c (60 in cyclomatic complexity)
+build/gen-file-list-pango.py (56 in cyclomatic complexity)
+pango/pango-tabs.c (55 in cyclomatic complexity)
+pango/pango-fontset.c (52 in cyclomatic complexity)
+
+The following files have an elevated cyclomatic complexity density (in order of severity):
+pango/mini-fribidi/fribidi_types.c (0.923 in cyclomatic complexity density)
+pango/pango-bidi-type.c (0.838 in cyclomatic complexity density)
+
+The following repsonsibilties, by author, were found in the current revision of
+the repository (comments are exluded from the line count, if possible):
+
+Akira TAGOH is mostly responsible for:
+     3 pango/pango-ot-info.c
+
+Alessandro Pignotti is mostly responsible for:
+    17 pango/pangoxft-fontmap.c
+     9 pango/pangowin32-fontmap.c
+     4 pango/pango-utils.c
+
+Alex Larsson is mostly responsible for:
+   300 pango/pangowin32.c
+   107 pango/pango-layout.c
+    76 pango/pango-context.c
+    48 pango/pangoft2.c
+    33 pango/pangowin32-private.h
+    33 pango/pangoft2-fontmap.c
+    30 pango/pangoxft-fontmap.c
+    29 pango/pangocairo-fcfontmap.c
+    29 pango/pango-fontmap.c
+    26 pango/pangocairo-coretextfontmap.c
+
+Alexander Larsson is mostly responsible for:
+   242 pango/pango-fontset.c
+   111 pango/pangowin32-fontmap.c
+    78 pango/pangoft2.c
+    77 pango/pango-fontmap.c
+    57 pango/pango-fontset.h
+    36 pango/pangofc-fontmap.c
+    14 pango/pangoft2-render.c
+    13 pango/pangoxft-font.c
+    10 pango/pangoft2-private.h
+    10 pango/pango-context.c
+
+Anders Carlsson is mostly responsible for:
+    53 pango/pangocoretext-fontmap.c
+     3 pango/pangocoretext-shape.c
+     3 pango/pangocairo-coretextfontmap.c
+     3 pango/pangocairo-coretext.h
+     1 pango/pangocairo-coretextfont.c
+
+Behdad Esfahbod is mostly responsible for:
+  1228 pango/pango-layout.c
+  1118 pango/pangofc-fontmap.c
+   763 pango-view/viewer-render.c
+   702 pango/pangocairo-font.c
+   627 pango/pangocairo-render.c
+   513 pango/break.c
+   498 examples/cairotwisted.c
+   497 pango/pango-language-sample-table.h
+   458 pango/pango-language.c
+   439 pango/fonts.c
+
+Benjamin Otte is mostly responsible for:
+   602 pango/pango-color-table.h
+     3 pango/pango-layout.c
+
+Carl Worth is mostly responsible for:
+     1 examples/cairotwisted.c
+     1 examples/cairosimple.c
+     1 examples/cairoshape.c
+
+Chris Wilson is mostly responsible for:
+    23 pango/break-thai.c
+    12 pango/pango-script.c
+    11 pango/pango-script-private.h
+     7 pango/pango-context.c
+     5 pango/break.c
+
+Christian Persch is mostly responsible for:
+     6 pango/pango-layout.c
+     6 pango/pango-glyph-item.c
+     6 pango/fonts.c
+     3 pango/pango-tabs.c
+     3 pango/pango-matrix.c
+     3 pango/pango-language.c
+     3 pango/pango-item.c
+     3 pango/pango-color.c
+     3 pango/pango-attributes.c
+     3 pango/glyphstring.c
+
+Christopher Blizzard is mostly responsible for:
+    54 pango/pangofc-font.c
+    47 pango/pangofc-fontmap.c
+    43 pango/pangofc-decoder.h
+    28 pango/pangofc-decoder.c
+     9 pango/pangofc-fontmap.h
+     6 pango/pangofc-private.h
+     3 tools/gen-script-for-lang.c
+     3 pango/pango-renderer.h
+
+Chun-wei Fan is mostly responsible for:
+   155 build/gen-file-list-pango.py
+   142 pango/pangowin32-fontmap.c
+     4 pango/break.c
+     2 pango/pango-renderer.c
+     1 pango/pangowin32-shape.c
+     1 pango/pangowin32-private.h
+     1 pango/pango-ot-info.c
+
+Cody Russell is mostly responsible for:
+     4 pango/pangocoretext-fontmap.c
+
+Colin Walters is mostly responsible for:
+     5 pango/pango-utils.c
+     1 pango/pangoft2.c
+     1 pango/pango-fontmap.h
+
+Darin Adler is mostly responsible for:
+     8 pango/pango-markup.c
+     6 pango/pango-utils.c
+     3 pango/fonts.c
+     2 pango/pangoft2.h
+
+Dominic Lachowicz is mostly responsible for:
+     1 pango/pangofc-fontmap.c
+
+Elliot Lee is mostly responsible for:
+    18 pango/pango-layout.c
+     6 pango/pango-modules.h
+     4 pango/modules.c
+     3 pango/pango-coverage.c
+     3 pango/pango-attributes.c
+     1 pango/pango-layout.h
+     1 pango/pango-font.h
+     1 pango/pango-coverage.h
+     1 pango/pango-context.h
+     1 pango/break.c
+
+Eric Mader is mostly responsible for:
+     2 pango/pango-ot-ruleset.c
+
+Evan Nemerson is mostly responsible for:
+     2 pango/pango-attributes.h
+     1 pango/pango-fontset.h
+
+Fabian Groffen is mostly responsible for:
+     1 pango/pango-utils.h
+
+Federico Mena Quintero is mostly responsible for:
+     9 pango/pangofc-font.c
+     3 pango/pango-script.c
+     1 pango/pangofc-private.h
+     1 pango/pangocairo-font.c
+     1 pango/pangocairo-fcfont.c
+
+Hans Breuer is mostly responsible for:
+   315 examples/pangowin32tobmp.c
+   127 pango/pangowin32-fontmap.c
+    55 pango/pangowin32.c
+     8 pango/pangowin32.h
+     7 pango/pangowin32-private.h
+     4 pango/pango-coverage.c
+     3 pango/pango-gravity.c
+     2 pango/shape.c
+     2 pango/pango-renderer.c
+     2 pango/fonts.c
+
+Havoc Pennington is mostly responsible for:
+   985 pango/pango-markup.c
+   983 pango/pango-layout.c
+   879 pango/break.c
+   285 tests/testboundaries.c
+   218 pango/pango-tabs.c
+    95 tests/dump-boundaries.c
+    93 pango/pango-attributes.c
+    77 pango/pango-context.c
+    74 pango/pango-layout.h
+    42 pango/pango-break.h
+
+James Henstridge is mostly responsible for:
+    15 pango/glyphstring.c
+     6 pango/pango-language.c
+     4 pango/pango-font.h
+     3 pango/pango-glyph.h
+     2 pango/pango-tabs.h
+     1 pango/pango-types.h
+     1 pango/pango-tabs.c
+     1 pango/pango-language.h
+     1 pango/fonts.c
+
+Jasper St. Pierre is mostly responsible for:
+    77 pango/pango-markup.c
+     2 pango/pango-attributes.h
+
+Javier Jardón is mostly responsible for:
+    35 pango/pango-engine.c
+    13 pango/pangofc-fontmap.c
+    10 pango/pango-fontset.c
+     6 pango/pango-ot-info.c
+     5 pango/pangocairo-fontmap.c
+     4 pango/pangocairo-font.c
+     4 pango/pango-ot-ruleset.c
+     1 pango/pangocoretext-fontmap.c
+     1 pango/pango-renderer.c
+
+Jean Brefort is mostly responsible for:
+     1 pango/pango-attributes.c
+
+Jehan is mostly responsible for:
+     4 pango/pango-markup.c
+
+Jody Goldberg is mostly responsible for:
+    11 pango/pango-layout.c
+
+Johan Dahlin is mostly responsible for:
+     1 tools/gen-script-for-lang.c
+     1 pango/shape.c
+     1 pango/reorder-items.c
+     1 pango/pangoxft-render.c
+     1 pango/pangoxft-fontmap.c
+     1 pango/pangoxft-font.c
+     1 pango/pangowin32.c
+     1 pango/pangowin32-shape.c
+     1 pango/pangowin32-fontmap.c
+     1 pango/pangowin32-fontcache.c
+
+John Ralls is mostly responsible for:
+    84 pango/pangocoretext-fontmap.c
+     8 pango/pangocoretext.c
+     4 pango/pangocairo-fontmap.c
+     4 pango/pango-font.h
+     2 pango/pango-language-sample-table.h
+     1 pango/pangocairo-coretextfontmap.c
+
+Jonathan Blandford is mostly responsible for:
+    83 pango/pango-attributes.c
+
+Kalev Lember is mostly responsible for:
+     1 pango/pango-engine.c
+
+Keith Packard is mostly responsible for:
+     9 pango-view/viewer-x.c
+     1 pango/pangoxft-font.c
+     1 pango/pangofc-font.c
+
+Khaled Hosny is mostly responsible for:
+    12 pango/pango-utils.h
+     8 pango/mini-fribidi/fribidi.c
+     7 pango/pango-layout.c
+     2 pango/pangofc-shape.c
+     2 pango/pango-utils.c
+     1 pango-view/viewer-render.c
+
+Kristian Rietveld is mostly responsible for:
+  1416 pango/pangocoretext-fontmap.c
+   347 pango/pangocoretext-shape.c
+   205 pango/pangocoretext.c
+   167 pango/pangocairo-coretextfont.c
+   131 pango/pangocairo-coretextfontmap.c
+    85 pango/pangocoretext-private.h
+    35 pango/pangocoretext.h
+    25 pango/pangocairo-coretext.h
+    23 pango/pango-layout.c
+    21 pango/pango-language.c
+
+Manish Singh is mostly responsible for:
+   125 pango/pangofc-fontmap.c
+     9 examples/cairotwisted.c
+     9 examples/cairosimple.c
+     8 examples/cairoshape.c
+     4 pango/pangowin32.c
+     4 pango/pango-layout.c
+     4 pango/pango-context.c
+     3 examples/pangowin32tobmp.c
+     2 pango/pangocairo-fcfont.c
+     2 pango/pango-ot.h
+
+Matej Knopp is mostly responsible for:
+     3 pango/pangocoretext-fontmap.c
+
+Mathias Hasselmann is mostly responsible for:
+    15 pango-view/viewer-render.c
+     1 pango/break.c
+
+Matthias Clasen is mostly responsible for:
+   596 tests/testattributes.c
+   355 tests/test-layout.c
+   236 tests/markup-parse.c
+   181 tests/test-common.c
+    77 pango/pango-color.c
+    73 pango/pango-markup.c
+    71 tests/test-font.c
+    65 tests/testcolor.c
+    58 tests/testboundaries_ucd.c
+    35 pango/pango-renderer.c
+
+Max is mostly responsible for:
+     4 pango/pangowin32.c
+
+Morten Welinder is mostly responsible for:
+     8 pango/pango-attributes.c
+     1 pango/pangoxft-font.c
+
+Murray Cumming is mostly responsible for:
+     1 pango/pango-attributes.h
+
+Noah Levitt is mostly responsible for:
+   120 pango/pangofc-fontmap.c
+    90 pango/mini-fribidi/fribidi_types.h
+    79 pango/mini-fribidi/fribidi.c
+    60 pango/mini-fribidi/fribidi_types.c
+    43 pango/pango-context.c
+    31 pango/fonts.c
+    16 pango/pangowin32-fontmap.c
+    15 pango/pango-layout.c
+    13 pango/pango-attributes.c
+    13 pango/break.c
+
+Owen Taylor is mostly responsible for:
+  2471 pango/pango-layout.c
+  1118 pango/pango-attributes.c
+   856 pango/pango-renderer.c
+   813 pango/pangofc-fontmap.c
+   790 pango/pango-context.c
+   763 pango/fonts.c
+   673 pango/pangoxft-render.c
+   669 pango/pango-color-table.h
+   535 pango/ellipsize.c
+   529 pango/mini-fribidi/fribidi.c
+
+Owen W. Taylor is mostly responsible for:
+    10 pango/pango-utils.c
+     5 pango/pango-attributes.c
+
+Padraig O'Briain is mostly responsible for:
+     6 pango/break.c
+     1 pango/fonts.c
+
+Philip Withnall is mostly responsible for:
+     8 pango/pango-utils.c
+
+Richard Hult is mostly responsible for:
+    28 pango/pangocoretext-fontmap.c
+    11 pango/pangocoretext.h
+    10 pango/pangocairo-coretextfont.c
+
+Roozbeh Pournader is mostly responsible for:
+    17 pango/break-arabic.c
+     1 pango/pango-script.h
+     1 pango/pango-language.c
+
+Ryan Lortie is mostly responsible for:
+     4 pango/pango-utils.h
+     3 pango/pango-language.h
+     3 pango/pango-language.c
+     3 pango/pango-font.h
+     3 pango/fonts.c
+     2 pango/pangocairo-context.c
+     2 pango/pango-utils.c
+     2 pango/pango-script.h
+     2 pango/pango-script.c
+     2 pango/pango-layout.c
+
+Sebastian Dröge is mostly responsible for:
+     8 pango/pango-language.c
+     1 pango-view/pango-view.c
+
+Sebastian Wilhelmi is mostly responsible for:
+    31 pango/pango-attributes.c
+     2 pango/pango-attributes.h
+     1 pango/pango-font.h
+     1 pango/fonts.c
+
+Soeren Sandmann is mostly responsible for:
+    17 pango/pangoft2.c
+    10 pango/pangofc-font.c
+     7 pango/pango-layout.h
+     3 pango/pangofc-font.h
+     2 tools/gen-script-for-lang.c
+     2 pango/pangoxft-font.c
+     2 pango/pango-glyph.h
+     2 pango/pango-coverage.h
+     1 pango/pangofc-shape.c
+     1 pango/pangocoretext.h
+
+Sven Neumann is mostly responsible for:
+    54 pango/pangoft2-render.c
+    20 pango/pangoft2.c
+    20 pango/pangofc-font.c
+    15 pango/pangowin32.c
+    14 pango/pango-renderer.c
+    10 pango/pangocairo-font.c
+     8 pango/pangoft2-fontmap.c
+     5 pango/pangofc-private.h
+     2 pango/pangoft2-private.h
+     2 pango/fonts.c
+
+Tim Janik is mostly responsible for:
+     3 pango/pangowin32.c
+
+Tor Lillqvist is mostly responsible for:
+   972 pango/pangowin32-fontmap.c
+   910 pango/pangowin32.c
+   548 pango/pangowin32-shape.c
+   251 pango/pangowin32-fontcache.c
+   170 pango/pangowin32-private.h
+   127 pango/pangoft2.c
+    96 pango/pangocairo-win32font.c
+    63 pango/pangowin32.h
+    43 examples/pangowin32tobmp.c
+    39 pango/pangoft2-fontmap.c
+
+The extensions below were found in the repository history (extensions used
+during statistical analysis are marked):
+* 1 C FTL GPL README TXT ac aliases am bat bdf [c] cI [cc] def defs doap docs eps expected fig filters filtersin [h] [hh] i in l m4 mak markup mingw mk modules msc msvcproj patch pl pre-1-0 pre-1-10 pre-1-14 pre-1-16 pre-1-18 pre-1-2 pre-1-20 pre-1-4 pre-1-6 pre-1-8 props propsin [py] sgml sh sln template txt types utf utf8 vcproj vcprojin vcxproj vcxprojin vsprops vspropsin win32 xml y 
