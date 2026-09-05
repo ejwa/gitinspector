@@ -101,7 +101,7 @@ class ResponsibilitiesOutput(Outputable):
 				for j, entry in enumerate(responsibilities):
 					resp_json += "{\n"
 					resp_json += "\t\t\t\t\t\"name\": \"" + entry[1] + "\",\n"
-					resp_json += "\t\t\t\t\t\"rows\": " + str(entry[0]) + "\n"
+					resp_json += "\t\t\t\t\t\"lines\": " + str(entry[0]) + "\n"
 					resp_json += "\t\t\t\t},"
 
 					if j >= 9:
@@ -131,7 +131,7 @@ class ResponsibilitiesOutput(Outputable):
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "\t\t\t\t\t<file>\n"
 					resp_xml += "\t\t\t\t\t\t<name>" + entry[1] + "</name>\n"
-					resp_xml += "\t\t\t\t\t\t<rows>" + str(entry[0]) + "</rows>\n"
+					resp_xml += "\t\t\t\t\t\t<lines>" + str(entry[0]) + "</lines>\n"
 					resp_xml += "\t\t\t\t\t</file>\n"
 
 					if j >= 9:

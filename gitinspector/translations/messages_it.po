@@ -46,11 +46,11 @@ msgstr "Età"
 msgid "Author"
 msgstr "Autore"
 
-msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgid "Below are the number of lines from each author that have survived and are still intact in the current revision"
 msgstr "Di seguito il numero di righe da ogni autore che sono sopravvissute a sono ancora intatte nella versione corrente"
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr "Controllo quante righe appartengono ad ogni autore (Completamento): {0:.0f}%"
 
 msgid "Commits"
@@ -84,7 +84,7 @@ msgstr "Output HTML non ancora supportato"
 msgid "Hide minor authors"
 msgstr "Nascondi autori minori"
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr "Nascondi righe con lavoro secondario"
 
 msgid "Insertions"
@@ -93,7 +93,7 @@ msgstr "Inserimenti"
 msgid "Minor Authors"
 msgstr "Autori secondari"
 
-msgid "Modified Rows:"
+msgid "Modified Lines:"
 msgstr "Righe modificate:"
 
 msgid "No commited files with the specified extensions were found"
@@ -106,13 +106,13 @@ msgstr "Non sono state rilevate violazioni delle metriche nel repository"
 msgid "Repository statistics for {0}"
 msgstr "Statistiche del repository per {0}"
 
-msgid "Rows"
+msgid "Lines"
 msgstr "Righe"
 
 msgid "Show minor authors"
 msgstr "Visualizza autori secondari"
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr "Visualizza righe con lavoro secondario"
 
 msgid "Stability"
@@ -195,7 +195,7 @@ msgid ""
 "                                   is formatted for grading of student\n"
 "                                   projects; this is the same as supplying the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
 "                                   current branch of the repository\n"

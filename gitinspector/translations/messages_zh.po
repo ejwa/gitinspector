@@ -45,11 +45,11 @@ msgstr "年龄"
 msgid "Author"
 msgstr "作者"
 
-msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgid "Below are the number of lines from each author that have survived and are still intact in the current revision"
 msgstr "下面是过于每位作者在现在的版本了存留下来的行数"
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr "检查每位作者贡献了多少行 (进度): {0:.0f}"
 
 msgid "Commits"
@@ -84,7 +84,7 @@ msgstr "HTML文本输出暂不支持"
 msgid "Hide minor authors"
 msgstr "隐藏次要作者"
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr "隐藏次要工作"
 
 msgid "Insertions"
@@ -93,7 +93,7 @@ msgstr "添加"
 msgid "Minor Authors"
 msgstr "次要作者"
 
-msgid "Modified Rows:"
+msgid "Modified Lines:"
 msgstr "修改过的行"
 
 msgid "No commited files with the specified extensions were found"
@@ -106,13 +106,13 @@ msgstr "未在数据库中发现违反指标"
 msgid "Repository statistics for {0}"
 msgstr "关于{0}代码库统计数据"
 
-msgid "Rows"
+msgid "Lines"
 msgstr "行数"
 
 msgid "Show minor authors"
 msgstr "显示次要作者"
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr "显示次要行"
 
 msgid "Stability"
@@ -195,7 +195,7 @@ msgid ""
 "                                   is formatted for grading of student\n"
 "                                   projects; this is the same as supplying the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
 "                                   current branch of the repository\n"

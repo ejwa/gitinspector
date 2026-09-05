@@ -10,19 +10,19 @@
 		<script type="application/javascript">{jquery_flot_resize}</script>
 		<script type="application/javascript">
 			$(document).ready(function() {{
-				var row = 0;
+				var line = 0;
 				var MINOR_AUTHOR_PERCENTAGE = 1.00;
 				var isReversed = false;
 
-				var colorRows = function() {{
+				var colorLines = function() {{
 					$(this).removeClass("odd");
 
-					if (row++ % 2 == 1) {{
+					if (line++ % 2 == 1) {{
 						$(this).addClass("odd");
 					}}
 
 					if(this == $(this).parent().find("tr:visible").get(-1)) {{
-						row = 0;
+						line = 0;
 					}}
 				}}
 
@@ -52,7 +52,7 @@
 					return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 				}}).parent().hide();
 
-				$("table.git tbody tr:visible").each(colorRows);
+				$("table.git tbody tr:visible").each(colorLines);
 
 				$("table#changes, table#blame").tablesorter({{
 					sortList: [[0,0]],
@@ -60,7 +60,7 @@
 						0: {{ sorter: "text" }}
 					}}
 				}}).bind("sortEnd", function() {{
-					$(this).find("tbody tr:visible").each(colorRows);
+					$(this).find("tbody tr:visible").each(colorLines);
 				}});
 
 				$("table#changes thead tr th, table#blame thead tr th").click(function() {{
@@ -91,20 +91,20 @@
 
 					if (this.clicked) {{
 						this.innerHTML = "{hide_minor_authors} (" + this.hiddenCount + ") &and;";
-						$(this).parent().parent().parent().find("tbody tr").show().each(colorRows);
+						$(this).parent().parent().parent().find("tbody tr").show().each(colorLines);
 					}} else {{
 						this.innerHTML = "{show_minor_authors} (" + this.hiddenCount + ") &or;";
 						$(this).parent().parent().parent().find("tbody tr td:last-child").filter(function() {{
 							return parseFloat(this.innerHTML) < MINOR_AUTHOR_PERCENTAGE;
 						}}).parent().hide();
-						$("table.git tbody tr:visible").each(colorRows);
+						$("table.git tbody tr:visible").each(colorLines);
 					}}
 				}});
 
 				filterResponsibilities();
 				var hiddenResponsibilitiesCount = $("div#responsibilities div h3:hidden").length;
 				if (hiddenResponsibilitiesCount > 0) {{
-					$("div#responsibilities div h3:visible").each(colorRows);
+					$("div#responsibilities div h3:visible").each(colorLines);
 					$("div#responsibilities").prepend("<div class=\"button\">{show_minor_authors} (" + hiddenResponsibilitiesCount + ") &or;</div>");
 
 					$("div#responsibilities div.button").click(function() {{
@@ -123,18 +123,18 @@
 				filterTimeLine();
 				var hiddenTimelineCount = $("div#timeline table.git tbody tr:hidden").length;
 				if (hiddenTimelineCount > 0) {{
-					$("div#timeline table.git tbody tr:visible").each(colorRows);
-					$("div#timeline").prepend("<div class=\"button\">{show_minor_rows} (" + hiddenTimelineCount + ") &or;</div>");
+					$("div#timeline table.git tbody tr:visible").each(colorLines);
+					$("div#timeline").prepend("<div class=\"button\">{show_minor_lines} (" + hiddenTimelineCount + ") &or;</div>");
 
 					$("div#timeline div.button").click(function() {{
 						this.clicked = !this.clicked;
 						if (this.clicked) {{
-							this.innerHTML = "{hide_minor_rows} (" + hiddenTimelineCount + ") &and;";
-							$("div#timeline table.git tbody tr").show().each(colorRows);
+							this.innerHTML = "{hide_minor_lines} (" + hiddenTimelineCount + ") &and;";
+							$("div#timeline table.git tbody tr").show().each(colorLines);
 						}} else {{
-							this.innerHTML = "{show_minor_rows} (" + hiddenTimelineCount + ") &or;";
+							this.innerHTML = "{show_minor_lines} (" + hiddenTimelineCount + ") &or;";
 							filterTimeLine();
-							$("div#timeline table.git tbody tr:visible").each(colorRows);
+							$("div#timeline table.git tbody tr:visible").each(colorLines);
 						}}
 					}});
 				}}

@@ -46,11 +46,11 @@ msgstr "Wiek"
 msgid "Author"
 msgstr "Autor"
 
-msgid "Below are the number of rows from each author that have survived and are still intact in the current revision"
+msgid "Below are the number of lines from each author that have survived and are still intact in the current revision"
 msgstr "Poniżej podano liczbę wierszy przypadających na autora, które w niezmienionej postaci przetrwały do obecnego stanu rezpozytorium"
 
 #, python-brace-format
-msgid "Checking how many rows belong to each author (Progress): {0:.0f}%"
+msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
 msgstr "Sprawdzam ile wierszy należy do każdego z autorów (Postęp): {0:.0f}%"
 
 msgid "Commits"
@@ -84,7 +84,7 @@ msgstr "Wyjście w formacie HTML nie jest jeszcze wspierane w"
 msgid "Hide minor authors"
 msgstr "Ukryj mniej znaczących autorów"
 
-msgid "Hide rows with minor work"
+msgid "Hide lines with minor work"
 msgstr "Ukryj wiersze z mniej znaczącymi zmianami"
 
 msgid "Insertions"
@@ -93,7 +93,7 @@ msgstr "Wstawienia"
 msgid "Minor Authors"
 msgstr "Mniej znaczący autorzy"
 
-msgid "Modified Rows:"
+msgid "Modified Lines:"
 msgstr "Zmienione wiersze:"
 
 msgid "No commited files with the specified extensions were found"
@@ -106,13 +106,13 @@ msgstr "W repozytorium nie stwierdzono naruszenia metryk."
 msgid "Repository statistics for {0}"
 msgstr "Statystyki repozytorium dla {0}"
 
-msgid "Rows"
+msgid "Lines"
 msgstr "Wiersze"
 
 msgid "Show minor authors"
 msgstr "Pokaż mniej znaczących autorów"
 
-msgid "Show rows with minor work"
+msgid "Show lines with minor work"
 msgstr "Pokaż wiersze z mniej znaczącymi zmianami"
 
 msgid "Stability"
@@ -193,7 +193,7 @@ msgid ""
 "                                   is formatted for grading of student\n"
 "                                   projects; this is the same as supplying the\n"
 "                                   options -HlmrTw\n"
-"  -H, --hard[=BOOL]              track rows and look for duplicates harder;\n"
+"  -H, --hard[=BOOL]              track lines and look for duplicates harder;\n"
 "                                   this can be quite slow with big repositories\n"
 "  -l, --list-file-types[=BOOL]   list all the file extensions available in the\n"
 "                                   current branch of the repository\n"
