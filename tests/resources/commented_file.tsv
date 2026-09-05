@@ -1,0 +1,8 @@
+# Sample TSV file used by the comment tests.
+name	value	note
+alpha	1	plain row
+# A comment between data rows.
+beta	2	contains # inside a field
+	# Comment after a leading tab, still counted.
+gamma	3	#not a comment since the hash is inside a field
+# Final comment.

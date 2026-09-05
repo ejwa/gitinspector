@@ -19,19 +19,23 @@
 
 from __future__ import unicode_literals
 import os
-import sys
-import unittest2
+
+try:
+	import unittest2 as unittest
+except ImportError:
+	import unittest
+
 import gitinspector.comment
 
 def __test_extension__(commented_file, extension):
 	base = os.path.dirname(os.path.realpath(__file__))
-	tex_file = open(base + commented_file, "r")
-	tex = tex_file.readlines()
-	tex_file.close()
+	commented = open(base + commented_file, "rb")
+	lines = commented.readlines()
+	commented.close()
 
 	is_inside_comment = False
 	comment_counter = 0
-	for i in tex:
+	for i in lines:
 		i = i.decode("utf-8", "replace")
 		(_, is_inside_comment) = gitinspector.comment.handle_comment_block(is_inside_comment, extension, i)
 		if is_inside_comment or gitinspector.comment.is_comment(extension, i):
@@ -39,12 +43,22 @@ def __test_extension__(commented_file, extension):
 
 	return comment_counter
 
-class TexFileTest(unittest2.TestCase):
-    def test(self):
-	comment_counter = __test_extension__("/resources/commented_file.tex", "tex")
-	self.assertEqual(comment_counter, 30)
+class TexFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.tex", "tex")
+		self.assertEqual(comment_counter, 30)
 
-class CppFileTest(unittest2.TestCase):
-    def test(self):
-	comment_counter = __test_extension__("/resources/commented_file.cpp", "cpp")
-	self.assertEqual(comment_counter, 25)
+class CppFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.cpp", "cpp")
+		self.assertEqual(comment_counter, 25)
+
+class CsvFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.csv", "csv")
+		self.assertEqual(comment_counter, 5)
+
+class TsvFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.tsv", "tsv")
+		self.assertEqual(comment_counter, 4)

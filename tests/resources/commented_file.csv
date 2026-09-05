@@ -1,0 +1,10 @@
+# Sample CSV file used by the comment tests.
+# Comments start with a hash at the beginning of the line.
+name,value,note
+alpha,1,plain row
+# A comment between data rows.
+beta,2,contains # inside a field
+   # Indented comment, still counted.
+gamma,3,"quoted # hash"
+#Comment without a space after the hash.
+delta,4,ends with #
