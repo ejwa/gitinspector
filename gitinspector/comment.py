@@ -32,7 +32,7 @@ __comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/",
 __comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
                "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "robot": "#", "rs": "//", "rlib": "//", "js": "//",
                "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#", "go": "//",
-               "ly": "%", "ily": "%"}
+               "ly": "%", "ily": "%", "clj": ";", "cljs": ";", "cljc": ";"}
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 
