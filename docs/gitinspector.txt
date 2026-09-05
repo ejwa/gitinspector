@@ -32,7 +32,7 @@ List information about the repository in REPOSITORY. If no repository is specifi
 Mandatory arguments to long options are mandatory for short options too. Boolean arguments can only be given to long options.
 
 *-f, --file-types*=EXTENSIONS::
-	A comma separated list of file extensions to include when computing statistics. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql. Specifying a single '\*' asterisk character includes files with no extension. Specifying two consecutive '**' asterisk characters includes all files regardless of extension.
+	A comma separated list of file extensions to include when computing statistics. The default extensions used are: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql,go. Specifying a single '\*' asterisk character includes files with no extension. Specifying two consecutive '**' asterisk characters includes all files regardless of extension.
 
 *-F, --format*=FORMAT::
 	Defines in which format output should be generated; the default format is 'text' and the available formats are: html,htmlembedded,json,text,xml (see <<X1,*OUTPUT FORMATS*>>)
