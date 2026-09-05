@@ -28,9 +28,9 @@ Below are some example outputs for a number of famous open source projects. All 
 
 | Project name | | | | |
 |---|---|---|---|---|
-| Django | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/django_output.xml) |
-| JQuery | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/jquery_output.xml) |
-| Pango | [HTML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.html) | [HTML Embedded](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.emb.html) | [Plain Text](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.txt) | [XML](http://githubproxy.ejwa.se/wiki/ejwa/gitinspector/examples/pango_output.xml) |
+| Django | [HTML](https://ejwa.github.io/gitinspector/examples/django_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/django_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/django_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/django_output.xml) |
+| JQuery | [HTML](https://ejwa.github.io/gitinspector/examples/jquery_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/jquery_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/jquery_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/jquery_output.xml) |
+| Pango | [HTML](https://ejwa.github.io/gitinspector/examples/pango_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/pango_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/pango_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/pango_output.xml) |
 
 ### The Team
   * Adam Waldenberg, Lead maintainer and Swedish translation
