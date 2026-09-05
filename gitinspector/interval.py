@@ -30,6 +30,14 @@ __until__ = ""
 
 __ref__ = "HEAD"
 
+def clear():
+	global __since__
+	global __until__
+	global __ref__
+	__since__ = ""
+	__until__ = ""
+	__ref__ = "HEAD"
+
 def has_interval():
 	return __since__ + __until__ != ""
 
