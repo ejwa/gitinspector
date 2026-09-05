@@ -37,6 +37,9 @@ def __get_metrics_score__(ceiling, value):
 		if value > ceiling * i[0]:
 			return i[1]
 
+def __html_violation__(score, text):
+	return "<li class=\"list-group-item violation-{0}\">{1}</li>".format(score, text)
+
 class MetricsOutput(Outputable):
 	def __init__(self, metrics):
 		self.metrics = metrics
@@ -65,31 +68,28 @@ class MetricsOutput(Outputable):
 		metrics_xml = "<div><div class=\"box\" id=\"metrics\">"
 
 		if not self.metrics.eloc and not self.metrics.cyclomatic_complexity and not self.metrics.cyclomatic_complexity_density:
-			metrics_xml += "<p>" + _(METRICS_MISSING_INFO_TEXT) + ".</p>"
+			metrics_xml += "<h1>" + _(METRICS_MISSING_INFO_TEXT) + "</h1>"
 
 		if self.metrics.eloc:
-			metrics_xml += "<div><h4>" + _(ELOC_INFO_TEXT) + ".</h4>"
-			for num, i in enumerate(sorted(set([(j, i) for (i, j) in self.metrics.eloc.items()]), reverse=True)):
-				metrics_xml += "<div class=\"" + __get_metrics_score__(__metric_eloc__[FileDiff.get_extension(i[1])], i[0]) + \
-				               (" odd\">" if num % 2 == 1 else "\">") + \
-				               _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])) + "</div>"
-			metrics_xml += "</div>"
+			metrics_xml += "<h1>" + _(ELOC_INFO_TEXT) + "</h1><ul class=\"list-group\">"
+			for i in sorted(set([(j, i) for (i, j) in self.metrics.eloc.items()]), reverse=True):
+				metrics_xml += __html_violation__(__get_metrics_score__(__metric_eloc__[FileDiff.get_extension(i[1])], i[0]),
+				                                  _("{0} ({1} estimated lines of code)").format(i[1], str(i[0])))
+			metrics_xml += "</ul>"
 
 		if self.metrics.cyclomatic_complexity:
-			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h4>"
-			for num, i in enumerate(sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity.items()]), reverse=True)):
-				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, i[0]) + \
-				               (" odd\">" if num % 2 == 1 else "\">") + \
-				               _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])) + "</div>"
-			metrics_xml += "</div>"
+			metrics_xml += "<h1>" + _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h1><ul class=\"list-group\">"
+			for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity.items()]), reverse=True):
+				metrics_xml += __html_violation__(__get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, i[0]),
+				                                  _("{0} ({1} in cyclomatic complexity)").format(i[1], str(i[0])))
+			metrics_xml += "</ul>"
 
 		if self.metrics.cyclomatic_complexity_density:
-			metrics_xml += "<div><h4>" +  _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h4>"
-			for num, i in enumerate(sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True)):
-				metrics_xml += "<div class=\"" + __get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD, i[0]) + \
-				               (" odd\">" if num % 2 == 1 else "\">") + \
-				               _("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]) + "</div>"
-			metrics_xml += "</div>"
+			metrics_xml += "<h1>" + _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h1><ul class=\"list-group\">"
+			for i in sorted(set([(j, i) for (i, j) in self.metrics.cyclomatic_complexity_density.items()]), reverse=True):
+				metrics_xml += __html_violation__(__get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD, i[0]),
+				                                  _("{0} ({1:.3f} in cyclomatic complexity density)").format(i[1], i[0]))
+			metrics_xml += "</ul>"
 
 		metrics_xml += "</div></div>"
 		print(metrics_xml)

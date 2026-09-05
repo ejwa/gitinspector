@@ -23,7 +23,7 @@ import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
 from .. import responsibilities as resp
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 RESPONSIBILITIES_INFO_TEXT = N_("The following responsibilities, by author, were found in the current "
                                 "revision of the repository (comments are excluded from the line count, "
@@ -57,26 +57,30 @@ class ResponsibilitiesOutput(Outputable):
 
 	def output_html(self):
 		resp_xml = "<div><div class=\"box\" id=\"responsibilities\">"
-		resp_xml += "<p>" + _(RESPONSIBILITIES_INFO_TEXT) + ".</p>"
+		resp_xml += "<h1>" + _(RESPONSIBILITIES_INFO_TEXT) + "</h1>"
+		resp_xml += html_toggle_button(_("Show minor authors"))
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
 			responsibilities = sorted(((i[1], i[0]) for i in resp.Responsibilities.get(self.blame, i)), reverse=True)
 
 			if responsibilities:
-				resp_xml += "<div>"
+				resp_xml += "<div class=\"author\">"
 
 				if format.get_selected() == "html":
 					author_email = self.changes.get_latest_email_by_author(i)
-					resp_xml += "<h3><img src=\"{0}\"/>{1} {2}</h3>".format(gravatar.get_url(author_email, size=32),
-					            i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
+					resp_xml += "<h3><img src=\"{0}\"/><span class=\"name\">{1}</span> {2}</h3>".format(
+					            gravatar.get_url(author_email, size=32), i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
 				else:
-					resp_xml += "<h3>{0} {1}</h3>".format(i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
+					resp_xml += "<h3><span class=\"name\">{0}</span> {1}</h3>".format(i, _(MOSTLY_RESPONSIBLE_FOR_TEXT))
+
+				resp_xml += "<ul class=\"list-group\">"
 
 				for j, entry in enumerate(responsibilities):
-					resp_xml += "<div" + (" class=\"odd\">" if j % 2 == 1 else ">") + entry[1] + \
-					            " (" + str(entry[0]) + " eloc)</div>"
+					resp_xml += "<li class=\"list-group-item\">" + entry[1] + " <span class=\"badge\">" + str(entry[0]) + " eloc</span></li>"
 					if j >= 9:
 						break
+
+				resp_xml += "</ul>"
 
 				resp_xml += "</div>"
 		resp_xml += "</div></div>"

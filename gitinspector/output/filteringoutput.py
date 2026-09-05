@@ -38,20 +38,22 @@ class FilteringOutput(Outputable):
 		filtering_xml = ""
 
 		if filtered:
-			filtering_xml += "<p>" + info_string + "."+ "</p>"
+			filtering_xml += "<h1>" + info_string + "</h1><ul class=\"list-group\">"
 
 			for i in filtered:
-				filtering_xml += "<p>" + i + "</p>"
+				filtering_xml += "<li class=\"list-group-item\">" + i + "</li>"
+
+			filtering_xml += "</ul>"
 
 		return filtering_xml
 
 	def output_html(self):
 		if has_filtered():
 			filtering_xml = "<div><div class=\"box\">"
-			FilteringOutput.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
-			FilteringOutput.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
-			FilteringOutput.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-			FilteringOutput.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
+			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
+			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
+			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
+			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
 			filtering_xml += "</div></div>"
 
 			print(filtering_xml)

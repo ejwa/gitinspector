@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal, timeline
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 TIMELINE_INFO_TEXT_M = N_("The following monthly history timeline has been gathered from the repository")
 TIMELINE_INFO_TEXT_W = N_("The following weekly history timeline has been gathered from the repository")
@@ -61,13 +61,12 @@ def __output_line__text__(timeline_data, periods, names):
 	print("")
 
 def __output_line__html__(timeline_data, periods, names):
-	timeline_xml = "<table id=\"timeline\" class=\"table table-striped\"><thead><tr><th class=\"header\">" + _("Author") + "</th>"
+	timeline_xml = "<div class=\"table-responsive\"><table class=\"table timeline\"><thead><tr><th>" + _("Author") + "</th>"
 
 	for period in periods:
-		timeline_xml += "<th class=\"header\">" + str(period) + "</th>"
+		timeline_xml += "<th>" + str(period) + "</th>"
 
 	timeline_xml += "</tr></thead><tbody>"
-	i = 0
 
 	for name in names:
 		if timeline_data.is_author_in_periods(periods, name[0]):
@@ -88,15 +87,14 @@ def __output_line__html__(timeline_data, periods, names):
 				                 len(signs_str) == 0 else signs_str)
 				timeline_xml += "</td>"
 			timeline_xml += "</tr>"
-			i = i + 1
 
-	timeline_xml += "<tfoot><tr><td><strong>" + _(MODIFIED_LINES_TEXT) + "</strong></td>"
+	timeline_xml += "</tbody><tfoot><tr><td><strong>" + _(MODIFIED_LINES_TEXT) + "</strong></td>"
 
 	for period in periods:
 		total_changes = timeline_data.get_total_changes_in_period(period)
 		timeline_xml += "<td>" + str(total_changes[2]) + "</td>"
 
-	timeline_xml += "</tr></tfoot></tbody></table>"
+	timeline_xml += "</tr></tfoot></table></div>"
 	print(timeline_xml)
 
 class TimelineOutput(Outputable):
@@ -130,15 +128,15 @@ class TimelineOutput(Outputable):
 			names = timeline_data.get_authors()
 			max_periods_per_line = 8
 
-			timeline_xml = "<div><div id=\"timeline\" class=\"box\">"
-			timeline_xml += "<p>" + self.get_tinfo_txt() + ".</p>"
+			timeline_xml = "<div><div class=\"box timeline\">"
+			timeline_xml += "<h1>" + self.get_tinfo_txt() + "</h1>"
+			timeline_xml += html_toggle_button(_("Show lines with minor work"))
 			print(timeline_xml)
 
 			for i in range(0, len(periods), max_periods_per_line):
 				__output_line__html__(timeline_data, periods[i:i+max_periods_per_line], names)
 
-			timeline_xml = "</div></div>"
-			print(timeline_xml)
+			print("</div></div>")
 
 	def output_json(self):
 		if self.changes.get_commits():

@@ -23,7 +23,7 @@ import json
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
@@ -45,11 +45,8 @@ class ChangesOutput(Outputable):
 
 		if authorinfo_list:
 			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1>"
-			changes_xml += "<button type=\"button\" class=\"btn btn-primary\""
-			changes_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
-			changes_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
-			changes_xml += "</button><hr />"
-			changes_xml += "<div class=\"row\"><div class=\"col-md-8\"><table id=\"changes\" class=\"table table-striped\">"
+			changes_xml += html_toggle_button(_("Show minor authors"))
+			changes_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"changes\" class=\"table\">"
 			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
 			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
 			changes_xml += "</tr></thead><tbody>"

@@ -25,7 +25,7 @@ import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
 from ..blame import Blame
-from .outputable import Outputable
+from .outputable import Outputable, html_toggle_button
 
 BLAME_INFO_TEXT = N_("Below are the number of lines from each author that have survived and are still "
                      "intact in the current revision")
@@ -43,11 +43,8 @@ class BlameOutput(Outputable):
 	def output_html(self):
 		blame_xml = "<div><div class=\"box\">"
 		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1>"
-		blame_xml += "<button type=\"button\" class=\"btn btn-primary\""
-		blame_xml += "        data-toggle=\"button\" aria-pressed=\"false\" autocomplete=\"off\" disabled>"
-		blame_xml += "    <span>&#x2713;</span> " + _("Show minor authors")
-		blame_xml += "</button><hr />"
-		blame_xml += "<div class=\"row\"><div class=\"col-md-8\"><table id=\"blame\" class=\"table table-striped\">"
+		blame_xml += html_toggle_button(_("Show minor authors"))
+		blame_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"blame\" class=\"table\">"
 		if self.forcemonths and self.blame.useweeks:
 			formtup = (_("Author"), _("Lines"), _("Stability"), _("Age, months"), _("Age, weeks"), _("% in comments"))
 			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> <th>{5}</th> </tr></thead>"
