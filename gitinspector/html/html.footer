@@ -1,2 +1,5 @@
+			<footer class="gi-foot">{logo_text}</footer>
+		</div>
+		<script>{script}</script>
 	</body>
 </html>
