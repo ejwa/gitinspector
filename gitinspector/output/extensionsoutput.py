@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 import textwrap
 from xml.sax.saxutils import escape
 from ..localization import N_
-from .. import extensions, terminal
+from .. import extensions, format, terminal
 from .outputable import Outputable, html_card
 
 
@@ -48,15 +48,15 @@ class ExtensionsOutput(Outputable):
 
 	def output_json(self):
 		if extensions.__located_extensions__:
-			message_json = "\t\t\t\"message\": \"" + _(EXTENSIONS_INFO_TEXT) + "\",\n"
+			message_json = "\t\t\t\"message\": " + format.json_string(_(EXTENSIONS_INFO_TEXT)) + ",\n"
 			used_extensions_json = ""
 			unused_extensions_json = ""
 
 			for i in sorted(extensions.__located_extensions__):
 				if ExtensionsOutput.is_marked(i):
-					used_extensions_json += "\"" + i + "\", "
+					used_extensions_json += format.json_string(i) + ", "
 				else:
-					unused_extensions_json += "\"" + i + "\", "
+					unused_extensions_json += format.json_string(i) + ", "
 
 			used_extensions_json = used_extensions_json[:-2]
 			unused_extensions_json = unused_extensions_json[:-2]
@@ -78,15 +78,15 @@ class ExtensionsOutput(Outputable):
 
 	def output_xml(self):
 		if extensions.__located_extensions__:
-			message_xml = "\t\t<message>" + _(EXTENSIONS_INFO_TEXT) + "</message>\n"
+			message_xml = "\t\t<message>" + escape(_(EXTENSIONS_INFO_TEXT)) + "</message>\n"
 			used_extensions_xml = ""
 			unused_extensions_xml = ""
 
 			for i in sorted(extensions.__located_extensions__):
 				if ExtensionsOutput.is_marked(i):
-					used_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
+					used_extensions_xml += "\t\t\t<extension>" + escape(i) + "</extension>\n"
 				else:
-					unused_extensions_xml += "\t\t\t<extension>" + i + "</extension>\n"
+					unused_extensions_xml += "\t\t\t<extension>" + escape(i) + "</extension>\n"
 
 			print("\t<extensions>\n" + message_xml + "\t\t<used>\n" + used_extensions_xml + "\t\t</used>\n" +
 			      "\t\t<unused>\n" + unused_extensions_xml + "\t\t</unused>\n" + "\t</extensions>")

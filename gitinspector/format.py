@@ -51,6 +51,11 @@ def get_selected():
 def is_interactive_format():
 	return __selected_format__ == "text"
 
+def json_string(value):
+	"""A name, a path or a message may hold anything, including the quote and the backslash that
+	would otherwise end the JSON string early. json.dumps writes the surrounding quotes as well."""
+	return json.dumps(value, ensure_ascii=False)
+
 def __output_html_template__(name):
 	template_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), name)
 	file_r = open(template_path, "rb")
@@ -128,11 +133,11 @@ def output_header(repos):
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
 
 		if len(repos) <= 1:
-			print("\t\t\"repository\": " + json.dumps(repos_string) + ",")
-			print("\t\t\"branch\": " + json.dumps(repos[0].branch) + ",")
+			print("\t\t\"repository\": " + json_string(repos_string) + ",")
+			print("\t\t\"branch\": " + json_string(repos[0].branch) + ",")
 		else:
-			print("\t\t\"repositories\": [ " + ", ".join([json.dumps(repo.name) for repo in repos]) + " ],")
-			print("\t\t\"branches\": [ " + ", ".join([json.dumps(repo.branch) for repo in repos]) + " ],")
+			print("\t\t\"repositories\": [ " + ", ".join([json_string(repo.name) for repo in repos]) + " ],")
+			print("\t\t\"branches\": [ " + ", ".join([json_string(repo.branch) for repo in repos]) + " ],")
 
 		print("\t\t\"report_date\": \"" + time.strftime("%Y/%m/%d") + "\",")
 

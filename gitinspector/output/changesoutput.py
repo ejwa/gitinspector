@@ -21,6 +21,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 import textwrap
 from ..localization import N_
+from xml.sax.saxutils import escape
 from .. import format, gravatar, terminal
 from .outputable import (Outputable, author_color, html_author_cell, html_card, html_diverging_cell,
                          html_diverging_header, html_header_cell, html_number_cell, html_share, html_stats, html_table)
@@ -103,7 +104,7 @@ class ChangesOutput(Outputable):
 		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 
 		if authorinfo_list:
-			message_json = "\t\t\t\"message\": \"" + _(HISTORICAL_INFO_TEXT) + "\",\n"
+			message_json = "\t\t\t\"message\": " + format.json_string(_(HISTORICAL_INFO_TEXT)) + ",\n"
 			changes_json = ""
 
 			for i in sorted(authorinfo_list):
@@ -111,9 +112,9 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 
 				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
-				name_json = "\t\t\t\t\"name\": \"" + i + "\",\n"
-				email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
-				gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+				name_json = "\t\t\t\t\"name\": " + format.json_string(i) + ",\n"
+				email_json = "\t\t\t\t\"email\": " + format.json_string(author_email) + ",\n"
+				gravatar_json = "\t\t\t\t\"gravatar\": " + format.json_string(gravatar.get_url(author_email)) + ",\n"
 				commits_json = "\t\t\t\t\"commits\": " + str(authorinfo.commits) + ",\n"
 				insertions_json = "\t\t\t\t\"insertions\": " + str(authorinfo.insertions) + ",\n"
 				deletions_json = "\t\t\t\t\"deletions\": " + str(authorinfo.deletions) + ",\n"
@@ -133,7 +134,7 @@ class ChangesOutput(Outputable):
 			print("\t\t\"changes\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + changes_json + "],\n" +
 			      total_json + "\t\t}", end="")
 		else:
-			print("\t\t\"exception\": \"" + _(NO_COMMITED_FILES_TEXT) + "\"")
+			print("\t\t\"exception\": " + format.json_string(_(NO_COMMITED_FILES_TEXT)))
 
 	def output_text(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
@@ -170,7 +171,7 @@ class ChangesOutput(Outputable):
 		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 
 		if authorinfo_list:
-			message_xml = "\t\t<message>" + _(HISTORICAL_INFO_TEXT) + "</message>\n"
+			message_xml = "\t\t<message>" + escape(_(HISTORICAL_INFO_TEXT)) + "</message>\n"
 			changes_xml = ""
 
 			for i in sorted(authorinfo_list):
@@ -178,9 +179,9 @@ class ChangesOutput(Outputable):
 				authorinfo = authorinfo_list.get(i)
 
 				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
-				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
-				email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
-				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
+				name_xml = "\t\t\t\t<name>" + escape(i) + "</name>\n"
+				email_xml = "\t\t\t\t<email>" + escape(author_email) + "</email>\n"
+				gravatar_xml = "\t\t\t\t<gravatar>" + escape(gravatar.get_url(author_email)) + "</gravatar>\n"
 				commits_xml = "\t\t\t\t<commits>" + str(authorinfo.commits) + "</commits>\n"
 				insertions_xml = "\t\t\t\t<insertions>" + str(authorinfo.insertions) + "</insertions>\n"
 				deletions_xml = "\t\t\t\t<deletions>" + str(authorinfo.deletions) + "</deletions>\n"
@@ -198,4 +199,4 @@ class ChangesOutput(Outputable):
 			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n" +
 			      total_xml + "\t</changes>")
 		else:
-			print("\t<changes>\n\t\t<exception>" + _(NO_COMMITED_FILES_TEXT) + "</exception>\n\t</changes>")
+			print("\t<changes>\n\t\t<exception>" + escape(_(NO_COMMITED_FILES_TEXT)) + "</exception>\n\t</changes>")

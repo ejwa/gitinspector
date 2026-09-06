@@ -92,7 +92,7 @@ class ResponsibilitiesOutput(Outputable):
 		print(html_card(_(RESPONSIBILITIES_INFO_TEXT), rows))
 
 	def output_json(self):
-		message_json = "\t\t\t\"message\": \"" + _(RESPONSIBILITIES_INFO_TEXT) + "\",\n"
+		message_json = "\t\t\t\"message\": " + format.json_string(_(RESPONSIBILITIES_INFO_TEXT)) + ",\n"
 		resp_json = ""
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
@@ -102,14 +102,14 @@ class ResponsibilitiesOutput(Outputable):
 				author_email = self.changes.get_latest_email_by_author(i)
 
 				resp_json += "{\n"
-				resp_json += "\t\t\t\t\"name\": \"" + i + "\",\n"
-				resp_json += "\t\t\t\t\"email\": \"" + author_email + "\",\n"
-				resp_json += "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+				resp_json += "\t\t\t\t\"name\": " + format.json_string(i) + ",\n"
+				resp_json += "\t\t\t\t\"email\": " + format.json_string(author_email) + ",\n"
+				resp_json += "\t\t\t\t\"gravatar\": " + format.json_string(gravatar.get_url(author_email)) + ",\n"
 				resp_json += "\t\t\t\t\"files\": [\n\t\t\t\t"
 
 				for j, entry in enumerate(responsibilities):
 					resp_json += "{\n"
-					resp_json += "\t\t\t\t\t\"name\": \"" + entry[1] + "\",\n"
+					resp_json += "\t\t\t\t\t\"name\": " + format.json_string(entry[1]) + ",\n"
 					resp_json += "\t\t\t\t\t\"lines\": " + str(entry[0]) + "\n"
 					resp_json += "\t\t\t\t},"
 
@@ -123,7 +123,7 @@ class ResponsibilitiesOutput(Outputable):
 		print(",\n\t\t\"responsibilities\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + resp_json + "]\n\t\t}", end="")
 
 	def output_xml(self):
-		message_xml = "\t\t<message>" + _(RESPONSIBILITIES_INFO_TEXT) + "</message>\n"
+		message_xml = "\t\t<message>" + escape(_(RESPONSIBILITIES_INFO_TEXT)) + "</message>\n"
 		resp_xml = ""
 
 		for i in sorted(set(i[0] for i in self.blame.blames)):
@@ -132,14 +132,14 @@ class ResponsibilitiesOutput(Outputable):
 				author_email = self.changes.get_latest_email_by_author(i)
 
 				resp_xml += "\t\t\t<author>\n"
-				resp_xml += "\t\t\t\t<name>" + i + "</name>\n"
-				resp_xml += "\t\t\t\t<email>" + author_email + "</email>\n"
-				resp_xml += "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
+				resp_xml += "\t\t\t\t<name>" + escape(i) + "</name>\n"
+				resp_xml += "\t\t\t\t<email>" + escape(author_email) + "</email>\n"
+				resp_xml += "\t\t\t\t<gravatar>" + escape(gravatar.get_url(author_email)) + "</gravatar>\n"
 				resp_xml += "\t\t\t\t<files>\n"
 
 				for j, entry in enumerate(responsibilities):
 					resp_xml += "\t\t\t\t\t<file>\n"
-					resp_xml += "\t\t\t\t\t\t<name>" + entry[1] + "</name>\n"
+					resp_xml += "\t\t\t\t\t\t<name>" + escape(entry[1]) + "</name>\n"
 					resp_xml += "\t\t\t\t\t\t<lines>" + str(entry[0]) + "</lines>\n"
 					resp_xml += "\t\t\t\t\t</file>\n"
 

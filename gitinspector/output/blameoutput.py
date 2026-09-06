@@ -22,6 +22,7 @@ from __future__ import unicode_literals
 import sys
 import textwrap
 from ..localization import N_
+from xml.sax.saxutils import escape
 from .. import format, gravatar, terminal
 from ..blame import Blame
 from .outputable import (Outputable, author_color, author_indices, html_author_cell, html_card,
@@ -80,15 +81,15 @@ class BlameOutput(Outputable):
 		print(html_card(_(BLAME_INFO_TEXT), body))
 
 	def output_json(self):
-		message_json = "\t\t\t\"message\": \"" + _(BLAME_INFO_TEXT) + "\",\n"
+		message_json = "\t\t\t\"message\": " + format.json_string(_(BLAME_INFO_TEXT)) + ",\n"
 		blame_json = ""
 
 		for i in sorted(self.blame.get_summed_blames().items()):
 			author_email = self.changes.get_latest_email_by_author(i[0])
 
-			name_json = "\t\t\t\t\"name\": \"" + i[0] + "\",\n"
-			email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
-			gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
+			name_json = "\t\t\t\t\"name\": " + format.json_string(i[0]) + ",\n"
+			email_json = "\t\t\t\t\"email\": " + format.json_string(author_email) + ",\n"
+			gravatar_json = "\t\t\t\t\"gravatar\": " + format.json_string(gravatar.get_url(author_email)) + ",\n"
 			lines_json = "\t\t\t\t\"lines\": " + str(i[1].lines) + ",\n"
 			stability_json = ("\t\t\t\t\"stability\": " + "{0:.1f}".format(Blame.get_stability(i[0], i[1].lines,
 			                  self.changes)) + ",\n")
@@ -136,15 +137,15 @@ class BlameOutput(Outputable):
 			print("{0:.2f}".format(100.0 * i[1].comments / i[1].lines).rjust(cwidth))
 
 	def output_xml(self):
-		message_xml = "\t\t<message>" + _(BLAME_INFO_TEXT) + "</message>\n"
+		message_xml = "\t\t<message>" + escape(_(BLAME_INFO_TEXT)) + "</message>\n"
 		blame_xml = ""
 
 		for i in sorted(self.blame.get_summed_blames().items()):
 			author_email = self.changes.get_latest_email_by_author(i[0])
 
-			name_xml = "\t\t\t\t<name>" + i[0] + "</name>\n"
-			email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
-			gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
+			name_xml = "\t\t\t\t<name>" + escape(i[0]) + "</name>\n"
+			email_xml = "\t\t\t\t<email>" + escape(author_email) + "</email>\n"
+			gravatar_xml = "\t\t\t\t<gravatar>" + escape(gravatar.get_url(author_email)) + "</gravatar>\n"
 			lines_xml = "\t\t\t\t<lines>" + str(i[1].lines) + "</lines>\n"
 			stability_xml = ("\t\t\t\t<stability>" + "{0:.1f}".format(Blame.get_stability(i[0], i[1].lines,
 			                 self.changes)) + "</stability>\n")

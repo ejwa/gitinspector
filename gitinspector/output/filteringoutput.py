@@ -23,7 +23,7 @@ import textwrap
 from xml.sax.saxutils import escape
 from ..localization import N_
 from ..filtering import __filters__, has_filtered
-from .. import terminal
+from .. import format, terminal
 from .outputable import Outputable, html_card, html_cards
 
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
@@ -53,16 +53,11 @@ class FilteringOutput(Outputable):
 	@staticmethod
 	def __output_json_section__(info_string, filtered, container_tagname):
 		if filtered:
-			message_json = "\t\t\t\t\"message\": \"" + info_string + "\",\n"
-			filtering_json = ""
-
-			for i in filtered:
-				filtering_json += "\t\t\t\t\t\"" + i + "\",\n"
-			else:
-				filtering_json = filtering_json[:-3]
+			message_json = "\t\t\t\t\"message\": " + format.json_string(info_string) + ",\n"
+			entries_json = ",\n".join("\t\t\t\t\t" + format.json_string(i) for i in filtered)
 
 			return "\n\t\t\t\"{0}\": {{\n".format(container_tagname) + message_json + \
-			"\t\t\t\t\"entries\": [\n" + filtering_json + "\"\n\t\t\t\t]\n\t\t\t},"
+			"\t\t\t\t\"entries\": [\n" + entries_json + "\n\t\t\t\t]\n\t\t\t},"
 
 		return ""
 
@@ -95,11 +90,11 @@ class FilteringOutput(Outputable):
 	@staticmethod
 	def __output_xml_section__(info_string, filtered, container_tagname):
 		if filtered:
-			message_xml = "\t\t\t<message>" + info_string + "</message>\n"
+			message_xml = "\t\t\t<message>" + escape(info_string) + "</message>\n"
 			filtering_xml = ""
 
 			for i in filtered:
-				filtering_xml += "\t\t\t\t<entry>" + i + "</entry>\n"
+				filtering_xml += "\t\t\t\t<entry>" + escape(i) + "</entry>\n"
 
 			print("\t\t<{0}>".format(container_tagname))
 			print(message_xml + "\t\t\t<entries>\n" + filtering_xml + "\t\t\t</entries>\n")

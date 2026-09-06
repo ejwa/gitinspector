@@ -176,7 +176,7 @@ class TimelineOutput(Outputable):
 
 	def output_json(self):
 		if self.changes.get_commits():
-			message_json = "\t\t\t\"message\": \"" + self.get_tinfo_txt() + "\",\n"
+			message_json = "\t\t\t\"message\": " + format.json_string(self.get_tinfo_txt()) + ",\n"
 			timeline_json = ""
 			periods_json = "\t\t\t\"period_length\": \"{0}\",\n".format("week" if self.useweeks else "month")
 			periods_json += "\t\t\t\"periods\": [\n\t\t\t"
@@ -186,7 +186,7 @@ class TimelineOutput(Outputable):
 			names = timeline_data.get_authors()
 
 			for period in periods:
-				name_json = "\t\t\t\t\"name\": \"" + str(period) + "\",\n"
+				name_json = "\t\t\t\t\"name\": " + format.json_string("{0}".format(period)) + ",\n"
 				authors_json = "\t\t\t\t\"authors\": [\n\t\t\t\t"
 
 				for name in names:
@@ -198,10 +198,10 @@ class TimelineOutput(Outputable):
 						if len(signs_str) == 0:
 							signs_str = "."
 
-						authors_json += "{\n\t\t\t\t\t\"name\": \"" + name[0] + "\",\n"
-						authors_json += "\t\t\t\t\t\"email\": \"" + name[1] + "\",\n"
-						authors_json += "\t\t\t\t\t\"gravatar\": \"" + gravatar.get_url(name[1]) + "\",\n"
-						authors_json += "\t\t\t\t\t\"work\": \"" + signs_str + "\"\n\t\t\t\t},"
+						authors_json += "{\n\t\t\t\t\t\"name\": " + format.json_string(name[0]) + ",\n"
+						authors_json += "\t\t\t\t\t\"email\": " + format.json_string(name[1]) + ",\n"
+						authors_json += "\t\t\t\t\t\"gravatar\": " + format.json_string(gravatar.get_url(name[1])) + ",\n"
+						authors_json += "\t\t\t\t\t\"work\": " + format.json_string(signs_str) + "\n\t\t\t\t},"
 				else:
 					authors_json = authors_json[:-1]
 
@@ -216,7 +216,7 @@ class TimelineOutput(Outputable):
 
 	def output_xml(self):
 		if self.changes.get_commits():
-			message_xml = "\t\t<message>" + self.get_tinfo_txt() + "</message>\n"
+			message_xml = "\t\t<message>" + escape(self.get_tinfo_txt()) + "</message>\n"
 			timeline_xml = ""
 			periods_xml = "\t\t<periods length=\"{0}\">\n".format("week" if self.useweeks else "month")
 
@@ -225,7 +225,7 @@ class TimelineOutput(Outputable):
 			names = timeline_data.get_authors()
 
 			for period in periods:
-				name_xml = "\t\t\t\t<name>" + str(period) + "</name>\n"
+				name_xml = "\t\t\t\t<name>" + escape("{0}".format(period)) + "</name>\n"
 				authors_xml = "\t\t\t\t<authors>\n"
 
 				for name in names:
@@ -237,9 +237,9 @@ class TimelineOutput(Outputable):
 						if len(signs_str) == 0:
 							signs_str = "."
 
-						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + name[0] + "</name>\n"
-						authors_xml += "\t\t\t\t\t\t<email>" + name[1] + "</email>\n"
-						authors_xml += "\t\t\t\t\t\t<gravatar>" + gravatar.get_url(name[1]) + "</gravatar>\n"
+						authors_xml += "\t\t\t\t\t<author>\n\t\t\t\t\t\t<name>" + escape(name[0]) + "</name>\n"
+						authors_xml += "\t\t\t\t\t\t<email>" + escape(name[1]) + "</email>\n"
+						authors_xml += "\t\t\t\t\t\t<gravatar>" + escape(gravatar.get_url(name[1])) + "</gravatar>\n"
 						authors_xml += "\t\t\t\t\t\t<work>" + signs_str + "</work>\n\t\t\t\t\t</author>\n"
 
 				authors_xml += "\t\t\t\t</authors>\n"

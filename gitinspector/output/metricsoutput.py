@@ -19,7 +19,9 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
+from xml.sax.saxutils import escape
 from ..localization import N_
+from .. import format
 from .outputable import Outputable, html_card, html_cards, html_file_row, html_files
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
@@ -43,11 +45,11 @@ def __html_violations__(title, violations, template, color=None):
 	return html_card(title, html_files(rows), pad=True)
 
 def __json_violation__(kind, name, value):
-	return ("{\n\t\t\t\t\"type\": \"" + kind + "\",\n\t\t\t\t\"file_name\": \"" + name + "\",\n" +
+	return ("{\n\t\t\t\t\"type\": \"" + kind + "\",\n\t\t\t\t\"file_name\": " + format.json_string(name) + ",\n" +
 	        "\t\t\t\t\"value\": " + value + "\n\t\t\t}")
 
 def __xml_violation__(kind, name, value):
-	return ("\t\t\t<" + kind + ">\n\t\t\t\t<file-name>" + name + "</file-name>\n" +
+	return ("\t\t\t<" + kind + ">\n\t\t\t\t<file-name>" + escape(name) + "</file-name>\n" +
 	        "\t\t\t\t<value>" + value + "</value>\n\t\t\t</" + kind + ">\n")
 
 class MetricsOutput(Outputable):
@@ -98,7 +100,8 @@ class MetricsOutput(Outputable):
 
 	def output_json(self):
 		if not self.has_violations():
-			print(",\n\t\t\"metrics\": {\n\t\t\t\"message\": \"" + _(METRICS_MISSING_INFO_TEXT) + "\"\n\t\t}", end="")
+			print(",\n\t\t\"metrics\": {\n\t\t\t\"message\": " + format.json_string(_(METRICS_MISSING_INFO_TEXT)) +
+			      "\n\t\t}", end="")
 		else:
 			violations = []
 
@@ -118,7 +121,7 @@ class MetricsOutput(Outputable):
 
 	def output_xml(self):
 		if not self.has_violations():
-			print("\t<metrics>\n\t\t<message>" + _(METRICS_MISSING_INFO_TEXT) + "</message>\n\t</metrics>")
+			print("\t<metrics>\n\t\t<message>" + escape(_(METRICS_MISSING_INFO_TEXT)) + "</message>\n\t</metrics>")
 		else:
 			violations = ""
 
