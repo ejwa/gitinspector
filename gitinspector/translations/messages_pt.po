@@ -39,6 +39,10 @@ msgstr "% nos comentários"
 msgid "% of changes"
 msgstr "% de mudanças"
 
+#, no-python-format
+msgid "% of total"
+msgstr "% do total"
+
 #, python-brace-format
 msgid "'{0}' in {1}"
 msgstr "'{0}' em {1}"
@@ -57,6 +61,9 @@ msgstr "Idade, semanas"
 
 msgid "Author"
 msgstr "Autor"
+
+msgid "Authors"
+msgstr "Autores"
 
 
 msgid ""
@@ -88,6 +95,12 @@ msgstr ""
 "\n"
 "Escrito por Adam Waldenberg."
 
+msgid "Dark"
+msgstr "Escuro"
+
+msgid "Default"
+msgstr "Padrão"
+
 msgid "Deletions"
 msgstr "Exclusões"
 
@@ -99,6 +112,9 @@ msgstr "Erro ao processar o repositório git em \"%s\"."
 msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"
 msgstr "Obtendo e calculando as estatísticas principais (1 de 2): {0:.0f}%"
 
+msgid "Files"
+msgstr "Arquivos"
+
 msgid "HTML output not yet supported in"
 msgstr "Saída HTML ainda não suportada em"
 
@@ -108,6 +124,9 @@ msgstr "Inserções"
 
 msgid "JSON output not yet supported in"
 msgstr "Saída JSON ainda não suportada em"
+
+msgid "Light"
+msgstr "Claro"
 
 msgid "Lines"
 msgstr "Linhas"
@@ -132,12 +151,8 @@ msgstr "Nenhuma violação de métricas foi encontrada no repositório"
 msgid "Repository statistics for '{0}'"
 msgstr "Estatísticas do repositório para '{0}'"
 
-
-msgid "Show lines with minor work"
-msgstr "Mostrar linhas com trabalho menor"
-
-msgid "Show minor authors"
-msgstr "Mostrar autores menores"
+msgid "Search"
+msgstr "Pesquisar"
 
 msgid "Stability"
 msgstr "Estabilidade"
@@ -150,6 +165,9 @@ msgstr "Informações estatísticas para os repositórios '{0}' foram coletadas 
 msgid "Statistical information for the repository '{0}' was gathered on {1}."
 msgstr ""
 "Informações estatísticas para o repositório '{0}' foram coletadas em {1}."
+
+msgid "Terminal"
+msgstr "Terminal"
 
 msgid "Text output not yet supported in"
 msgstr "Saída de texto ainda não suportada em"
@@ -253,6 +271,9 @@ msgid ""
 msgstr ""
 "A saída foi gerada por {0} {1}. A ferramenta de análise estatística para "
 "repositórios git."
+
+msgid "Toggle light and dark"
+msgstr "Alternar entre claro e escuro"
 
 msgid "Total"
 msgstr "Total"
@@ -425,6 +446,9 @@ msgstr "expressão regular inválida especificada"
 
 msgid "is mostly responsible for"
 msgstr "é principalmente responsável por"
+
+msgid "repository statistics"
+msgstr "estatísticas do repositório"
 
 msgid "specified output format not supported."
 msgstr "formato de saída especificado não suportado."
