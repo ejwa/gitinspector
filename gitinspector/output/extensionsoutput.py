@@ -20,9 +20,10 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 import textwrap
+from xml.sax.saxutils import escape
 from ..localization import N_
 from .. import extensions, terminal
-from .outputable import Outputable
+from .outputable import Outputable, html_card
 
 
 EXTENSIONS_INFO_TEXT = N_("The extensions below were found in the repository history")
@@ -38,15 +39,12 @@ class ExtensionsOutput(Outputable):
 
 	def output_html(self):
 		if extensions.__located_extensions__:
-			extensions_xml = "<div><div class=\"box\">"
-			extensions_xml += "<h1>{0} {1}</h1><p>".format(_(EXTENSIONS_INFO_TEXT), _(EXTENSIONS_MARKED_TEXT))
+			chips = "".join("<span class=\"gi-chip{0}\">{1}</span>".format(
+			                " gi-used" if ExtensionsOutput.is_marked(i) else "", escape(i))
+			                for i in sorted(extensions.__located_extensions__))
 
-			for i in sorted(extensions.__located_extensions__):
-				label_style = "primary" if ExtensionsOutput.is_marked(i) else "default"
-				extensions_xml += "<span class=\"label label-{0}\">{1}</span> ".format(label_style, i)
-
-			extensions_xml += "</p></div></div>"
-			print(extensions_xml)
+			print(html_card(_(EXTENSIONS_INFO_TEXT), "<div class=\"gi-chips\">" + chips + "</div>",
+			                _(EXTENSIONS_MARKED_TEXT), pad=True))
 
 	def output_json(self):
 		if extensions.__located_extensions__:

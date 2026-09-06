@@ -20,10 +20,11 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 import textwrap
+from xml.sax.saxutils import escape
 from ..localization import N_
 from ..filtering import __filters__, has_filtered
 from .. import terminal
-from .outputable import Outputable
+from .outputable import Outputable, html_card, html_cards
 
 FILTERING_INFO_TEXT = N_("The following files were excluded from the statistics due to the specified exclusion patterns")
 FILTERING_AUTHOR_INFO_TEXT = N_("The following authors were excluded from the statistics due to the specified exclusion patterns")
@@ -35,28 +36,19 @@ FILTERING_COMMIT_INFO_TEXT = N_("The following commit revisions were excluded fr
 class FilteringOutput(Outputable):
 	@staticmethod
 	def __output_html_section__(info_string, filtered):
-		filtering_xml = ""
+		if not filtered:
+			return ""
 
-		if filtered:
-			filtering_xml += "<h1>" + info_string + "</h1><ul class=\"list-group\">"
-
-			for i in filtered:
-				filtering_xml += "<li class=\"list-group-item\">" + i + "</li>"
-
-			filtering_xml += "</ul>"
-
-		return filtering_xml
+		chips = "".join("<span class=\"gi-chip\">" + escape(i) + "</span>" for i in filtered)
+		return html_card(info_string, "<div class=\"gi-chips\">" + chips + "</div>", pad=True)
 
 	def output_html(self):
 		if has_filtered():
-			filtering_xml = "<div><div class=\"box\">"
-			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1])
-			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1])
-			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1])
-			filtering_xml += FilteringOutput.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])
-			filtering_xml += "</div></div>"
-
-			print(filtering_xml)
+			print(html_cards([
+			      FilteringOutput.__output_html_section__(_(FILTERING_INFO_TEXT), __filters__["file"][1]),
+			      FilteringOutput.__output_html_section__(_(FILTERING_AUTHOR_INFO_TEXT), __filters__["author"][1]),
+			      FilteringOutput.__output_html_section__(_(FILTERING_EMAIL_INFO_TEXT), __filters__["email"][1]),
+			      FilteringOutput.__output_html_section__(_(FILTERING_COMMIT_INFO_TEXT), __filters__["revision"][1])]))
 
 	@staticmethod
 	def __output_json_section__(info_string, filtered, container_tagname):
