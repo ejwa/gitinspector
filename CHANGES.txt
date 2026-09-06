@@ -20,6 +20,8 @@ gitinspector (0.5.0)
 	* A French error message no longer loses the path of the repository
 	  it complains about, and the Chinese metrics output no longer prints
 	  the cyclomatic complexity density with the wrong precision.
+	* The table of changes ends with a total row summing the commits,
+	  insertions and deletions of every author.
 	* Author emails are included in the JSON and HTML output.
 	* The analyzed branch of each repository is named in the output.
 	* Commits on merged branches are no longer lost during analysis.

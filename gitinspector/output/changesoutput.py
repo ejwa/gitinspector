@@ -27,6 +27,20 @@ from .outputable import Outputable, html_toggle_button
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
+TOTAL_TEXT = N_("Total")
+
+def __get_totals__(authorinfo_list):
+	commits = insertions = deletions = 0
+
+	for authorinfo in authorinfo_list.values():
+		commits += authorinfo.commits
+		insertions += authorinfo.insertions
+		deletions += authorinfo.deletions
+
+	return (commits, insertions, deletions, float(insertions + deletions))
+
+def __get_percentage__(insertions, deletions, total_changes):
+	return 0 if total_changes == 0 else (insertions + deletions) / total_changes * 100
 
 class ChangesOutput(Outputable):
 	def __init__(self, changes):
@@ -35,13 +49,10 @@ class ChangesOutput(Outputable):
 
 	def output_html(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
-		total_changes = 0.0
+		(total_commits, total_insertions, total_deletions, total_changes) = __get_totals__(authorinfo_list)
+		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 		changes_xml = "<div><div class=\"box\">"
 		chart_data = ""
-
-		for i in authorinfo_list:
-			total_changes += authorinfo_list.get(i).insertions
-			total_changes += authorinfo_list.get(i).deletions
 
 		if authorinfo_list:
 			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1>"
@@ -53,7 +64,7 @@ class ChangesOutput(Outputable):
 
 			for i, entry in enumerate(sorted(authorinfo_list)):
 				authorinfo = authorinfo_list.get(entry)
-				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
 
 				if format.get_selected() == "html":
 					changes_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(
@@ -71,7 +82,14 @@ class ChangesOutput(Outputable):
 				if sorted(authorinfo_list)[-1] != entry:
 					chart_data += ", "
 
-			changes_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"changes_chart\"></div></div>"
+			#The total belongs in a tfoot; the report script only ever looks at tbody rows.
+			changes_xml += "</tbody><tfoot><tr><td><strong>" + _(TOTAL_TEXT) + "</strong></td>"
+			changes_xml += "<td><strong>" + str(total_commits) + "</strong></td>"
+			changes_xml += "<td><strong>" + str(total_insertions) + "</strong></td>"
+			changes_xml += "<td><strong>" + str(total_deletions) + "</strong></td>"
+			changes_xml += "<td><strong>" + "{0:.2f}".format(total_percentage) + "</strong></td>"
+			changes_xml += "</tr></tfoot>"
+			changes_xml += "</table></div><div class=\"chart col-md-4\" id=\"changes_chart\"></div></div>"
 			changes_xml += "<script type=\"text/javascript\">"
 			changes_xml += "    changes_plot = $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
 			changes_xml += "        series: {"
@@ -96,11 +114,8 @@ class ChangesOutput(Outputable):
 
 	def output_json(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
-		total_changes = 0.0
-
-		for i in authorinfo_list:
-			total_changes += authorinfo_list.get(i).insertions
-			total_changes += authorinfo_list.get(i).deletions
+		(total_commits, total_insertions, total_deletions, total_changes) = __get_totals__(authorinfo_list)
+		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 
 		if authorinfo_list:
 			message_json = "\t\t\t\"message\": \"" + _(HISTORICAL_INFO_TEXT) + "\",\n"
@@ -110,7 +125,7 @@ class ChangesOutput(Outputable):
 				author_email = self.changes.get_latest_email_by_author(i)
 				authorinfo = authorinfo_list.get(i)
 
-				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
 				name_json = "\t\t\t\t\"name\": \"" + i + "\",\n"
 				email_json = "\t\t\t\t\"email\": \"" + author_email + "\",\n"
 				gravatar_json = "\t\t\t\t\"gravatar\": \"" + gravatar.get_url(author_email) + "\",\n"
@@ -125,17 +140,20 @@ class ChangesOutput(Outputable):
 			else:
 				changes_json = changes_json[:-1]
 
-			print("\t\t\"changes\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + changes_json + "]\n\t\t}", end="")
+			total_json = ("\t\t\t\"total\": {\n\t\t\t\t\"commits\": " + str(total_commits) + ",\n" +
+			              "\t\t\t\t\"insertions\": " + str(total_insertions) + ",\n" +
+			              "\t\t\t\t\"deletions\": " + str(total_deletions) + ",\n" +
+			              "\t\t\t\t\"percentage_of_changes\": " + "{0:.2f}".format(total_percentage) + "\n\t\t\t}\n")
+
+			print("\t\t\"changes\": {\n" + message_json + "\t\t\t\"authors\": [\n\t\t\t" + changes_json + "],\n" +
+			      total_json + "\t\t}", end="")
 		else:
 			print("\t\t\"exception\": \"" + _(NO_COMMITED_FILES_TEXT) + "\"")
 
 	def output_text(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
-		total_changes = 0.0
-
-		for i in authorinfo_list:
-			total_changes += authorinfo_list.get(i).insertions
-			total_changes += authorinfo_list.get(i).deletions
+		(total_commits, total_insertions, total_deletions, total_changes) = __get_totals__(authorinfo_list)
+		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 
 		if authorinfo_list:
 			print(textwrap.fill(_(HISTORICAL_INFO_TEXT) + ":", width=terminal.get_size()[0]) + "\n")
@@ -145,23 +163,26 @@ class ChangesOutput(Outputable):
 
 			for i in sorted(authorinfo_list):
 				authorinfo = authorinfo_list.get(i)
-				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
 
 				print(terminal.ljust(i, 20)[0:20 - terminal.get_excess_column_count(i)], end=" ")
 				print(str(authorinfo.commits).rjust(13), end=" ")
 				print(str(authorinfo.insertions).rjust(13), end=" ")
 				print(str(authorinfo.deletions).rjust(14), end=" ")
 				print("{0:.2f}".format(percentage).rjust(15))
+
+			#terminal.rjust measures the string; str() gives it bytes on Python 2, which it cannot measure.
+			terminal.printb(terminal.ljust(_(TOTAL_TEXT), 21) + terminal.rjust("{0}".format(total_commits), 13) +
+			                terminal.rjust("{0}".format(total_insertions), 14) +
+			                terminal.rjust("{0}".format(total_deletions), 15) +
+			                terminal.rjust("{0:.2f}".format(total_percentage), 16))
 		else:
 			print(_(NO_COMMITED_FILES_TEXT) + ".")
 
 	def output_xml(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
-		total_changes = 0.0
-
-		for i in authorinfo_list:
-			total_changes += authorinfo_list.get(i).insertions
-			total_changes += authorinfo_list.get(i).deletions
+		(total_commits, total_insertions, total_deletions, total_changes) = __get_totals__(authorinfo_list)
+		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
 
 		if authorinfo_list:
 			message_xml = "\t\t<message>" + _(HISTORICAL_INFO_TEXT) + "</message>\n"
@@ -171,7 +192,7 @@ class ChangesOutput(Outputable):
 				author_email = self.changes.get_latest_email_by_author(i)
 				authorinfo = authorinfo_list.get(i)
 
-				percentage = 0 if total_changes == 0 else (authorinfo.insertions + authorinfo.deletions) / total_changes * 100
+				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
 				name_xml = "\t\t\t\t<name>" + i + "</name>\n"
 				email_xml = "\t\t\t\t<email>" + author_email + "</email>\n"
 				gravatar_xml = "\t\t\t\t<gravatar>" + gravatar.get_url(author_email) + "</gravatar>\n"
@@ -183,6 +204,13 @@ class ChangesOutput(Outputable):
 				changes_xml += ("\t\t\t<author>\n" + name_xml + email_xml + gravatar_xml + commits_xml +
 				                insertions_xml + deletions_xml + percentage_xml + "\t\t\t</author>\n")
 
-			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n\t</changes>")
+			total_xml = ("\t\t<total>\n\t\t\t<commits>" + str(total_commits) + "</commits>\n" +
+			             "\t\t\t<insertions>" + str(total_insertions) + "</insertions>\n" +
+			             "\t\t\t<deletions>" + str(total_deletions) + "</deletions>\n" +
+			             "\t\t\t<percentage-of-changes>" + "{0:.2f}".format(total_percentage) +
+			             "</percentage-of-changes>\n\t\t</total>\n")
+
+			print("\t<changes>\n" + message_xml + "\t\t<authors>\n" + changes_xml + "\t\t</authors>\n" +
+			      total_xml + "\t</changes>")
 		else:
 			print("\t<changes>\n\t\t<exception>" + _(NO_COMMITED_FILES_TEXT) + "</exception>\n\t</changes>")

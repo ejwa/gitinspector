@@ -47,6 +47,12 @@ def read_all(descriptor):
 
 	return output
 
+def gitinspector_process(stdout, encoding, output_format, locations):
+	env = dict(os.environ)
+	env["PYTHONIOENCODING"] = encoding
+	command = [sys.executable, "-m", "gitinspector.gitinspector", "-F", output_format, "-f", "**"] + list(locations)
+	return subprocess.Popen(command, cwd=PROJECT_ROOT, env=env, stdout=stdout, stderr=subprocess.PIPE)
+
 class OutputEncodingTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
@@ -56,11 +62,8 @@ class OutputEncodingTest(unittest.TestCase):
 		self.repository.remove()
 
 	def run_gitinspector(self, stdout, encoding, output_format="text", *locations):
-		env = dict(os.environ)
-		env["PYTHONIOENCODING"] = encoding
-		command = [sys.executable, "-m", "gitinspector.gitinspector", "-F", output_format, "-f", "**"]
-		command += list(locations) or [self.repository.location]
-		return subprocess.Popen(command, cwd=PROJECT_ROOT, env=env, stdout=stdout, stderr=subprocess.PIPE)
+		return gitinspector_process(stdout, encoding, output_format,
+		                            list(locations) or [self.repository.location])
 
 	def test_the_header_names_the_analyzed_branch(self):
 		self.repository.branch("feature")
@@ -125,3 +128,57 @@ class OutputEncodingTest(unittest.TestCase):
 
 		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
 		self.assertIn(b"J\\xf6rg M\\xfcller", output)
+
+class ChangesTotalTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("first", {"a.py": "one\ntwo\nthree\n"}, "Author One", "one@example.com")
+		self.repository.commit("second", {"b.py": "four\n"}, "Author Two", "two@example.com")
+		self.repository.commit("third", {"a.py": "one\n"}, "Author Two", "two@example.com")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def report(self, output_format):
+		process = gitinspector_process(subprocess.PIPE, "utf-8", output_format, [self.repository.location])
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		return output.decode("utf-8")
+
+	def reported_total(self):
+		return json.loads(self.report("json"))["gitinspector"]["changes"]["total"]
+
+	def test_the_json_total_sums_every_author(self):
+		changes = json.loads(self.report("json"))["gitinspector"]["changes"]
+
+		for field in ("commits", "insertions", "deletions"):
+			self.assertEqual(changes["total"][field], sum(author[field] for author in changes["authors"]))
+
+		self.assertGreater(changes["total"]["insertions"], 0)
+		self.assertEqual(changes["total"]["percentage_of_changes"], 100)
+
+	def test_the_xml_total_agrees_with_the_json_total(self):
+		total = self.reported_total()
+		reported = ElementTree.fromstring(self.report("xml").encode("utf-8")).find("changes").find("total")
+
+		self.assertEqual(int(reported.findtext("commits")), total["commits"])
+		self.assertEqual(int(reported.findtext("insertions")), total["insertions"])
+		self.assertEqual(int(reported.findtext("deletions")), total["deletions"])
+		self.assertEqual(float(reported.findtext("percentage-of-changes")), total["percentage_of_changes"])
+
+	def test_the_text_table_ends_with_the_total(self):
+		total = self.reported_total()
+		lines = [line for line in self.report("text").splitlines() if line.startswith("Total")]
+
+		self.assertEqual(len(lines), 1)
+		self.assertEqual(lines[0].split()[1:], [str(total["commits"]), str(total["insertions"]),
+		                                        str(total["deletions"]), "100.00"])
+
+	def test_the_html_total_is_a_table_foot_below_the_authors(self):
+		total = self.reported_total()
+		table = self.report("html").split("<table id=\"changes\"")[1].split("</table>")[0]
+
+		self.assertLess(table.index("</tbody>"), table.index("<tfoot>"))
+		self.assertIn("<td><strong>" + str(total["insertions"]) + "</strong></td>", table)
+		self.assertIn("<td><strong>" + str(total["deletions"]) + "</strong></td>", table)
