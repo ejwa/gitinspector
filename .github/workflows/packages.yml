@@ -114,8 +114,7 @@ jobs:
           - image: debian:11
             flavour: python3
             archived: bullseye
-            security: bullseye-security
-            mirror: http://deb.debian.org
+            downgrades: "--allow-downgrades"
             suite: bullseye
           - image: debian:12
             flavour: python3
@@ -144,10 +143,11 @@ jobs:
           ARCHIVED: ${{ matrix.archived }}
           SECURITY: ${{ matrix.security }}
           MIRROR: ${{ matrix.mirror || 'http://archive.debian.org' }}
+          DOWNGRADES: ${{ matrix.downgrades }}
           RESOURCES: ${{ matrix.flavour == 'python2' && 'python-pkg-resources' || 'python3-pkg-resources' }}
         run: |
           docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source \
-            --env ARCHIVED --env SECURITY --env MIRROR --env RESOURCES --env DEBIAN_FRONTEND=noninteractive ${{ matrix.image }} sh -c '
+            --env ARCHIVED --env SECURITY --env MIRROR --env DOWNGRADES --env RESOURCES --env DEBIAN_FRONTEND=noninteractive ${{ matrix.image }} sh -c '
             set -e
             if [ -n "$ARCHIVED" ]; then
               printf "deb [trusted=yes] $MIRROR/debian $ARCHIVED main\n" > /etc/apt/sources.list
@@ -160,7 +160,7 @@ jobs:
             apt-get update -qq
             # Bringing the dependencies in first keeps dpkg from leaving a half configured package
             # behind, which apt then resolves by removing what we are trying to test.
-            apt-get install -y --force-yes --no-install-recommends -o Acquire::Retries=3 git $RESOURCES
+            apt-get install -y --force-yes --no-install-recommends $DOWNGRADES -o Acquire::Retries=3 git $RESOURCES
             dpkg -i packages/*.deb
             gitinspector --version
             git config --global --add safe.directory /source || true
