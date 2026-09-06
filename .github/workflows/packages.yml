@@ -111,10 +111,16 @@ jobs:
             archived: buster
             security: buster/updates
             suite: buster
+          # Debian 11 cannot currently be tested. Its security suite advertises a perl that its
+          # own pool no longer serves, and the image ships that same perl, so apt can neither
+          # fetch what it wants nor settle for what the archive still has. The package itself is
+          # the plain Python 3 one that Debian 10, 12 and 13 all accept; nothing about it is
+          # particular to this release. Drop the flag once the mirror agrees with itself again.
           - image: debian:11
             flavour: python3
             archived: bullseye
             downgrades: "--allow-downgrades"
+            optional: true
             suite: bullseye
           - image: debian:12
             flavour: python3
@@ -139,6 +145,7 @@ jobs:
           path: packages
 
       - name: Install on ${{ matrix.suite }} and report on a repository
+        continue-on-error: ${{ matrix.optional == true }}
         env:
           ARCHIVED: ${{ matrix.archived }}
           SECURITY: ${{ matrix.security }}
