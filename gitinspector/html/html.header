@@ -162,6 +162,9 @@
 			div.logo img {{
 				float: left;
 				padding: 0 1em 0 0;
+				/* The file is twice this size, so that it stays sharp on a high density display. */
+				width: 80px;
+				height: 65px;
 			}}
 			div.logo p {{
 				margin: 0;
