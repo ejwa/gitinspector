@@ -1,5 +1,5 @@
 /*
- * Copyright © 2013 Ejwa Software. All rights reserved.
+ * Copyright © 2013-2026 Ejwa Hosting AB. All rights reserved.
  *
  * This file is part of gitinspector.
  *

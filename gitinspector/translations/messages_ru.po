@@ -1,4 +1,4 @@
-# Copyright © 2012-2015 Ejwa Software. All rights reserved.
+# Copyright © 2012-2026 Ejwa Hosting AB. All rights reserved.
 #
 # This file is part of gitinspector.
 #
@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:00+0200\n"
+"POT-Creation-Date: 2026-09-06 16:33+0200\n"
 "PO-Revision-Date: 2026-09-06 00:45+0200\n"
 "Last-Translator: Alexander Chernoskutov <alecherov@gmail.com>\n"
 "Language-Team: \n"
@@ -70,14 +70,14 @@ msgid "Commits"
 msgstr "Коммиты"
 
 msgid ""
-"Copyright © 2012-2015 Ejwa Software. All rights reserved.\n"
+"Copyright © 2012-2026 Ejwa Hosting AB. All rights reserved.\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n"
 "This is free software: you are free to change and redistribute it.\n"
 "There is NO WARRANTY, to the extent permitted by law.\n"
 "\n"
 "Written by Adam Waldenberg."
 msgstr ""
-"Копирайт © 2012-2015 Ejwa Software. Все права защищены.\n"
+"Копирайт © 2012-2026 Ejwa Hosting AB. Все права защищены.\n"
 "Лицензия GPLv3+: GNU GPL версии 3 или старше <http://gnu.org/licenses/gpl.html>.\n"
 "Это открытое ПО: вы можете свободно менять и распространять его.\n"
 "нет НИКАКИХ ГАРАНТИЙ, в пределах, допускаемых законом.\n"

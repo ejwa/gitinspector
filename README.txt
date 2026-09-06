@@ -1,4 +1,4 @@
-Copyright © 2012-2015 Ejwa Software. All rights reserved.
+Copyright © 2012-2026 Ejwa Hosting AB. All rights reserved.
 
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it under

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 #
-# Copyright © 2015 Ejwa Software. All rights reserved.
+# Copyright © 2015-2026 Ejwa Hosting AB. All rights reserved.
 #
 # This file is part of gitinspector.
 #
