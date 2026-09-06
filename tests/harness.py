@@ -20,6 +20,7 @@
 from __future__ import unicode_literals
 import os
 import shutil
+import stat
 import subprocess
 import tempfile
 from gitinspector import blame, changes, extensions, filtering, format, interval
@@ -41,7 +42,13 @@ class Repository(object):
 		self.git("config", "commit.gpgsign", "false")
 		self.default_branch = self.git("symbolic-ref", "--short", "HEAD")
 
+	#git stores its objects read only and Windows then refuses to delete them, so the whole tree is
+	#made writable first. A callback on rmtree would do as well, but it was renamed in Python 3.12.
 	def remove(self):
+		for (directory, _unused, files) in os.walk(self.location):
+			for entry in files:
+				os.chmod(os.path.join(directory, entry), stat.S_IWRITE | stat.S_IREAD)
+
 		shutil.rmtree(self.location)
 
 	def git(self, *arguments, **environment):
