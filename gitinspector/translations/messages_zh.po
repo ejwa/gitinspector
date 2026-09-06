@@ -16,12 +16,11 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
 # Bill Wang <wangzhijiebill@gmail.com>, 2013-2015
-
 msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2015-10-02 03:35+0200\n"
+"POT-Creation-Date: 2026-09-06 02:39+0200\n"
 "PO-Revision-Date: 2015-20-23 18:33-0500\n"
 "Last-Translator: Bill Wang <wangzhijiebill@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +41,12 @@ msgstr "（统计分析过程中使用的插件已标记）"
 msgid "Age"
 msgstr "年龄"
 
+msgid "Age, months"
+msgstr "年龄 (月)"
+
+msgid "Age, weeks"
+msgstr "年龄 (周)"
+
 msgid "Author"
 msgstr "作者"
 
@@ -49,8 +54,8 @@ msgid "Below are the number of lines from each author that have survived and are
 msgstr "下面是过于每位作者在现在的版本了存留下来的行数"
 
 #, python-brace-format
-msgid "Checking how many lines belong to each author (Progress): {0:.0f}%"
-msgstr "检查每位作者贡献了多少行 (进度): {0:.0f}"
+msgid "Checking how many lines belong to each author (2 of 2): {0:.0f}%"
+msgstr "检查每位作者贡献了多少行 (2/2): {0:.0f}%"
 
 msgid "Commits"
 msgstr "提交"
@@ -78,17 +83,21 @@ msgstr "删除"
 msgid "Error processing git repository at \"%s\"."
 msgstr "在处理\"%s\"库时出现问题"
 
+#, python-brace-format
+msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"
+msgstr "获取并计算主要统计数据 (1/2): {0:.0f}%"
+
 msgid "HTML output not yet supported in"
 msgstr "HTML文本输出暂不支持"
 
-msgid "Hide minor authors"
-msgstr "隐藏次要作者"
-
-msgid "Hide lines with minor work"
-msgstr "隐藏次要工作"
-
 msgid "Insertions"
 msgstr "添加"
+
+msgid "JSON output not yet supported in"
+msgstr "JSON文本输出暂不支持"
+
+msgid "Lines"
+msgstr "行数"
 
 msgid "Minor Authors"
 msgstr "次要作者"
@@ -103,20 +112,21 @@ msgid "No metrics violations were found in the repository"
 msgstr "未在数据库中发现违反指标"
 
 #, python-brace-format
-msgid "Repository statistics for {0}"
-msgstr "关于{0}代码库统计数据"
-
-msgid "Lines"
-msgstr "行数"
-
-msgid "Show minor authors"
-msgstr "显示次要作者"
+msgid "Repository statistics for '{0}'"
+msgstr "关于'{0}'代码库统计数据"
 
 msgid "Show lines with minor work"
 msgstr "显示次要行"
 
+msgid "Show minor authors"
+msgstr "显示次要作者"
+
 msgid "Stability"
 msgstr "稳定性"
+
+#, python-brace-format
+msgid "Statistical information for the repositories '{0}' was gathered on {1}."
+msgstr "关于代码库{0}的统计数据基于{1}上信息"
 
 #, python-brace-format
 msgid "Statistical information for the repository '{0}' was gathered on {1}."
@@ -152,11 +162,14 @@ msgstr "下列文件已按排除规律移除数据统计"
 msgid "The following historical commit information, by author, was found in the repository"
 msgstr "在资料库中找到下列提交记录，已按作者分类"
 
-msgid "The following history timeline has been gathered from the repository"
-msgstr "在数据库中收集到下列时间轴"
+msgid "The following monthly history timeline has been gathered from the repository"
+msgstr "在数据库中收集到下列按月时间轴"
 
 msgid "The following responsibilities, by author, were found in the current revision of the repository (comments are excluded from the line count, if possible)"
 msgstr "在最新的资料库修改中，找到下列分工，按作者分类。 （在计算代码数量时尽可能的排除了批注）"
+
+msgid "The following weekly history timeline has been gathered from the repository"
+msgstr "在数据库中收集到下列按周时间轴"
 
 msgid "The given option argument is not a valid boolean."
 msgstr "给予的选项不是一个有效的 布尔值 （boolean）"
@@ -174,10 +187,10 @@ msgstr "无法确定git库的绝对路径"
 
 #, python-brace-format
 msgid ""
-"Usage: {0} [OPTION]... [REPOSITORY]\n"
+"Usage: {0} [OPTION]... [REPOSITORY]...\n"
 "List information about the repository in REPOSITORY. If no repository is\n"
 "specified, the current directory is used. If multiple repositories are\n"
-"given, information will be fetched from the last repository specified.\n"
+"given, information will be merged into a unified statistical report.\n"
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Boolean arguments can only be given to long options.\n"
@@ -202,9 +215,11 @@ msgid ""
 "  -L, --localize-output[=BOOL]   localize the generated output to the selected\n"
 "                                   system language if a translation is\n"
 "                                   available\n"
-"  -m  --metrics[=BOOL]           include checks for certain metrics during the\n"
+"  -m, --metrics[=BOOL]           include checks for certain metrics during the\n"
 "                                   analysis of commits\n"
-"  -r  --responsibilities[=BOOL]  show which files the different authors seem\n"
+"  -M, --forcemonths[=BOOL]       show statistics in months as well as in weeks\n"
+"                                   when -w is used\n"
+"  -r, --responsibilities[=BOOL]  show which files the different authors seem\n"
 "                                   most responsible for\n"
 "      --since=DATE               only show statistics for commits more recent\n"
 "                                   than a specific date\n"
@@ -228,9 +243,9 @@ msgid ""
 "gitinspector requires that the git executable is available in your PATH.\n"
 "Report gitinspector bugs to gitinspector@ejwa.se."
 msgstr ""
-"用法：{0} [选项]... [目录] \n"
+"用法：{0} [选项]... [目录]... \n"
 "在目录列出有关库的信息,如果没有指定目录，那么将使用现目录。如果有多个目录，\n"
-"将采用指定的最后一个目录\n"
+"其统计数据将合并为一份报告\n"
 "\n"
 "长选项的强制性参数对短选项也适用\n"
 "布尔参数只能给予长选项\n"
@@ -251,8 +266,9 @@ msgstr ""
 "                                   如果数据库较大，这个可能会需要一些时间\n"
 "  -l, --list-file-types[=BOOL]   列出所有现在的数据库分支的文件格式\n"
 "  -L, --localize-output[=BOOL]   在翻译版本存在的前提下，将输出结果翻译到系统语言\n"
-"  -m  --metrics[=BOOL]           在分析提交时，检查特定指标\n"
-"  -r  --responsibilities[=BOOL]  显示每位作者主要职责\n"
+"  -m, --metrics[=BOOL]           在分析提交时，检查特定指标\n"
+"  -M, --forcemonths[=BOOL]       使用 -w 时同时按月和按周显示统计数据\n"
+"  -r, --responsibilities[=BOOL]  显示每位作者主要职责\n"
 "      --since=DATE               只显示从特定时间起的结果\n"
 "  -T, --timeline[=BOOL]          显示提交时间轴, 包括作者名称\n"
 "      --until=DATE               只显示特定时间前的结果\n"
@@ -300,3 +316,9 @@ msgstr "{0}（估测代码行数{1}）"
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"
 msgstr "{0}（代码循环性结构{1}）"
+
+#~ msgid "Hide minor authors"
+#~ msgstr "隐藏次要作者"
+
+#~ msgid "Hide lines with minor work"
+#~ msgstr "隐藏次要工作"
