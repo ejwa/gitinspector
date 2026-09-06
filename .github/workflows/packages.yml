@@ -1,0 +1,192 @@
+name: Packages
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/packages.yml"
+      - "packaging/**"
+      - "setup.py"
+      - "stdeb.cfg"
+
+# Each package is built on the oldest release it has to install on, so that the interpreter
+# dependency and the archive format come out old enough for every newer release to accept them.
+jobs:
+  debian-package:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - flavour: python3
+            image: debian/eol:stretch
+            suite: stretch
+            interpreter: python3
+            packages: python3-stdeb python3-setuptools dh-python
+            revision: "1"
+          - flavour: python2
+            image: debian/eol:wheezy
+            suite: wheezy
+            interpreter: python
+            packages: python-stdeb python-setuptools
+            revision: "1~python2"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the ${{ matrix.flavour }} package on Debian ${{ matrix.suite }}
+        run: |
+          docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source ${{ matrix.image }} sh -c '
+            set -e
+            printf "deb http://archive.debian.org/debian ${{ matrix.suite }} main\n" > /etc/apt/sources.list
+            echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10-no-check-valid-until
+            apt-get update -qq
+            apt-get install -y --force-yes --no-install-recommends ${{ matrix.packages }} fakeroot
+            echo "Debian-Version: ${{ matrix.revision }}" >> stdeb.cfg
+            ${{ matrix.interpreter }} setup.py --command-packages=stdeb.command bdist_deb
+          '
+
+      - name: Show what came out
+        run: |
+          ls -l deb_dist/*.deb
+          for package in deb_dist/*.deb; do
+            echo "=== $package"
+            dpkg-deb -f "$package" Package Version Architecture Depends
+            dpkg-deb -c "$package" | head -20
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debian-${{ matrix.flavour }}
+          path: deb_dist/*.deb
+          if-no-files-found: error
+
+  # Debian 7 and 8 carry a Python 3 older than the 3.5 gitinspector needs, so they take the Python 2
+  # package; everything from Debian 9 onwards takes the Python 3 one.
+  debian-install:
+    needs: debian-package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: debian/eol:wheezy
+            flavour: python2
+            archived: stretch
+            suite: wheezy
+          - image: debian/eol:jessie
+            flavour: python2
+            archived: jessie
+            suite: jessie
+          - image: debian/eol:stretch
+            flavour: python2
+            archived: stretch
+            suite: stretch
+          - image: debian/eol:stretch
+            flavour: python3
+            archived: stretch
+            suite: stretch
+          - image: debian:10
+            flavour: python3
+            archived: buster
+            suite: buster
+          - image: debian:11
+            flavour: python3
+            suite: bullseye
+          - image: debian:12
+            flavour: python3
+            suite: bookworm
+          - image: debian:13
+            flavour: python3
+            suite: trixie
+          - image: ubuntu:22.04
+            flavour: python3
+            suite: jammy
+          - image: ubuntu:24.04
+            flavour: python3
+            suite: noble
+          - image: ubuntu:26.04
+            flavour: python3
+            suite: resolute
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: debian-${{ matrix.flavour }}
+          path: packages
+
+      - name: Install on ${{ matrix.suite }} and report on a repository
+        env:
+          ARCHIVED: ${{ matrix.archived }}
+        run: |
+          docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source \
+            --env ARCHIVED --env DEBIAN_FRONTEND=noninteractive ${{ matrix.image }} sh -c '
+            set -e
+            if [ -n "$ARCHIVED" ]; then
+              printf "deb http://archive.debian.org/debian $ARCHIVED main\n" > /etc/apt/sources.list
+              echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10-no-check-valid-until
+            fi
+            apt-get update -qq
+            dpkg -i packages/*.deb || apt-get install -y --force-yes -f
+            gitinspector --version
+            git config --global --add safe.directory /source || true
+            gitinspector -f py --format=json /source > /tmp/report.json
+            head -c 200 /tmp/report.json
+            echo
+          '
+
+  fedora-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the rpm on the older of the two releases
+        run: |
+          docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source fedora:43 sh -c '
+            set -e
+            dnf install -y --setopt=install_weak_deps=False rpm-build python3-devel python3-setuptools tar
+            version=$(python3 -c "import re; print(re.search(r\"__version__ = .(.*).\", open(\"gitinspector/version.py\").read()).group(1))")
+            mkdir -p /tmp/rpm/SOURCES /tmp/rpm/SPECS
+            tar --transform "s,^,gitinspector-$version/," -czf "/tmp/rpm/SOURCES/gitinspector-$version.tar.gz" \
+                gitinspector setup.py README.md LICENSE.txt DESCRIPTION.txt CHANGES.txt docs
+            cp packaging/gitinspector.spec /tmp/rpm/SPECS/
+            rpmbuild --define "_topdir /tmp/rpm" --define "version $version" -bb /tmp/rpm/SPECS/gitinspector.spec
+            mkdir -p rpm_dist
+            cp /tmp/rpm/RPMS/noarch/*.rpm rpm_dist/
+          '
+
+      - name: Show what came out
+        run: |
+          ls -l rpm_dist/*.rpm
+          rpm -qpi rpm_dist/*.rpm || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: fedora
+          path: rpm_dist/*.rpm
+          if-no-files-found: error
+
+  fedora-install:
+    needs: fedora-package
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        release: ["43", "44"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: fedora
+          path: packages
+
+      - name: Install on Fedora ${{ matrix.release }} and report on a repository
+        run: |
+          docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source fedora:${{ matrix.release }} sh -c '
+            set -e
+            dnf install -y --setopt=install_weak_deps=False ./packages/*.rpm
+            gitinspector --version
+            git config --global --add safe.directory /source || true
+            gitinspector -f py --format=json /source > /tmp/report.json
+            head -c 200 /tmp/report.json
+            echo
+          '
