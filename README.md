@@ -1,11 +1,12 @@
 [![Latest release](https://img.shields.io/github/release/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/releases/latest)
 [![Tests](https://img.shields.io/github/actions/workflow/status/ejwa/gitinspector/tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/ejwa/gitinspector/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/blob/master/LICENSE.txt)
-<h2>
- <img align="left" height="65px"
-      src="https://raw.githubusercontent.com/ejwa/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
-      &nbsp;About Gitinspector
-</h2>
+
+## About Gitinspector
+<img align="left" height="100px"
+     src="https://raw.githubusercontent.com/ejwa/gitinspector/master/gitinspector/html/gitinspector_piclet.png"/>
+
+
 <img align="right" width="30%" src="https://raw.github.com/wiki/ejwa/gitinspector/images/html_example.jpg" /> 
 Gitinspector is a statistical analysis tool for git repositories. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author. Under normal operation, it filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis.
 
