@@ -58,7 +58,7 @@ class MetricsLogic(object):
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i)],
-					                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
+					                          stdout=subprocess.PIPE).stdout.readlines()
 
 					extension = FileDiff.get_extension(i)
 					lines = MetricsLogic.get_eloc(file_r, extension)
@@ -80,7 +80,7 @@ class MetricsLogic(object):
 			self.cyclomatic_complexity_density.update(other.cyclomatic_complexity_density)
 			return self
 		except AttributeError:
-			return other;
+			return other
 
 	@staticmethod
 	def get_cyclomatic_complexity(file_r, extension):

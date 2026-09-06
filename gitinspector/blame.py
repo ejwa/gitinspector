@@ -102,7 +102,7 @@ class BlameThread(threading.Thread):
 			__blame_lock__.release() # ...to here.
 
 	def run(self):
-		git_blame_r = subprocess.Popen(self.blame_command, bufsize=1, stdout=subprocess.PIPE).stdout
+		git_blame_r = subprocess.Popen(self.blame_command, stdout=subprocess.PIPE).stdout
 		lines = git_blame_r.readlines()
 		git_blame_r.close()
 
@@ -172,9 +172,9 @@ class Blame(object):
 	def __iadd__(self, other):
 		try:
 			self.blames.update(other.blames)
-			return self;
+			return self
 		except AttributeError:
-			return other;
+			return other
 
 	@staticmethod
 	def is_revision(string):

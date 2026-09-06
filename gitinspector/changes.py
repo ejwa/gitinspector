@@ -179,7 +179,7 @@ class Changes(object):
 		self.emails_by_author = {}
 		interval.set_ref("HEAD")
 		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"]), bufsize=1,
+		                                  interval.get_since(), interval.get_until(), "HEAD"]),
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()
