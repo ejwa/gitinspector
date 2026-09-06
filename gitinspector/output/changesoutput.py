@@ -19,11 +19,11 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import json
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
-from .outputable import Outputable, html_toggle_button
+from .outputable import (Outputable, author_color, html_author_cell, html_card, html_diverging_cell,
+                         html_diverging_header, html_header_cell, html_number_cell, html_share, html_stats, html_table)
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
@@ -47,70 +47,55 @@ class ChangesOutput(Outputable):
 		self.changes = changes
 		Outputable.__init__(self)
 
+	def __html_avatar_url__(self, author):
+		return gravatar.get_url(self.changes.get_latest_email_by_author(author)) if format.get_selected() == "html" else None
+
 	def output_html(self):
 		authorinfo_list = self.changes.get_authorinfo_list()
 		(total_commits, total_insertions, total_deletions, total_changes) = __get_totals__(authorinfo_list)
 		total_percentage = __get_percentage__(total_insertions, total_deletions, total_changes)
-		changes_xml = "<div><div class=\"box\">"
-		chart_data = ""
 
-		if authorinfo_list:
-			changes_xml += "<h1>" + _(HISTORICAL_INFO_TEXT) + "</h1>"
-			changes_xml += html_toggle_button(_("Show minor authors"))
-			changes_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"changes\" class=\"table\">"
-			changes_xml += "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th>".format(
-			               _("Author"), _("Commits"), _("Insertions"), _("Deletions"), _("% of changes"))
-			changes_xml += "</tr></thead><tbody>"
+		if not authorinfo_list:
+			print(html_card(_(NO_COMMITED_FILES_TEXT), ""))
+			return
 
-			for i, entry in enumerate(sorted(authorinfo_list)):
-				authorinfo = authorinfo_list.get(entry)
-				percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
+		authors = sorted(authorinfo_list)
+		#The diverging bars share one scale so that the insertions of one author can be compared to
+		#the deletions of another, and not only to the ones next to them.
+		widest = max([max(authorinfo_list[author].insertions, authorinfo_list[author].deletions) for author in authors])
+		rows = ""
+		shares = []
 
-				if format.get_selected() == "html":
-					changes_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(
-					               gravatar.get_url(self.changes.get_latest_email_by_author(entry)), entry)
-				else:
-					changes_xml += "<tr><td>" + entry + "</td>"
+		for i, entry in enumerate(authors):
+			authorinfo = authorinfo_list.get(entry)
+			percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
+			shares.append((entry, percentage, author_color(i)))
 
-				changes_xml += "<td>" + str(authorinfo.commits) + "</td>"
-				changes_xml += "<td>" + str(authorinfo.insertions) + "</td>"
-				changes_xml += "<td>" + str(authorinfo.deletions) + "</td>"
-				changes_xml += "<td>" + "{0:.2f}".format(percentage) + "</td>"
-				changes_xml += "</tr>"
-				chart_data += "{{label: {0}, data: {1}}}".format(json.dumps(entry), "{0:.2f}".format(percentage))
+			rows += "<tr data-gi-searchable=\"authors\">"
+			rows += html_author_cell(entry, i, self.__html_avatar_url__(entry))
+			rows += html_number_cell(_("Commits"), authorinfo.commits)
+			rows += html_diverging_cell(authorinfo.deletions, authorinfo.insertions, widest)
+			rows += html_number_cell(_("% of changes"), "{0:.2f}".format(percentage))
+			rows += "</tr>"
 
-				if sorted(authorinfo_list)[-1] != entry:
-					chart_data += ", "
+		headers = ("<thead><tr>" + html_header_cell(_("Author")) + html_header_cell(_("Commits"), True) +
+		           html_diverging_header(_("Deletions"), _("Insertions")) +
+		           html_header_cell(_("% of changes"), True) + "</tr></thead>")
 
-			#The total belongs in a tfoot; the report script only ever looks at tbody rows.
-			changes_xml += "</tbody><tfoot><tr><td><strong>" + _(TOTAL_TEXT) + "</strong></td>"
-			changes_xml += "<td><strong>" + str(total_commits) + "</strong></td>"
-			changes_xml += "<td><strong>" + str(total_insertions) + "</strong></td>"
-			changes_xml += "<td><strong>" + str(total_deletions) + "</strong></td>"
-			changes_xml += "<td><strong>" + "{0:.2f}".format(total_percentage) + "</strong></td>"
-			changes_xml += "</tr></tfoot>"
-			changes_xml += "</table></div><div class=\"chart col-md-4\" id=\"changes_chart\"></div></div>"
-			changes_xml += "<script type=\"text/javascript\">"
-			changes_xml += "    changes_plot = $.plot($(\"#changes_chart\"), [{0}], {{".format(chart_data)
-			changes_xml += "        series: {"
-			changes_xml += "            pie: {"
-			changes_xml += "                innerRadius: 0.4,"
-			changes_xml += "                show: true,"
-			changes_xml += "                combine: {"
-			changes_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
-			changes_xml += "                    label: \"" + _("Minor Authors") + "\""
-			changes_xml += "                }"
-			changes_xml += "            }"
-			changes_xml += "        }, grid: {"
-			changes_xml += "            hoverable: true"
-			changes_xml += "        }"
-			changes_xml += "    });"
-			changes_xml += "</script>"
-		else:
-			changes_xml += "<h1>" + _(NO_COMMITED_FILES_TEXT) + "</h1>"
+		#The total belongs in a tfoot; the report script only ever sorts and hides tbody rows.
+		total = ("<tfoot><tr><td>" + _(TOTAL_TEXT) + "</td>" +
+		         html_number_cell(_("Commits"), total_commits) +
+		         "<td class=\"gi-diverge\"><div><span class=\"gi-del-num\">−" + str(total_deletions) + "</span>" +
+		         "<span class=\"gi-spacer\"></span><span class=\"gi-ins-num\">+" + str(total_insertions) + "</span></div></td>" +
+		         html_number_cell(_("% of changes"), "{0:.2f}".format(total_percentage)) + "</tr></tfoot>")
 
-		changes_xml += "</div></div>"
-		print(changes_xml)
+		body = html_share(shares, _("Minor Authors")) + html_table("changes", headers + "<tbody>" + rows + "</tbody>" + total)
+
+		print(html_stats(((_("Commits"), total_commits),
+		                  (_("Insertions"), "<span class=\"gi-add\">+{0}</span>".format(total_insertions)),
+		                  (_("Deletions"), "<span class=\"gi-del\">−{0}</span>".format(total_deletions)),
+		                  (_(format.AUTHORS_TEXT), len(authors)))))
+		print(html_card(_(HISTORICAL_INFO_TEXT), body))
 
 	def output_json(self):
 		authorinfo_list = self.changes.get_authorinfo_list()

@@ -179,7 +179,9 @@ class ChangesTotalTest(unittest.TestCase):
 	def test_the_html_total_is_a_table_foot_below_the_authors(self):
 		total = self.reported_total()
 		table = self.report("html").split("<table id=\"changes\"")[1].split("</table>")[0]
+		foot = table.split("<tfoot>")[1]
 
 		self.assertLess(table.index("</tbody>"), table.index("<tfoot>"))
-		self.assertIn("<td><strong>" + str(total["insertions"]) + "</strong></td>", table)
-		self.assertIn("<td><strong>" + str(total["deletions"]) + "</strong></td>", table)
+		self.assertIn(">+" + str(total["insertions"]) + "<", foot)
+		self.assertIn(">−" + str(total["deletions"]) + "<", foot)
+		self.assertIn(">" + str(total["commits"]) + "<", foot)
