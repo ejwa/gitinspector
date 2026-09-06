@@ -259,6 +259,26 @@ class SeveralRepositoriesTest(unittest.TestCase):
 		for (name, totals) in expected.items():
 			self.assertEqual([reported[name]["commits"], reported[name]["insertions"], reported[name]["deletions"]], totals, name)
 
+	def test_reporting_the_repositories_apart_adds_up_to_reporting_them_together(self):
+		separate = [json_report(self.FILE_TYPES, [location]) for location in self.locations]
+		expected = {}
+
+		for reported in separate:
+			for (name, author) in reported_changes(reported).items():
+				totals = expected.setdefault(name, [0, 0, 0])
+				for (index, key) in enumerate(("commits", "insertions", "deletions")):
+					totals[index] += author[key]
+
+		reported = reported_changes(self.json)
+		self.assertEqual(sorted(reported), sorted(expected))
+
+		for (name, totals) in expected.items():
+			self.assertEqual([reported[name][key] for key in ("commits", "insertions", "deletions")], totals, name)
+
+		for key in ("commits", "insertions", "deletions"):
+			self.assertEqual(self.json["changes"]["total"][key],
+			                 sum(reported["changes"]["total"][key] for reported in separate), key)
+
 	def test_blame_is_summed_over_the_repositories(self):
 		reported = reported_blame(self.json)
 		self.assertEqual(sum(reported.values()), sum(statistics.blamed_lines() for statistics in self.expected))
@@ -271,3 +291,56 @@ class SeveralRepositoriesTest(unittest.TestCase):
 
 		for name in (set(reported) | set(expected)) - ambiguous:
 			self.assertEqual(reported.get(name, 0), expected.get(name, 0), name)
+
+class SeveralRepositoriesIntervalTest(unittest.TestCase):
+	FILE_TYPES = "py,go"
+	SINCE = "2016-01-01"
+	UNTIL = "2017-12-31"
+
+	@classmethod
+	def setUpClass(cls):
+		cls.locations = [REQUESTS.prepare(), COBRA.prepare()]
+		interval = ["--since=" + cls.SINCE, "--until=" + cls.UNTIL]
+		cls.separate = [json_report(cls.FILE_TYPES, [location], *interval) for location in cls.locations]
+		cls.together = json_report(cls.FILE_TYPES, cls.locations, *interval)
+
+	def test_every_repository_contributes_to_the_interval(self):
+		for (location, reported) in zip(self.locations, self.separate):
+			self.assertTrue(reported_changes(reported), os.path.basename(location))
+			self.assertLess(reported["changes"]["total"]["commits"],
+			                self.together["changes"]["total"]["commits"], os.path.basename(location))
+
+	def test_the_authors_of_both_repositories_are_added_together(self):
+		expected = {}
+
+		for reported in self.separate:
+			for (name, author) in reported_changes(reported).items():
+				totals = expected.setdefault(name, [0, 0, 0])
+				for (index, key) in enumerate(("commits", "insertions", "deletions")):
+					totals[index] += author[key]
+
+		reported = reported_changes(self.together)
+		self.assertEqual(sorted(reported), sorted(expected))
+
+		for (name, totals) in expected.items():
+			self.assertEqual([reported[name][key] for key in ("commits", "insertions", "deletions")], totals, name)
+
+	def test_the_total_is_the_sum_of_the_separate_totals(self):
+		for key in ("commits", "insertions", "deletions"):
+			self.assertEqual(self.together["changes"]["total"][key],
+			                 sum(reported["changes"]["total"][key] for reported in self.separate), key)
+
+	def test_the_surviving_lines_are_added_together(self):
+		expected = {}
+
+		for reported in self.separate:
+			for (name, count) in reported_blame(reported).items():
+				expected[name] = expected.get(name, 0) + count
+
+		self.assertEqual(reported_blame(self.together), expected)
+
+	def test_the_timeline_stays_inside_the_interval(self):
+		periods = [period["name"] for period in self.together["timeline"]["periods"]]
+
+		self.assertTrue(periods)
+		self.assertTrue(all(self.SINCE[0:7] <= period <= self.UNTIL[0:7] for period in periods), periods)
