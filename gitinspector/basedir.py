@@ -22,10 +22,12 @@ import subprocess
 import sys
 
 def get_basedir():
-	if hasattr(sys, "frozen"): # exists when running via py2exe
-		return sys.prefix
-	else:
-		return os.path.dirname(os.path.realpath(__file__))
+	#A frozen build carries the html templates and the translations beside the interpreter it
+	#bundles. PyInstaller names that directory in sys._MEIPASS; py2exe only sets sys.prefix.
+	if hasattr(sys, "frozen"):
+		return getattr(sys, "_MEIPASS", sys.prefix)
+
+	return os.path.dirname(os.path.realpath(__file__))
 
 def get_basedir_git(path=None):
 	previous_directory = None
