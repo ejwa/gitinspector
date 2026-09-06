@@ -53,6 +53,11 @@ class CppFileTest(unittest.TestCase):
 		comment_counter = __test_extension__("/resources/commented_file.cpp", "cpp")
 		self.assertEqual(comment_counter, 25)
 
+class RustFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.rs", "rs")
+		self.assertEqual(comment_counter, 16)
+
 class CsvFileTest(unittest.TestCase):
 	def test(self):
 		comment_counter = __test_extension__("/resources/commented_file.csv", "csv")

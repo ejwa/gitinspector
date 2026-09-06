@@ -51,6 +51,10 @@ class TypeScriptMetricsTest(unittest.TestCase):
 		self.assertEqual(measure("metrics_sample.ts", "ts"), (22, 30))
 		self.assertEqual(measure("metrics_sample.ts", "tsx"), (22, 30))
 
+class RustMetricsTest(unittest.TestCase):
+	def test_match_arms_and_loops_are_counted_and_keywords_inside_words_are_not(self):
+		self.assertEqual(measure("metrics_sample.rs", "rs"), (31, 45))
+
 class PhpMetricsTest(unittest.TestCase):
 	def test_elseif_and_string_cases_are_counted_once(self):
 		self.assertEqual(measure("metrics_sample.php", "php"), (22, 34))

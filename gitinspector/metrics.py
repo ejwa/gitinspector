@@ -24,7 +24,8 @@ from .changes import FileDiff
 from . import comment, filtering, git, interval, workers
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
-                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500}
+                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500,
+                   "rs": 500}
 
 __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)",
                                                                    r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
@@ -40,7 +41,10 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else",
                                    ["assert", "break", "continue", "return"]],
                        [["php"], [r"\belse\b", r"\belseif\s*\(.*\)", r"\bfor\s*\(.*\)", r"\bforeach\s*\(.*\)", r"\bif\s*\(.*\)",
                                   r"\bcase\s+.*:", r"\bdefault\s*:", r"\bwhile\s*\(.*\)"],
-                                 ["assert", "break", "continue", "return"]]]
+                                 ["assert", "break", "continue", "return"]],
+                       #Rust branches on the arms of a match rather than on case labels, hence the fat arrow.
+                       [["rs"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{", "=>"],
+                                [r"\bassert", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]]]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
