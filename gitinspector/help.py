@@ -52,9 +52,11 @@ Boolean arguments can only be given to long options.
   -L, --localize-output[=BOOL]   localize the generated output to the selected
                                    system language if a translation is
                                    available
-  -m  --metrics[=BOOL]           include checks for certain metrics during the
+  -m, --metrics[=BOOL]           include checks for certain metrics during the
                                    analysis of commits
-  -r  --responsibilities[=BOOL]  show which files the different authors seem
+  -M, --forcemonths[=BOOL]       show statistics in months as well as in weeks
+                                   when -w is used
+  -r, --responsibilities[=BOOL]  show which files the different authors seem
                                    most responsible for
       --since=DATE               only show statistics for commits more recent
                                    than a specific date
