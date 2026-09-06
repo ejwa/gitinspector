@@ -26,6 +26,21 @@ except ImportError:
 
 from .harness import Repository, analyze_blame, analyze_changes
 
+class AttributionTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_lines_are_attributed_to_the_newest_name_of_their_email(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "New Name", "x@example.com", "2015-03-01T12:00:00+0000")
+		self.repository.commit("second", {"a.py": "x = 1\ny = 2\n"}, "Old Name", "x@example.com",
+		                       "2015-01-01T12:00:00+0000")
+		analyzed_changes = analyze_changes(self.repository)
+		result = analyze_blame(self.repository, analyzed_changes)
+		self.assertEqual(dict((key, entry.lines) for (key, entry) in result.blames.items()), {("New Name", "a.py"): 2})
+
 class SpecialFilenameTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()

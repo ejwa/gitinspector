@@ -49,6 +49,29 @@ class EncodingTest(unittest.TestCase):
 		self.assertEqual(result.get_latest_author_by_email("jorg@example.com"), "Jörg Müller")
 		self.assertEqual(sorted(filediff.name for filediff in result.get_commits()[0].get_filediffs()), sorted(files))
 
+class AuthorIdentityTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_an_email_is_named_after_its_newest_commit(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "New Name", "x@example.com", "2015-03-01T12:00:00+0000")
+		self.repository.commit("second", {"a.py": "x = 1\ny = 2\n"}, "Old Name", "x@example.com",
+		                       "2015-01-01T12:00:00+0000")
+
+		result = analyze_changes(self.repository)
+		self.assertEqual(result.get_latest_author_by_email("x@example.com"), "New Name")
+
+	def test_a_name_gets_the_email_of_its_newest_commit(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "Same Name", "new@example.com", "2015-03-01T12:00:00+0000")
+		self.repository.commit("second", {"a.py": "x = 1\ny = 2\n"}, "Same Name", "old@example.com",
+		                       "2015-01-01T12:00:00+0000")
+
+		result = analyze_changes(self.repository)
+		self.assertEqual(result.get_latest_email_by_author("Same Name"), "new@example.com")
+
 class IntervalTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()

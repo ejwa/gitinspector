@@ -87,13 +87,6 @@ class Commit(object):
 		return self.filediffs
 
 	@staticmethod
-	def get_author_and_email(string):
-		commit_line = string.split("|")
-
-		if commit_line.__len__() == 5:
-			return (commit_line[3].strip(), commit_line[4].strip())
-
-	@staticmethod
 	def is_commit_line(string):
 		return string.split("|").__len__() == 5
 
@@ -137,11 +130,6 @@ class ChangesThread(threading.Thread):
 		for i in lines:
 			j = git.decode(i.strip())
 
-			if Commit.is_commit_line(j):
-				(author, email) = Commit.get_author_and_email(j)
-				self.changes.emails_by_author[author] = email
-				self.changes.authors_by_email[email] = author
-
 			if Commit.is_commit_line(j) or i is lines[-1]:
 				if found_valid_extension:
 					bisect.insort(commits, commit)
@@ -150,12 +138,14 @@ class ChangesThread(threading.Thread):
 				is_filtered = False
 				commit = Commit(j)
 
-				if Commit.is_commit_line(j) and \
-				   (filtering.set_filtered(commit.author, "author") or \
-				   filtering.set_filtered(commit.email, "email") or \
-				   filtering.set_filtered(commit.sha, "revision") or \
-				   filtering.set_filtered(commit.sha, "message")):
-					is_filtered = True
+				if Commit.is_commit_line(j):
+					self.changes.remember_author(commit)
+
+					if filtering.set_filtered(commit.author, "author") or \
+					   filtering.set_filtered(commit.email, "email") or \
+					   filtering.set_filtered(commit.sha, "revision") or \
+					   filtering.set_filtered(commit.sha, "message"):
+						is_filtered = True
 
 			if FileDiff.is_filediff_line(j) and not \
 			   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
@@ -177,8 +167,8 @@ class Changes(object):
 		self.commits = []
 		self.authors = {}
 		self.authors_dateinfo = {}
-		self.authors_by_email = {}
-		self.emails_by_author = {}
+		self.latest_commit_by_email = {}
+		self.latest_commit_by_author = {}
 		interval.set_ref("HEAD")
 		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
 		                                  interval.get_since(), interval.get_until(), "HEAD"]),
@@ -224,8 +214,8 @@ class Changes(object):
 		try:
 			self.authors.update(other.authors)
 			self.authors_dateinfo.update(other.authors_dateinfo)
-			self.authors_by_email.update(other.authors_by_email)
-			self.emails_by_author.update(other.emails_by_author)
+			for commit in list(other.latest_commit_by_email.values()) + list(other.latest_commit_by_author.values()):
+				self.remember_author(commit)
 
 			for commit in other.commits:
 				bisect.insort(self.commits, commit)
@@ -265,8 +255,19 @@ class Changes(object):
 
 		return self.authors_dateinfo
 
+	def remember_author(self, commit):
+		Changes.__remember_latest__(self.latest_commit_by_email, commit.email, commit)
+		Changes.__remember_latest__(self.latest_commit_by_author, commit.author, commit)
+
+	@staticmethod
+	def __remember_latest__(latest_commits, key, commit):
+		latest = latest_commits.get(key)
+
+		if latest is None or (latest.timestamp, latest.sha) < (commit.timestamp, commit.sha):
+			latest_commits[key] = commit
+
 	def get_latest_author_by_email(self, email):
-		return self.authors_by_email[email]
+		return self.latest_commit_by_email[email].author
 
 	def get_latest_email_by_author(self, name):
-		return self.emails_by_author[name]
+		return self.latest_commit_by_author[name].email
