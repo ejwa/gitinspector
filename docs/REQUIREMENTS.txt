@@ -8,9 +8,9 @@ library. Besides a Python interpreter it needs:
 
   * The git executable, available in the PATH of the user running it.
 
-The "html" output format references jQuery, Flot and Bootstrap from public
-content delivery networks, so a generated report needs internet access when
-viewed. The "htmlembedded" format bundles everything into the report and can
+The "html" output format links the report font from Google Fonts and the
+author avatars from Gravatar, so a generated report is best viewed with
+internet access. The "htmlembedded" format carries everything it needs and can
 be viewed offline.
 
 

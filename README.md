@@ -23,7 +23,7 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Scans for all filetypes (by extension) found in the repository.
   * Multi-threaded; uses multiple instances of git to speed up analysis when possible.
   * Supports HTML, JSON, XML and plain text output (console).
-  * Generates responsive HTML reports with sortable tables and charts that work on phones as well.
+  * Generates responsive HTML reports with a light and a dark mode, sortable tables and a search box, that work on phones as well.
   * Can report violations of different code metrics.
   * Runs on Python 2.7 and on Python 3.5 and later; see [docs/REQUIREMENTS.txt](docs/REQUIREMENTS.txt) for the supported versions.
 
