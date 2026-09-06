@@ -35,10 +35,6 @@ class Outputable(object):
 	def output_xml(self):
 		raise NotImplementedError(_("XML output not yet supported in") + " \"" + self.__class__.__name__ + "\".")
 
-def html_toggle_button(label):
-	return ("<button type=\"button\" class=\"btn btn-primary\" aria-pressed=\"false\" disabled=\"disabled\">"
-	        "<span>&#x2713;</span> " + label + "</button><hr />")
-
 #The twelve author colours of the report stylesheet; an author keeps the same colour in every
 #section because the index comes from its place in the sorted list of names.
 AUTHOR_COLORS = 12
