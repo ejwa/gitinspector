@@ -24,7 +24,7 @@ try:
 except ImportError:
 	import unittest
 
-from .harness import DEFAULT_AUTHOR, Repository, analyze_blame, analyze_changes
+from .harness import DEFAULT_AUTHOR, NAMES_ARE_UNRESTRICTED, Repository, analyze_blame, analyze_changes
 
 class AttributionTest(unittest.TestCase):
 	def setUp(self):
@@ -68,6 +68,7 @@ class SpecialFilenameTest(unittest.TestCase):
 		self.assertEqual(blamed_files, sorted(files))
 		self.assertEqual(sum(entry.lines for entry in result.blames.values()), 6)
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow a quote in a file name")
 	def test_non_ascii_names_are_blamed(self):
 		files = {"fil_ö.py": "print(1)\nprint(2)\n", "say \"hi\".py": "print(3)\n"}
 		self.repository.commit("add files", files, "Jörg Müller", "jorg@example.com")

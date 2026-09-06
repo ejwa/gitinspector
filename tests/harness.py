@@ -22,8 +22,12 @@ import os
 import shutil
 import stat
 import subprocess
+import sys
 import tempfile
 from gitinspector import blame, changes, extensions, filtering, format, interval
+
+#Windows rejects " < > | and a few more in a file or branch name, whatever git makes of them.
+NAMES_ARE_UNRESTRICTED = sys.platform != "win32"
 
 DEFAULT_AUTHOR = "Test Author"
 DEFAULT_EMAIL = "test@example.com"

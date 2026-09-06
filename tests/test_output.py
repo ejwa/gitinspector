@@ -29,7 +29,7 @@ try:
 except ImportError:
 	import unittest
 
-from .harness import Repository
+from .harness import NAMES_ARE_UNRESTRICTED, Repository
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
@@ -73,6 +73,7 @@ class OutputEncodingTest(unittest.TestCase):
 		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
 		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branch"], "feature")
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow < > or a quote in a branch name")
 	def test_markup_in_a_branch_name_is_escaped_in_every_format(self):
 		branch = "x<script>&\"y'"
 		self.repository.branch(branch)

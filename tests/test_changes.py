@@ -25,7 +25,7 @@ except ImportError:
 	import unittest
 
 from gitinspector import changes
-from .harness import Repository, analyze_changes
+from .harness import NAMES_ARE_UNRESTRICTED, Repository, analyze_changes
 
 WINDOW_START = "2018-05-07T15:02:00+0000"
 WINDOW_END = "2018-05-07T15:03:00+0000"
@@ -40,6 +40,7 @@ class EncodingTest(unittest.TestCase):
 	def tearDown(self):
 		self.repository.remove()
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow a quote in a file name")
 	def test_non_ascii_names_are_preserved(self):
 		files = {"fil_ö.py": "print(1)\n", "say \"hi\".py": "print(2)\n", "plain.py": "print(3)\n"}
 		self.repository.commit("add", files, "Jörg Müller", "jorg@example.com")
@@ -74,6 +75,7 @@ class FieldSeparatorTest(unittest.TestCase):
 	def tearDown(self):
 		self.repository.remove()
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow a bar in a file name")
 	def test_a_pipe_in_a_file_name_is_still_read_as_a_diffstat(self):
 		self.repository.commit("first", {"a|b|c.py": "x = 1\n"}, "One", "one@example.com")
 		self.repository.commit("second", {"plain.py": "y = 2\n"}, "Two", "two@example.com")
