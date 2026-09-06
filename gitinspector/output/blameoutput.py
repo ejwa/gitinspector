@@ -19,13 +19,13 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-import json
 import sys
 import textwrap
 from ..localization import N_
 from .. import format, gravatar, terminal
 from ..blame import Blame
-from .outputable import Outputable, html_toggle_button
+from .outputable import (Outputable, author_color, author_indices, html_author_cell, html_card,
+                         html_header_cell, html_meter_cell, html_number_cell, html_share, html_table, percentage)
 
 BLAME_INFO_TEXT = N_("Below are the number of lines from each author that have survived and are still "
                      "intact in the current revision")
@@ -41,66 +41,43 @@ class BlameOutput(Outputable):
 		Outputable.__init__(self)
 
 	def output_html(self):
-		blame_xml = "<div><div class=\"box\">"
-		blame_xml += "<h1>" + _(BLAME_INFO_TEXT) + "</h1>"
-		blame_xml += html_toggle_button(_("Show minor authors"))
-		blame_xml += "<div class=\"row\"><div class=\"col-md-8 table-responsive\"><table id=\"blame\" class=\"table\">"
-		if self.forcemonths and self.blame.useweeks:
-			formtup = (_("Author"), _("Lines"), _("Stability"), _("Age, months"), _("Age, weeks"), _("% in comments"))
-			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> <th>{5}</th> </tr></thead>"
-		else:
-			formtup = (_("Author"), _("Lines"), _("Stability"), _("Age"), _("% in comments"))
-			formmkup = "<thead><tr> <th>{0}</th> <th>{1}</th> <th>{2}</th> <th>{3}</th> <th>{4}</th> </tr></thead>"
-		blame_xml += formmkup.format(*formtup)
-		blame_xml += "<tbody>"
-		chart_data = ""
 		blames = sorted(self.blame.get_summed_blames().items())
-		total_blames = 0
+		total_blames = sum(entry[1].lines for entry in blames)
+		months = self.forcemonths and self.blame.useweeks
+		indices = author_indices(self.changes.get_authorinfo_list())
+		rows = ""
+		shares = []
 
-		for i in blames:
-			total_blames += i[1].lines
+		for (author, blame) in blames:
+			index = indices.get(author, 0)
+			work_percentage = percentage(blame.lines, total_blames)
+			url = gravatar.get_url(self.changes.get_latest_email_by_author(author)) if format.get_selected() == "html" else None
+			shares.append((author, work_percentage, author_color(index)))
 
-		for i, entry in enumerate(blames):
-			work_percentage = str("{0:.2f}".format(100.0 * entry[1].lines / total_blames))
+			rows += "<tr data-gi-searchable=\"authors\">"
+			rows += html_author_cell(author, index, url)
+			rows += html_number_cell(_("Lines"), blame.lines)
+			rows += html_number_cell(_("Stability"), "{0:.1f}".format(Blame.get_stability(author, blame.lines, self.changes)))
 
-			if format.get_selected() == "html":
-				author_email = self.changes.get_latest_email_by_author(entry[0])
-				blame_xml += "<tr><td><img src=\"{0}\"/>{1}</td>".format(gravatar.get_url(author_email), entry[0])
-			else:
-				blame_xml += "<tr><td>" + entry[0] + "</td>"
+			if months:
+				rows += html_number_cell(_("Age, months"), "{0:.1f}".format(float(blame.get_skew(True)) / blame.lines))
 
-			blame_xml += "<td>" + str(entry[1].lines) + "</td>"
-			blame_xml += "<td>" + ("{0:.1f}".format(Blame.get_stability(entry[0], entry[1].lines, self.changes)) + "</td>")
-			if self.forcemonths and self.blame.useweeks:
-				blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].get_skew(True)) / entry[1].lines) + "</td>"
-			blame_xml += "<td>" + "{0:.1f}".format(float(entry[1].get_skew()) / entry[1].lines) + "</td>"
-			blame_xml += "<td>" + "{0:.2f}".format(100.0 * entry[1].comments / entry[1].lines) + "</td>"
-			blame_xml += "<td style=\"display: none\">" + work_percentage + "</td>"
-			blame_xml += "</tr>"
-			chart_data += "{{label: {0}, data: {1}}}".format(json.dumps(entry[0]), work_percentage)
+			rows += html_number_cell(_("Age, weeks") if months else _("Age"), "{0:.1f}".format(float(blame.get_skew()) / blame.lines))
+			rows += html_number_cell(_("% in comments"), "{0:.2f}".format(percentage(blame.comments, blame.lines)))
+			rows += html_meter_cell(_("% of total"), work_percentage, author_color(index))
+			rows += "</tr>"
 
-			if blames[-1] != entry:
-				chart_data += ", "
+		headers = "<thead><tr>" + html_header_cell(_("Author")) + html_header_cell(_("Lines"), True) + \
+		          html_header_cell(_("Stability"), True)
 
-		blame_xml += "</tbody></table></div><div class=\"chart col-md-4\" id=\"blame_chart\"></div></div>"
-		blame_xml += "<script type=\"text/javascript\">"
-		blame_xml += "    blame_plot = $.plot($(\"#blame_chart\"), [{0}], {{".format(chart_data)
-		blame_xml += "        series: {"
-		blame_xml += "            pie: {"
-		blame_xml += "                innerRadius: 0.4,"
-		blame_xml += "                show: true,"
-		blame_xml += "                combine: {"
-		blame_xml += "                    threshold: MINOR_AUTHOR_PERCENTAGE / 100,"
-		blame_xml += "                    label: \"" + _("Minor Authors") + "\""
-		blame_xml += "                }"
-		blame_xml += "            }"
-		blame_xml += "        }, grid: {"
-		blame_xml += "            hoverable: true"
-		blame_xml += "        }"
-		blame_xml += "    });"
-		blame_xml += "</script></div></div>"
+		if months:
+			headers += html_header_cell(_("Age, months"), True)
 
-		print(blame_xml)
+		headers += html_header_cell(_("Age, weeks") if months else _("Age"), True) + \
+		           html_header_cell(_("% in comments"), True) + html_header_cell(_("% of total"), True) + "</tr></thead>"
+
+		body = html_share(shares, _("Minor Authors")) + html_table("blame", headers + "<tbody>" + rows + "</tbody>")
+		print(html_card(_(BLAME_INFO_TEXT), body))
 
 	def output_json(self):
 		message_json = "\t\t\t\"message\": \"" + _(BLAME_INFO_TEXT) + "\",\n"
