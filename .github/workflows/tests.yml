@@ -46,13 +46,16 @@ jobs:
         image: ["python:2.7", "python:3.5", "python:3.7"]
     steps:
       - uses: actions/checkout@v4
+      # The checkout belongs to the runner while the container is root, which git 2.30 and later
+      # refuse to look at until the directory is called safe. Older git ignores the setting.
       - name: Run the test suite
         run: >
           docker run --rm
           --volume "$GITHUB_WORKSPACE:/gitinspector"
           --workdir /gitinspector
           --env PYTHONIOENCODING --env LANGUAGE
-          ${{ matrix.image }} python -m unittest discover -v
+          ${{ matrix.image }}
+          sh -c 'git config --global --add safe.directory /gitinspector && python -m unittest discover -v'
 
   # Both platforms have a history of encoding and locale defects of their own. Without the gettext
   # tools tests/test_translations.py skips itself; the linux jobs above cover the catalogs.
