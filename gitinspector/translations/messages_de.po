@@ -35,10 +35,9 @@ msgstr ""
 msgid "% in comments"
 msgstr "% in Kommentaren"
 
-# Poedit complains on validate when using a non-valid format specifier after the percent sign, even if separated by a space. It claims that argument number must be equal in both format and message, so can't use the word. Correct translation would be "% gesamt"
 #, no-python-format
 msgid "% of changes"
-msgstr "% d. Änderungen"
+msgstr "% gesamt"
 
 #, python-brace-format
 msgid "'{0}' in {1}"
