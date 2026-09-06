@@ -33,16 +33,21 @@ __changes_lock__ = threading.Lock()
 
 class FileDiff(object):
 	def __init__(self, string):
-		commit_line = string.split("|")
+		commit_line = FileDiff.__split__(string)
 
 		if commit_line.__len__() == 2:
 			self.name = FileDiff.get_filename(string)
 			self.insertions = commit_line[1].count("+")
 			self.deletions = commit_line[1].count("-")
 
+	#The counts of a diffstat never contain a bar, but a file name may, so the last one separates them.
+	@staticmethod
+	def __split__(string):
+		return string.rsplit("|", 1)
+
 	@staticmethod
 	def is_filediff_line(string):
-		string = string.split("|")
+		string = FileDiff.__split__(string)
 		return string.__len__() == 2 and string[1].find("Bin") == -1 and ('+' in string[1] or '-' in string[1])
 
 	@staticmethod
@@ -51,7 +56,7 @@ class FileDiff(object):
 
 	@staticmethod
 	def get_filename(string):
-		return git.unquote(string.split("|")[0].strip()).strip("{}")
+		return git.unquote(FileDiff.__split__(string)[0].strip()).strip("{}")
 
 	@staticmethod
 	def is_valid_extension(string):
