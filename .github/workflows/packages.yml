@@ -24,12 +24,13 @@ jobs:
             interpreter: python3
             packages: python3-stdeb python3-setuptools python3-all python-all dh-python
             revision: "1"
-          # Wheezy cannot install debhelper from its own archive any more, so the Python 2 package
-          # is built on jessie. It asks for python (>= 2.7), which wheezy satisfies, and jessie's
-          # dpkg still writes a control member wheezy can read; the install job proves both.
+          # Neither wheezy nor jessie can resolve debhelper from its archive any more, so both
+          # flavours are built on stretch, the oldest release whose toolchain still works. Its
+          # python is 2.7.13 and its python3 is 3.5.3, which is exactly the floor each package
+          # needs; the install jobs prove the results still fit on Debian 7 and 8.
           - flavour: python2
-            image: debian/eol:jessie
-            suite: jessie
+            image: debian/eol:stretch
+            suite: stretch
             interpreter: python
             packages: python-stdeb python-setuptools python-all
             revision: "1~python2"
@@ -43,7 +44,7 @@ jobs:
             printf "deb http://archive.debian.org/debian ${{ matrix.suite }} main\n" > /etc/apt/sources.list
             echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10-no-check-valid-until
             apt-get update -qq
-            apt-get install -y --force-yes --no-install-recommends ${{ matrix.packages }} fakeroot
+            apt-get install -y --force-yes --no-install-recommends ${{ matrix.packages }} build-essential fakeroot
             echo "Debian-Version: ${{ matrix.revision }}" >> stdeb.cfg
             ${{ matrix.interpreter }} setup.py --command-packages=stdeb.command bdist_deb
           '
