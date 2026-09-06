@@ -1,0 +1,72 @@
+name: Binaries
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/binaries.yml"
+      - "packaging/pyinstaller.spec"
+
+# One executable per platform for the people who would rather not install Python at all. Each is
+# built on the runner it targets, since PyInstaller cannot cross compile, and carries the html
+# templates and the compiled translations beside the interpreter it bundles.
+jobs:
+  binary:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # The oldest image still offered, so that the binary asks for the oldest glibc it can.
+          - os: ubuntu-22.04
+            platform: linux-x86_64
+          - os: ubuntu-22.04-arm
+            platform: linux-aarch64
+          # macos-15-intel is the last x86_64 image Actions offers; when it goes, so does the
+          # Intel binary.
+          - os: macos-15-intel
+            platform: macos-x86_64
+          - os: macos-15
+            platform: macos-arm64
+          - os: windows-2022
+            platform: windows-x86_64
+            suffix: .exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller
+
+      - name: Build the executable
+        shell: bash
+        run: |
+          pyinstaller --clean --noconfirm packaging/pyinstaller.spec
+          version=$(python -c "from gitinspector.version import __version__; print(__version__)")
+          mv "dist/gitinspector${{ matrix.suffix }}" "dist/gitinspector-$version-${{ matrix.platform }}${{ matrix.suffix }}"
+
+      # A bundle that lost its data files still starts and still prints a version, so the checkout
+      # is analyzed with it: the report proves the html templates are there, and the Swedish
+      # banner proves the compiled catalogs are.
+      - name: Analyze the checkout with the executable
+        shell: bash
+        env:
+          PYTHONIOENCODING: utf-8
+          LANG: C
+        run: |
+          binary=$(ls dist/gitinspector-*)
+          LANGUAGE=C "$binary" --version
+          LANGUAGE=sv "$binary" --version | grep -q "Skrivet av"
+          LANGUAGE=C "$binary" -Tm --format=html . > report.html
+          grep -q "gi-page" report.html
+          LANGUAGE=C "$binary" --format=json . > report.json
+          python -c "import json; json.load(open('report.json'))"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.platform }}
+          path: dist/gitinspector-*
+          if-no-files-found: error
