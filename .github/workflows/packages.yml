@@ -75,7 +75,7 @@ jobs:
         include:
           - image: debian/eol:wheezy
             flavour: python2
-            archived: stretch
+            archived: wheezy
             suite: wheezy
           - image: debian/eol:jessie
             flavour: python2
