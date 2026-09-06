@@ -158,6 +158,12 @@ jobs:
               echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10-no-check-valid-until
             fi
             apt-get update -qq
+            # The image carries a perl-base newer than anything still fetchable, and apt would
+            # rather give up than step back on its own, so it is told to, by name and version.
+            if [ -n "$DOWNGRADES" ]; then
+              apt-get install -y --force-yes $DOWNGRADES \
+                      "perl-base=$(apt-cache policy perl-base | sed -n "s/.*Candidate: //p")"
+            fi
             # Bringing the dependencies in first keeps dpkg from leaving a half configured package
             # behind, which apt then resolves by removing what we are trying to test.
             apt-get install -y --force-yes --no-install-recommends $DOWNGRADES -o Acquire::Retries=3 git $RESOURCES
