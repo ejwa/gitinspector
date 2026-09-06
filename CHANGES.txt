@@ -6,8 +6,10 @@ gitinspector (0.5.0)
 	* Several repositories can be analyzed in one run, merged into a
 	  unified report.
 	* JSON output format.
-	* Responsive HTML theme based on Bootstrap, with sortable tables, pie
-	  charts and buttons that reveal minor authors.
+	* A responsive HTML theme of our own, with a light and a dark mode, a
+	  default and a terminal look, sortable tables, a search box and
+	  diverging bars, timeline heat maps and file rails in place of the
+	  pie charts. It carries no third party libraries at all.
 	* New -M/--forcemonths option that shows both monthly and weekly
 	  statistics together with -w.
 	* Go, PHP, Rust, Swift and TypeScript source files are analyzed by
