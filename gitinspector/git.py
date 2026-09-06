@@ -37,6 +37,13 @@ def __output_of__(command, location):
 		process = subprocess.Popen(command, cwd=location, stdout=subprocess.PIPE, stderr=devnull)
 		return decode(process.communicate()[0]).strip()
 
+def is_available():
+	try:
+		__output_of__(["git", "--version"], None)
+		return True
+	except OSError:
+		return False
+
 def get_branch(location):
 	branch = __output_of__(["git", "symbolic-ref", "--short", "-q", "HEAD"], location)
 

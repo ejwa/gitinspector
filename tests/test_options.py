@@ -33,22 +33,40 @@ from .harness import Repository
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def run_inside(directory, *options):
+def __environment__():
 	env = dict(os.environ)
 	env["PYTHONIOENCODING"] = "utf-8"
 	env["PYTHONPATH"] = os.pathsep.join(filter(None, [PROJECT_ROOT, os.getenv("PYTHONPATH")]))
 	env["LANGUAGE"] = "C"
+
+	return env
+
+def __run__(directory, env, options):
 	process = subprocess.Popen([sys.executable, "-m", "gitinspector.gitinspector"] + list(options),
 	                           cwd=directory, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	(output, errors) = process.communicate()
 
 	return (process.returncode, output.decode("utf-8", "replace"), errors.decode("utf-8", "replace"))
 
+def run_inside(directory, *options):
+	return __run__(directory, __environment__(), options)
+
 def run_outside_a_repository(*options):
 	directory = tempfile.mkdtemp(prefix="gitinspector-test-")
 
 	try:
 		return run_inside(directory, *options)
+	finally:
+		shutil.rmtree(directory)
+
+#The empty directory is both the working directory and the whole PATH, so no git can be found.
+def run_without_git(*options):
+	directory = tempfile.mkdtemp(prefix="gitinspector-test-")
+	env = __environment__()
+	env["PATH"] = directory
+
+	try:
+		return __run__(directory, env, options)
 	finally:
 		shutil.rmtree(directory)
 
@@ -70,6 +88,22 @@ class InformationalOptionsTest(unittest.TestCase):
 
 		self.assertNotEqual(status, 0)
 		self.assertIn("Error processing git repository", errors)
+
+#Windows finds more than executables through the PATH, so emptying it there tests something else.
+@unittest.skipIf(sys.platform == "win32", "An empty PATH does not only hide the git executable on Windows")
+class MissingGitTest(unittest.TestCase):
+	def test_the_missing_executable_is_reported(self):
+		(status, _unused, errors) = run_without_git(".")
+
+		self.assertNotEqual(status, 0)
+		self.assertIn("git executable", errors)
+		self.assertNotIn("Traceback", errors)
+
+	def test_the_version_is_still_shown(self):
+		(status, output, errors) = run_without_git("--version")
+
+		self.assertEqual(status, 0, errors.strip())
+		self.assertIn("gitinspector", output)
 
 class RepositoryArgumentTest(unittest.TestCase):
 	def setUp(self):

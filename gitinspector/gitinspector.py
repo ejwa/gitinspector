@@ -157,6 +157,9 @@ def main():
 				version.output()
 				sys.exit(0)
 
+		if not git.is_available():
+			sys.exit(_("The git executable could not be started. gitinspector needs it in the PATH to run."))
+
 		repos = __get_validated_git_repos__(list(OrderedDict.fromkeys(args)))
 
 		#We need the repos above to be set before we read the git config.

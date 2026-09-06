@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 17:55+0200\n"
+"POT-Creation-Date: 2026-09-06 18:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -188,6 +188,9 @@ msgid "The following weekly history timeline has been gathered from the reposito
 msgstr ""
 
 msgid "The given option argument is not a valid boolean."
+msgstr ""
+
+msgid "The git executable could not be started. gitinspector needs it in the PATH to run."
 msgstr ""
 
 #, python-brace-format

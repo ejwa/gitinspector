@@ -40,6 +40,9 @@ gitinspector (0.5.0)
 	* A terminal encoding that Python has no codec for, such as the
 	  cp65001 of a Windows console, is named in a warning and replaced
 	  by UTF-8 instead of ending the run with a LookupError.
+	* A git executable that cannot be started is reported in a sentence
+	  instead of a traceback. --version and --help still answer without
+	  one.
 	* --version and --help are answered outside a git repository again,
 	  instead of complaining that the current directory is not one.
 	* An argument that names a missing directory, or a file rather than a
