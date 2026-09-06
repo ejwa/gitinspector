@@ -27,6 +27,8 @@ to the code base must keep it working on all of the following versions:
   * Python 3.12, as shipped with Ubuntu 24.04 LTS.
   * Python 3.13, as shipped with Debian 13.
   * Python 3.14, the latest stable release of Python.
+  * Python 3.15, tested from its release candidates onwards so that whatever
+    it breaks is found before it ships.
 
 Older Python 2 releases down to 2.6 are still accepted by the version check,
 but are no longer a target. A Python 3 release stays on the list for as long

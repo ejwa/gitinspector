@@ -16,12 +16,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.9", "3.11", "3.12", "3.13", "3.14"]
+        python: ["3.9", "3.11", "3.12", "3.13", "3.14", "3.15"]
     steps:
       - uses: actions/checkout@v4
+      # 3.15 has not been released yet, so its release candidates are accepted until it has been.
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
+          allow-prereleases: true
       - name: Install the gettext tools
         run: sudo apt-get install --no-install-recommends --yes gettext
       - name: Restore the analyzed repositories
