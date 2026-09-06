@@ -142,6 +142,15 @@ def main():
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true", "forcemonths:true"])
+		#Neither of these describes a repository, and looking for one fails outside a working tree.
+		for o, a in opts:
+			if o in("-h", "--help"):
+				help.output()
+				sys.exit(0)
+			elif o == "--version":
+				version.output()
+				sys.exit(0)
+
 		repos = __get_validated_git_repos__(list(OrderedDict.fromkeys(args)))
 
 		#We need the repos above to be set before we read the git config.
@@ -149,10 +158,7 @@ def main():
 		clear_x_on_next_pass = True
 
 		for o, a in opts:
-			if o in("-h", "--help"):
-				help.output()
-				sys.exit(0)
-			elif o in("-f", "--file-types"):
+			if o in("-f", "--file-types"):
 				extensions.define(a)
 			elif o in("-F", "--format"):
 				if not format.select(a):
@@ -179,9 +185,6 @@ def main():
 				run.responsibilities = optval.get_boolean_argument(a)
 			elif o == "--since":
 				interval.set_since(a)
-			elif o == "--version":
-				version.output()
-				sys.exit(0)
 			elif o == "--grading":
 				grading = optval.get_boolean_argument(a)
 				run.include_metrics = grading
