@@ -31,12 +31,12 @@ msgstr ""
 "X-Generator: Poedit 1.8.5\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% in Kommentaren"
 
 # Poedit complains on validate when using a non-valid format specifier after the percent sign, even if separated by a space. It claims that argument number must be equal in both format and message, so can't use the word. Correct translation would be "% gesamt"
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% d. Änderungen"
 

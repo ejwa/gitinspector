@@ -23,15 +23,17 @@ msgstr ""
 "POT-Creation-Date: 2026-09-06 03:13+0200\n"
 "PO-Revision-Date: 2015-20-23 18:33-0500\n"
 "Last-Translator: Bill Wang <wangzhijiebill@gmail.com>\n"
+"Language-Team: Chinese <>\n"
+"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% 的注释"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% 的修改"
 
@@ -319,7 +321,7 @@ msgstr "不支持设定的输出文件格式"
 
 #, python-brace-format
 msgid "{0} ({1:.3f} in cyclomatic complexity density)"
-msgstr "{0} (循环型结构密集度{1: 3f})"
+msgstr "{0} (循环型结构密集度{1:.3f})"
 
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"

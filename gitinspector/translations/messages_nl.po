@@ -35,11 +35,11 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% in commentaren"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% in veranderingen"
 

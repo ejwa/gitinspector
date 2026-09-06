@@ -24,16 +24,16 @@ msgstr ""
 "PO-Revision-Date: 2015-10-26 08:50+0100\n"
 "Last-Translator: Luca Motta <lucamot@gmail.com>\n"
 "Language-Team: Italiano <>\n"
-"Language: \n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% in commenti"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% dei cambiamenti"
 

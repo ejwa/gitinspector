@@ -34,11 +34,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% in comments"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% of changes"
 

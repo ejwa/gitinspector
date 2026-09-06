@@ -17,6 +17,9 @@ gitinspector (0.5.0)
 	* "Rows" are now called "lines" throughout the output. The JSON and
 	  XML keys "rows" and "modified_rows" were renamed accordingly.
 	* Dutch, Korean, Portuguese and Russian translations.
+	* A French error message no longer loses the path of the repository
+	  it complains about, and the Chinese metrics output no longer prints
+	  the cyclomatic complexity density with the wrong precision.
 	* Author emails are included in the JSON and HTML output.
 	* The analyzed branch of each repository is named in the output.
 	* Commits on merged branches are no longer lost during analysis.

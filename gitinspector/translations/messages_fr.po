@@ -30,11 +30,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% en commentaires"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% de modifications"
 
@@ -87,7 +87,7 @@ msgstr "Suppressions"
 
 #, python-format
 msgid "Error processing git repository at \"%s\"."
-msgstr "Erreur pendant l'analyse du dépôt git"
+msgstr "Erreur pendant l'analyse du dépôt git \"%s\"."
 
 #, python-brace-format
 msgid "Fetching and calculating primary statistics (1 of 2): {0:.0f}%"

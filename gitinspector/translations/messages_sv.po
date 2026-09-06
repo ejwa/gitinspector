@@ -24,18 +24,18 @@ msgstr ""
 "PO-Revision-Date: 2015-10-02 04:12+0200\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "Language-Team: Svenska <>\n"
-"Language: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Gtranslator 2.91.6\n"
 
-#, python-format
+#, no-python-format
 msgid "% in comments"
 msgstr "% i kommentarer"
 
-#, python-format
+#, no-python-format
 msgid "% of changes"
 msgstr "% av ändringar"
 
