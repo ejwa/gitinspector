@@ -1,4 +1,5 @@
 [![Latest release](https://img.shields.io/github/release/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/releases/latest)
+[![Tests](https://img.shields.io/github/actions/workflow/status/ejwa/gitinspector/tests.yml?branch=master&label=tests&style=flat-square)](https://github.com/ejwa/gitinspector/actions/workflows/tests.yml)
 [![License](https://img.shields.io/github/license/ejwa/gitinspector.svg?style=flat-square)](https://github.com/ejwa/gitinspector/blob/master/LICENSE.txt)
 <h2>
  <img align="left" height="65px"

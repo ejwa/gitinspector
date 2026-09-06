@@ -1,0 +1,70 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  PYTHONIOENCODING: utf-8
+  LANGUAGE: C
+
+jobs:
+  # The versions promised in docs/REQUIREMENTS.txt that setup-python still provides.
+  linux:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.7", "3.9", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install the gettext tools
+        run: sudo apt-get install --no-install-recommends --yes gettext
+      - name: Restore the analyzed repositories
+        uses: actions/cache@v4
+        with:
+          path: ~/gitinspector-test-repositories
+          key: repositories-requests-v2.32.3-jq-1.7.1-cobra-v1.8.1
+      - name: Run the test suite
+        run: |
+          export GITINSPECTOR_TEST_REPOSITORIES="$HOME/gitinspector-test-repositories"
+          python -m unittest discover -v
+
+  # The oldest interpreters are no longer offered by setup-python. Their images already carry git,
+  # and apt-get cannot install anything in them because Debian buster has moved to the archive.
+  # They clone the analyzed repositories themselves, so that nothing owned by root reaches the cache.
+  legacy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image: ["python:2.7", "python:3.5"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the test suite
+        run: >
+          docker run --rm
+          --volume "$GITHUB_WORKSPACE:/gitinspector"
+          --workdir /gitinspector
+          --env PYTHONIOENCODING --env LANGUAGE
+          ${{ matrix.image }} python -m unittest discover -v
+
+  # Both platforms have a history of encoding and locale defects of their own. Without the gettext
+  # tools tests/test_translations.py skips itself; the linux jobs above cover the catalogs.
+  other-platforms:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Run the test suite
+        run: python -m unittest discover -v
