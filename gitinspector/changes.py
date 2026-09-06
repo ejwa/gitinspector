@@ -62,10 +62,14 @@ class FileDiff(object):
 				return True
 		return False
 
+#A name or an email may contain anything but a NUL, which is why the fields of a commit line are
+#separated by one; a pipe would make an author called "a|b" look like a line of the diffstat.
+COMMIT_FIELD_SEPARATOR = "\x00"
+
 class Commit(object):
 	def __init__(self, string):
 		self.filediffs = []
-		commit_line = string.split("|")
+		commit_line = string.split(COMMIT_FIELD_SEPARATOR)
 
 		if commit_line.__len__() == 5:
 			self.timestamp = commit_line[0]
@@ -85,7 +89,7 @@ class Commit(object):
 
 	@staticmethod
 	def is_commit_line(string):
-		return string.split("|").__len__() == 5
+		return string.split(COMMIT_FIELD_SEPARATOR).__len__() == 5
 
 class AuthorInfo(object):
 	email = None
@@ -105,7 +109,7 @@ class ChangesThread(workers.Worker):
 	def work(self):
 		# The hashes go on the command line rather than through a pipe, since concurrently spawned children inherit
 		# each other's pipes on Python 2 and then deadlock waiting for the end of their input.
-		lines = workers.output_of(["git", "log", "--no-walk=unsorted", "--pretty=%ct|%cd|%H|%aN|%aE",
+		lines = workers.output_of(["git", "log", "--no-walk=unsorted", "--pretty=%ct%x00%cd%x00%H%x00%aN%x00%aE",
 		                           "--stat=100000,8192", "--no-merges", "-w", "--date=short"] +
 		                          (["-C", "-C", "-M"] if self.hard else []) + self.hashes).splitlines()
 

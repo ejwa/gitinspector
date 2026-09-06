@@ -49,6 +49,24 @@ class EncodingTest(unittest.TestCase):
 		self.assertEqual(result.get_latest_author_by_email("jorg@example.com"), "Jörg Müller")
 		self.assertEqual(sorted(filediff.name for filediff in result.get_commits()[0].get_filediffs()), sorted(files))
 
+class SeparatorInAuthorTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_a_pipe_in_a_name_or_an_email_is_not_read_as_a_diffstat(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "Pipe|Name", "pipe|user@example.com")
+		self.repository.commit("second", {"b.py": "y = 2\n"}, "Pipe|Name", "pipe|user@example.com")
+
+		result = analyze_changes(self.repository)
+
+		self.assertEqual(authors_of(result), ["Pipe|Name", "Pipe|Name"])
+		self.assertEqual(result.get_latest_email_by_author("Pipe|Name"), "pipe|user@example.com")
+		self.assertEqual(sorted(filediff.name for commit in result.get_commits()
+		                        for filediff in commit.get_filediffs()), ["a.py", "b.py"])
+
 class AuthorIdentityTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
