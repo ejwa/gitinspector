@@ -1,18 +1,23 @@
-# Simple dockerfile for gitinspector
-# Usage:
-# To build the image, execute the following command in the repository of gitinspector. 
-# docker build -t gitinspector . 
+# Build the image from the root of the gitinspector sources:
+#   docker build -t gitinspector .
 #
-# Run the following commands in the repository you want to analyze:
-# docker run --rm -it -v $(pwd):/repo gitinspector -f cs,fs -m -r -T -w /repo -F json > myresults.json
-# docker run --rm -it gitinspector --help 
+# Analyze a repository by mounting it on /repo:
+#   docker run --rm -v "$PWD:/repo" gitinspector -f py -T
+#   docker run --rm -v "$PWD:/repo" gitinspector -F html > report.html
+#   docker run --rm gitinspector --help
 
+FROM python:3-alpine
 
-FROM python:3.7-alpine
+ENV PYTHONIOENCODING=utf-8
 
-WORKDIR /app
-COPY . .
+# The mounted repository belongs to the user on the host and not to root,
+# which git refuses to read from unless the directory is marked as safe.
+RUN apk add --no-cache git && \
+    git config --global --add safe.directory '*'
 
-RUN apk update && apk add git
+COPY gitinspector/ /opt/gitinspector/gitinspector/
+COPY gitinspector.py /opt/gitinspector/
 
-ENTRYPOINT ["python3", "/app/gitinspector.py"]
+WORKDIR /repo
+
+ENTRYPOINT ["python3", "/opt/gitinspector/gitinspector.py"]

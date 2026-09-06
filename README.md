@@ -56,6 +56,14 @@ The Debian packages offered with releases of gitinspector are unofficial and ver
 
 An [npm](https://npmjs.com) package is provided for convenience as well. To install it globally, execute `npm i -g gitinspector`.
 
+### Docker
+A *Dockerfile* is included for those who would rather not install gitinspector at all. Build the image from the root of the sources and mount the repository to analyze on */repo*:
+
+```
+docker build -t gitinspector .
+docker run --rm -v "$PWD:/repo" gitinspector -f py -T
+```
+
 ### Forks
 [GitInspectorGUI](https://gitlab.com/edu-boost/gitinspectorgui) started out as an extension of gitinspector and has since been rewritten from scratch. It offers a graphical interface next to the command line, HTML and Excel output with blame information per file, and stand-alone apps for Windows and macOS. Its documentation lives at [edu-boost.gitlab.io/gitinspectorgui](https://edu-boost.gitlab.io/gitinspectorgui).
 

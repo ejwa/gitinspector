@@ -31,6 +31,8 @@ gitinspector (0.5.0)
 	  analysis or the output.
 	* A test harness that runs the analysis on generated repositories.
 	* Example reports are published on GitHub Pages.
+	* A Dockerfile that analyzes a repository mounted on /repo, for those
+	  who would rather not install gitinspector.
 
 gitinspector (0.4.4)
 
