@@ -1,3 +1,29 @@
+gitinspector (0.5.0)
+
+	Major release with a new HTML theme, support for multiple repositories
+	and many fixes.
+
+	* Several repositories can be analyzed in one run, merged into a
+	  unified report.
+	* JSON output format.
+	* Responsive HTML theme based on Bootstrap, with sortable tables, pie
+	  charts and buttons that reveal minor authors.
+	* New -M/--forcemonths option that shows both monthly and weekly
+	  statistics together with -w.
+	* Go source files are analyzed by default and get metrics.
+	* Comment recognition for Go, Rust, Robot Framework, Lilypond,
+	  TypeScript, JSX, CSV and TSV files.
+	* "Rows" are now called "lines" throughout the output. The JSON and
+	  XML keys "rows" and "modified_rows" were renamed accordingly.
+	* Dutch, Korean and Russian translations.
+	* Author emails are included in the JSON and HTML output.
+	* Commits on merged branches are no longer lost during analysis.
+	* Runs on Python 3 again and keeps running on Python 2.7.
+	* Names and paths with characters outside ASCII no longer crash the
+	  analysis or the output.
+	* A test harness that runs the analysis on generated repositories.
+	* Example reports are published on GitHub Pages.
+
 gitinspector (0.4.4)
 
 	Minor release with some minor fixes.
