@@ -10,7 +10,7 @@ gitinspector (0.5.0)
 	  charts and buttons that reveal minor authors.
 	* New -M/--forcemonths option that shows both monthly and weekly
 	  statistics together with -w.
-	* Go source files are analyzed by default and get metrics.
+	* Go and Swift source files are analyzed by default and get metrics.
 	* Comment recognition for Go, Rust, Robot Framework, Lilypond,
 	  TypeScript, JSX, CSV and TSV files.
 	* "Rows" are now called "lines" throughout the output. The JSON and
