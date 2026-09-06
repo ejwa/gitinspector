@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: gitinspector
 .\"    Author: [see the "AUTHOR" section]
-.\" Generator: DocBook XSL Stylesheets v1.78.1 <http://docbook.sf.net/>
-.\"      Date: 12/14/2015
+.\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
+.\"      Date: 09/06/2026
 .\"    Manual: The gitinspector Manual
-.\"    Source: gitinspector 0.4.2
+.\"    Source: gitinspector 0.5.0
 .\"  Language: English
 .\"
-.TH "GITINSPECTOR" "1" "12/14/2015" "gitinspector 0\&.4\&.2" "The gitinspector Manual"
+.TH "GITINSPECTOR" "1" "09/06/2026" "gitinspector 0\&.5\&.0" "The gitinspector Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -31,15 +31,15 @@
 gitinspector \- statistical analysis tool for git repositories
 .SH "SYNOPSIS"
 .sp
-\fBgitinspector\fR [OPTION]\&... [REPOSITORY]
+\fBgitinspector\fR [OPTION]\&... [REPOSITORY]\&...
 .SH "DESCRIPTION"
 .sp
-Analyze and gather statistics about a git repository\&. The defaut analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author\&. Under normal operation, gitinspector filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis\&.
+Analyze and gather statistics about one or more git repositories\&. The default analysis shows general statistics per author, which can be complemented with a timeline analysis that shows the workload and activity of each author\&. Under normal operation, gitinspector filters the results to only show statistics about a number of given extensions and by default only includes source files in the statistical analysis\&.
 .sp
 Several output formats are supported, including plain text, HTML, JSON and XML\&.
 .SH "OPTIONS"
 .sp
-List information about the repository in REPOSITORY\&. If no repository is specified, the current directory is used\&. If multiple repositories are given, information will be fetched from the last repository specified\&.
+List information about the repository in REPOSITORY\&. If no repository is specified, the current directory is used\&. If multiple repositories are given, information will be merged into a unified statistical report\&.
 .sp
 Mandatory arguments to long options are mandatory for short options too\&. Boolean arguments can only be given to long options\&.
 .PP
@@ -86,7 +86,14 @@ Localize the generated output to the selected system language if a translation i
 Include checks for certain metrics during the analysis of commits
 .RE
 .PP
-\fB\-r \-\-responsibilities\fR[=BOOL]
+\fB\-M, \-\-forcemonths\fR[=BOOL]
+.RS 4
+Show statistics in months as well as in weeks when
+\fB\-w\fR
+is used\&. The blame output then gets both a monthly and a weekly age column, and the timeline is printed both monthly and weekly
+.RE
+.PP
+\fB\-r, \-\-responsibilities\fR[=BOOL]
 .RS 4
 Show which files the different authors seem most responsible for
 .RE
@@ -113,7 +120,7 @@ Show all statistical information in weeks instead of in months
 .PP
 \fB\-x, \-\-exclude\fR=PATTERN
 .RS 4
-An exclusion pattern describing the file paths, revisions, author names or author emails that should be excluded from the statistics; can be specified multiple times (see
+An exclusion pattern describing the file paths, revisions, revisions with certain commit messages, author names or author emails that should be excluded from the statistics; can be specified multiple times (see
 \fBFILTERING\fR)
 .RE
 .PP
@@ -137,12 +144,12 @@ Plain text with some very simple ANSI formatting, suitable for console output\&.
 .PP
 \fBhtml\fR
 .RS 4
-HTML with external links\&. The generated HTML page links to some external resources; such as the JavaScript library JQuery\&. It requires an active internet connection to properly function\&. This output format will most likely also link to additional external resources in the future\&.
+HTML with external links\&. The generated page has a responsive layout that adapts to phones and tablets, sortable tables, pie charts and buttons that reveal minor authors\&. It loads jQuery, Flot and Bootstrap from public content delivery networks and therefore requires an active internet connection to properly function\&.
 .RE
 .PP
 \fBhtmlembedded\fR
 .RS 4
-HTML with no external links\&. Similar to the HTML output format, but requires no active internet connection\&. As a consequence; the generated pages are bigger (as certain scripts have to be embedded into the generated output)\&.
+HTML with no external links\&. Similar to the HTML output format, but requires no active internet connection\&. As a consequence; the generated pages are bigger (as the scripts and stylesheets have to be embedded into the generated output)\&.
 .RE
 .PP
 \fBjson\fR
@@ -293,6 +300,9 @@ To configure how gitinspector should behave in all git repositories, execute the
 To configure how gitinspector should behave in a specific git repository, execute the following git command (with the current directory standing inside the repository in question):
 .sp
 \fBgit config inspector\&.option setting\fR
+.SH "REQUIREMENTS"
+.sp
+gitinspector runs on Python 2\&.7 as well as on Python 3\&.5 and later, and needs the \fBgit\fR executable in the PATH\&. The exact versions the project keeps working on are listed in the REQUIREMENTS\&.txt file shipped with the documentation\&.
 .SH "AUTHOR"
 .sp
 Originally written by Adam Waldenberg\&.
