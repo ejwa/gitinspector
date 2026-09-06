@@ -23,6 +23,7 @@ import atexit
 import getopt
 import os
 import sys
+from collections import OrderedDict
 from .blame import Blame
 from .changes import Changes
 from .config import GitConfig
@@ -141,7 +142,7 @@ def main():
 		                                         "hard:true", "help", "list-file-types:true", "localize-output:true",
 		                                         "metrics:true", "responsibilities:true", "since=", "grading:true",
 		                                         "timeline:true", "until=", "version", "weeks:true", "forcemonths:true"])
-		repos = __get_validated_git_repos__(set(args))
+		repos = __get_validated_git_repos__(list(OrderedDict.fromkeys(args)))
 
 		#We need the repos above to be set before we read the git config.
 		GitConfig(run, repos[-1].location).read()
