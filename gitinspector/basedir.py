@@ -32,7 +32,11 @@ def get_basedir_git(path=None):
 
 	if path != None:
 		previous_directory = os.getcwd()
-		os.chdir(path)
+
+		try:
+			os.chdir(path)
+		except OSError:
+			sys.exit(_("Error processing git repository at \"%s\".") % path)
 
 	bare_command = subprocess.Popen(["git", "rev-parse", "--is-bare-repository"],
 	                          stdout=subprocess.PIPE, stderr=open(os.devnull, "w"))

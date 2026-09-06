@@ -71,6 +71,30 @@ class InformationalOptionsTest(unittest.TestCase):
 		self.assertNotEqual(status, 0)
 		self.assertIn("Error processing git repository", errors)
 
+class RepositoryArgumentTest(unittest.TestCase):
+	def setUp(self):
+		self.directory = tempfile.mkdtemp(prefix="gitinspector-test-")
+
+	def tearDown(self):
+		shutil.rmtree(self.directory)
+
+	def __assert_is_reported__(self, argument):
+		(status, _unused, errors) = run_inside(self.directory, argument)
+		#Anything the interpreter itself says comes first, so only the last line is ours.
+		last_line = errors.strip().splitlines()[-1]
+
+		self.assertNotEqual(status, 0)
+		self.assertIn("Error processing git repository", last_line)
+
+	def test_a_missing_directory_is_reported(self):
+		self.__assert_is_reported__("unexisting-folder")
+
+	def test_an_argument_that_is_a_file_is_reported(self):
+		path = os.path.join(self.directory, "a.license")
+		open(path, "w").close()
+
+		self.__assert_is_reported__(path)
+
 class ExclusionPatternTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
