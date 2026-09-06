@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+import json
 import os
 import subprocess
 import sys
@@ -53,11 +54,35 @@ class OutputEncodingTest(unittest.TestCase):
 	def tearDown(self):
 		self.repository.remove()
 
-	def run_gitinspector(self, stdout, encoding):
+	def run_gitinspector(self, stdout, encoding, output_format="text", *locations):
 		env = dict(os.environ)
 		env["PYTHONIOENCODING"] = encoding
-		command = [sys.executable, "-m", "gitinspector.gitinspector", "-F", "text", "-f", "**", self.repository.location]
+		command = [sys.executable, "-m", "gitinspector.gitinspector", "-F", output_format, "-f", "**"]
+		command += list(locations) or [self.repository.location]
 		return subprocess.Popen(command, cwd=PROJECT_ROOT, env=env, stdout=stdout, stderr=subprocess.PIPE)
+
+	def test_the_header_names_the_analyzed_branch(self):
+		self.repository.branch("feature")
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json")
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branch"], "feature")
+
+	def test_the_header_names_the_branch_of_every_repository(self):
+		other = Repository()
+		other.commit("add", {"other.py": "print(2)\n"})
+		other.branch("develop")
+
+		try:
+			process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json", self.repository.location, other.location)
+			(output, errors) = process.communicate()
+		finally:
+			other.remove()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branches"],
+		                 [self.repository.default_branch, "develop"])
 
 	def test_redirected_output_is_utf8_whatever_the_terminal_encoding(self):
 		process = self.run_gitinspector(subprocess.PIPE, "ascii")
