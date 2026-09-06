@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:33+0200\n"
+"POT-Creation-Date: 2026-09-06 17:33+0200\n"
 "PO-Revision-Date: 2026-09-06 00:45+0200\n"
 "Last-Translator: Alexander Chernoskutov <alecherov@gmail.com>\n"
 "Language-Team: \n"
@@ -112,6 +112,9 @@ msgstr "Второстепенные Авторы"
 
 msgid "Modified Lines:"
 msgstr "Измененные строки:"
+
+msgid "No Author"
+msgstr "Без автора"
 
 msgid "No commited files with the specified extensions were found"
 msgstr "Не найдено закоммиченных файлов с указанными расширениями"

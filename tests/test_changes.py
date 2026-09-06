@@ -49,6 +49,24 @@ class EncodingTest(unittest.TestCase):
 		self.assertEqual(result.get_latest_author_by_email("jorg@example.com"), "Jörg Müller")
 		self.assertEqual(sorted(filediff.name for filediff in result.get_commits()[0].get_filediffs()), sorted(files))
 
+class AuthorlessCommitTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_a_commit_without_an_author_is_named_instead_of_left_blank(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "One", "one@example.com")
+		self.repository.commit_without_an_author("second", {"b.py": "y = 2\n"})
+
+		result = analyze_changes(self.repository)
+		authorinfo = result.get_authorinfo_list()
+
+		self.assertEqual(sorted(authorinfo), ["No Author", "One"])
+		self.assertEqual(authorinfo["No Author"].commits, 1)
+		self.assertEqual(authorinfo["No Author"].insertions, 1)
+
 class FieldSeparatorTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()

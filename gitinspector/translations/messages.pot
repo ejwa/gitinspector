@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:33+0200\n"
+"POT-Creation-Date: 2026-09-06 17:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,9 @@ msgid "Minor Authors"
 msgstr ""
 
 msgid "Modified Lines:"
+msgstr ""
+
+msgid "No Author"
 msgstr ""
 
 msgid "No commited files with the specified extensions were found"

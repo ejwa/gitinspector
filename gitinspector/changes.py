@@ -29,6 +29,9 @@ from . import extensions, filtering, format, git, interval, terminal, workers
 
 CHANGES_PER_THREAD = 200
 
+#git refuses to record one, but a commit object written by hand can still carry an empty author.
+NO_AUTHOR_TEXT = N_("No Author")
+
 __changes_lock__ = threading.Lock()
 
 class FileDiff(object):
@@ -80,7 +83,7 @@ class Commit(object):
 			self.timestamp = commit_line[0]
 			self.date = commit_line[1]
 			self.sha = commit_line[2]
-			self.author = commit_line[3].strip()
+			self.author = commit_line[3].strip() or _(NO_AUTHOR_TEXT)
 			self.email = commit_line[4].strip()
 
 	def __lt__(self, other):

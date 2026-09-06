@@ -62,6 +62,28 @@ class Repository(object):
 		         GIT_COMMITTER_NAME=author, GIT_COMMITTER_EMAIL=email, GIT_COMMITTER_DATE=date)
 		return self.git("rev-parse", "HEAD")
 
+	#git refuses to record an empty author, so the commit object is written by hand and hashed in.
+	def commit_without_an_author(self, message, files, date="1500000000 +0000"):
+		for name, content in files.items():
+			target = open(os.path.join(self.location, name), "wb")
+			target.write(content.encode("utf-8"))
+			target.close()
+
+		self.git("add", "--", *files)
+		raw = "tree {0}\nparent {1}\nauthor  <> {2}\ncommitter  <> {2}\n\n{3}\n".format(
+		      self.git("write-tree"), self.git("rev-parse", "HEAD"), date, message)
+		(handle, path) = tempfile.mkstemp(prefix="gitinspector-test-")
+		os.write(handle, raw.encode("utf-8"))
+		os.close(handle)
+
+		try:
+			commit = self.git("hash-object", "-t", "commit", "-w", path)
+		finally:
+			os.remove(path)
+
+		self.git("update-ref", self.git("symbolic-ref", "HEAD"), commit)
+		return commit
+
 	def branch(self, name):
 		self.git("checkout", "-q", "-b", name)
 

@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:33+0200\n"
+"POT-Creation-Date: 2026-09-06 17:33+0200\n"
 "PO-Revision-Date: 2026-09-06 00:30+0200\n"
 "Last-Translator: Moses Kim <creatinov.kim@gmail.com>\n"
 "Language-Team: \n"
@@ -114,6 +114,9 @@ msgstr "코드 작업량이 미미한 작성자"
 
 msgid "Modified Lines:"
 msgstr "수정된 행들:"
+
+msgid "No Author"
+msgstr "작성자 없음"
 
 msgid "No commited files with the specified extensions were found"
 msgstr "지정한 확장자를 가진 커밋 파일들을 발견하지 못했습니다"

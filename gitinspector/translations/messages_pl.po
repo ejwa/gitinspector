@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:33+0200\n"
+"POT-Creation-Date: 2026-09-06 17:33+0200\n"
 "PO-Revision-Date: 2015-10-24 07:50+0100\n"
 "Last-Translator: Kamila Chyla <kamila.chyla@gmail.com>\n"
 "Language-Team: Polish <>\n"
@@ -109,6 +109,9 @@ msgstr "Mniej znaczący autorzy"
 
 msgid "Modified Lines:"
 msgstr "Zmienione wiersze:"
+
+msgid "No Author"
+msgstr "Brak autora"
 
 msgid "No commited files with the specified extensions were found"
 msgstr "Brak wkomitowanych plików o podanych rozszerzeniach."

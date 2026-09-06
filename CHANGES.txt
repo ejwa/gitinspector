@@ -35,6 +35,8 @@ gitinspector (0.5.0)
 	  separated by null characters rather than by bars.
 	* Files whose name contains a vertical bar are counted instead of
 	  being left out of the statistics.
+	* A commit whose author is empty is reported under a translated
+	  "No Author" instead of under a blank name.
 	* --version and --help are answered outside a git repository again,
 	  instead of complaining that the current directory is not one.
 	* An argument that names a missing directory, or a file rather than a

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 16:33+0200\n"
+"POT-Creation-Date: 2026-09-06 17:33+0200\n"
 "PO-Revision-Date: 2015-10-21 00:25+0200\n"
 "Last-Translator: Philipp Nowak <devnull@nowak-at.net>\n"
 "Language-Team: Deutsch <>\n"
@@ -115,6 +115,9 @@ msgstr "Sonstige"
 
 msgid "Modified Lines:"
 msgstr "Bearbeitete Zeilen:"
+
+msgid "No Author"
+msgstr "Kein Autor"
 
 msgid "No commited files with the specified extensions were found"
 msgstr "Keine eingecheckten Dateien mit den angegebenen Endungen gefunden"
