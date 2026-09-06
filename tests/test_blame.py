@@ -24,7 +24,7 @@ try:
 except ImportError:
 	import unittest
 
-from .harness import Repository, analyze_blame, analyze_changes
+from .harness import DEFAULT_AUTHOR, Repository, analyze_blame, analyze_changes
 
 class AttributionTest(unittest.TestCase):
 	def setUp(self):
@@ -40,6 +40,13 @@ class AttributionTest(unittest.TestCase):
 		analyzed_changes = analyze_changes(self.repository)
 		result = analyze_blame(self.repository, analyzed_changes)
 		self.assertEqual(dict((key, entry.lines) for (key, entry) in result.blames.items()), {("New Name", "a.py"): 2})
+
+	def test_files_without_extension_are_blamed_when_asked_for(self):
+		self.repository.commit("add", {"Makefile": "all:\n\techo\n", "a.py": "x = 1\n"})
+		analyzed_changes = analyze_changes(self.repository, file_types="*,py")
+		result = analyze_blame(self.repository, analyzed_changes)
+		self.assertEqual(sorted(filename for (author, filename) in result.blames), ["Makefile", "a.py"])
+		self.assertEqual(result.blames[(DEFAULT_AUTHOR, "Makefile")].lines, 2)
 
 class SpecialFilenameTest(unittest.TestCase):
 	def setUp(self):

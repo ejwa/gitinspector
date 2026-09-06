@@ -148,7 +148,7 @@ class Blame(object):
 			for i, line in enumerate(lines):
 				line = git.decode(line)
 
-				if FileDiff.get_extension(line) in extensions.get_located() and \
+				if extensions.is_located(FileDiff.get_extension(line)) and \
 				   FileDiff.is_valid_extension(line) and not filtering.set_filtered(FileDiff.get_filename(line)):
 					blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 							(["-C", "-C", "-M"] if hard else []) +

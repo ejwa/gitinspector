@@ -21,6 +21,7 @@ gitinspector (0.5.0)
 	* Commits on merged branches are no longer lost during analysis.
 	* Runs on Python 3 again and keeps running on Python 2.7.
 	* No more line buffering warnings from Python 3.8 and later.
+	* Files without an extension are blamed when asked for with * or **.
 	* Blamed lines are attributed to the newest name of an author, which
 	  earlier depended on the timing of the analysis threads.
 	* Names and paths with characters outside ASCII no longer crash the
