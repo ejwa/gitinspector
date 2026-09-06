@@ -22,13 +22,16 @@ jobs:
             image: debian/eol:stretch
             suite: stretch
             interpreter: python3
-            packages: python3-stdeb python3-setuptools dh-python
+            packages: python3-stdeb python3-setuptools python3-all python-all dh-python
             revision: "1"
+          # Wheezy cannot install debhelper from its own archive any more, so the Python 2 package
+          # is built on jessie. It asks for python (>= 2.7), which wheezy satisfies, and jessie's
+          # dpkg still writes a control member wheezy can read; the install job proves both.
           - flavour: python2
-            image: debian/eol:wheezy
-            suite: wheezy
+            image: debian/eol:jessie
+            suite: jessie
             interpreter: python
-            packages: python-stdeb python-setuptools
+            packages: python-stdeb python-setuptools python-all
             revision: "1~python2"
     steps:
       - uses: actions/checkout@v4

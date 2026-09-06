@@ -32,12 +32,12 @@ Several output formats are supported, including plain text, HTML, JSON and XML.
 install -D -p -m 0644 docs/gitinspector.1 %{buildroot}%{_mandir}/man1/gitinspector.1
 
 %files
-%license LICENSE.txt
-%doc README.md CHANGES.txt
 %{_bindir}/gitinspector
 %{python3_sitelib}/gitinspector/
 %{python3_sitelib}/gitinspector-*.egg-info/
 %{_mandir}/man1/gitinspector.1*
+# setup.py installs the text documents, the licence among them, into this directory itself.
+%{_datadir}/doc/gitinspector/
 
 %changelog
 * Sun Sep 06 2026 Ejwa Hosting AB <gitinspector@ejwa.se>
