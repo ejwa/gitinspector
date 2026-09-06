@@ -45,3 +45,8 @@ class SwiftMetricsTest(unittest.TestCase):
 class GoMetricsTest(unittest.TestCase):
 	def test_branches_and_exits_are_counted(self):
 		self.assertEqual(measure("metrics_sample.go", "go"), (25, 37))
+
+class TypeScriptMetricsTest(unittest.TestCase):
+	def test_branches_and_exits_are_counted_for_both_extensions(self):
+		self.assertEqual(measure("metrics_sample.ts", "ts"), (22, 30))
+		self.assertEqual(measure("metrics_sample.ts", "tsx"), (22, 30))

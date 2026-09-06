@@ -24,11 +24,11 @@ from .changes import FileDiff
 from . import comment, filtering, git, interval
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
-                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500}
+                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500}
 
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)", r"case\s+\w+:",
-                                                            "default:", r"while\s+\(.*\)"],
-                                                           ["assert", "break", "continue", "return"]],
+__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)",
+                                                                   r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
+                                                                  ["assert", "break", "continue", "return"]],
                        [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
                                  "default:", r"while\s+\(.*\)"],
                                 ["assert", "break", "continue", "return"]],
