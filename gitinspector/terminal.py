@@ -109,11 +109,23 @@ def get_size():
 
 	return DEFAULT_TERMINAL_SIZE
 
+#A console may name an encoding the interpreter has no codec for, cp65001 on Windows being the
+#usual one; handing it to a codec would end the run with a LookupError instead of a report.
+def __is_usable_encoding__(encoding):
+	try:
+		codecs.lookup(encoding)
+		return True
+	except (LookupError, TypeError):
+		return False
+
+def __usable_encoding__(encoding):
+	return encoding if __is_usable_encoding__(encoding) else "utf-8"
+
 def set_stdout_encoding():
 	sys.stdout.flush()
 
 	if sys.stdout.isatty():
-		encoding = sys.stdout.encoding or "utf-8"
+		encoding = __usable_encoding__(sys.stdout.encoding)
 		errors = "backslashreplace"
 	else:
 		encoding = "utf-8"
@@ -124,23 +136,38 @@ def set_stdout_encoding():
 	else:
 		sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding, errors, line_buffering=sys.stdout.line_buffering)
 
+#Python opens stderr with the encoding of the console, so a warning about that encoding cannot be
+#written until the stream is replaced by one that can carry it.
+def set_stderr_encoding():
+	if __is_usable_encoding__(getattr(sys.stderr, "encoding", None)):
+		return
+
+	sys.stderr.flush()
+
+	if sys.version_info < (3,):
+		sys.stderr = codecs.getwriter("utf-8")(sys.stderr, "backslashreplace")
+	elif hasattr(sys.stderr, "buffer"):
+		sys.stderr = io.TextIOWrapper(sys.stderr.buffer, "utf-8", "backslashreplace")
+
 def set_stdin_encoding():
 	if not sys.stdin.isatty() and sys.version_info < (3,):
 		sys.stdin = codecs.getreader("utf-8")(sys.stdin)
 
 def convert_command_line_to_utf8():
 	try:
-		argv = []
-
-		for arg in sys.argv:
-			argv.append(arg.decode(sys.stdin.encoding, "replace"))
-
-		return argv
+		encoding = __usable_encoding__(sys.stdin.encoding)
+		return [arg.decode(encoding, "replace") for arg in sys.argv]
 	except AttributeError:
 		return sys.argv
 
 def check_terminal_encoding():
-	if sys.stdout.isatty() and (sys.stdout.encoding == None or sys.stdin.encoding == None):
+	unusable = [i for i in (sys.stdout.encoding, sys.stdin.encoding) if i != None and not __is_usable_encoding__(i)]
+
+	if unusable:
+		print(_("WARNING: The terminal encoding '{0}' is unknown to Python, so UTF-8 is used instead. The encoding "
+		        "can be configured with the environment variable 'PYTHONIOENCODING'.").format(unusable[0]),
+		      file=sys.stderr)
+	elif sys.stdout.isatty() and (sys.stdout.encoding == None or sys.stdin.encoding == None):
 		print(_("WARNING: The terminal encoding is not correctly configured. gitinspector might malfunction. "
 		        "The encoding can be configured with the environment variable 'PYTHONIOENCODING'."), file=sys.stderr)
 

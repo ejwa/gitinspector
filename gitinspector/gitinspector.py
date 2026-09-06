@@ -60,7 +60,6 @@ class Runner(object):
 			localization.disable()
 
 		terminal.skip_escapes(not sys.stdout.isatty())
-		terminal.set_stdout_encoding()
 		previous_directory = os.getcwd()
 		summed_blames = Blame.__new__(Blame)
 		summed_changes = Changes.__new__(Changes)
@@ -134,7 +133,11 @@ def __get_validated_git_repos__(repos_relative):
 	return repos
 
 def main():
+	#The streams are taken over before anything is written, so that --version and --help also survive
+	#a console encoding that Python has no codec for.
+	terminal.set_stderr_encoding()
 	terminal.check_terminal_encoding()
+	terminal.set_stdout_encoding()
 	terminal.set_stdin_encoding()
 	argv = terminal.convert_command_line_to_utf8()
 	run = Runner()
