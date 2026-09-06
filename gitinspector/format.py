@@ -20,10 +20,12 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 import base64
+import json
 import os
 import textwrap
 import time
 import zipfile
+from xml.sax.saxutils import escape, quoteattr
 from .localization import N_
 from . import basedir, localization, terminal, version
 
@@ -114,7 +116,7 @@ def output_header(repos):
 			bootstrap_css = "<link rel=\"stylesheet\" type=\"text/css\" href=\"" + \
 			                "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css\" />"
 
-		print(html_header.format(title=_("Repository statistics for '{0}'").format(repos_string),
+		print(html_header.format(title=_("Repository statistics for '{0}'").format(escape(repos_string)),
 		                         jquery=jquery_js,
 		                         jquery_tablesorter=tablesorter_js,
 		                         jquery_flot=flot_js,
@@ -126,17 +128,17 @@ def output_header(repos):
 		                                       " for git repositories.").format(
 					               "<a href=\"https://github.com/ejwa/gitinspector\">gitinspector</a>",
 		                                       version.__version__),
-		                         repo_text=__info_text__(repos)))
+		                         repo_text=escape(__info_text__(repos))))
 	elif __selected_format__ == "json":
 		print("{\n\t\"gitinspector\": {")
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
 
 		if len(repos) <= 1:
-			print("\t\t\"repository\": \"" + repos_string + "\",")
-			print("\t\t\"branch\": \"" + repos[0].branch + "\",")
+			print("\t\t\"repository\": " + json.dumps(repos_string) + ",")
+			print("\t\t\"branch\": " + json.dumps(repos[0].branch) + ",")
 		else:
-			print("\t\t\"repositories\": [ " + ", ".join(["\"" + repo.name + "\"" for repo in repos]) + " ],")
-			print("\t\t\"branches\": [ " + ", ".join(["\"" + repo.branch + "\"" for repo in repos]) + " ],")
+			print("\t\t\"repositories\": [ " + ", ".join([json.dumps(repo.name) for repo in repos]) + " ],")
+			print("\t\t\"branches\": [ " + ", ".join([json.dumps(repo.branch) for repo in repos]) + " ],")
 
 		print("\t\t\"report_date\": \"" + time.strftime("%Y/%m/%d") + "\",")
 
@@ -145,12 +147,12 @@ def output_header(repos):
 		print("\t<version>" + version.__version__ + "</version>")
 
 		if len(repos) <= 1:
-			print("\t<repository branch=\"" + repos[0].branch + "\">" + repos_string + "</repository>")
+			print("\t<repository branch=" + quoteattr(repos[0].branch) + ">" + escape(repos_string) + "</repository>")
 		else:
 			print("\t<repositories>")
 
 			for repo in repos:
-				print("\t\t<repository branch=\"" + repo.branch + "\">" + repo.name + "</repository>")
+				print("\t\t<repository branch=" + quoteattr(repo.branch) + ">" + escape(repo.name) + "</repository>")
 
 			print("\t</repositories>")
 

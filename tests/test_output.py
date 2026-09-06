@@ -22,6 +22,7 @@ import json
 import os
 import subprocess
 import sys
+from xml.etree import ElementTree
 
 try:
 	import unittest2 as unittest
@@ -68,6 +69,26 @@ class OutputEncodingTest(unittest.TestCase):
 
 		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
 		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branch"], "feature")
+
+	def test_markup_in_a_branch_name_is_escaped_in_every_format(self):
+		branch = "x<script>&\"y'"
+		self.repository.branch(branch)
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json")
+		(output, errors) = process.communicate()
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branch"], branch)
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "xml")
+		(output, errors) = process.communicate()
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		self.assertEqual(ElementTree.fromstring(output).find("repository").get("branch"), branch)
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "html")
+		(output, errors) = process.communicate()
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		self.assertNotIn(b"<script>&", output)
+		self.assertIn(b"&lt;script&gt;&amp;", output)
 
 	def test_the_header_names_the_branch_of_every_repository(self):
 		other = Repository()
