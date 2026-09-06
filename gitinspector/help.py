@@ -61,8 +61,8 @@ Boolean arguments can only be given to long options.
       --since=DATE               only show statistics for commits more recent
                                    than a specific date
   -T, --timeline[=BOOL]          show commit timeline, including author names
-      --until=DATE               only show statistics for commits older than a
-                                   specific date
+      --until=DATE               only show statistics for commits made up to
+                                   a specific date
   -w, --weeks[=BOOL]             show all statistical information in weeks
                                    instead of in months
   -x, --exclude=PATTERN          an exclusion pattern describing the file
