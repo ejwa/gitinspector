@@ -28,6 +28,10 @@ DEFAULT_AUTHOR = "Test Author"
 DEFAULT_EMAIL = "test@example.com"
 DEFAULT_DATE = "2015-01-01T12:00:00+0000"
 
+def __native__(value):
+	# Python 2 wants byte strings in process arguments and environments.
+	return value if isinstance(value, str) else value.encode("utf-8")
+
 class Repository(object):
 	def __init__(self):
 		self.location = tempfile.mkdtemp(prefix="gitinspector-test-")
@@ -42,8 +46,9 @@ class Repository(object):
 
 	def git(self, *arguments, **environment):
 		env = dict(os.environ)
-		env.update(environment)
-		output = subprocess.check_output(["git"] + list(arguments), cwd=self.location, env=env, stderr=subprocess.STDOUT)
+		env.update((key, __native__(value)) for key, value in environment.items())
+		command = ["git"] + [__native__(argument) for argument in arguments]
+		output = subprocess.check_output(command, cwd=self.location, env=env, stderr=subprocess.STDOUT)
 		return output.decode("utf-8", "replace").strip()
 
 	def commit(self, message, files, author=DEFAULT_AUTHOR, email=DEFAULT_EMAIL, date=DEFAULT_DATE):

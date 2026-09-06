@@ -21,7 +21,7 @@ from __future__ import unicode_literals
 import re
 import subprocess
 from .changes import FileDiff
-from . import comment, filtering, interval
+from . import comment, filtering, git, interval
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500}
@@ -46,19 +46,16 @@ class MetricsLogic(object):
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
 
-		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", "-z", interval.get_ref()],
 		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		lines = ls_tree_p.communicate()[0].splitlines()
-		ls_tree_p.stdout.close()
+		lines = [entry for entry in ls_tree_p.communicate()[0].split(b"\0") if entry]
 
 		if ls_tree_p.returncode == 0:
 			for i in lines:
-				i = i.strip().decode("unicode_escape", "ignore")
-				i = i.encode("latin-1", "replace")
-				i = i.decode("utf-8", "replace").strip("\"").strip("'").strip()
+				i = git.decode(i)
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i.strip())],
+					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i)],
 					                          bufsize=1, stdout=subprocess.PIPE).stdout.readlines()
 
 					extension = FileDiff.get_extension(i)

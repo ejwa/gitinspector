@@ -33,6 +33,22 @@ WINDOW_END = "2018-05-07T15:03:00+0000"
 def authors_of(analyzed_changes):
 	return [commit.author for commit in analyzed_changes.get_commits()]
 
+class EncodingTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_non_ascii_names_are_preserved(self):
+		files = {"fil_ö.py": "print(1)\n", "say \"hi\".py": "print(2)\n", "plain.py": "print(3)\n"}
+		self.repository.commit("add", files, "Jörg Müller", "jorg@example.com")
+
+		result = analyze_changes(self.repository)
+		self.assertEqual(authors_of(result), ["Jörg Müller"])
+		self.assertEqual(result.get_latest_author_by_email("jorg@example.com"), "Jörg Müller")
+		self.assertEqual(sorted(filediff.name for filediff in result.get_commits()[0].get_filediffs()), sorted(files))
+
 class IntervalTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()

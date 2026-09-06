@@ -26,7 +26,7 @@ import os
 import subprocess
 import threading
 from .localization import N_
-from . import extensions, filtering, format, interval, terminal
+from . import extensions, filtering, format, git, interval, terminal
 
 CHANGES_PER_THREAD = 200
 NUM_THREADS = multiprocessing.cpu_count()
@@ -39,7 +39,7 @@ class FileDiff(object):
 		commit_line = string.split("|")
 
 		if commit_line.__len__() == 2:
-			self.name = commit_line[0].strip()
+			self.name = FileDiff.get_filename(string)
 			self.insertions = commit_line[1].count("+")
 			self.deletions = commit_line[1].count("-")
 
@@ -50,12 +50,11 @@ class FileDiff(object):
 
 	@staticmethod
 	def get_extension(string):
-		string = string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
-		return os.path.splitext(string)[1][1:]
+		return os.path.splitext(FileDiff.get_filename(string))[1][1:]
 
 	@staticmethod
 	def get_filename(string):
-		return string.split("|")[0].strip().strip("{}").strip("\"").strip("'")
+		return git.unquote(string.split("|")[0].strip()).strip("{}")
 
 	@staticmethod
 	def is_valid_extension(string):
@@ -134,9 +133,7 @@ class ChangesThread(threading.Thread):
 		__changes_lock__.acquire() # Global lock used to protect calls from here...
 
 		for i in lines:
-			j = i.strip().decode("unicode_escape", "ignore")
-			j = j.encode("latin-1", "replace")
-			j = j.decode("utf-8", "replace")
+			j = git.decode(i.strip())
 
 			if Commit.is_commit_line(j):
 				(author, email) = Commit.get_author_and_email(j)
@@ -266,15 +263,8 @@ class Changes(object):
 
 		return self.authors_dateinfo
 
-	def get_latest_author_by_email(self, name):
-		if not hasattr(name, "decode"):
-			name = str.encode(name)
-		try:
-			name = name.decode("unicode_escape", "ignore")
-		except UnicodeEncodeError:
-			pass
-
-		return self.authors_by_email[name]
+	def get_latest_author_by_email(self, email):
+		return self.authors_by_email[email]
 
 	def get_latest_email_by_author(self, name):
 		return self.emails_by_author[name]

@@ -26,7 +26,7 @@ import subprocess
 import threading
 from .localization import N_
 from .changes import FileDiff
-from . import comment, extensions, filtering, format, interval, terminal
+from . import comment, extensions, filtering, format, git, interval, terminal
 
 NUM_THREADS = multiprocessing.cpu_count()
 
@@ -110,7 +110,7 @@ class BlameThread(threading.Thread):
 
 		#pylint: disable=W0201
 		for j in range(0, len(lines)):
-			line = lines[j].decode("utf-8", "replace").strip()
+			line = git.decode(lines[j]).strip()
 			keyval = line.split(" ", 2)
 
 			if self.blamechunk_is_last:
@@ -135,10 +135,9 @@ class Blame(object):
 	def __init__(self, repo, hard, useweeks, changes):
 		self.blames = {}
 		self.useweeks = useweeks
-		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", interval.get_ref()], bufsize=1,
+		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", "-z", interval.get_ref()],
 		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-		lines = ls_tree_p.communicate()[0].splitlines()
-		ls_tree_p.stdout.close()
+		lines = [entry for entry in ls_tree_p.communicate()[0].split(b"\0") if entry]
 
 		if ls_tree_p.returncode == 0:
 			progress_text = _(PROGRESS_TEXT)
@@ -147,9 +146,7 @@ class Blame(object):
 				progress_text = "[%s] " % repo.name + progress_text
 
 			for i, line in enumerate(lines):
-				line = line.strip().decode("unicode_escape", "ignore")
-				line = line.encode("latin-1", "replace")
-				line = line.decode("utf-8", "replace").strip("\"").strip("'").strip()
+				line = git.decode(line)
 
 				if FileDiff.get_extension(line) in extensions.get_located() and \
 				   FileDiff.is_valid_extension(line) and not filtering.set_filtered(FileDiff.get_filename(line)):
@@ -157,7 +154,7 @@ class Blame(object):
 							(["-C", "-C", "-M"] if hard else []) +
 					                [interval.get_since(), interval.get_ref(), "--", line])
 					thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(line),
-					                     self.blames, line.strip())
+					                     self.blames, line)
 					thread.daemon = True
 					thread.start()
 

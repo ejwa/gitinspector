@@ -20,8 +20,9 @@
 from __future__ import unicode_literals
 import re
 import subprocess
+from . import git
 
-__filters__ = {"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()],
+__filters__ ={"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()],
                "message" : [set(), None]}
 
 class InvalidRegExpError(ValueError):
@@ -64,9 +65,7 @@ def __find_commit_message__(sha):
 	commit_message = git_show_r.read()
 	git_show_r.close()
 
-	commit_message = commit_message.strip().decode("unicode_escape", "ignore")
-	commit_message = commit_message.encode("latin-1", "replace")
-	return commit_message.decode("utf-8", "replace")
+	return git.decode(commit_message.strip())
 
 def set_filtered(string, filter_type="file"):
 	string = string.strip()

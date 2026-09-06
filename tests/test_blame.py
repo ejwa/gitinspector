@@ -45,3 +45,13 @@ class SpecialFilenameTest(unittest.TestCase):
 		blamed_files = sorted(filename for (author, filename) in result.blames)
 		self.assertEqual(blamed_files, sorted(files))
 		self.assertEqual(sum(entry.lines for entry in result.blames.values()), 6)
+
+	def test_non_ascii_names_are_blamed(self):
+		files = {"fil_ö.py": "print(1)\nprint(2)\n", "say \"hi\".py": "print(3)\n"}
+		self.repository.commit("add files", files, "Jörg Müller", "jorg@example.com")
+
+		analyzed_changes = analyze_changes(self.repository)
+		result = analyze_blame(self.repository, analyzed_changes)
+
+		self.assertEqual(sorted(result.blames), [("Jörg Müller", "fil_ö.py"), ("Jörg Müller", "say \"hi\".py")])
+		self.assertEqual(sum(entry.lines for entry in result.blames.values()), 3)
