@@ -1,6 +1,6 @@
-gitnspector is a statistical analysis tool for git repositories.
+gitinspector is a statistical analysis tool for git repositories.
 
-The defaut analysis shows general statistics per author, which can be
+The default analysis shows general statistics per author, which can be
 complemented with a timeline analysis that shows the workload and activity of
 each author. Under normal operation, it filters the results to only show
 statistics about a number of given extensions and by default only includes
@@ -11,8 +11,9 @@ student projects in the course Object-oriented Programming Project
 (TDA367/DIT211) at Chalmers University of Technology and Gothenburg University.
 
 - Shows cumulative work by each author in the history.
-- Filters results by extension (default: java,c,cpp,h,hpp,py,glsl,rb,js,sql,go).
+- Filters results by extension (default: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql,go).
 - Can display a statistical timeline analysis.
 - Scans for all filetypes (by extension) found in the repository.
 - Multi-threaded; uses multiple instances of git to speed up analysis.
-- Supports HTML, XML and plain text (terminal) output.
+- Supports HTML, JSON, XML and plain text (terminal) output.
+- Runs on Python 2.7 as well as on Python 3.5 and later.
