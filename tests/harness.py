@@ -81,7 +81,7 @@ def __inside__(repository, analysis):
 	finally:
 		os.chdir(previous_directory)
 
-def analyze_changes(repository, since=None, until=None, file_types="**", hard=False):
+def analyze_changes(repository, since=None, until=None, file_types="**", hard=False, exclude=None):
 	interval.clear()
 	filtering.clear()
 	extensions.define(file_types)
@@ -91,6 +91,8 @@ def analyze_changes(repository, since=None, until=None, file_types="**", hard=Fa
 		interval.set_since(since)
 	if until:
 		interval.set_until(until)
+	if exclude:
+		filtering.add(exclude)
 
 	return __inside__(repository, lambda: changes.Changes(None, hard))
 

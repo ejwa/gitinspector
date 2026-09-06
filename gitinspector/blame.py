@@ -20,15 +20,12 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 import datetime
-import multiprocessing
 import re
 import subprocess
 import threading
 from .localization import N_
 from .changes import FileDiff
-from . import comment, extensions, filtering, format, git, interval, terminal
-
-NUM_THREADS = multiprocessing.cpu_count()
+from . import comment, extensions, filtering, format, git, interval, terminal, workers
 
 class BlameEntry(object):
 	lines = 0
@@ -45,15 +42,13 @@ class BlameEntry(object):
 			return self.skew_m
 		return self.skew_w
 
-__thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __blame_lock__ = threading.Lock()
 
 AVG_DAYS_PER_MONTH = 30.4167
 
-class BlameThread(threading.Thread):
+class BlameThread(workers.Worker):
 	def __init__(self, useweeks, changes, blame_command, extension, blames, filename):
-		__thread_lock__.acquire() # Lock controlling the number of threads running
-		threading.Thread.__init__(self)
+		workers.Worker.__init__(self)
 
 		self.useweeks = useweeks
 		self.changes = changes
@@ -86,26 +81,20 @@ class BlameThread(threading.Thread):
 		       filtering.set_filtered(self.blamechunk_email, "email") and not \
 		       filtering.set_filtered(self.blamechunk_revision, "revision"):
 
-			__blame_lock__.acquire() # Global lock used to protect calls from here...
+			with __blame_lock__:
+				if self.blames.get((author, self.filename), None) == None:
+					self.blames[(author, self.filename)] = BlameEntry(self.useweeks)
 
-			if self.blames.get((author, self.filename), None) == None:
-				self.blames[(author, self.filename)] = BlameEntry(self.useweeks)
+				self.blames[(author, self.filename)].comments += comments
+				self.blames[(author, self.filename)].lines += 1
 
-			self.blames[(author, self.filename)].comments += comments
-			self.blames[(author, self.filename)].lines += 1
+				if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
+					skew = (self.changes.last_commit_date - self.blamechunk_time).days
+					self.blames[(author, self.filename)].skew_w += (skew / 7.0)
+					self.blames[(author, self.filename)].skew_m += (skew / AVG_DAYS_PER_MONTH)
 
-			if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
-				skew = (self.changes.last_commit_date - self.blamechunk_time).days
-				self.blames[(author, self.filename)].skew_w += (skew / 7.0)
-				self.blames[(author, self.filename)].skew_m += (skew / AVG_DAYS_PER_MONTH)
-
-			__blame_lock__.release() # ...to here.
-
-	def run(self):
-		git_blame_r = subprocess.Popen(self.blame_command, stdout=subprocess.PIPE).stdout
-		lines = git_blame_r.readlines()
-		git_blame_r.close()
-
+	def work(self):
+		lines = workers.lines_of(self.blame_command)
 		self.__clear_blamechunk_info__()
 
 		#pylint: disable=W0201
@@ -126,8 +115,6 @@ class BlameThread(threading.Thread):
 				self.blamechunk_is_last = True
 			elif Blame.is_revision(keyval[0]):
 				self.blamechunk_revision = keyval[0]
-
-		__thread_lock__.release() # Lock controlling the number of threads running
 
 PROGRESS_TEXT = N_("Checking how many lines belong to each author (2 of 2): {0:.0f}%")
 
@@ -153,21 +140,12 @@ class Blame(object):
 					blame_command = filter(None, ["git", "blame", "--line-porcelain", "-w"] + \
 							(["-C", "-C", "-M"] if hard else []) +
 					                [interval.get_since(), interval.get_ref(), "--", line])
-					thread = BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(line),
-					                     self.blames, line)
-					thread.daemon = True
-					thread.start()
+					BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(line), self.blames, line).start()
 
 					if format.is_interactive_format():
 						terminal.output_progress(progress_text, i, len(lines))
 
-			# Make sure all threads have completed.
-			for i in range(0, NUM_THREADS):
-				__thread_lock__.acquire()
-
-			# We also have to release them for future use.
-			for i in range(0, NUM_THREADS):
-				__thread_lock__.release()
+			workers.join()
 
 	def __iadd__(self, other):
 		try:

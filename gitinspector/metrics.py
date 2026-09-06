@@ -21,7 +21,7 @@ from __future__ import unicode_literals
 import re
 import subprocess
 from .changes import FileDiff
-from . import comment, filtering, git, interval
+from . import comment, filtering, git, interval, workers
 
 __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500}
@@ -60,8 +60,7 @@ class MetricsLogic(object):
 				i = git.decode(i)
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-					file_r = subprocess.Popen(["git", "show", interval.get_ref() + ":{0}".format(i)],
-					                          stdout=subprocess.PIPE).stdout.readlines()
+					file_r = workers.lines_of(["git", "show", interval.get_ref() + ":{0}".format(i)])
 
 					extension = FileDiff.get_extension(i)
 					lines = MetricsLogic.get_eloc(file_r, extension)

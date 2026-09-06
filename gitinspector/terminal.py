@@ -78,7 +78,9 @@ def __get_size_linux__():
 	return int(size[1]), int(size[0])
 
 def clear_line():
-	print("\r", end="")
+	if sys.stdout.isatty():
+		(width, _unused) = get_size()
+		print("\r{0}\r".format(" " * width), end="")
 
 def skip_escapes(skip):
 	if skip:

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 03:13+0200\n"
+"POT-Creation-Date: 2026-09-06 14:19+0200\n"
 "PO-Revision-Date: 2015-10-25 21:56+0100\n"
 "Last-Translator: Yannick Moy <yannick.moy@gmail.com>\n"
 "Language-Team: French <>\n"
@@ -198,6 +198,9 @@ msgstr "Entrez `{0} --help' pour plus d'information."
 
 msgid "Unable to determine absolute path of git repository."
 msgstr "Impossible de déterminer le chemin absolu du dépôt git."
+
+msgid "Unable to start git: the system is out of memory or cannot create more processes."
+msgstr "Impossible de démarrer git : le système manque de mémoire ou ne peut pas créer d'autres processus."
 
 #, python-brace-format
 msgid ""

@@ -29,21 +29,26 @@ try:
 except ImportError:
 	import unittest
 
+from .harness import Repository
+
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-def run_outside_a_repository(*options):
-	directory = tempfile.mkdtemp(prefix="gitinspector-test-")
+def run_inside(directory, *options):
 	env = dict(os.environ)
 	env["PYTHONIOENCODING"] = "utf-8"
 	env["PYTHONPATH"] = os.pathsep.join(filter(None, [PROJECT_ROOT, os.getenv("PYTHONPATH")]))
 	env["LANGUAGE"] = "C"
+	process = subprocess.Popen([sys.executable, "-m", "gitinspector.gitinspector"] + list(options),
+	                           cwd=directory, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	(output, errors) = process.communicate()
+
+	return (process.returncode, output.decode("utf-8", "replace"), errors.decode("utf-8", "replace"))
+
+def run_outside_a_repository(*options):
+	directory = tempfile.mkdtemp(prefix="gitinspector-test-")
 
 	try:
-		process = subprocess.Popen([sys.executable, "-m", "gitinspector.gitinspector"] + list(options),
-		                           cwd=directory, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-		(output, errors) = process.communicate()
-
-		return (process.returncode, output.decode("utf-8", "replace"), errors.decode("utf-8", "replace"))
+		return run_inside(directory, *options)
 	finally:
 		shutil.rmtree(directory)
 
@@ -65,3 +70,17 @@ class InformationalOptionsTest(unittest.TestCase):
 
 		self.assertNotEqual(status, 0)
 		self.assertIn("Error processing git repository", errors)
+
+class ExclusionPatternTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("add", {"a.py": "x = 1\n"})
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_an_invalid_author_pattern_is_reported_instead_of_hanging(self):
+		(status, _unused, errors) = run_inside(self.repository.location, "-F", "json", "-x", "author:[")
+
+		self.assertEqual(status, 2)
+		self.assertIn("invalid regular expression", errors)

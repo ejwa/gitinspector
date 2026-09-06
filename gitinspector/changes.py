@@ -21,17 +21,14 @@ from __future__ import division
 from __future__ import unicode_literals
 import bisect
 import datetime
-import multiprocessing
 import os
 import subprocess
 import threading
 from .localization import N_
-from . import extensions, filtering, format, git, interval, terminal
+from . import extensions, filtering, format, git, interval, terminal, workers
 
 CHANGES_PER_THREAD = 200
-NUM_THREADS = multiprocessing.cpu_count()
 
-__thread_lock__ = threading.BoundedSemaphore(NUM_THREADS)
 __changes_lock__ = threading.Lock()
 
 class FileDiff(object):
@@ -96,69 +93,58 @@ class AuthorInfo(object):
 	deletions = 0
 	commits = 0
 
-class ChangesThread(threading.Thread):
+class ChangesThread(workers.Worker):
 	def __init__(self, hard, changes, hashes, index):
-		__thread_lock__.acquire() # Lock controlling the number of threads running
-		threading.Thread.__init__(self)
+		workers.Worker.__init__(self)
 
 		self.hard = hard
 		self.changes = changes
 		self.hashes = hashes
 		self.index = index
 
-	@staticmethod
-	def create(hard, changes, hashes, index):
-		thread = ChangesThread(hard, changes, hashes, index)
-		thread.daemon = True
-		thread.start()
-
-	def run(self):
+	def work(self):
 		# The hashes go on the command line rather than through a pipe, since concurrently spawned children inherit
 		# each other's pipes on Python 2 and then deadlock waiting for the end of their input.
-		git_log_p = subprocess.Popen(["git", "log", "--no-walk=unsorted", "--pretty=%ct|%cd|%H|%aN|%aE",
-		                             "--stat=100000,8192", "--no-merges", "-w", "--date=short"] +
-		                             (["-C", "-C", "-M"] if self.hard else []) + self.hashes, stdout=subprocess.PIPE)
-		lines = git_log_p.communicate()[0].splitlines()
+		lines = workers.output_of(["git", "log", "--no-walk=unsorted", "--pretty=%ct|%cd|%H|%aN|%aE",
+		                           "--stat=100000,8192", "--no-merges", "-w", "--date=short"] +
+		                          (["-C", "-C", "-M"] if self.hard else []) + self.hashes).splitlines()
 
 		commit = None
 		found_valid_extension = False
 		is_filtered = False
 		commits = []
 
-		__changes_lock__.acquire() # Global lock used to protect calls from here...
+		with __changes_lock__:
+			for i in lines:
+				j = git.decode(i.strip())
 
-		for i in lines:
-			j = git.decode(i.strip())
+				if Commit.is_commit_line(j) or i is lines[-1]:
+					if found_valid_extension:
+						bisect.insort(commits, commit)
 
-			if Commit.is_commit_line(j) or i is lines[-1]:
-				if found_valid_extension:
-					bisect.insort(commits, commit)
+					found_valid_extension = False
+					is_filtered = False
+					commit = Commit(j)
 
-				found_valid_extension = False
-				is_filtered = False
-				commit = Commit(j)
+					if Commit.is_commit_line(j):
+						self.changes.remember_author(commit)
 
-				if Commit.is_commit_line(j):
-					self.changes.remember_author(commit)
+						if filtering.set_filtered(commit.author, "author") or \
+						   filtering.set_filtered(commit.email, "email") or \
+						   filtering.set_filtered(commit.sha, "revision") or \
+						   filtering.set_filtered(commit.sha, "message"):
+							is_filtered = True
 
-					if filtering.set_filtered(commit.author, "author") or \
-					   filtering.set_filtered(commit.email, "email") or \
-					   filtering.set_filtered(commit.sha, "revision") or \
-					   filtering.set_filtered(commit.sha, "message"):
-						is_filtered = True
+				if FileDiff.is_filediff_line(j) and not \
+				   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
+					extensions.add_located(FileDiff.get_extension(j))
 
-			if FileDiff.is_filediff_line(j) and not \
-			   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
-				extensions.add_located(FileDiff.get_extension(j))
+					if FileDiff.is_valid_extension(j):
+						found_valid_extension = True
+						filediff = FileDiff(j)
+						commit.add_filediff(filediff)
 
-				if FileDiff.is_valid_extension(j):
-					found_valid_extension = True
-					filediff = FileDiff(j)
-					commit.add_filediff(filediff)
-
-		self.changes.commits[self.index] = commits
-		__changes_lock__.release() # ...to here.
-		__thread_lock__.release() # Lock controlling the number of threads running
+			self.changes.commits[self.index] = commits
 
 PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
 
@@ -186,19 +172,12 @@ class Changes(object):
 			self.commits = [None] * len(chunks)
 
 			for i, chunk in enumerate(chunks):
-				ChangesThread.create(hard, self, chunk, i)
+				ChangesThread(hard, self, chunk, i).start()
 
 				if format.is_interactive_format():
 					terminal.output_progress(progress_text, i * CHANGES_PER_THREAD, len(hashes))
 
-		# Make sure all threads have completed.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.acquire()
-
-		# We also have to release them for future use.
-		for i in range(0, NUM_THREADS):
-			__thread_lock__.release()
-
+		workers.join()
 		self.commits = [item for sublist in self.commits for item in sublist]
 
 		if len(self.commits) > 0:

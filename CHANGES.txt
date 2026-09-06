@@ -38,6 +38,12 @@ gitinspector (0.5.0)
 	* Example reports are published on GitHub Pages.
 	* A Dockerfile that analyzes a repository mounted on /repo, for those
 	  who would rather not install gitinspector.
+	* Running out of memory while starting git no longer aborts the
+	  analysis with an exception: gitinspector waits for its other git
+	  processes to finish, continues with fewer of them and only gives up,
+	  with a clear message, when git cannot be started at all.
+	* An error inside an analysis thread, such as an invalid author or
+	  email exclusion pattern, is reported instead of hanging gitinspector.
 
 gitinspector (0.4.4)
 

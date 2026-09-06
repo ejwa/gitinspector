@@ -29,7 +29,7 @@ from .changes import Changes
 from .config import GitConfig
 from .metrics import MetricsLogic
 from . import (basedir, clone, extensions, filtering, format, git, help, interval,
-               localization, optval, terminal, version)
+               localization, optval, terminal, version, workers)
 from .output import outputable
 from .output.blameoutput import BlameOutput
 from .output.changesoutput import ChangesOutput
@@ -76,8 +76,7 @@ class Runner(object):
 			if self.include_metrics:
 				summed_metrics += MetricsLogic()
 
-			if sys.stdout.isatty() and format.is_interactive_format():
-				terminal.clear_line()
+			__clear_progress__()
 		else:
 			os.chdir(previous_directory)
 
@@ -105,6 +104,10 @@ class Runner(object):
 
 		format.output_footer()
 		os.chdir(previous_directory)
+
+def __clear_progress__():
+	if format.is_interactive_format():
+		terminal.clear_line()
 
 def __check_python_version__():
 	if sys.version_info < (2, 6):
@@ -217,7 +220,11 @@ def main():
 		__check_python_version__()
 		run.process(repos)
 
+	except workers.OutOfResourcesError as error:
+		__clear_progress__()
+		sys.exit(error.msg)
 	except (filtering.InvalidRegExpError, format.InvalidFormatError, optval.InvalidOptionArgument, getopt.error) as exception:
+		__clear_progress__()
 		print(sys.argv[0], "\b:", exception.msg, file=sys.stderr)
 		print(_("Try `{0} --help' for more information.").format(sys.argv[0]), file=sys.stderr)
 		sys.exit(2)

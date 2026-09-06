@@ -19,8 +19,7 @@
 
 from __future__ import unicode_literals
 import re
-import subprocess
-from . import git
+from . import git, workers
 
 __filters__ ={"file": [set(), set()], "author": [set(), set()], "email": [set(), set()], "revision": [set(), set()],
                "message" : [set(), None]}
@@ -59,13 +58,7 @@ def has_filtered():
 	return False
 
 def __find_commit_message__(sha):
-	git_show_r = subprocess.Popen(filter(None, ["git", "show", "-s", "--pretty=%B", "-w", sha]),
-	                              stdout=subprocess.PIPE).stdout
-
-	commit_message = git_show_r.read()
-	git_show_r.close()
-
-	return git.decode(commit_message.strip())
+	return git.decode(workers.output_of(["git", "show", "-s", "--pretty=%B", "-w", sha]).strip())
 
 def set_filtered(string, filter_type="file"):
 	string = string.strip()
