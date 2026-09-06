@@ -170,6 +170,8 @@ class ReportChecks(object):
 				threshold = metrics.__metric_eloc__[reference.extension_of(violation["file_name"])]
 			elif violation["type"] == "cyclomatic-complexity":
 				threshold = metrics.METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD
+			elif violation["type"] == "cognitive-complexity":
+				threshold = metrics.METRIC_COGNITIVE_COMPLEXITY_THRESHOLD
 			else:
 				threshold = metrics.METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD
 

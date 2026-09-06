@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 15:05+0200\n"
+"POT-Creation-Date: 2026-09-06 16:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Adam Waldenberg <adam.waldenberg@ejwa.se>\n"
 "MIME-Version: 1.0\n"
@@ -160,6 +160,9 @@ msgstr ""
 msgid "The following files are suspiciously big (in order of severity)"
 msgstr ""
 
+msgid "The following files have an elevated cognitive complexity (in order of severity)"
+msgstr ""
+
 msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
 msgstr ""
 
@@ -285,6 +288,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"
+msgstr ""
+
+#, python-brace-format
+msgid "{0} ({1} in cognitive complexity)"
 msgstr ""
 
 #, python-brace-format

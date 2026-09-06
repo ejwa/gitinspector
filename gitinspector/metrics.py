@@ -46,14 +46,36 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else",
                        [["rs"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{", "=>"],
                                 [r"\bassert", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]]]
 
+#Cognitive complexity charges a structure for how deeply it is nested, so the tokens are split into
+#the ones that open a nested structure and the ones that merely continue an already counted one.
+__metric_cognitive_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "cs"],
+                                [r"\bif\s*\(", r"\bfor\s*\(", r"\bforeach\s*\(", r"\bwhile\s*\(", r"\bswitch\s*\(",
+                                 r"\bcatch\s*\(", r"\bdo\s*\{"],
+                                [r"\belse\b"]],
+                               [["py"], [r"\bif\s+.*:", r"\bfor\s+.*:", r"\bwhile\s+.*:", r"\bexcept\b"],
+                                        [r"\belif\b", r"\belse\b"]],
+                               [["go"], [r"\bif\s+.*\{", r"\bfor\b.*\{", r"\bswitch\b.*\{", r"\bselect\s*\{"],
+                                        [r"\belse\b"]],
+                               [["swift"], [r"\bif\s+.*\{", r"\bfor\s+.*\{", r"\bwhile\s+.*\{", r"\bswitch\s+.*\{",
+                                            r"\brepeat\s*\{", r"\bguard\s+.*\{", r"\bcatch\b"],
+                                           [r"\belse\b"]],
+                               [["php"], [r"\bif\s*\(", r"\bfor\s*\(", r"\bforeach\s*\(", r"\bwhile\s*\(", r"\bswitch\s*\(",
+                                          r"\bcatch\s*\("],
+                                         [r"\belseif\b", r"\belse\b"]],
+                               [["rs"], [r"\bif\s+.*\{", r"\bfor\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{",
+                                         r"\bmatch\s+.*\{"],
+                                        [r"\belse\b"]]]
+
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
+METRIC_COGNITIVE_COMPLEXITY_THRESHOLD = 45
 
 class MetricsLogic(object):
 	def __init__(self):
 		self.eloc = {}
 		self.cyclomatic_complexity = {}
 		self.cyclomatic_complexity_density = {}
+		self.cognitive_complexity = {}
 
 		ls_tree_p = subprocess.Popen(["git", "ls-tree", "--name-only", "-r", "-z", interval.get_ref()],
 		                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -69,6 +91,7 @@ class MetricsLogic(object):
 					extension = FileDiff.get_extension(i)
 					lines = MetricsLogic.get_eloc(file_r, extension)
 					cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
+					cogc = MetricsLogic.get_cognitive_complexity(file_r, extension)
 
 					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
 						self.eloc[i.strip()] = lines
@@ -79,11 +102,15 @@ class MetricsLogic(object):
 					if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
 						self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
 
+					if METRIC_COGNITIVE_COMPLEXITY_THRESHOLD < cogc:
+						self.cognitive_complexity[i.strip()] = cogc
+
 	def __iadd__(self, other):
 		try:
 			self.eloc.update(other.eloc)
 			self.cyclomatic_complexity.update(other.cyclomatic_complexity)
 			self.cyclomatic_complexity_density.update(other.cyclomatic_complexity_density)
+			self.cognitive_complexity.update(other.cognitive_complexity)
 			return self
 		except AttributeError:
 			return other
@@ -116,6 +143,50 @@ class MetricsLogic(object):
 			return cc_counter
 
 		return -1
+
+	@staticmethod
+	def get_cognitive_complexity(file_r, extension):
+		is_inside_comment = False
+		cognitive_counter = 0
+		open_structures = []
+
+		nesting_tokens = None
+		continuation_tokens = None
+
+		for i in __metric_cognitive_tokens__:
+			if extension in i[0]:
+				nesting_tokens = i[1]
+				continuation_tokens = i[2]
+
+		if not nesting_tokens:
+			return -1
+
+		for i in file_r:
+			i = i.decode("utf-8", "replace").expandtabs()
+			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
+
+			if is_inside_comment or comment.is_comment(extension, i) or not i.strip():
+				continue
+
+			indentation = len(i) - len(i.lstrip())
+
+			#A brace alone on its line belongs to the structure above it and must not close it.
+			if i.strip() != "{":
+				while open_structures and indentation <= open_structures[-1]:
+					open_structures.pop()
+
+			continues = any(re.search(j, i) for j in continuation_tokens)
+			nests = 0 if continues else len([j for j in nesting_tokens if re.search(j, i)])
+
+			if continues:
+				cognitive_counter += 1
+			else:
+				cognitive_counter += nests * (1 + len(open_structures))
+
+			if continues or nests:
+				open_structures.append(indentation)
+
+		return cognitive_counter
 
 	@staticmethod
 	def get_eloc(file_r, extension):

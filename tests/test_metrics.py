@@ -38,6 +38,12 @@ def measure(sample, extension):
 
 	return (cyclomatic_complexity, eloc)
 
+def cognitive(sample, extension):
+	base = os.path.dirname(os.path.realpath(__file__))
+
+	with open(os.path.join(base, "resources", sample), "rb") as source:
+		return MetricsLogic.get_cognitive_complexity(source, extension)
+
 class SwiftMetricsTest(unittest.TestCase):
 	def test_branches_are_counted_once_and_words_containing_keywords_are_not(self):
 		self.assertEqual(measure("metrics_sample.swift", "swift"), (26, 35))
@@ -58,3 +64,19 @@ class RustMetricsTest(unittest.TestCase):
 class PhpMetricsTest(unittest.TestCase):
 	def test_elseif_and_string_cases_are_counted_once(self):
 		self.assertEqual(measure("metrics_sample.php", "php"), (22, 34))
+
+class CognitiveComplexityTest(unittest.TestCase):
+	def test_a_branch_costs_more_the_deeper_it_is_nested(self):
+		self.assertEqual(cognitive("cognitive_sample.js", "js"), 11)
+		self.assertEqual(cognitive("cognitive_sample.py", "py"), 10)
+
+	def test_every_language_with_a_token_set_is_measured(self):
+		self.assertEqual(cognitive("metrics_sample.swift", "swift"), 9)
+		self.assertEqual(cognitive("metrics_sample.go", "go"), 9)
+		self.assertEqual(cognitive("metrics_sample.ts", "ts"), 7)
+		self.assertEqual(cognitive("metrics_sample.ts", "tsx"), 7)
+		self.assertEqual(cognitive("metrics_sample.php", "php"), 8)
+		self.assertEqual(cognitive("metrics_sample.rs", "rs"), 13)
+
+	def test_a_language_without_a_token_set_is_left_alone(self):
+		self.assertEqual(cognitive("commented_file.tex", "tex"), -1)

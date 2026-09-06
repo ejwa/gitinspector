@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 15:05+0200\n"
+"POT-Creation-Date: 2026-09-06 16:00+0200\n"
 "PO-Revision-Date: 2026-09-06 00:45+0200\n"
 "Last-Translator: Alexander Chernoskutov <alecherov@gmail.com>\n"
 "Language-Team: \n"
@@ -165,6 +165,9 @@ msgstr "Следующие ревизии были изъяты из стати�
 
 msgid "The following files are suspiciously big (in order of severity)"
 msgstr "Следующие файлы подозрительно большие (в порядке важности)"
+
+msgid "The following files have an elevated cognitive complexity (in order of severity)"
+msgstr "Следующие файлы имеют увеличенную когнитивную сложность (в порядке важности)"
 
 msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
 msgstr "Следующие файлы имеют увеличенную цикломатическую сложность (в порядке важности)"
@@ -347,6 +350,10 @@ msgstr "{0} ({1:.3f} в плотности цикломатической сло
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"
 msgstr "{0} (примерно {1} строк кода)"
+
+#, python-brace-format
+msgid "{0} ({1} in cognitive complexity)"
+msgstr "{0} ({1} в когнитивной сложности)"
 
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"

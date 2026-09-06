@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 15:05+0200\n"
+"POT-Creation-Date: 2026-09-06 16:00+0200\n"
 "PO-Revision-Date: 2026-09-06 00:30+0200\n"
 "Last-Translator: Moses Kim <creatinov.kim@gmail.com>\n"
 "Language-Team: \n"
@@ -167,6 +167,9 @@ msgstr "다음 커밋 리비전들은 제외 패턴으로 지정되었기 때문
 
 msgid "The following files are suspiciously big (in order of severity)"
 msgstr "다음 파일들의 크기가 너무 큰 것으로 의심됩니다 (심각도 순서)"
+
+msgid "The following files have an elevated cognitive complexity (in order of severity)"
+msgstr "다음 파일들의 인지 복잡도가 매우 높습니다 (심각도 순서)"
 
 msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
 msgstr "다음 파일들의 순환 복잡도가 매우 높습니다 (심각도 순서)"
@@ -349,6 +352,10 @@ msgstr "{0} (순환 복잡도 밀도로 표현 시: {1:.3f})"
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"
 msgstr "{0} (추정된 코드 라인 수: {1})"
+
+#, python-brace-format
+msgid "{0} ({1} in cognitive complexity)"
+msgstr "{0} (인지 복잡도로 표현 시: {1})"
 
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"

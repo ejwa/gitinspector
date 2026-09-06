@@ -14,6 +14,9 @@ gitinspector (0.5.0)
 	  default and get metrics.
 	* Comment recognition for Go, Rust, Robot Framework, Lilypond,
 	  TypeScript, JSX, CSV and TSV files.
+	* A cognitive complexity metric next to the cyclomatic one, charging
+	  a branch for how deeply it is nested rather than counting them all
+	  alike.
 	* "Rows" are now called "lines" throughout the output. The JSON and
 	  XML keys "rows" and "modified_rows" were renamed accordingly.
 	* Dutch, Korean, Portuguese and Russian translations.

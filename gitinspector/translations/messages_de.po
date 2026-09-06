@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 15:05+0200\n"
+"POT-Creation-Date: 2026-09-06 16:00+0200\n"
 "PO-Revision-Date: 2015-10-21 00:25+0200\n"
 "Last-Translator: Philipp Nowak <devnull@nowak-at.net>\n"
 "Language-Team: Deutsch <>\n"
@@ -168,6 +168,9 @@ msgstr "Die folgenden Änderungen wurden von der Statistik ausgeschlossen, da si
 
 msgid "The following files are suspiciously big (in order of severity)"
 msgstr "Die folgenden Dateien sind verdächtig groß (Geordnet nach Schweregrad)"
+
+msgid "The following files have an elevated cognitive complexity (in order of severity)"
+msgstr "Folgende Dateien haben eine hohe kognitive Komplexität (nach Schweregrad)"
 
 msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
 msgstr "Folgende Dateien haben eine hohe zyklomatische Komplexität (nach Schweregrad)"
@@ -348,6 +351,10 @@ msgstr "{0} (zyklomatische Komplexitätsdichte: {1:.3f})"
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"
 msgstr "{0} ({1} geschätzte Codezeilen)"
+
+#, python-brace-format
+msgid "{0} ({1} in cognitive complexity)"
+msgstr "{0} (kognitive Komplexität: {1})"
 
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"

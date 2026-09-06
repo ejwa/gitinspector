@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 15:05+0200\n"
+"POT-Creation-Date: 2026-09-06 16:00+0200\n"
 "PO-Revision-Date: 2015-20-23 18:33-0500\n"
 "Last-Translator: Bill Wang <wangzhijiebill@gmail.com>\n"
 "Language-Team: Chinese <>\n"
@@ -163,6 +163,9 @@ msgstr "下列提交已按规则从数据统计中移除"
 
 msgid "The following files are suspiciously big (in order of severity)"
 msgstr "下列文件过大文件有些可疑 (按严重程度排列)"
+
+msgid "The following files have an elevated cognitive complexity (in order of severity)"
+msgstr "下列文件认知复杂度过高 (按严重程度排列)"
 
 msgid "The following files have an elevated cyclomatic complexity (in order of severity)"
 msgstr "下列文件过度循环性问题 (按严重程度排列)"
@@ -332,6 +335,10 @@ msgstr "{0} (循环型结构密集度{1:.3f})"
 #, python-brace-format
 msgid "{0} ({1} estimated lines of code)"
 msgstr "{0}（估测代码行数{1}）"
+
+#, python-brace-format
+msgid "{0} ({1} in cognitive complexity)"
+msgstr "{0}（认知复杂度{1}）"
 
 #, python-brace-format
 msgid "{0} ({1} in cyclomatic complexity)"
