@@ -24,6 +24,8 @@ gitinspector (0.5.0)
 	* Files without an extension are blamed when asked for with * or **.
 	* Blamed lines are attributed to the newest name of an author, which
 	  earlier depended on the timing of the analysis threads.
+	* Tests that analyze real repositories and check the reports against
+	  statistics gathered straight from git.
 	* Names and paths with characters outside ASCII no longer crash the
 	  analysis or the output.
 	* A test harness that runs the analysis on generated repositories.
