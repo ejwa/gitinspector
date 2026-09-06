@@ -20,6 +20,7 @@ gitinspector (0.5.0)
 	* The analyzed branch of each repository is named in the output.
 	* Commits on merged branches are no longer lost during analysis.
 	* Runs on Python 3 again and keeps running on Python 2.7.
+	* No more line buffering warnings from Python 3.8 and later.
 	* Names and paths with characters outside ASCII no longer crash the
 	  analysis or the output.
 	* A test harness that runs the analysis on generated repositories.

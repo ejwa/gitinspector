@@ -120,10 +120,12 @@ class ChangesThread(threading.Thread):
 		thread.start()
 
 	def run(self):
-		git_log_p = subprocess.Popen(["git", "log", "--no-walk=unsorted", "--stdin", "--pretty=%ct|%cd|%H|%aN|%aE",
+		# The hashes go on the command line rather than through a pipe, since concurrently spawned children inherit
+		# each other's pipes on Python 2 and then deadlock waiting for the end of their input.
+		git_log_p = subprocess.Popen(["git", "log", "--no-walk=unsorted", "--pretty=%ct|%cd|%H|%aN|%aE",
 		                             "--stat=100000,8192", "--no-merges", "-w", "--date=short"] +
-		                             (["-C", "-C", "-M"] if self.hard else []), stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-		lines = git_log_p.communicate("\n".join(self.hashes).encode("utf-8"))[0].splitlines()
+		                             (["-C", "-C", "-M"] if self.hard else []) + self.hashes, stdout=subprocess.PIPE)
+		lines = git_log_p.communicate()[0].splitlines()
 
 		commit = None
 		found_valid_extension = False
