@@ -11,9 +11,11 @@ FROM python:3-alpine
 ENV PYTHONIOENCODING=utf-8
 
 # The mounted repository belongs to the user on the host and not to root,
-# which git refuses to read from unless the directory is marked as safe.
+# which git refuses to read from unless the directory is marked as safe. Only
+# the mount point is trusted; anything else in the image keeps the check.
 RUN apk add --no-cache git && \
-    git config --global --add safe.directory '*'
+    git config --global --add safe.directory /repo && \
+    git config --global --add safe.directory '/repo/*'
 
 COPY gitinspector/ /opt/gitinspector/gitinspector/
 COPY gitinspector.py /opt/gitinspector/
