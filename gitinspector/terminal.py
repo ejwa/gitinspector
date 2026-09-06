@@ -19,6 +19,7 @@
 
 from __future__ import print_function
 import codecs
+import io
 import os
 import platform
 import sys
@@ -107,8 +108,19 @@ def get_size():
 	return DEFAULT_TERMINAL_SIZE
 
 def set_stdout_encoding():
-	if not sys.stdout.isatty() and sys.version_info < (3,):
-		sys.stdout = codecs.getwriter("utf-8")(sys.stdout)
+	sys.stdout.flush()
+
+	if sys.stdout.isatty():
+		encoding = sys.stdout.encoding or "utf-8"
+		errors = "backslashreplace"
+	else:
+		encoding = "utf-8"
+		errors = "strict"
+
+	if sys.version_info < (3,):
+		sys.stdout = codecs.getwriter(encoding)(sys.stdout, errors)
+	else:
+		sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding, errors, line_buffering=sys.stdout.line_buffering)
 
 def set_stdin_encoding():
 	if not sys.stdin.isatty() and sys.version_info < (3,):
