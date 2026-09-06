@@ -65,6 +65,10 @@ class TimelineData(object):
 	def get_authors(self):
 		return sorted(set([(i[0][0], self.changes.get_latest_email_by_author(i[0][0])) for i in self.entries.items()]))
 
+	def get_author_changes_in_period(self, author, period):
+		entry = self.entries.get((author, period), None)
+		return (entry.insertions, entry.deletions) if entry else (0, 0)
+
 	def get_author_signs_in_period(self, author, period, multiplier):
 		authorinfo = self.entries.get((author, period), None)
 		total = float(self.total_changes_by_period[period][2])
