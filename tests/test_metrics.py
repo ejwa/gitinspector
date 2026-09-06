@@ -50,3 +50,7 @@ class TypeScriptMetricsTest(unittest.TestCase):
 	def test_branches_and_exits_are_counted_for_both_extensions(self):
 		self.assertEqual(measure("metrics_sample.ts", "ts"), (22, 30))
 		self.assertEqual(measure("metrics_sample.ts", "tsx"), (22, 30))
+
+class PhpMetricsTest(unittest.TestCase):
+	def test_elseif_and_string_cases_are_counted_once(self):
+		self.assertEqual(measure("metrics_sample.php", "php"), (22, 34))

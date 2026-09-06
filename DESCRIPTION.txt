@@ -11,7 +11,7 @@ student projects in the course Object-oriented Programming Project
 (TDA367/DIT211) at Chalmers University of Technology and Gothenburg University.
 
 - Shows cumulative work by each author in the history.
-- Filters results by extension (default: java,c,cc,cpp,h,hh,hpp,py,glsl,rb,js,sql,go,swift).
+- Filters results by extension (default: java,c,cc,cpp,h,hh,hpp,php,py,glsl,rb,js,sql,go,swift,ts,tsx).
 - Can display a statistical timeline analysis.
 - Scans for all filetypes (by extension) found in the repository.
 - Multi-threaded; uses multiple instances of git to speed up analysis.

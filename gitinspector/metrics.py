@@ -37,7 +37,10 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else",
                        [["go"], ["else", r"for\s+.*\{", r"if\s+.*\{", r"case\s+\w+:", "default:", r"goto\s+\w+"],
                                 ["break", "continue", "return"]],
                        [["swift"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bcase\s+.*:", r"\bdefault\s*:", r"\bwhile\s+"],
-                                   ["assert", "break", "continue", "return"]]]
+                                   ["assert", "break", "continue", "return"]],
+                       [["php"], [r"\belse\b", r"\belseif\s*\(.*\)", r"\bfor\s*\(.*\)", r"\bforeach\s*\(.*\)", r"\bif\s*\(.*\)",
+                                  r"\bcase\s+.*:", r"\bdefault\s*:", r"\bwhile\s*\(.*\)"],
+                                 ["assert", "break", "continue", "return"]]]
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
