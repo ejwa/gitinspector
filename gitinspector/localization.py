@@ -42,6 +42,41 @@ def __install_translation__(translation):
 	else:
 		translation.install()
 
+LANGUAGE_VARIABLES = ("LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG")
+WINDOWS_LOCALE_NAME_MAX_LENGTH = 85
+
+def __get_windows_language__():
+	import ctypes
+	name = ctypes.create_unicode_buffer(WINDOWS_LOCALE_NAME_MAX_LENGTH)
+
+	try:
+		if ctypes.windll.kernel32.GetUserDefaultLocaleName(name, len(name)):
+			return name.value[0:2]
+	except (AttributeError, OSError):
+		pass
+
+	return None
+
+def __get_language__():
+	for variable in LANGUAGE_VARIABLES:
+		value = os.getenv(variable)
+
+		if value:
+			return value.split(":")[0][0:2]
+
+	return __get_windows_language__() if sys.platform == "win32" else None
+
+def __load_translation__(language):
+	if language is None:
+		print("WARNING: Localization disabled because the system language could not be determined.", file=sys.stderr)
+		return gettext.NullTranslations()
+
+	try:
+		with open(basedir.get_basedir() + "/translations/messages_%s.mo" % language, "rb") as catalog:
+			return gettext.GNUTranslations(catalog)
+	except IOError:
+		return gettext.NullTranslations()
+
 def init():
 	global __enabled__
 	global __installed__
@@ -53,25 +88,7 @@ def init():
 		except locale.Error:
 			__translation__ = gettext.NullTranslations()
 		else:
-			lang = locale.getlocale()
-
-			#Fix for non-POSIX-compliant systems (Windows et al.).
-			if os.getenv('LANG') is None:
-				lang = locale.getdefaultlocale()
-
-				if lang[0]:
-					os.environ['LANG'] = lang[0]
-
-			if lang[0] is not None:
-				filename = basedir.get_basedir() + "/translations/messages_%s.mo" % lang[0][0:2]
-
-				try:
-					__translation__ = gettext.GNUTranslations(open(filename, "rb"))
-				except IOError:
-					__translation__ = gettext.NullTranslations()
-			else:
-				print("WARNING: Localization disabled because the system language could not be determined.", file=sys.stderr)
-				__translation__ = gettext.NullTranslations()
+			__translation__ = __load_translation__(__get_language__())
 
 		__enabled__ = True
 		__installed__ = True
