@@ -32,7 +32,7 @@ jobs:
             image: debian/eol:stretch
             suite: stretch
             interpreter: python
-            packages: python-stdeb python-setuptools python-all
+            packages: python-stdeb python-setuptools python-all dh-python
             revision: "1~python2"
     steps:
       - uses: actions/checkout@v4
