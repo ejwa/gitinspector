@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 03:01+0200\n"
+"POT-Creation-Date: 2026-09-06 03:13+0200\n"
 "PO-Revision-Date: 2026-09-06 00:30+0200\n"
 "Last-Translator: Moses Kim <creatinov.kim@gmail.com>\n"
 "Language-Team: \n"
@@ -41,6 +41,10 @@ msgstr "% in comments"
 #, python-format
 msgid "% of changes"
 msgstr "% of changes"
+
+#, python-brace-format
+msgid "'{0}' in {1}"
+msgstr "{1}의 '{0}'"
 
 msgid "(extensions used during statistical analysis are marked)"
 msgstr "(통계 분석 진행 과정에서 사용된 확장자들은 굵게 표시됩니다)"
@@ -140,6 +144,14 @@ msgstr "저장소 '{0}'에 대한 정보를 {1}에 수집하였습니다."
 
 msgid "Text output not yet supported in"
 msgstr "Text 출력은 다음에서 아직 지원하지 않습니다: "
+
+#, python-brace-format
+msgid "The analyzed branch was '{0}'."
+msgstr "분석한 브랜치는 '{0}'입니다."
+
+#, python-brace-format
+msgid "The analyzed branches were {0}."
+msgstr "분석한 브랜치는 {0}입니다."
 
 msgid "The authors with the following emails were excluded from the statistics due to the specified exclusion patterns"
 msgstr "다음 이메일은 제외 패턴으로 지정되었기 때문에, 해당 이메일 주소를 사용하는 작성자들은 통계에서 제외하였습니다"

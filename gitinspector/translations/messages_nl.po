@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 03:01+0200\n"
+"POT-Creation-Date: 2026-09-06 03:13+0200\n"
 "PO-Revision-Date: 2026-09-06 00:10+0200\n"
 "Last-Translator: Georgios Andreadis <g.andreadis@hetnet.nl>\n"
 "Language-Team: \n"
@@ -42,6 +42,10 @@ msgstr "% in commentaren"
 #, python-format
 msgid "% of changes"
 msgstr "% in veranderingen"
+
+#, python-brace-format
+msgid "'{0}' in {1}"
+msgstr "'{0}' in {1}"
 
 msgid "(extensions used during statistical analysis are marked)"
 msgstr "(extensies gebruikt tijdens de statistische analyse zijn gemarkeerd)"
@@ -141,6 +145,14 @@ msgstr "Statistische informatie voor de repository '{0}' werd verzameld op {1}."
 
 msgid "Text output not yet supported in"
 msgstr "Tekst output nog niet ondersteund in"
+
+#, python-brace-format
+msgid "The analyzed branch was '{0}'."
+msgstr "De geanalyseerde branch was '{0}'."
+
+#, python-brace-format
+msgid "The analyzed branches were {0}."
+msgstr "De geanalyseerde branches waren {0}."
 
 msgid "The authors with the following emails were excluded from the statistics due to the specified exclusion patterns"
 msgstr "De auteurs met de volgende emails werden van de statistieken uitgesloten door de gespecificeerde uitsluitingspatronen"

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gitinspector 0.5.0dev\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
-"POT-Creation-Date: 2026-09-06 03:01+0200\n"
+"POT-Creation-Date: 2026-09-06 03:13+0200\n"
 "PO-Revision-Date: 2015-20-23 18:33-0500\n"
 "Last-Translator: Bill Wang <wangzhijiebill@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -34,6 +34,10 @@ msgstr "% 的注释"
 #, python-format
 msgid "% of changes"
 msgstr "% 的修改"
+
+#, python-brace-format
+msgid "'{0}' in {1}"
+msgstr "{1} 中的 '{0}'"
 
 msgid "(extensions used during statistical analysis are marked)"
 msgstr "（统计分析过程中使用的插件已标记）"
@@ -134,6 +138,14 @@ msgstr "关于{0}的统计数据基于{1}上信息"
 
 msgid "Text output not yet supported in"
 msgstr "文本输出暂不支持"
+
+#, python-brace-format
+msgid "The analyzed branch was '{0}'."
+msgstr "分析的分支为 '{0}'。"
+
+#, python-brace-format
+msgid "The analyzed branches were {0}."
+msgstr "分析的分支为 {0}。"
 
 msgid "The authors with the following emails were excluded from the statistics due to the specified exclusion patterns"
 msgstr "下列邮箱相关联的作者已经从数据统计中移除"
