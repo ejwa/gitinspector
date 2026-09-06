@@ -94,6 +94,25 @@ class OutputEncodingTest(unittest.TestCase):
 		self.assertNotIn(b"<script>&", output)
 		self.assertIn(b"&lt;script&gt;&amp;", output)
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow a quote in a file name")
+	def test_a_quote_in_an_author_name_keeps_the_json_and_the_xml_valid(self):
+		#Git strips the angle brackets of a name itself; the quote, the ampersand and the backslash
+		#are what an author can still carry into a report that is written without a serializer.
+		name = "a&b\"c\\d"
+		self.repository.commit("add", {"a\"b&c.py": "print(2)\n"}, name, "quote@example.com")
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json")
+		(output, errors) = process.communicate()
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		reported = json.loads(output.decode("utf-8"))["gitinspector"]["changes"]["authors"]
+		self.assertIn(name, [author["name"] for author in reported])
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "xml")
+		(output, errors) = process.communicate()
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		authors = ElementTree.fromstring(output).find("changes").find("authors")
+		self.assertIn(name, [author.findtext("name") for author in authors])
+
 	def test_the_header_names_the_branch_of_every_repository(self):
 		other = Repository()
 		other.commit("add", {"other.py": "print(2)\n"})
