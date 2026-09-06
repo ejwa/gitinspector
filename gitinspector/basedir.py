@@ -41,7 +41,7 @@ def get_basedir_git(path=None):
 	bare_command.wait()
 
 	if bare_command.returncode != 0:
-		sys.exit(_("Error processing git repository at \"%s\"." % os.getcwd()))
+		sys.exit(_("Error processing git repository at \"%s\".") % os.getcwd())
 
 	isbare = (isbare[0].decode("utf-8", "replace").strip() == "true")
 	absolute_path = None
