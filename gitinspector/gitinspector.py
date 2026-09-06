@@ -27,7 +27,7 @@ from .blame import Blame
 from .changes import Changes
 from .config import GitConfig
 from .metrics import MetricsLogic
-from . import (basedir, clone, extensions, filtering, format, help, interval,
+from . import (basedir, clone, extensions, filtering, format, git, help, interval,
                localization, optval, terminal, version)
 from .output import outputable
 from .output.blameoutput import BlameOutput
@@ -124,6 +124,7 @@ def __get_validated_git_repos__(repos_relative):
 			cloned_repo.location = basedir.get_basedir_git(cloned_repo.location)
 			cloned_repo.name = os.path.basename(cloned_repo.location)
 
+		cloned_repo.branch = git.get_branch(cloned_repo.location)
 		repos.append(cloned_repo)
 
 	return repos

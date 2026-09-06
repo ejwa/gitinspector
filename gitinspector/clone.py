@@ -36,6 +36,7 @@ def create(url):
 		def __init__(self, name, location):
 			self.name = name
 			self.location = location
+			self.branch = None
 
 	parsed_url = urlparse(url)
 

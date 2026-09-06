@@ -67,6 +67,20 @@ def __get_zip_file_content__(name, file_name="/html/flot.zip"):
 
 INFO_ONE_REPOSITORY = N_("Statistical information for the repository '{0}' was gathered on {1}.")
 INFO_MANY_REPOSITORIES = N_("Statistical information for the repositories '{0}' was gathered on {1}.")
+INFO_ONE_BRANCH = N_("The analyzed branch was '{0}'.")
+INFO_MANY_BRANCHES = N_("The analyzed branches were {0}.")
+BRANCH_IN_REPOSITORY = N_("'{0}' in {1}")
+
+def __info_text__(repos):
+	repos_string = ", ".join([repo.name for repo in repos])
+
+	if len(repos) <= 1:
+		return _(INFO_ONE_REPOSITORY).format(repos_string, localization.get_date()) + " " + \
+		       _(INFO_ONE_BRANCH).format(repos[0].branch)
+
+	branches = ", ".join([_(BRANCH_IN_REPOSITORY).format(repo.branch, repo.name) for repo in repos])
+	return _(INFO_MANY_REPOSITORIES).format(repos_string, localization.get_date()) + " " + \
+	       _(INFO_MANY_BRANCHES).format(branches)
 
 def output_header(repos):
 	repos_string = ", ".join([repo.name for repo in repos])
@@ -112,21 +126,17 @@ def output_header(repos):
 		                                       " for git repositories.").format(
 					               "<a href=\"https://github.com/ejwa/gitinspector\">gitinspector</a>",
 		                                       version.__version__),
-		                         repo_text=_(INFO_ONE_REPOSITORY if len(repos) <= 1 else INFO_MANY_REPOSITORIES).format(
-		                                     repos_string, localization.get_date())))
+		                         repo_text=__info_text__(repos)))
 	elif __selected_format__ == "json":
 		print("{\n\t\"gitinspector\": {")
 		print("\t\t\"version\": \"" + version.__version__ + "\",")
 
 		if len(repos) <= 1:
 			print("\t\t\"repository\": \"" + repos_string + "\",")
+			print("\t\t\"branch\": \"" + repos[0].branch + "\",")
 		else:
-			repos_json = "\t\t\"repositories\": [ "
-
-			for repo in repos:
-				repos_json += "\"" + repo.name + "\", "
-
-			print(repos_json[:-2] + " ],")
+			print("\t\t\"repositories\": [ " + ", ".join(["\"" + repo.name + "\"" for repo in repos]) + " ],")
+			print("\t\t\"branches\": [ " + ", ".join(["\"" + repo.branch + "\"" for repo in repos]) + " ],")
 
 		print("\t\t\"report_date\": \"" + time.strftime("%Y/%m/%d") + "\",")
 
@@ -135,19 +145,18 @@ def output_header(repos):
 		print("\t<version>" + version.__version__ + "</version>")
 
 		if len(repos) <= 1:
-			print("\t<repository>" + repos_string + "</repository>")
+			print("\t<repository branch=\"" + repos[0].branch + "\">" + repos_string + "</repository>")
 		else:
 			print("\t<repositories>")
 
 			for repo in repos:
-				print("\t\t<repository>" + repo.name + "</repository>")
+				print("\t\t<repository branch=\"" + repo.branch + "\">" + repo.name + "</repository>")
 
 			print("\t</repositories>")
 
 		print("\t<report-date>" + time.strftime("%Y/%m/%d") + "</report-date>")
 	else:
-		print(textwrap.fill(_(INFO_ONE_REPOSITORY if len(repos) <= 1 else INFO_MANY_REPOSITORIES).format(
-		      repos_string, localization.get_date()), width=terminal.get_size()[0]))
+		print(textwrap.fill(__info_text__(repos), width=terminal.get_size()[0]))
 
 def output_footer():
 	if __selected_format__ == "html" or __selected_format__ == "htmlembedded":
