@@ -19,11 +19,8 @@
 
 from __future__ import print_function
 from __future__ import unicode_literals
-from ..changes import FileDiff
 from ..localization import N_
-from ..metrics import (__metric_eloc__, METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD,
-                       METRIC_COGNITIVE_COMPLEXITY_THRESHOLD)
-from .outputable import Outputable
+from .outputable import Outputable, html_card, html_cards, html_file_row, html_files
 
 ELOC_INFO_TEXT = N_("The following files are suspiciously big (in order of severity)")
 CYCLOMATIC_COMPLEXITY_TEXT = N_("The following files have an elevated cyclomatic complexity (in order of severity)")
@@ -32,18 +29,18 @@ CYCLOMATIC_COMPLEXITY_DENSITY_TEXT = N_("The following files have an elevated cy
 COGNITIVE_COMPLEXITY_TEXT = N_("The following files have an elevated cognitive complexity (in order of severity)")
 METRICS_MISSING_INFO_TEXT = N_("No metrics violations were found in the repository")
 
-METRICS_VIOLATION_SCORES = [[1.0, "minimal"], [1.25, "minor"], [1.5, "medium"], [2.0, "bad"], [3.0, "severe"]]
-
-def __get_metrics_score__(ceiling, value):
-	for i in reversed(METRICS_VIOLATION_SCORES):
-		if value > ceiling * i[0]:
-			return i[1]
-
 def __sorted_violations__(violations):
 	return sorted(set([(value, name) for (name, value) in violations.items()]), reverse=True)
 
-def __html_violation__(score, text):
-	return "<li class=\"list-group-item violation-{0}\">{1}</li>".format(score, text)
+def __html_violations__(title, violations, template, color=None):
+	if not violations:
+		return ""
+
+	sorted_violations = __sorted_violations__(violations)
+	widest = sorted_violations[0][0]
+	rows = [html_file_row(name, template.format(value), value, widest, color) for (value, name) in sorted_violations]
+
+	return html_card(title, html_files(rows), pad=True)
 
 def __json_violation__(kind, name, value):
 	return ("{\n\t\t\t\t\"type\": \"" + kind + "\",\n\t\t\t\t\"file_name\": \"" + name + "\",\n" +
@@ -87,41 +84,17 @@ class MetricsOutput(Outputable):
 				print(_("{0} ({1} in cognitive complexity)").format(name, str(value)))
 
 	def output_html(self):
-		metrics_xml = "<div><div class=\"box\" id=\"metrics\">"
-
 		if not self.has_violations():
-			metrics_xml += "<h1>" + _(METRICS_MISSING_INFO_TEXT) + "</h1>"
+			print(html_card(_(METRICS_MISSING_INFO_TEXT), "", pad=True))
+			return
 
-		if self.metrics.eloc:
-			metrics_xml += "<h1>" + _(ELOC_INFO_TEXT) + "</h1><ul class=\"list-group\">"
-			for (value, name) in __sorted_violations__(self.metrics.eloc):
-				metrics_xml += __html_violation__(__get_metrics_score__(__metric_eloc__[FileDiff.get_extension(name)], value),
-				                                  _("{0} ({1} estimated lines of code)").format(name, str(value)))
-			metrics_xml += "</ul>"
+		cards = [__html_violations__(_(ELOC_INFO_TEXT), self.metrics.eloc, "{0}", "var(--del)"),
+		         __html_violations__(_(CYCLOMATIC_COMPLEXITY_TEXT), self.metrics.cyclomatic_complexity, "{0}"),
+		         __html_violations__(_(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT), self.metrics.cyclomatic_complexity_density,
+		                             "{0:.3f}"),
+		         __html_violations__(_(COGNITIVE_COMPLEXITY_TEXT), self.metrics.cognitive_complexity, "{0}")]
 
-		if self.metrics.cyclomatic_complexity:
-			metrics_xml += "<h1>" + _(CYCLOMATIC_COMPLEXITY_TEXT) + "</h1><ul class=\"list-group\">"
-			for (value, name) in __sorted_violations__(self.metrics.cyclomatic_complexity):
-				metrics_xml += __html_violation__(__get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD, value),
-				                                  _("{0} ({1} in cyclomatic complexity)").format(name, str(value)))
-			metrics_xml += "</ul>"
-
-		if self.metrics.cyclomatic_complexity_density:
-			metrics_xml += "<h1>" + _(CYCLOMATIC_COMPLEXITY_DENSITY_TEXT) + "</h1><ul class=\"list-group\">"
-			for (value, name) in __sorted_violations__(self.metrics.cyclomatic_complexity_density):
-				metrics_xml += __html_violation__(__get_metrics_score__(METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD, value),
-				                                  _("{0} ({1:.3f} in cyclomatic complexity density)").format(name, value))
-			metrics_xml += "</ul>"
-
-		if self.metrics.cognitive_complexity:
-			metrics_xml += "<h1>" + _(COGNITIVE_COMPLEXITY_TEXT) + "</h1><ul class=\"list-group\">"
-			for (value, name) in __sorted_violations__(self.metrics.cognitive_complexity):
-				metrics_xml += __html_violation__(__get_metrics_score__(METRIC_COGNITIVE_COMPLEXITY_THRESHOLD, value),
-				                                  _("{0} ({1} in cognitive complexity)").format(name, str(value)))
-			metrics_xml += "</ul>"
-
-		metrics_xml += "</div></div>"
-		print(metrics_xml)
+		print(html_cards(cards))
 
 	def output_json(self):
 		if not self.has_violations():
