@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.7", "3.9", "3.11", "3.12", "3.13", "3.14"]
+        python: ["3.9", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,15 +34,16 @@ jobs:
           export GITINSPECTOR_TEST_REPOSITORIES="$HOME/gitinspector-test-repositories"
           python -m unittest discover -v
 
-  # The oldest interpreters are no longer offered by setup-python. Their images already carry git,
-  # and apt-get cannot install anything in them because Debian buster has moved to the archive.
-  # They clone the analyzed repositories themselves, so that nothing owned by root reaches the cache.
+  # The oldest interpreters are not offered for the runner image any more. Their docker images
+  # already carry git, and apt-get cannot install anything in them because Debian buster has moved
+  # to the archive. They clone the analyzed repositories themselves, so that nothing owned by root
+  # reaches the cache.
   legacy:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        image: ["python:2.7", "python:3.5"]
+        image: ["python:2.7", "python:3.5", "python:3.7"]
     steps:
       - uses: actions/checkout@v4
       - name: Run the test suite
