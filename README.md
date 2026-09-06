@@ -21,7 +21,9 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Scans for all filetypes (by extension) found in the repository.
   * Multi-threaded; uses multiple instances of git to speed up analysis when possible.
   * Supports HTML, JSON, XML and plain text output (console).
+  * Generates responsive HTML reports with sortable tables and charts that work on phones as well.
   * Can report violations of different code metrics.
+  * Runs on Python 2.7 and on Python 3.5 and later; see [docs/REQUIREMENTS.txt](docs/REQUIREMENTS.txt) for the supported versions.
 
 ### Example outputs
 Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlrm"* flags.
@@ -35,12 +37,14 @@ Below are some example outputs for a number of famous open source projects. All 
 ### The Team
   * Adam Waldenberg, Lead maintainer and Swedish translation
   * Agustín Cañas, Spanish translation
+  * Alexander Chernoskutov, Russian translation
   * Bart van Andel, npm package maintainer
   * Bill Wang, Chinese translation
   * Christian Kastner, Debian package maintainer
-  * Moses Kim, Korean translation
+  * Georgios Andreadis, Dutch translation
   * Kamila Chyla, Polish translation
   * Luca Motta, Italian translation
+  * Moses Kim, Korean translation
   * Philipp Nowak, German translation
   * Sergei Lomakov, Russian translation
   * Yannick Moy, French translation
