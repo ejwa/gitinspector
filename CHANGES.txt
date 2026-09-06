@@ -16,7 +16,7 @@ gitinspector (0.5.0)
 	  TypeScript, JSX, CSV and TSV files.
 	* "Rows" are now called "lines" throughout the output. The JSON and
 	  XML keys "rows" and "modified_rows" were renamed accordingly.
-	* Dutch, Korean and Russian translations.
+	* Dutch, Korean, Portuguese and Russian translations.
 	* Author emails are included in the JSON and HTML output.
 	* The analyzed branch of each repository is named in the output.
 	* Commits on merged branches are no longer lost during analysis.
