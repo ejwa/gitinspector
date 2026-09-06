@@ -72,6 +72,26 @@ class AuthorIdentityTest(unittest.TestCase):
 		result = analyze_changes(self.repository)
 		self.assertEqual(result.get_latest_email_by_author("Same Name"), "new@example.com")
 
+class WhitespaceOnlyCommitTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	#git log -w prints a header and a blank line but no diffstat for such a commit, which used to leave
+	#the log ending on an empty line and every empty line in it looking like the last one.
+	def test_a_trailing_commit_that_only_changes_whitespace_is_analyzed(self):
+		self.repository.commit("first", {"a.py": "x = 1\n"}, "One", "one@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.commit("second", {"b.py": "y = 2\n"}, "Two", "two@example.com", "2018-05-07T15:02:00+0000")
+		self.repository.commit("reindent", {"a.py": "    x = 1\n"}, "Three", "three@example.com", WINDOW_END)
+
+		result = analyze_changes(self.repository)
+
+		self.assertEqual(authors_of(result), ["One", "Two"])
+		self.assertEqual(sorted(filediff.name for commit in result.get_commits()
+		                        for filediff in commit.get_filediffs()), ["a.py", "b.py"])
+
 class IntervalTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()

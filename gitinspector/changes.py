@@ -118,22 +118,20 @@ class ChangesThread(workers.Worker):
 			for i in lines:
 				j = git.decode(i.strip())
 
-				if Commit.is_commit_line(j) or i is lines[-1]:
+				if Commit.is_commit_line(j):
 					if found_valid_extension:
 						bisect.insort(commits, commit)
 
 					found_valid_extension = False
 					is_filtered = False
 					commit = Commit(j)
+					self.changes.remember_author(commit)
 
-					if Commit.is_commit_line(j):
-						self.changes.remember_author(commit)
-
-						if filtering.set_filtered(commit.author, "author") or \
-						   filtering.set_filtered(commit.email, "email") or \
-						   filtering.set_filtered(commit.sha, "revision") or \
-						   filtering.set_filtered(commit.sha, "message"):
-							is_filtered = True
+					if filtering.set_filtered(commit.author, "author") or \
+					   filtering.set_filtered(commit.email, "email") or \
+					   filtering.set_filtered(commit.sha, "revision") or \
+					   filtering.set_filtered(commit.sha, "message"):
+						is_filtered = True
 
 				if FileDiff.is_filediff_line(j) and not \
 				   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
@@ -143,6 +141,9 @@ class ChangesThread(workers.Worker):
 						found_valid_extension = True
 						filediff = FileDiff(j)
 						commit.add_filediff(filediff)
+
+			if found_valid_extension:
+				bisect.insort(commits, commit)
 
 			self.changes.commits[self.index] = commits
 

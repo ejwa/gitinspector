@@ -28,6 +28,8 @@ gitinspector (0.5.0)
 	* Author emails are included in the JSON and HTML output.
 	* The analyzed branch of each repository is named in the output.
 	* Commits on merged branches are no longer lost during analysis.
+	* A commit that only changes whitespace no longer aborts the run
+	  with an AttributeError about a missing timestamp, sha or date.
 	* --version and --help are answered outside a git repository again,
 	  instead of complaining that the current directory is not one.
 	* An argument that names a missing directory, or a file rather than a
