@@ -47,6 +47,19 @@ jobs:
             apt-get install -y --force-yes --no-install-recommends ${{ matrix.packages }} build-essential fakeroot
             echo "Debian-Version: ${{ matrix.revision }}" >> stdeb.cfg
             ${{ matrix.interpreter }} setup.py --command-packages=stdeb.command bdist_deb
+
+            # Debian 7 has python 2.7.3, older than the 2.7.5-5 that the python:any syntax itself
+            # requires, and its dpkg reads no compression newer than gzip. Both are relaxed back to
+            # what the 0.4.4 package used; the install job on wheezy is what proves it worked.
+            if [ "${{ matrix.flavour }}" = "python2" ]; then
+              package=$(ls deb_dist/*.deb)
+              rm -rf /tmp/rebuilt && mkdir /tmp/rebuilt
+              dpkg-deb -R "$package" /tmp/rebuilt
+              sed -i "s/python:any (>= [^)]*)/python (>= 2.7)/; s/python:any (<< 2.8)/python (<< 2.8)/" \
+                     /tmp/rebuilt/DEBIAN/control
+              rm -f "$package"
+              dpkg-deb -Zgzip --build /tmp/rebuilt "$package"
+            fi
           '
 
       - name: Show what came out
@@ -121,16 +134,20 @@ jobs:
       - name: Install on ${{ matrix.suite }} and report on a repository
         env:
           ARCHIVED: ${{ matrix.archived }}
+          RESOURCES: ${{ matrix.flavour == 'python2' && 'python-pkg-resources' || 'python3-pkg-resources' }}
         run: |
           docker run --rm --volume "$GITHUB_WORKSPACE:/source" --workdir /source \
-            --env ARCHIVED --env DEBIAN_FRONTEND=noninteractive ${{ matrix.image }} sh -c '
+            --env ARCHIVED --env RESOURCES --env DEBIAN_FRONTEND=noninteractive ${{ matrix.image }} sh -c '
             set -e
             if [ -n "$ARCHIVED" ]; then
               printf "deb http://archive.debian.org/debian $ARCHIVED main\n" > /etc/apt/sources.list
               echo "Acquire::Check-Valid-Until \"false\";" > /etc/apt/apt.conf.d/10-no-check-valid-until
             fi
             apt-get update -qq
-            dpkg -i packages/*.deb || apt-get install -y --force-yes -f
+            # Bringing the dependencies in first keeps dpkg from leaving a half configured package
+            # behind, which apt then resolves by removing what we are trying to test.
+            apt-get install -y --force-yes --no-install-recommends -o Acquire::Retries=3 git $RESOURCES
+            dpkg -i packages/*.deb
             gitinspector --version
             git config --global --add safe.directory /source || true
             gitinspector -f py --format=json /source > /tmp/report.json
