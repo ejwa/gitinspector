@@ -1,4 +1,5 @@
-Statistical information for the repository 'pango' was gathered on 2015/10/25.
+Statistical information for the repository 'pango' was gathered on 2026/09/08.
+The analyzed branch was 'main'.
 The following historical commit information, by author, was found in the
 repository:
 
@@ -6,169 +7,320 @@ Author                     Commits    Insertions      Deletions    % of changes
 3                                2            24              8            0.01
 5                                1             3              1            0.00
 8                                1             4              4            0.00
-Akira TAGOH                      1             3              0            0.00
-Alberto Ruiz                    96           226            207            0.10
+Aaron Boxer                      2            13             24            0.01
+Aki Sakurai                      1             1              1            0.00
+Akira TAGOH                      3            34              5            0.01
+Alberto Ruiz                    96           226            207            0.08
+Alessandro Astone                1            41             13            0.01
 Alessandro Pignotti              9            52             35            0.02
-Alex Larsson                    11           186             74            0.06
-Alexander Larsson               25         11778           8381            4.65
-Anders Carlsson                  5          1634              9            0.38
-Behdad Esfahbod               1373         79962         111021           44.04
-Benjamin Otte                    4           615            601            0.28
+Alex Larsson                    11           186             74            0.05
+Alexander Kanavin                1             1              1            0.00
+Alexander Larsson               26         11785           8386            3.78
+Alvin Wong                       1            17              0            0.00
+Anders Carlsson                  5          1634              9            0.31
+Artem Rebrov                     1            16             12            0.01
+Behdad Esfahbod               1411         82867         112111           36.57
+Benjamin Otte                   32          1238           1684            0.55
+Bilal Elmoussaoui                6            77             16            0.02
+Biswapriyo Nath                  2             2              0            0.00
+Caleb Hearon                     2           115             64            0.03
 Carl Worth                       1             3              1            0.00
-Changwoo Ryu                    15           677            281            0.22
+Carsten Pfeiffer                 1             3              0            0.00
+Changwoo Ryu                    15           677            281            0.18
 Chema Celorio                    1             1              1            0.00
-Chookij Vanatham                11          3450            720            0.96
-Chris Wilson                     2           132             75            0.05
+Chookij Vanatham                11          3450            720            0.78
+Chris Wilson                     2           132             75            0.04
+Christian Hergert                3            11              8            0.00
 Christian Persch                 2            40            153            0.04
-Christopher Blizzard             3           419             25            0.10
-Chun-wei Fan                     8           350             18            0.08
+Christoph Reiter                 6           186             17            0.04
+Christopher Blizzard             3           419             25            0.08
+Chun-wei Fan                    75          4182           1475            1.06
 Cody Russell                     2             4              1            0.00
-Colin Walters                    5            62             16            0.02
-Darin Adler                      4            57             63            0.03
+Colin Walters                    5            62             16            0.01
+Darin Adler                      4            57             63            0.02
 David E. Hollingswor             1             6              7            0.00
 Dominic Lachowicz                1             1              1            0.00
-Dov Grobgeld                    11           830             22            0.20
-Elliot Lee                      11           200             70            0.06
-Emmanuele Bassi                  2             4              3            0.00
-Eric Mader                       4          2077             54            0.49
-Evan Nemerson                    2           381            338            0.17
+Dominique Quatravaux             1             2              2            0.00
+Dov Grobgeld                    11           830             22            0.16
+Ebrahim Byagowi                  2             9              9            0.00
+Egmont Koblinger                 1             2              2            0.00
+Elliot Lee                      11           200             70            0.05
+Elliott Sales de And             3           396            232            0.12
+Emmanuele Bassi                 40           809            423            0.23
+Eric Mader                       4          2077             54            0.40
+Evan Nemerson                    2           381            338            0.13
+Evgenii Gurianov                 1            12              7            0.00
 Fabian Groffen                   1             1              0            0.00
-Federico Mena Quinte             3          8867            316            2.12
-Hans Breuer                     22          1289            373            0.38
-Havoc Pennington                47          8062           2118            2.35
+Fabrice Fontaine                 1             1              1            0.00
+Federico Mena Quinte             8          8906            348            1.74
+Felix Yan                        1             1              1            0.00
+GitS7                            2             7              6            0.00
+Guido Günther                    1             1              1            0.00
+Guillaume Ayoub                  1             1              1            0.00
+Guillaume Gomez                  4           149            147            0.06
+Hans Breuer                     22          1289            373            0.31
+Havoc Pennington                47          8062           2118            1.91
 Hidetoshi Tajima                 2            39              6            0.01
-James Henstridge                 2           123              0            0.03
-Jasper St. Pierre                3           181             76            0.06
+Hugo Herbelin                    1             1              1            0.00
+James Henstridge                 2           123              0            0.02
+Jan Alexander Steffe             3             9              4            0.00
+Jared Wahlstrand                 1             1              1            0.00
+Jasper St. Pierre                3           181             76            0.05
 Javier Jardon                    1             2              2            0.00
-Javier Jardón                   16           134            434            0.13
+Javier Jardón                   16           134            434            0.11
+Jean Abou Samra                  1             5              2            0.00
 Jean Brefort                     1             1              1            0.00
-Jehan                            2             5              8            0.00
-Jody Goldberg                    1            22              3            0.01
-Johan Dahlin                     2           108            105            0.05
+Jehan                            3             9              8            0.00
+Jeremy Bicha                     1             1              1            0.00
+Jeremy Tan                       2            18             17            0.01
+Jody Goldberg                    1            22              3            0.00
+Johan Dahlin                     2           108            105            0.04
 John (J5) Palmieri               1            31             27            0.01
-John Ralls                      12           141            141            0.07
-Jonathan Blandford               1           107              8            0.03
+John Beard                       1           102             98            0.04
+John Ralls                      18           230            224            0.09
+Jonas Dreßler                    1            80              0            0.02
+Jonathan Blandford               1           107              8            0.02
+Jordan Petridis                  2            11              3            0.00
+Jordi Mas                        1            67              0            0.01
 José Aliste                      1             2             17            0.00
 Kalev Lember                     1             1              1            0.00
-Keith Packard                    2            31             37            0.02
-Khaled Hosny                    15           165            925            0.25
+Keith Packard                    2            31             37            0.01
+Khaled Hosny                    48          1030           5159            1.16
+Kim Woelders                     1             4              3            0.00
 Kjartan Maraas                   1             1              1            0.00
-Kristian Rietveld               35          4120            680            1.11
+Kouhei Sutou                     1             1              1            0.00
+Kristian Rietveld               38          4213            696            0.92
+Krzesimir Nowak                  1            29             29            0.01
 Laszlo Pandy                     2             6              6            0.00
-Manish Singh                    19           278            158            0.10
+Lovell Fuller                    1             0             16            0.00
+Luca Bacci                       7           189             14            0.04
+Manish Singh                    19           278            158            0.08
+Marco Trevisan (Trev             1            24              8            0.01
 Martin Baulig                    2             4              1            0.00
 Matej Knopp                      1             4              6            0.00
 Mathias Hasselmann               3            29              5            0.01
+Matijs van Zuijlen               1             2              2            0.00
+Matt Turner                      2             8              0            0.00
 Matt Wilson                      2            10              8            0.00
-Matthias Clasen                 95          3650           1259            1.13
+Matthias Clasen               1246         47334          24870           13.54
 Matthias Warkus                  1             1              1            0.00
 Max                              2             4              1            0.00
+Michael Catanzaro                1           140            131            0.05
 Michael Vogt                     1             2              2            0.00
+Mike FABIAN                      1            46             33            0.01
+Miloš Komarčević                 1             1              1            0.00
 Morten Welinder                  4            13              7            0.00
 Murray Cumming                   2             3              3            0.00
-Noah Levitt                     13           964            428            0.32
-Owen Taylor                    567         95047          50587           33.58
+Naveen M K                       2             2              2            0.00
+Nicolas Hake                     6            56             26            0.02
+Niels De Graef                   1             2              2            0.00
+Noah Levitt                     13           964            428            0.26
+ONO Yoshio                       1           106             19            0.02
+Owen Taylor                    567         95047          50587           27.32
 Owen W. Taylor                   2            22             10            0.01
-Pablo Saratxaga                  2            21              5            0.01
+Pablo Saratxaga                  2            21              5            0.00
 Padraig O'Briain                 3            15              6            0.00
 Paolo Borelli                    1             3              3            0.00
+Patrick Griffis                  2             5              6            0.00
 Pavel Holejsovsky                4            28             25            0.01
-Philip Withnall                  1             8              2            0.00
-Richard Hult                    15           671            412            0.25
+Peng Wu                         58          5875           2998            1.66
+Philip Withnall                 10            54             28            0.02
+Pierre SOUCHAY                   1             3              0            0.00
+Pravdomil Toman                  1            30             16            0.01
+Richard Hult                    15           671            412            0.20
+Rico Tzschichholz                7            17             15            0.01
 Robert Ancell                    2             3              1            0.00
-Robert Brady                     6          4823            880            1.32
-Roozbeh Pournader                3           206            113            0.07
-Ryan Lortie                      1            39             39            0.02
-Sebastian Dröge                  2            13              2            0.00
-Sebastian Wilhelmi               1            33             33            0.02
-Soeren Sandmann                  4           115             98            0.05
+Robert Brady                     6          4823            880            1.07
+Roozbeh Pournader                3           206            113            0.06
+Ross Burton                      3            14            152            0.03
+Rudi Heitbaum                    1            36             25            0.01
+Ryan Lortie                      1            39             39            0.01
+Ryan Schmidt                     2            16              1            0.00
+Sebastian Dröge                  4            18              8            0.00
+Sebastian Keller                 3            42              6            0.01
+Sebastian Wilhelmi               1            33             33            0.01
+Sergey Bugaev                   11            86             55            0.03
+Seungha Yang                     4            77              8            0.02
+Simon McVittie                   4            17             29            0.01
+Soeren Sandmann                  4           115             98            0.04
+Stephan Bergmann                 1             6              2            0.00
+Sudip Shil                       1            36              0            0.01
+Suyuan Chang                     1             5              1            0.00
 Sven Herzberg                    1            17             23            0.01
-Sven Neumann                    24           587            432            0.23
-Theppitak Karoonboon            12           857            477            0.31
+Sven Neumann                    24           587            432            0.19
+Szunti                           1            10              1            0.00
+Tavmjong Bah                     1             4              8            0.00
+Theppitak Karoonboon            12           857            477            0.25
+Thomas Haller                    4            50             51            0.02
 Tim Janik                        5            39             45            0.02
-Tor Lillqvist                  112         12803           4138            3.91
+Tim-Philipp Müller               1             6              0            0.00
+Timm Bäder                      38           714            589            0.24
+Ting-Wei Lan                     3             5              3            0.00
+Tor Lillqvist                  112         12803           4138            3.18
+Victor Mireyev                   1             1              1            0.00
+Weng Xuetian                     1            15              1            0.00
+Werner Lemberg                   1             2              1            0.00
 Wouter Bolsterlee                1            10             10            0.00
+Xavid Pretzer                    2            69             11            0.02
+Yongsu Park                      2           152             82            0.04
+Zander Brown                     1            48              0            0.01
+aihui zhu                        1             2              2            0.00
+badcel                           1             1              1            0.00
+correctmost                      3             2             21            0.00
+kramo                            1             2              2            0.00
+milotype                         1             3              3            0.00
+misos1                           1             8              7            0.00
+msizanoen1                       1            10              0            0.00
+sshil                            1            12              0            0.00
+two                              2             3              1            0.00
+Total                         4341        309323         223841          100.00
 
-Below are the number of rows from each author that have survived and are still
+Below are the number of lines from each author that have survived and are still
 intact in the current revision:
 
-Author                     Rows      Stability          Age       % in comments
-Akira TAGOH                   3          100.0         20.3                0.00
-Alberto Ruiz                157           69.5         54.0              100.00
-Alessandro Pignotti          32           61.5         53.0                6.25
-Alex Larsson                941          505.9        109.6               12.86
-Alexander Larsson           749            6.4        167.1                8.14
-Anders Carlsson              70            4.3        119.0               10.00
-Behdad Esfahbod           21476           26.9         85.2               28.25
-Benjamin Otte               608           98.9         35.3                0.49
-Carl Worth                    3          100.0        126.7                0.00
-Chris Wilson                 66           50.0         80.7               12.12
-Christian Persch             39           97.5         89.0                0.00
-Christopher Blizzard        286           68.3        138.0               32.52
-Chun-wei Fan                329           94.0         33.4                6.99
-Cody Russell                  4          100.0         12.0                0.00
-Colin Walters                19           30.6         47.8               63.16
-Darin Adler                  19           33.3        164.6                0.00
-Dominic Lachowicz             1          100.0         92.4                0.00
-Dov Grobgeld                 10            1.2        165.2              100.00
-Elliot Lee                   43           21.5        181.1                9.30
-Emmanuele Bassi               1           25.0         16.1              100.00
-Eric Mader                    2            0.1        161.6                0.00
-Evan Nemerson               353           92.7         24.2               99.15
-Fabian Groffen                1          100.0         40.2                0.00
-Federico Mena Quinte         16            0.2        119.2                6.25
-Hans Breuer                 600           46.5        164.8               11.83
-Havoc Pennington           4833           59.9        179.0               18.75
-James Henstridge             41           33.3        171.6               17.07
-Jasper St. Pierre           114           63.0         39.2               30.70
-Javier Jardón                86           64.2         53.6                8.14
-Jean Brefort                  1          100.0        121.4                0.00
-Jehan                         4           80.0         25.7                0.00
-Jody Goldberg                13           59.1        136.9               15.38
-Johan Dahlin                 78           72.2         87.4                8.97
-John (J5) Palmieri           10           32.3         56.2              100.00
-John Ralls                  107           75.9         49.3                3.74
-Jonathan Blandford          100           93.5        181.5               17.00
-José Aliste                   2          100.0         29.7              100.00
-Kalev Lember                  1          100.0         51.4                0.00
-Keith Packard                11           35.5        127.3                0.00
-Khaled Hosny                 79           47.9          5.8               59.49
-Kristian Rietveld          2684           65.1         54.9                7.75
-Laszlo Pandy                  6          100.0         56.4              100.00
-Manish Singh                179           64.4        138.9                2.79
-Matej Knopp                   3           75.0         52.8                0.00
-Mathias Hasselmann           20           69.0        101.6               20.00
-Matthias Clasen            2577           70.6         40.9               22.89
-Max                           4          100.0         12.0                0.00
-Morten Welinder               9           69.2        142.3                0.00
-Murray Cumming                2           66.7        112.9               50.00
-Noah Levitt                 660           68.5        141.9               23.48
-Owen Taylor               25399           26.7        137.8               27.64
-Owen W. Taylor               15           68.2         50.6                0.00
-Padraig O'Briain             11           73.3        165.8               36.36
-Paolo Borelli                 3          100.0         58.4              100.00
-Pavel Holejsovsky            28          100.0         40.6              100.00
-Philip Withnall               8          100.0         22.8                0.00
-Richard Hult                 58            8.6        100.8               15.52
-Robert Brady                  1            0.0        179.5              100.00
-Roozbeh Pournader            52           25.2        111.5               63.46
-Ryan Lortie                  36           92.3         52.5                0.00
-Sebastian Dröge               9           69.2         22.9                0.00
-Sebastian Wilhelmi           37          112.1        179.4                5.41
-Soeren Sandmann              61           53.0        149.6               22.95
-Sven Herzberg                14           82.4         86.4              100.00
-Sven Neumann                201           34.2        155.6               24.38
-Tim Janik                     3            7.7        171.8                0.00
-Tor Lillqvist              3923           30.6        146.4               10.73
-Wouter Bolsterlee             4           40.0         92.8              100.00
+Author                    Lines      Stability          Age       % in comments
+Aaron Boxer                  10           76.9         74.2                0.00
+Aki Sakurai                   1          100.0         49.3                0.00
+Akira TAGOH                  30           88.2         86.1                3.33
+Alberto Ruiz                 24           10.6        183.5              100.00
+Alessandro Astone            39           95.1         18.6               25.64
+Alessandro Pignotti          32           61.5        182.5                6.25
+Alexander Kanavin             1          100.0         55.7                0.00
+Alexander Larsson          1210           10.3        259.9                8.76
+Alvin Wong                   16           94.1          7.9                0.00
+Anders Carlsson              54            3.3        248.5               12.96
+Artem Rebrov                  6           37.5         60.9                0.00
+Behdad Esfahbod           18714           22.6        204.3               20.74
+Benjamin Otte              1083           87.5        106.6                2.77
+Bilal Elmoussaoui            73           94.8         22.8               38.36
+Biswapriyo Nath               2          100.0         58.1                0.00
+Caleb Hearon                 75           65.2         73.9               42.67
+Carl Worth                    3          100.0        256.2                0.00
+Chris Wilson                 62           47.0        210.1               11.29
+Christian Hergert             7           63.6         69.2                0.00
+Christian Persch             36           90.0        218.5                0.00
+Christoph Reiter            154           82.8         80.5                5.84
+Christopher Blizzard        253           60.4        267.6               26.88
+Chun-wei Fan               2513           60.1         86.9               13.97
+Cody Russell                  5          125.0        141.4                0.00
+Colin Walters                13           21.0        175.5               53.85
+Darin Adler                  18           31.6        294.1                0.00
+Dominique Quatravaux          2          100.0         42.5                0.00
+Dov Grobgeld                 10            1.2        294.7              100.00
+Ebrahim Byagowi               4           44.4         72.2                0.00
+Egmont Koblinger              2          100.0         85.3                0.00
+Elliot Lee                   35           17.5        310.5                8.57
+Elliott Sales de And        351           88.6         28.5                0.00
+Emmanuele Bassi             577           71.3         82.3               10.23
+Eric Mader                    2            0.1        291.1                0.00
+Evan Nemerson                83           21.8        151.2               96.39
+Evgenii Gurianov              9           75.0         72.0                0.00
+Fabian Groffen                1          100.0        169.7                0.00
+Fabrice Fontaine              1          100.0         52.2                0.00
+Federico Mena Quinte         45            0.5        136.2               20.00
+Felix Yan                     1          100.0         71.7              100.00
+Guido Günther                 1          100.0         54.2              100.00
+Guillaume Gomez             143           96.0         45.7              100.00
+Hans Breuer                 563           43.7        295.0               12.61
+Havoc Pennington           3702           45.9        308.6               13.13
+Hugo Herbelin                 1          100.0         46.0                0.00
+James Henstridge             40           32.5        301.1               17.50
+Jan Alexander Steffe          3           33.3         72.2                0.00
+Jared Wahlstrand              1          100.0         34.8                0.00
+Jasper St. Pierre            86           47.5        169.0               23.26
+Javier Jardón                72           53.7        183.2                2.78
+Jean Abou Samra               5          100.0         38.1                0.00
+Jean Brefort                  1          100.0        250.8                0.00
+Jeremy Bicha                  1          100.0         58.5              100.00
+Jeremy Tan                   16           88.9         78.6               18.75
+Jody Goldberg                12           54.5        266.4                8.33
+Johan Dahlin                 72           66.7        217.5                0.00
+John (J5) Palmieri            4           12.9        185.6              100.00
+John Ralls                  152           66.1        137.2                8.55
+Jonas Dreßler                52           65.0         77.7               13.46
+Jonathan Blandford           45           42.1        311.0               13.33
+Jordan Petridis              11          100.0         52.8               72.73
+Jordi Mas                    33           49.3         57.2               15.15
+José Aliste                   2          100.0        159.2              100.00
+Keith Packard                10           32.3        254.6                0.00
+Khaled Hosny                703           68.3         41.8                9.10
+Kim Woelders                  4          100.0         28.9                0.00
+Kristian Rietveld          2190           52.0        185.4                6.39
+Krzesimir Nowak              29          100.0        127.7              100.00
+Luca Bacci                  183           96.8         27.9                8.20
+Manish Singh                121           43.5        267.6                0.83
+Marco Trevisan (Trev         27          112.5         60.7               48.15
+Matej Knopp                   3           75.0        182.2                0.00
+Mathias Hasselmann           24           82.8        231.1               16.67
+Matt Turner                   8          100.0          0.0               12.50
+Matthias Clasen           32205           68.0         66.3               22.64
+Michael Catanzaro           135           96.4         86.3               93.33
+Mike FABIAN                  17           37.0         77.9                0.00
+Miloš Komarčević              1          100.0         51.8                0.00
+Morten Welinder               8           61.5        271.7                0.00
+Naveen M K                    2          100.0         65.6                0.00
+Nicolas Hake                 56          100.0        120.8                3.57
+Niels De Graef                2          100.0         26.4                0.00
+Noah Levitt                 287           29.8        270.1               12.20
+ONO Yoshio                  105           99.1         93.6                8.57
+Owen Taylor               22490           23.7        239.8               27.47
+Owen W. Taylor               16           72.7        178.5                0.00
+Padraig O'Briain             11           73.3        295.3               36.36
+Patrick Griffis               5          100.0        104.5                0.00
+Pavel Holejsovsky            15           53.6        170.1              100.00
+Peng Wu                    3435           58.5         52.9                7.77
+Philip Withnall              34           63.0        122.7               38.24
+Pierre SOUCHAY                3          100.0          9.6                0.00
+Pravdomil Toman              20           66.7         97.3                0.00
+Richard Hult                 26            3.9        228.8               19.23
+Rico Tzschichholz             6           35.3         67.2               83.33
+Robert Brady                  1            0.0        309.0              100.00
+Roozbeh Pournader            43           20.9        238.7               58.14
+Ross Burton                   6           42.9         89.1                0.00
+Rudi Heitbaum                33           91.7          5.2                0.00
+Ryan Lortie                  35           89.7        181.9                0.00
+Ryan Schmidt                  2           12.5         96.0                0.00
+Sebastian Dröge              14           77.8        112.1               35.71
+Sebastian Keller             32           76.2         56.4               37.50
+Sebastian Wilhelmi           45          136.4        308.8                4.44
+Sergey Bugaev                85           98.8         18.9               78.82
+Seungha Yang                 11           14.3         39.6               18.18
+Simon McVittie               16           94.1         69.9                0.00
+Soeren Sandmann              50           43.5        280.1               18.00
+Stephan Bergmann              6          100.0         70.8                0.00
+Suyuan Chang                  5          100.0         90.3               40.00
+Sven Herzberg                 9           52.9        215.8              100.00
+Sven Neumann                153           26.1        283.8               16.34
+Szunti                        6           60.0         67.2                0.00
+Tavmjong Bah                  4          100.0         64.6               50.00
+Thomas Haller                37           74.0         28.7                2.70
+Tim-Philipp Müller            6          100.0         45.0                0.00
+Timm Bäder                  553           77.5         80.9                2.71
+Ting-Wei Lan                  3           60.0         92.8                0.00
+Tor Lillqvist              2068           16.2        282.5               14.51
+Victor Mireyev                1          100.0         63.9              100.00
+Weng Xuetian                 12           80.0         66.6                0.00
+Werner Lemberg                2          100.0         82.6                0.00
+Wouter Bolsterlee             1           10.0        222.3              100.00
+Xavid Pretzer                57           82.6         18.7                0.00
+Yongsu Park                  26           17.1         74.5                0.00
+Zander Brown                 42           87.5         36.4               50.00
+badcel                        1          100.0         39.6              100.00
+correctmost                   2          100.0         19.3                0.00
+kramo                         2          100.0         14.0                0.00
+milotype                      3          100.0         86.2               33.33
+misos1                        8          100.0         48.1                0.00
+msizanoen1                   10          100.0         41.7                0.00
+sshil                        48          400.0         36.9               12.50
+two                           3          100.0          5.7                0.00
 
-The following history timeline has been gathered from the repository:
+The following monthly history timeline has been gathered from the repository:
 
 Author                  2000-01    2000-02    2000-03    2000-04    2000-05 
 Matt Wilson                                                               . 
 Owen Taylor           -++++++++   -+++++++  --+++++++   ++++++++  ---++++++ 
 Robert Brady                                                   .            
-Modified Rows:            10216       7559       6292       3429       6912 
+Modified Lines:           10216       7559       6292       3429       6912 
 
 Author                  2000-06    2000-07    2000-08    2000-09    2000-10 
 Christopher Blizzard          .                                             
@@ -176,11 +328,11 @@ Elliot Lee                    .                     .
 Havoc Pennington              +          .             +++++++++            
 Jonathan Blandford                                             +            
 Martin Baulig                            .                     .            
-Owen Taylor            ----++++         ++          .          +       ++++ 
+Owen Taylor           ----+++++         ++          .          +       ++++ 
 Pablo Saratxaga               .                                             
 Tim Janik                                                                 . 
-Tor Lillqvist                     -+++++++   ++++++++             -++++++++ 
-Modified Rows:             2951       7313       3654        771        217 
+Tor Lillqvist                     -+++++++   ++++++++              -+++++++ 
+Modified Lines:            2951       7313       3654        771        217 
 
 Author                  2000-11    2000-12    2001-01    2001-02    2001-03 
 3                                                   .                       
@@ -190,14 +342,14 @@ Chookij Vanatham             ++
 Elliot Lee                    .          .                                  
 Hans Breuer                                                    +            
 Havoc Pennington         ++++++          +          .  --+++++++          . 
-Owen Taylor                 -++  +++++++++          .                  --++ 
+Owen Taylor                -+++  +++++++++          .                  --++ 
 Pablo Saratxaga               .                                             
 Robert Brady          -++++++++                                             
 Sebastian Wilhelmi            .                                             
 Sven Neumann                                                          -++++ 
 Tim Janik                                                      .  ------+++ 
 Tor Lillqvist                 .          .          .        --+            
-Modified Rows:            13881      23561       4773        418         38 
+Modified Lines:           13881      23561       4773        418         38 
 
 Author                  2001-04    2001-05    2001-06    2001-07    2001-08 
 Alex Larsson                             .                                  
@@ -209,15 +361,15 @@ Hans Breuer                   .          .          .          .          +
 Havoc Pennington              +                                             
 James Henstridge                                            ++++            
 Matthias Clasen                                                           . 
-Owen Taylor           --+++++++   ---+++++   ----++++          .   ----++++ 
+Owen Taylor           --+++++++  ---++++++   ----++++          .    ---++++ 
 Sven Neumann                                                              . 
 Tim Janik                                                      .          . 
-Modified Rows:             3833        581       1721        488       4872 
+Modified Lines:            3833        581       1721        488       4872 
 
 Author                  2001-09    2001-10    2001-11    2001-12    2002-01 
 Alex Larsson                  .                     .       --++          . 
 Alexander Larsson                           -++++++++          .          . 
-Chookij Vanatham              .                                    --++++++ 
+Chookij Vanatham              .                                   --+++++++ 
 Darin Adler                                                    .            
 Dov Grobgeld                                                             ++ 
 Hans Breuer                   .                     .                       
@@ -228,11 +380,11 @@ Kristian Rietveld                                   .
 Manish Singh                  .          .          .          .            
 Matt Wilson                              .                                  
 Matthias Clasen               .  --+++++++          .          .            
-Owen Taylor            ---+++++          .          .  -----++++        --- 
+Owen Taylor           ---++++++          .          .   ----++++        --- 
 Padraig O'Briain                                    .                       
 Sven Neumann                  .          +                     .          . 
 Tor Lillqvist                            .          .                     . 
-Modified Rows:             5209       1181      14214        208       3829 
+Modified Lines:            5209       1181      14214        208       3829 
 
 Author                  2002-02    2002-03    2002-04    2002-05    2002-06 
 Alex Larsson                  +          .                                  
@@ -241,10 +393,10 @@ Darin Adler                   .
 Dov Grobgeld                  .          .                                  
 Eric Mader                                             +++++++++            
 Matthias Clasen                          .                     .          . 
-Owen Taylor           --+++++++   ---+++++   ++++++++          +  --------- 
+Owen Taylor            --++++++  ---++++++   ++++++++          +  --------- 
 Sven Neumann                             +                                . 
 Tor Lillqvist                 .          .                     .            
-Modified Rows:              572       1591         39       2373      10062 
+Modified Lines:             572       1591         39       2373      10062 
 
 Author                  2002-07    2002-08    2002-09    2002-10    2002-11 
 Alexander Larsson                                              .            
@@ -253,13 +405,13 @@ Dov Grobgeld                             .
 Eric Mader                               .          .                       
 Hidetoshi Tajima                                                          . 
 Manish Singh                                                   .            
-Matthias Clasen                                     .                     + 
+Matthias Clasen                                     +                     + 
 Matthias Warkus               .                                             
-Owen Taylor            --++++++  -----++++          .                     . 
+Owen Taylor            --++++++   -----+++          .                     . 
 Soeren Sandmann                                                           . 
 Sven Neumann                  .                                             
-Tor Lillqvist                                ---+++++  +++++++++          . 
-Modified Rows:             3890       4224       1280       1310        705 
+Tor Lillqvist                               ---++++++   ++++++++          . 
+Modified Lines:            3890       4224       1280       1310        705 
 
 Author                  2002-12    2003-01    2003-02    2003-03    2003-04 
 Chema Celorio                                       .                       
@@ -269,18 +421,18 @@ Owen Taylor           --+++++++   ++++++++  -----++++              -------+
 Padraig O'Briain                         .                                  
 Sven Neumann                                                  -+          . 
 Tor Lillqvist                            .                                  
-Modified Rows:             1031        169        241         17       4511 
+Modified Lines:            1031        169        241         17       4511 
 
 Author                  2003-05    2003-06    2003-07    2003-08    2003-09 
 Hans Breuer                                         .                       
 Keith Packard                            .                                  
 Matthias Clasen                     ---+++                                . 
 Noah Levitt                                                    .            
-Owen Taylor           -++++++++   ----++++   -+++++++   ------++   --++++++ 
+Owen Taylor           -++++++++  ----+++++   -+++++++  ------+++   --++++++ 
 Soeren Sandmann                                                .            
 Sven Neumann                  +                     .                       
 Tor Lillqvist                 .          .                     .            
-Modified Rows:              479        230       1085      13206       3300 
+Modified Lines:             479        230       1085      13206       3300 
 
 Author                  2003-10    2003-11    2003-12    2004-01    2004-02 
 Hans Breuer                                         .                     . 
@@ -288,49 +440,49 @@ Manish Singh                             .                                .
 Matthias Clasen                                     .                       
 Morten Welinder                          .                                  
 Noah Levitt                      ----+++++        +++                     + 
-Owen Taylor            ----++++          .          .  ----+++++  ----+++++ 
+Owen Taylor            ----++++          .          .   ---+++++  ----+++++ 
 Padraig O'Briain                         .                                  
 Roozbeh Pournader                                              .            
 Sven Neumann                             .          +                       
-Tor Lillqvist                                ----++++                       
-Modified Rows:               21       1077        118         36       3195 
+Tor Lillqvist                               -----++++                       
+Modified Lines:              21       1077        118         36       3195 
 
 Author                  2004-03    2004-04    2004-05    2004-06    2004-07 
 Anders Carlsson                          .                                  
 Behdad Esfahbod                                                           . 
-Changwoo Ryu                      -+++++++                                . 
+Changwoo Ryu                     -++++++++                                . 
 Christopher Blizzard                                         +++            
 Dov Grobgeld                  .                                             
 Jody Goldberg                                       .                       
-Manish Singh              -++++                                           . 
+Manish Singh               -+++                                           . 
 Morten Welinder                                                           . 
 Murray Cumming                .                                             
-Owen Taylor           --+++++++              ++++++++   --++++++   ---+++++ 
+Owen Taylor            --++++++              ++++++++   --++++++  ----+++++ 
 Theppitak Karoonboon                     .          .          +            
 Tor Lillqvist                 .          .                                  
-Modified Rows:              572         41       1604       1724       3925 
+Modified Lines:             572         41       1604       1724       3925 
 
 Author                  2004-08    2004-09    2004-10    2004-11    2004-12 
 Dov Grobgeld          +++++++++                                             
 Hans Breuer                   .                                .            
 Manish Singh                                        .                       
 Matthias Clasen                                                .            
-Owen Taylor                 +++   --++++++              -+++++++   ++++++++ 
+Owen Taylor                 +++   --++++++             -++++++++   ++++++++ 
 Theppitak Karoonboon                         ----++++      --+++            
 Tor Lillqvist                 .          .                                . 
-Modified Rows:              312       4241        440       1799        989 
+Modified Lines:             312       4241        440       1799        989 
 
 Author                  2005-01    2005-02    2005-03    2005-04    2005-05 
 5                                                                         . 
 Carl Worth                                                     .            
 Changwoo Ryu                                                   +            
-Hans Breuer                                         .        -++            
+Hans Breuer                                         .         -+            
 Manish Singh                             .          .          .          . 
 Matthias Clasen               .                                             
-Owen Taylor           +++++++++   --++++++  ---++++++  ----+++++  ----+++++ 
+Owen Taylor           +++++++++   --++++++  ---++++++   ---+++++  ----+++++ 
 Theppitak Karoonboon                                .                       
 Tor Lillqvist                                       .   --++++++            
-Modified Rows:             2176       1794       2781        882        228 
+Modified Lines:            2176       1794       2781        882        228 
 
 Author                  2005-06    2005-07    2005-08    2005-09    2005-10 
 Behdad Esfahbod               .          .         -+        ---     ---+++ 
@@ -339,10 +491,10 @@ Jean Brefort                                                   .
 Keith Packard                                       -                       
 Manish Singh                             .                                  
 Matthias Clasen                                                .            
-Owen Taylor           -++++++++  --+++++++     -+++++              ++++++++ 
+Owen Taylor           -++++++++   --++++++    --+++++              ++++++++ 
 Roozbeh Pournader                            ---+++++                       
 Tor Lillqvist                            .              --++++++            
-Modified Rows:             1668       2615        640        467         20 
+Modified Lines:            1668       2615        640        467         20 
 
 Author                  2005-11    2005-12    2006-01    2006-02    2006-03 
 Anders Carlsson               .                                             
@@ -351,35 +503,35 @@ Federico Mena Quinte      +++++
 Hans Breuer                                                    .            
 Matthias Clasen               .                                             
 Tor Lillqvist                                                  .          . 
-Modified Rows:            26123        254       4159       6881      32857 
+Modified Lines:           26123        254       4159       6881      32857 
 
 Author                  2006-04    2006-05    2006-06    2006-07    2006-08 
 Behdad Esfahbod        ----++++   ---+++++   ---+++++  ----+++++   --++++++ 
 Hans Breuer                                         +                     . 
 Richard Hult                                                   .            
 Tor Lillqvist                 .          .                                  
-Modified Rows:              985        450        529       2747       1468 
+Modified Lines:             985        450        529       2747       1468 
 
 Author                  2006-09    2006-10    2006-11    2006-12    2007-01 
 Behdad Esfahbod        --++++++   -+++++++   --++++++   -+++++++  ---++++++ 
 Changwoo Ryu                                                   +          . 
 Roozbeh Pournader                                   .                       
-Modified Rows:             1357        247        440       1374       3099 
+Modified Lines:            1357        247        440       1374       3099 
 
 Author                  2007-02    2007-03    2007-04    2007-05    2007-06 
-Behdad Esfahbod               .          .   --++++++  ----+++++  ----+++++ 
+Behdad Esfahbod               .          .   --++++++  ----+++++   ---+++++ 
 Mathias Hasselmann                                             .            
 Owen Taylor                   .                                             
 Richard Hult                             +          .          .         -+ 
 Tor Lillqvist          --++++++   ------++          .                     - 
-Modified Rows:              680        739        200       6810       3178 
+Modified Lines:             680        739        200       6810       3178 
 
 Author                  2007-07    2007-08    2007-09    2007-10    2007-11 
 Behdad Esfahbod        -------+  --------+   ----++++   ----++++   -----+++ 
 Dov Grobgeld                                                   .            
 Mathias Hasselmann                                  .                       
 Tor Lillqvist                                                             + 
-Modified Rows:              693       4089         69       8838       1633 
+Modified Lines:             693       4089         69       8838       1633 
 
 Author                  2007-12    2008-01    2008-02    2008-03    2008-04 
 Behdad Esfahbod        ---+++++   --++++++        +++      -++++  --+++++++ 
@@ -387,48 +539,48 @@ Dominic Lachowicz                                   .
 Kristian Rietveld                                   .                       
 Richard Hult                                            -+++++++            
 Sven Neumann                                        .                       
-Tor Lillqvist                               -++++++++                       
+Tor Lillqvist                                -+++++++                       
 Wouter Bolsterlee                        .                                  
-Modified Rows:              739       1316        180         22       1673 
+Modified Lines:             739       1316        180         22       1673 
 
 Author                  2008-05    2008-06    2008-07    2008-08    2008-09 
-Behdad Esfahbod               .       -+++   ----++++   --++++++    --+++++ 
+Behdad Esfahbod               .       -+++   ----++++  --+++++++    --+++++ 
 Johan Dahlin                      ----++++                                  
 Murray Cumming                                                 .            
 Richard Hult                                                   .            
 Sven Herzberg                                                  .            
 Tor Lillqvist          ---+++++                                .   --++++++ 
-Modified Rows:              851        295          2       2958        101 
+Modified Lines:             851        295          2       2958        101 
 
 Author                  2008-10    2008-11    2008-12    2009-01    2009-02 
-Behdad Esfahbod         --+++++   --++++++   ---+++++   ----++++  -------++ 
+Behdad Esfahbod         --+++++   --++++++   ---+++++  -----++++  -------++ 
 Chris Wilson                      ---+++++                                  
 Christian Persch              .                                             
 Johan Dahlin                                                   .            
 Kjartan Maraas                .                                             
 Richard Hult           -+++++++                                             
 Tor Lillqvist                                                  .            
-Modified Rows:               62        109        800       3773         63 
+Modified Lines:              62        109        800       3773         63 
 
 Author                  2009-03    2009-04    2009-05    2009-06    2009-07 
 Behdad Esfahbod        ----++++  ---++++++  ------+++   ----++++  ---++++++ 
 Chris Wilson                  .                                             
 Sebastian Dröge               .                                             
 Tor Lillqvist                 .                                           . 
-Modified Rows:             2428        150      33647        367       1247 
+Modified Lines:            2428        150      33647        367       1247 
 
 Author                  2009-08    2009-09    2009-10    2009-11    2009-12 
 Behdad Esfahbod       ---++++++   ----++++   --++++++   --------  ---++++++ 
 David E. Hollingswor          .                                             
 Kristian Rietveld                                                      -+++ 
 Tor Lillqvist                            .                                  
-Modified Rows:             9262         83         23      10460        163 
+Modified Lines:            9262         83         23      10460        163 
 
 Author                  2010-01    2010-02    2010-03    2010-04    2010-05 
 Behdad Esfahbod        ---+++++         -+   --++++++  ---++++++   ----++++ 
 Kristian Rietveld                 ---+++++         -+                       
 Tor Lillqvist                                 --+++++                       
-Modified Rows:               17         19        404        315        225 
+Modified Lines:              17         19        404        315        225 
 
 Author                  2010-06    2010-07    2010-08    2010-09    2010-10 
 Behdad Esfahbod              -+              ++++++++          -  --------- 
@@ -436,19 +588,19 @@ Colin Walters                                                  .
 Owen W. Taylor                   ---++++++                                  
 Robert Ancell                                       .                       
 Tor Lillqvist          ---+++++                         --------            
-Modified Rows:              110         26         52        108       1602 
+Modified Lines:             110         26         52        108       1602 
 
 Author                  2010-11    2010-12    2011-02    2011-03    2011-04 
 Alberto Ruiz                                                              . 
 Behdad Esfahbod                        +++         ++   ---+++++          . 
 Christian Persch       -------+                                             
 Javier Jardón                                                             - 
-John (J5) Palmieri                           ----++++                       
+John (J5) Palmieri                          ----+++++                       
 John Ralls                                                                . 
 Kristian Rietveld                                                 +++++++++ 
 Laszlo Pandy                                        .                       
 Paolo Borelli                     ----++++                                  
-Modified Rows:              191          8         86         65       3475 
+Modified Lines:             191          8         86         65       3475 
 
 Author                  2011-05    2011-06    2011-07    2011-08    2011-09 
 Behdad Esfahbod       ----+++++       ---+   -----+++              ------++ 
@@ -465,17 +617,17 @@ Matej Knopp                   .
 Matthias Clasen              ++          .                                  
 Michael Vogt                                                --++            
 Ryan Lortie                       ----++++                                  
-Modified Rows:              403        145         30         11         53 
+Modified Lines:             403        145         30         11         53 
 
 Author                  2011-10    2011-11    2012-01    2012-02    2012-03 
 Behdad Esfahbod                                                    -+++++++ 
 Kristian Rietveld                 -+++++++   --++++++   -+++++++     ++++++ 
 Matthias Clasen       +++++++++          .                                  
-Modified Rows:               40         39       1658        389         19 
+Modified Lines:              40         39       1658        389         19 
 
 Author                  2012-04    2012-05    2012-06    2012-07    2012-08 
 Alessandro Pignotti                                                       . 
-Behdad Esfahbod                                                  ---------+ 
+Behdad Esfahbod                                                   --------+ 
 Colin Walters           +++++++                                           . 
 Evan Nemerson                                                             . 
 Fabian Groffen                                      .                       
@@ -485,11 +637,11 @@ Kristian Rietveld                  ---++++  -++++++++                     .
 Matthias Clasen                   ----++++                                . 
 Pavel Holejsovsky                                --++                       
 Robert Ancell                                       .                       
-Modified Rows:              118         32        167          4      18139 
+Modified Lines:             118         32        167          4      18139 
 
 Author                  2012-09    2012-10    2012-11    2012-12    2013-01 
 Alexander Larsson                                       ++++++++            
-Behdad Esfahbod        -+++++++                     .     -+++++  ----+++++ 
+Behdad Esfahbod        -+++++++                     .     -+++++   ----++++ 
 Benjamin Otte                                ----++++                       
 Chun-wei Fan                  .  +++++++++                                  
 Colin Walters                                                  .            
@@ -497,7 +649,7 @@ Jasper St. Pierre                                          -++++
 John Ralls                    .                     .          .            
 Matthias Clasen        ---+++++                     .                     . 
 Theppitak Karoonboon                                           .            
-Modified Rows:              274        157       1235        943        686 
+Modified Lines:             274        157       1235        943        686 
 
 Author                  2013-02    2013-03    2013-04    2013-05    2013-06 
 Alexander Larsson     +++++++++                                             
@@ -505,7 +657,7 @@ Behdad Esfahbod            --++    -----++   ---+++++          .       --++
 Chun-wei Fan                     +++++++++                                  
 José Aliste                                                    -            
 Matthias Clasen                                        ---++++++  +++++++++ 
-Modified Rows:              153        292         14        168         33 
+Modified Lines:             153        292         14        168         33 
 
 Author                  2013-07    2013-08    2013-09    2013-12    2014-01 
 Behdad Esfahbod                   ----++++  +++++++++     ++++++          . 
@@ -516,7 +668,7 @@ Kristian Rietveld      ++++++++
 Matthias Clasen                                     .                       
 Owen W. Taylor                                      .                       
 Philip Withnall                                         -+++++++            
-Modified Rows:               30         45       2025         19         27 
+Modified Lines:              30         45       2025         19         27 
 
 Author                  2014-02    2014-03    2014-04    2014-05    2014-06 
 Akira TAGOH           +++++++++                                             
@@ -524,173 +676,564 @@ Behdad Esfahbod          ---+++             ----+++++   ----++++      ---++
 Emmanuele Bassi                                                     ---++++ 
 Matthias Clasen                  ---++++++                               -+ 
 Sebastian Dröge                                                   -++++++++ 
-Modified Rows:                5          3         40          6         23 
+Modified Lines:               5          3         40          6         23 
 
 Author                  2014-07    2014-08    2014-09    2014-10    2014-12 
 Behdad Esfahbod       ---++++++          .                                  
 Cody Russell                                        .          .            
 Evan Nemerson                                           ----++++            
-Matthias Clasen                  -++++++++   ++++++++                       
+Matthias Clasen                   -+++++++   ++++++++                       
 Max                                                                -+++++++ 
-Modified Rows:              169       1025        197        460          5 
+Modified Lines:             169       1025        197        460          5 
 
 Author                  2015-02    2015-03    2015-04    2015-05    2015-06 
 Behdad Esfahbod                          .   ------++   --++++++   -+++++++ 
 Khaled Hosny                                     ----          +            
 Kristian Rietveld                                              +            
 Matthias Clasen       +++++++++   --++++++                     .          . 
-Modified Rows:                1       1009       2875        414        140 
+Modified Lines:               1       1009       2875        414        140 
 
-Author                  2015-07    2015-08    2015-09    2015-10 
-Behdad Esfahbod                      -++++       ++++         ++ 
-Chun-wei Fan                                        .            
-Khaled Hosny                             .                       
-Matthias Clasen        --++++++   ++++++++   ---+++++   ----++++ 
-Modified Rows:                4        644         65         27 
+Author                  2015-07    2015-08    2015-09    2015-10    2015-12 
+Behdad Esfahbod                      -++++       ++++         ++            
+Chun-wei Fan                                        .                       
+Khaled Hosny                             .                                  
+Krzesimir Nowak                                                      ---+++ 
+Matthias Clasen        --++++++   ++++++++   ---+++++   ----++++   ++++++++ 
+Modified Lines:               4        644         65         27        132 
+
+Author                  2016-02    2016-03    2016-04    2016-05    2016-06 
+Behdad Esfahbod                   ++++++++                     +            
+Benjamin Otte                                           ----++++            
+Chun-wei Fan                                 ---+++++              ++++++++ 
+Khaled Hosny           ----++++                                             
+Kristian Rietveld                                   +                       
+Modified Lines:               2         58        542        276       1332 
+
+Author                  2016-08    2016-09    2016-11    2017-01    2017-02 
+Behdad Esfahbod                                                           . 
+Chun-wei Fan                  .             ---++++++   ----++++            
+Matthias Clasen        --++++++   ----++++                                  
+Patrick Griffis                         ++                                  
+Philip Withnall                                                   ---++++++ 
+Modified Lines:              95          5          3          2         35 
+
+Author                  2017-04    2017-05    2017-06    2017-07    2017-08 
+Behdad Esfahbod               .          .               +++++++      -++++ 
+Chun-wei Fan                             .                                + 
+Emmanuele Bassi                   --++++++                                . 
+John Ralls                                                         -----+++ 
+Matthias Clasen            -+++              ----++++          .      +++++ 
+Nicolas Hake           --++++++                                             
+Peng Wu                                                 ----++++         ++ 
+Philip Withnall              -+                                           . 
+Ting-Wei Lan                                                   .            
+Modified Lines:             160        213          6       1811        306 
+
+Author                  2017-09    2017-10    2017-11    2017-12    2018-01 
+Behdad Esfahbod        ------++                    ++                     - 
+Christian Hergert                                                         . 
+Khaled Hosny                                           ---------            
+Matijs van Zuijlen                       .                                  
+Matthias Clasen                                                    ++++++++ 
+Peng Wu                           ----++++   ---+++++                       
+Timm Bäder                              -+                                  
+Modified Lines:              10       1179         61         59        506 
+
+Author                  2018-02    2018-03    2018-04    2018-05    2018-06 
+Christoph Reiter                             --++++++                       
+Chun-wei Fan                       +++++++                                  
+John Ralls                                              ---+++++            
+Khaled Hosny           --------                   -++                       
+Patrick Griffis                   -----+++                                  
+Pravdomil Toman                                                   ---++++++ 
+Modified Lines:            1636         19         53         48         46 
+
+Author                  2018-07    2018-08    2018-10    2018-11    2018-12 
+Behdad Esfahbod       ---++++++              -+++++++      ----+            
+Carsten Pfeiffer                         .                                  
+Christian Hergert             .                                             
+Christoph Reiter                                                      +++++ 
+Chun-wei Fan                     ---------                                . 
+Emmanuele Bassi                          .                                  
+Jehan                                                          .            
+Kouhei Sutou                  .                                             
+Matthias Clasen                          .                    ++  ---++++++ 
+ONO Yoshio                                          +                       
+Peng Wu                                                 --++++++            
+Ryan Schmidt                             .                                  
+Modified Lines:             323        412        926        824        270 
+
+Author                  2019-01    2019-03    2019-04    2019-05    2019-06 
+Behdad Esfahbod        ------++                                             
+Chun-wei Fan                                                             ++ 
+Egmont Koblinger                                                          . 
+Emmanuele Bassi               .                                             
+Jeremy Tan                                                         ----++++ 
+Matthias Clasen                                         ----++++          . 
+Michael Catanzaro                                             -+            
+Peng Wu                                      ++++++++                       
+Rico Tzschichholz                                   .                       
+Ross Burton                       --------                                  
+Suyuan Chang                  .                                             
+milotype                                                       .            
+Modified Lines:             686        166        784       1102         43 
+
+Author                  2019-07    2019-08    2019-09    2019-10    2019-11 
+Akira TAGOH                   .                                             
+Alexander Larsson                        .                                  
+Christoph Reiter              .                                             
+Chun-wei Fan                  .          .                                . 
+Ebrahim Byagowi                          .                                  
+Emmanuele Bassi                          .                                  
+Khaled Hosny                 --          +                     .          . 
+Matthias Clasen       ----+++++   ---+++++   -----+++   --++++++  ---++++++ 
+Peng Wu                                  .          .                       
+Rico Tzschichholz                                                         . 
+Ting-Wei Lan                  .                                             
+Werner Lemberg                                      .                       
+aihui zhu                                                      .            
+Modified Lines:           12336       2080         89       1112        118 
+
+Author                  2019-12    2020-02    2020-03    2020-04    2020-05 
+Benjamin Otte                 .                                             
+Emmanuele Bassi                                        ----+++++            
+Jan Alexander Steffe                     .                                  
+John Beard                                                         ----++++ 
+Matthias Clasen       +++++++++                     .                       
+Mike FABIAN                       ---+++++                                  
+Peng Wu                                  +   --++++++                       
+Timm Bäder                                                     .            
+Yongsu Park                                                            -+++ 
+Modified Lines:             258        104        761        492        317 
+
+Author                  2020-06    2020-07    2020-08    2020-09    2020-11 
+Aaron Boxer                   .                                             
+Caleb Hearon                  +                                             
+Chun-wei Fan                  .                     .                       
+Ebrahim Byagowi                          .                                  
+Emmanuele Bassi              ++          .                     .            
+Evgenii Gurianov                                    .                       
+Felix Yan                                           .                       
+Jonas Dreßler                 .                                             
+Khaled Hosny                  .                                             
+Matthias Clasen             +++   --++++++  -++++++++   ++++++++   --++++++ 
+Rico Tzschichholz             .                     .                       
+Simon McVittie                                      .                     . 
+Stephan Bergmann                                               .            
+Timm Bäder            ----+++++                                             
+Yongsu Park                   .                                             
+Modified Lines:            2165        230        210        450         76 
+
+Author                  2021-01    2021-02    2021-03    2021-04    2021-05 
+Emmanuele Bassi                                     .                       
+Matthias Clasen       -++++++++   -+++++++  -----++++         ++  ----+++++ 
+Naveen M K                    .                     .                       
+Peng Wu                       .                                             
+Seungha Yang                                            ++++++++            
+Simon McVittie                .                                             
+Szunti                        .                                             
+Tavmjong Bah                                        .                       
+Victor Mireyev                                                 .            
+Weng Xuetian                  .                                             
+Modified Lines:             241        420       7943         91       3264 
+
+Author                  2021-06    2021-07    2021-08    2021-09    2021-10 
+Artem Rebrov                             .                                  
+Bilal Elmoussaoui                                                         . 
+Biswapriyo Nath                          .                                  
+Chun-wei Fan                                        .                       
+Federico Mena Quinte          .          .                                  
+Jan Alexander Steffe                     .                                  
+Jeremy Bicha                                                   .            
+Jordan Petridis               .                                             
+Jordi Mas                                                                 + 
+Khaled Hosny                                        .                       
+Luca Bacci                                          .                       
+Marco Trevisan (Trev                     .                                  
+Matthias Clasen        -+++++++  -++++++++  ----+++++  -++++++++   -+++++++ 
+Peng Wu                                  .                     .   ----++++ 
+Modified Lines:            1726       2185      12524        153       1105 
+
+Author                  2021-11    2021-12    2022-01    2022-02    2022-03 
+Alexander Kanavin                        .                                  
+Benjamin Otte                 .                                             
+Bilal Elmoussaoui                        .          .                       
+Biswapriyo Nath                          .                                  
+Chun-wei Fan                             .                                  
+Fabrice Fontaine                                                          . 
+Guido Günther                                       .                       
+Jeremy Tan                    .                                             
+John Ralls                                                                . 
+Matthias Clasen        --++++++  ---++++++   -+++++++   ++++++++  ---++++++ 
+Peng Wu                       .                                             
+Sebastian Keller              .                                             
+Simon McVittie                                      .                       
+Modified Lines:            8022       6955        301        195        293 
+
+Author                  2022-04    2022-06    2022-07    2022-08    2022-09 
+Aki Sakurai                              .                                  
+Christoph Reiter       ++++++++                                             
+Chun-wei Fan                                                       -+++++++ 
+GitS7                                    .                                  
+Jordan Petridis                          .                                  
+Matthias Clasen              ++   -+++++++  +++++++++  --+++++++          + 
+Miloš Komarčević              .                                             
+misos1                                           --++                       
+Modified Lines:              65        239         45         75       1058 
+
+Author                  2022-10    2022-11    2022-12    2023-01    2023-02 
+Chun-wei Fan                  -              -----+++                       
+Dominique Quatravaux                                           .            
+Emmanuele Bassi                          .                                  
+Guillaume Gomez          ---+++                                             
+Hugo Herbelin                 .                                             
+Luca Bacci                                   ++++++++                       
+Matthias Clasen               .  -++++++++              -+++++++   -------+ 
+Peng Wu                ----++++                                .            
+Sebastian Dröge                          .                                  
+Sudip Shil                                                     +            
+Tim-Philipp Müller                                             .            
+msizanoen1                                                                + 
+Modified Lines:             793        109        186        247         78 
+
+Author                  2023-04    2023-05    2023-07    2023-09    2023-10 
+Chun-wei Fan                     +++++++++                   +++            
+Jared Wahlstrand                                               .            
+Jean Abou Samra                       -+++                                  
+Khaled Hosny          -++++++++                                             
+Luca Bacci                -++++                                             
+Matthias Clasen                                     .   --++++++   ------++ 
+Rico Tzschichholz             .                                             
+Sergey Bugaev                                       .                       
+Seungha Yang                        ++++++                                  
+Zander Brown                                +++++++++                       
+badcel                        .                                             
+Modified Lines:              41         30         60        207          4 
+
+Author                  2023-11    2023-12    2024-01    2024-02    2024-03 
+Christian Hergert                                                         . 
+Chun-wei Fan           ++++++++   ++++++++                                . 
+Matthias Clasen                              ----++++  +++++++++          + 
+Peng Wu                                                            ++++++++ 
+Sergey Bugaev                 .                                             
+Modified Lines:             642        507          4        365        851 
+
+Author                  2024-04    2024-05    2024-06    2024-07    2024-10 
+Benjamin Otte                                                             . 
+Elliott Sales de And             ---++++++                                  
+Emmanuele Bassi               -                                             
+John Ralls                                    +++++++                       
+Kim Woelders                 -+                                             
+Luca Bacci                    -                                             
+Matthias Clasen       ---------         ++              ----++++   -------+ 
+Niels De Graef                           .                                  
+Peng Wu                                  .         ++                       
+Seungha Yang                             .                                  
+Thomas Haller                            .   ---+++++                       
+correctmost                              .                                  
+Modified Lines:              41        905         44          6        123 
+
+Author                  2024-11    2024-12    2025-01    2025-02    2025-03 
+Alessandro Astone                                   .                       
+Chun-wei Fan                 --                     .                       
+John Ralls                               .                                  
+Luca Bacci                               .                                  
+Matthias Clasen        --++++++   --++++++   -+++++++              -+++++++ 
+Peng Wu                --++++++          .                                . 
+Sebastian Dröge               .                                             
+Sergey Bugaev                            .              ----++++         -+ 
+sshil                                    .                                  
+Modified Lines:            3892        274        763          8        361 
+
+Author                  2025-05    2025-06    2025-07    2025-08    2025-09 
+Akira TAGOH                                         .                       
+Benjamin Otte                      ------+                                  
+Guillaume Ayoub                                     .                       
+Khaled Hosny                                +++++++++                       
+Lovell Fuller                                       -                       
+Luca Bacci                                                     +            
+Matthias Clasen                  ---++++++             --+++++++            
+Peng Wu                                                            ---+++++ 
+Sergey Bugaev          ----++++                                             
+Xavid Pretzer                            .                     .            
+correctmost                                         -          .            
+kramo                                    .                                  
+Modified Lines:              15       2535        147        779       1577 
+
+Author                  2025-10    2025-11    2025-12    2026-01    2026-02 
+Alvin Wong                                    +++++++                       
+Matthias Clasen                  +++++++++              ----++++            
+Peng Wu                                     +++++++++                       
+Pierre SOUCHAY        +++++++++                                             
+Rudi Heitbaum                                                      ---+++++ 
+two                                                                       . 
+Modified Lines:               3          1         37          4         65 
+
+Author                  2026-03    2026-04    2026-06    2026-07    2026-08 
+Behdad Esfahbod       +++++++++                                             
+Benjamin Otte                     ----++++                                  
+Bilal Elmoussaoui                                   .                       
+Khaled Hosny                                       ++             ---++++++ 
+Matt Turner                                                               . 
+Matthias Clasen               .             -++++++++   ----++++            
+Peng Wu                       .                                             
+Sergey Bugaev                 .                                             
+Modified Lines:             835         24        829         10        296 
 
 The following files are suspiciously big (in order of severity):
-pango/pango-layout.c (4898 estimated lines of code)
-pango/pangofc-fontmap.c (2285 estimated lines of code)
-pango/pangocoretext-fontmap.c (1692 estimated lines of code)
-pango/pangowin32.c (1626 estimated lines of code)
-pango/pangowin32-fontmap.c (1563 estimated lines of code)
-pango/break.c (1543 estimated lines of code)
-pango/pango-markup.c (1511 estimated lines of code)
-pango/pango-attributes.c (1510 estimated lines of code)
-pango/pango-context.c (1354 estimated lines of code)
-pango/pango-color-table.h (1341 estimated lines of code)
-pango/fonts.c (1295 estimated lines of code)
-pango/pango-renderer.c (1087 estimated lines of code)
-pango/pangocairo-render.c (938 estimated lines of code)
-pango/pangofc-font.c (896 estimated lines of code)
-pango/pangoxft-render.c (832 estimated lines of code)
-pango-view/viewer-render.c (784 estimated lines of code)
-pango/pangocairo-font.c (752 estimated lines of code)
-pango/mini-fribidi/fribidi.c (739 estimated lines of code)
-pango/pangowin32-shape.c (691 estimated lines of code)
-pango/pango-utils.c (670 estimated lines of code)
-pango/pangoft2-render.c (614 estimated lines of code)
-tests/testattributes.c (603 estimated lines of code)
-pango/pango-language.c (595 estimated lines of code)
-pango/pango-glyph-item.c (580 estimated lines of code)
-pango/ellipsize.c (570 estimated lines of code)
-examples/cairotwisted.c (529 estimated lines of code)
-pango/pangoft2.c (519 estimated lines of code)
-pango/pango-language-sample-table.h (500 estimated lines of code)
-pango/pango-font.h (327 estimated lines of code)
+pango/pango-layout.c (6169 estimated lines of code)
+pango/pangofc-fontmap.c (3469 estimated lines of code)
+pango/pango-attributes.c (2549 estimated lines of code)
+pango/break.c (2237 estimated lines of code)
+pango/fonts.c (2126 estimated lines of code)
+pango/pangocoretext-fontmap.c (1980 estimated lines of code)
+pango/pango-break-table.h (1954 estimated lines of code)
+pango/pango-markup.c (1765 estimated lines of code)
+pango/serializer.c (1727 estimated lines of code)
+pango/json/gtkjsonparser.c (1664 estimated lines of code)
+pango/itemize.c (1534 estimated lines of code)
+pango/pangowin32-fontmap.c (1496 estimated lines of code)
+tests/testattributes.c (1412 estimated lines of code)
+pango/pango-color-table.h (1343 estimated lines of code)
+pango/pangocairo-font.c (1325 estimated lines of code)
+pango/pango-renderer.c (1284 estimated lines of code)
+pango/pangocairo-render.c (1262 estimated lines of code)
+tests/test-font.c (1248 estimated lines of code)
+pango/pangowin32.c (1117 estimated lines of code)
+utils/viewer-render.c (974 estimated lines of code)
+pango/pangofc-font.c (963 estimated lines of code)
+utils/viewer-pangocairo.c (910 estimated lines of code)
+tests/testmisc.c (882 estimated lines of code)
+pango/pangowin32-dwrite-fontmap.cpp (841 estimated lines of code)
+pango/pango-utils.c (831 estimated lines of code)
+pango/pangoxft-render.c (828 estimated lines of code)
+pango/shape.c (764 estimated lines of code)
+pango/pangoft2-render.c (617 estimated lines of code)
+tests/test-bidi.c (612 estimated lines of code)
+pango/ellipsize.c (608 estimated lines of code)
+pango/pango-language.c (606 estimated lines of code)
+pango/pango-glyph-item.c (597 estimated lines of code)
+pango/glyphstring.c (570 estimated lines of code)
+pango/pango-version-macros.h (565 estimated lines of code)
+pango/pango-language-sample-table.h (554 estimated lines of code)
+examples/cairotwisted.c (532 estimated lines of code)
+pango/pango-font.h (495 estimated lines of code)
+pango/pango-emoji-table.h (460 estimated lines of code)
+pango/pango-layout.h (422 estimated lines of code)
+pango/pango-attributes.h (375 estimated lines of code)
+pango/pango-impl-utils.h (320 estimated lines of code)
 
 The following files have an elevated cyclomatic complexity (in order of severity):
-pango/pango-layout.c (1473 in cyclomatic complexity)
-pango/break.c (759 in cyclomatic complexity)
-pango/pangofc-fontmap.c (674 in cyclomatic complexity)
-pango/pangowin32.c (472 in cyclomatic complexity)
-pango/pango-markup.c (384 in cyclomatic complexity)
-pango/fonts.c (349 in cyclomatic complexity)
-pango/pangowin32-fontmap.c (342 in cyclomatic complexity)
-pango/pangocoretext-fontmap.c (335 in cyclomatic complexity)
-pango/pango-context.c (332 in cyclomatic complexity)
-pango/pango-attributes.c (328 in cyclomatic complexity)
-pango/pango-renderer.c (251 in cyclomatic complexity)
-pango/mini-fribidi/fribidi.c (205 in cyclomatic complexity)
-pango/pango-utils.c (186 in cyclomatic complexity)
-pango/pangowin32-shape.c (184 in cyclomatic complexity)
-pango/pangofc-font.c (182 in cyclomatic complexity)
-pango/pangocairo-font.c (173 in cyclomatic complexity)
-pango-view/viewer-render.c (164 in cyclomatic complexity)
-pango/pangocairo-render.c (163 in cyclomatic complexity)
-pango/pango-language.c (163 in cyclomatic complexity)
-pango/pango-glyph-item.c (159 in cyclomatic complexity)
-pango/ellipsize.c (139 in cyclomatic complexity)
+pango/pango-layout.c (1983 in cyclomatic complexity)
+pango/break.c (1262 in cyclomatic complexity)
+pango/pango-attributes.c (839 in cyclomatic complexity)
+pango/pangofc-fontmap.c (816 in cyclomatic complexity)
+pango/json/gtkjsonparser.c (659 in cyclomatic complexity)
+pango/fonts.c (606 in cyclomatic complexity)
+pango/serializer.c (565 in cyclomatic complexity)
+pango/pango-markup.c (473 in cyclomatic complexity)
+pango/itemize.c (406 in cyclomatic complexity)
+pango/pangocoretext-fontmap.c (402 in cyclomatic complexity)
+pango/pangocairo-font.c (331 in cyclomatic complexity)
+pango/pango-renderer.c (330 in cyclomatic complexity)
+pango/pangowin32.c (261 in cyclomatic complexity)
+pango/pangowin32-fontmap.c (258 in cyclomatic complexity)
+utils/viewer-render.c (249 in cyclomatic complexity)
+pango/pango-utils.c (241 in cyclomatic complexity)
+pango/pangocairo-render.c (234 in cyclomatic complexity)
+pango/pangowin32-dwrite-fontmap.cpp (229 in cyclomatic complexity)
+tests/test-font.c (226 in cyclomatic complexity)
+pango/shape.c (215 in cyclomatic complexity)
+tests/validate-log-attrs.c (204 in cyclomatic complexity)
+tests/testattributes.c (194 in cyclomatic complexity)
+pango/pangofc-font.c (180 in cyclomatic complexity)
+pango/ellipsize.c (169 in cyclomatic complexity)
+tests/test-bidi.c (166 in cyclomatic complexity)
+pango/pango-language.c (164 in cyclomatic complexity)
+pango/pango-glyph-item.c (163 in cyclomatic complexity)
+pango/glyphstring.c (158 in cyclomatic complexity)
+tests/test-shape.c (149 in cyclomatic complexity)
+utils/viewer-pangocairo.c (141 in cyclomatic complexity)
 examples/cairotwisted.c (137 in cyclomatic complexity)
-pango/pangoft2.c (128 in cyclomatic complexity)
-pango/pangoft2-render.c (127 in cyclomatic complexity)
-pango/glyphstring.c (124 in cyclomatic complexity)
-pango/pangofc-shape.c (114 in cyclomatic complexity)
+pango/pango-bidi-type.c (132 in cyclomatic complexity)
+pango/pangoft2-render.c (128 in cyclomatic complexity)
+utils/pango-segmentation.c (125 in cyclomatic complexity)
+tests/testmisc.c (125 in cyclomatic complexity)
+tests/testboundaries_ucd.c (124 in cyclomatic complexity)
+pango/emoji_presentation_scanner.c (123 in cyclomatic complexity)
+pango/pango-tabs.c (116 in cyclomatic complexity)
+pango/pangoft2.c (115 in cyclomatic complexity)
 pango/pangoxft-render.c (113 in cyclomatic complexity)
-tests/testboundaries_ucd.c (109 in cyclomatic complexity)
-pango/pango-coverage.c (109 in cyclomatic complexity)
-tests/markup-parse.c (106 in cyclomatic complexity)
-pango/pangowin32-fontcache.c (102 in cyclomatic complexity)
-pango/pango-bidi-type.c (98 in cyclomatic complexity)
+tests/test-break.c (111 in cyclomatic complexity)
+pango/pango-context.c (105 in cyclomatic complexity)
+tests/test-itemize.c (104 in cyclomatic complexity)
+pango/pangowin32-fontcache.c (104 in cyclomatic complexity)
+tests/testboundaries.c (96 in cyclomatic complexity)
 examples/pangowin32tobmp.c (94 in cyclomatic complexity)
 pango/pangoxft-font.c (91 in cyclomatic complexity)
-tests/test-common.c (85 in cyclomatic complexity)
-pango/pangocairo-context.c (82 in cyclomatic complexity)
-pango/pangocoretext-shape.c (79 in cyclomatic complexity)
+pango/pangocairo-context.c (90 in cyclomatic complexity)
+pango/pango-emoji.c (89 in cyclomatic complexity)
+pango/json/gtkjsonprinter.c (87 in cyclomatic complexity)
+pango/pango-item.c (86 in cyclomatic complexity)
+tests/testrandom.c (79 in cyclomatic complexity)
 pango/pango-color.c (78 in cyclomatic complexity)
-tests/testboundaries.c (75 in cyclomatic complexity)
-tests/test-layout.c (74 in cyclomatic complexity)
-tools/gen-script-for-lang.c (73 in cyclomatic complexity)
-tests/testattributes.c (65 in cyclomatic complexity)
-pango/pango-script.c (64 in cyclomatic complexity)
-pango/pango-matrix.c (62 in cyclomatic complexity)
-pango/pango-gravity.c (61 in cyclomatic complexity)
-pango/mini-fribidi/fribidi_types.c (60 in cyclomatic complexity)
-build/gen-file-list-pango.py (56 in cyclomatic complexity)
-pango/pango-tabs.c (55 in cyclomatic complexity)
-pango/pango-fontset.c (52 in cyclomatic complexity)
+pango/pango-fontmap.c (77 in cyclomatic complexity)
+tools/gen-script-for-lang.c (75 in cyclomatic complexity)
+pango/pango-script.c (66 in cyclomatic complexity)
+pango/pango-matrix.c (63 in cyclomatic complexity)
+tests/markup-parse.c (59 in cyclomatic complexity)
+pango/pango-gravity.c (59 in cyclomatic complexity)
+tools/gen-break-table.py (58 in cyclomatic complexity)
+tests/testserialize.c (58 in cyclomatic complexity)
+pango/pangocoretext.c (58 in cyclomatic complexity)
+utils/viewer-cairo.c (54 in cyclomatic complexity)
+tests/testscript.c (52 in cyclomatic complexity)
 
-The following files have an elevated cyclomatic complexity density (in order of severity):
-pango/mini-fribidi/fribidi_types.c (0.923 in cyclomatic complexity density)
-pango/pango-bidi-type.c (0.838 in cyclomatic complexity density)
+The following files have an elevated cognitive complexity (in order of severity):
+pango/pango-layout.c (1151 in cognitive complexity)
+pango/break.c (621 in cognitive complexity)
+pango/pangofc-fontmap.c (443 in cognitive complexity)
+pango/pango-attributes.c (325 in cognitive complexity)
+pango/json/gtkjsonparser.c (319 in cognitive complexity)
+pango/pango-markup.c (250 in cognitive complexity)
+pango/pangocoretext-fontmap.c (247 in cognitive complexity)
+pango/itemize.c (221 in cognitive complexity)
+pango/fonts.c (217 in cognitive complexity)
+pango/pango-utils.c (159 in cognitive complexity)
+pango/pangowin32.c (152 in cognitive complexity)
+pango/pangowin32-fontmap.c (145 in cognitive complexity)
+pango/shape.c (144 in cognitive complexity)
+pango/pangocairo-render.c (144 in cognitive complexity)
+pango/pangocairo-font.c (140 in cognitive complexity)
+tests/test-bidi.c (138 in cognitive complexity)
+pango/serializer.c (128 in cognitive complexity)
+pango/pangowin32-dwrite-fontmap.cpp (127 in cognitive complexity)
+pango/glyphstring.c (124 in cognitive complexity)
+utils/viewer-render.c (123 in cognitive complexity)
+pango/pango-renderer.c (123 in cognitive complexity)
+pango/pango-glyph-item.c (112 in cognitive complexity)
+utils/viewer-pangocairo.c (106 in cognitive complexity)
+tests/validate-log-attrs.c (106 in cognitive complexity)
+pango/pangofc-font.c (91 in cognitive complexity)
+pango/pangoft2-render.c (90 in cognitive complexity)
+pango/pango-language.c (75 in cognitive complexity)
+pango/pangoft2.c (69 in cognitive complexity)
+pango/ellipsize.c (64 in cognitive complexity)
+pango/pangoxft-render.c (57 in cognitive complexity)
+tools/gen-script-for-lang.c (55 in cognitive complexity)
+tests/test-shape.c (55 in cognitive complexity)
+pango/pango-tabs.c (54 in cognitive complexity)
+pango/pango-script.c (54 in cognitive complexity)
+pango/emoji_presentation_scanner.c (54 in cognitive complexity)
+tests/test-break.c (53 in cognitive complexity)
+pango/pango-item.c (52 in cognitive complexity)
+utils/pango-segmentation.c (48 in cognitive complexity)
+pango/pangowin32-fontcache.c (48 in cognitive complexity)
+tests/testboundaries_ucd.c (46 in cognitive complexity)
+examples/pangowin32tobmp.c (46 in cognitive complexity)
 
-The following repsonsibilties, by author, were found in the current revision of
-the repository (comments are exluded from the line count, if possible):
+The following responsibilities, by author, were found in the current revision of
+the repository (comments are excluded from the line count, if possible):
+
+Aaron Boxer is mostly responsible for:
+     9 pango/pangowin32-fontmap.c
+     1 pango/pangowin32-private.h
+
+Aki Sakurai is mostly responsible for:
+     1 pango/pango-engine.h
 
 Akira TAGOH is mostly responsible for:
+    11 pango/pangocoretext-fontmap.c
+     8 pango/pangofc-fontmap.c
+     5 pango/pangowin32-fontmap.c
      3 pango/pango-ot-info.c
+     1 pango/pangoft2-fontmap.c
+     1 pango/pangocairo-fcfontmap.c
+
+Alessandro Astone is mostly responsible for:
+    29 pango/pangofc-fontmap.c
 
 Alessandro Pignotti is mostly responsible for:
     17 pango/pangoxft-fontmap.c
      9 pango/pangowin32-fontmap.c
      4 pango/pango-utils.c
 
-Alex Larsson is mostly responsible for:
-   300 pango/pangowin32.c
-   107 pango/pango-layout.c
-    76 pango/pango-context.c
-    48 pango/pangoft2.c
-    33 pango/pangowin32-private.h
-    33 pango/pangoft2-fontmap.c
-    30 pango/pangoxft-fontmap.c
-    29 pango/pangocairo-fcfontmap.c
-    29 pango/pango-fontmap.c
-    26 pango/pangocairo-coretextfontmap.c
+Alexander Kanavin is mostly responsible for:
+     1 pango/pango-item-private.h
 
 Alexander Larsson is mostly responsible for:
-   242 pango/pango-fontset.c
-   111 pango/pangowin32-fontmap.c
-    78 pango/pangoft2.c
-    77 pango/pango-fontmap.c
-    57 pango/pango-fontset.h
-    36 pango/pangofc-fontmap.c
-    14 pango/pangoft2-render.c
-    13 pango/pangoxft-font.c
-    10 pango/pangoft2-private.h
-    10 pango/pango-context.c
+   123 pango/pangoft2.c
+   117 pango/pangowin32-fontmap.c
+   103 pango/pango-fontmap.c
+    87 pango/pango-fontset.c
+    83 pango/pango-layout.c
+    83 pango/pango-fontset-simple.c
+    83 pango/pango-context.c
+    67 pango/pangowin32.c
+    38 pango/pangofc-fontmap.c
+    38 pango/pango-fontset.h
+
+Alvin Wong is mostly responsible for:
+    16 pango/itemize.c
 
 Anders Carlsson is mostly responsible for:
-    53 pango/pangocoretext-fontmap.c
-     3 pango/pangocoretext-shape.c
-     3 pango/pangocairo-coretextfontmap.c
+    41 pango/pangocoretext-fontmap.c
      3 pango/pangocairo-coretext.h
+     2 pango/pangocairo-coretextfontmap.c
      1 pango/pangocairo-coretextfont.c
 
+Artem Rebrov is mostly responsible for:
+     6 pango/pango-layout.c
+
 Behdad Esfahbod is mostly responsible for:
-  1228 pango/pango-layout.c
-  1118 pango/pangofc-fontmap.c
-   763 pango-view/viewer-render.c
-   702 pango/pangocairo-font.c
-   627 pango/pangocairo-render.c
-   513 pango/break.c
-   498 examples/cairotwisted.c
-   497 pango/pango-language-sample-table.h
-   458 pango/pango-language.c
-   439 pango/fonts.c
+  1066 pango/pango-layout.c
+  1056 pango/pangocairo-font.c
+   978 pango/pangofc-fontmap.c
+   808 pango/pangocairo-render.c
+   797 utils/viewer-render.c
+   495 examples/cairotwisted.c
+   493 pango/pango-language-sample-table.h
+   447 pango/pango-language.c
+   417 utils/viewer-pangocairo.c
+   409 pango/fonts.c
 
 Benjamin Otte is mostly responsible for:
-   602 pango/pango-color-table.h
+   604 pango/pango-color-table.h
+   288 tests/testrandom.c
+    94 pango/pangowin32-fontmap.c
+    28 pango/pangowin32-dwrite-fontmap.cpp
+     8 pango/pangocairo-win32fontmap.c
+     6 pango/pangocairo-win32font.c
+     6 pango/fonts.c
+     4 tests/test-font.c
      3 pango/pango-layout.c
+     2 tests/test-fonts.c
+
+Bilal Elmoussaoui is mostly responsible for:
+     5 pango/pango-ot.h
+     3 pango/pangoxft.h
+     3 pango/pangocairo.h
+     3 pango/pangocairo-win32.h
+     3 pango/pango-glyph-item.h
+     2 pango/pangoxft-render.h
+     2 pango/pangoft2.h
+     2 pango/pangofc-fontmap.h
+     2 pango/pangofc-decoder.h
+     2 pango/pangocoretext.h
+
+Biswapriyo Nath is mostly responsible for:
+     1 tests/test-common.c
+     1 pango/pango-tabs.c
+
+Caleb Hearon is mostly responsible for:
+    18 pango/pangofc-fontmap.c
+    10 pango/pangofc-fontmap.h
+     5 pango/pangoxft-fontmap.c
+     4 pango/pangoft2-fontmap.c
+     2 pango/pangoxft.h
+     2 pango/pangocairo-fcfontmap.c
+     1 pango/pangoft2.h
+     1 pango/pangofc-fontmap-private.h
 
 Carl Worth is mostly responsible for:
      1 examples/cairotwisted.c
@@ -698,11 +1241,17 @@ Carl Worth is mostly responsible for:
      1 examples/cairoshape.c
 
 Chris Wilson is mostly responsible for:
-    23 pango/break-thai.c
+    21 pango/break-thai.c
     12 pango/pango-script.c
     11 pango/pango-script-private.h
-     7 pango/pango-context.c
+     5 pango/itemize.c
      5 pango/break.c
+     1 pango/pango-context.c
+
+Christian Hergert is mostly responsible for:
+     3 pango/pangocoretext-fontmap.c
+     2 pango/pangofc-fontmap.c
+     2 pango/pango-bidi-type.c
 
 Christian Persch is mostly responsible for:
      6 pango/pango-layout.c
@@ -713,56 +1262,92 @@ Christian Persch is mostly responsible for:
      3 pango/pango-language.c
      3 pango/pango-item.c
      3 pango/pango-color.c
-     3 pango/pango-attributes.c
      3 pango/glyphstring.c
 
+Christoph Reiter is mostly responsible for:
+   145 pango/pangowin32-fontmap.c
+
 Christopher Blizzard is mostly responsible for:
-    54 pango/pangofc-font.c
-    47 pango/pangofc-fontmap.c
-    43 pango/pangofc-decoder.h
-    28 pango/pangofc-decoder.c
+    52 pango/pangofc-font.c
+    43 pango/pangofc-fontmap.c
+    42 pango/pangofc-decoder.h
+    27 pango/pangofc-decoder.c
      9 pango/pangofc-fontmap.h
      6 pango/pangofc-private.h
      3 tools/gen-script-for-lang.c
      3 pango/pango-renderer.h
 
 Chun-wei Fan is mostly responsible for:
-   155 build/gen-file-list-pango.py
-   142 pango/pangowin32-fontmap.c
-     4 pango/break.c
-     2 pango/pango-renderer.c
-     1 pango/pangowin32-shape.c
-     1 pango/pangowin32-private.h
-     1 pango/pango-ot-info.c
+   726 pango/pangowin32-dwrite-fontmap.cpp
+   347 pango/pango-version-macros.h
+   201 pango/pangowin32-fontmap.c
+   103 pango/pangowin32.c
+    87 pango/pango-layout.h
+    60 pango/pangowin32-private.h
+    59 pango/pango-font.h
+    50 pango/pango-attributes.h
+    35 pango/pangowin32-private.hpp
+    35 pango/pango-ot.h
 
 Cody Russell is mostly responsible for:
-     4 pango/pangocoretext-fontmap.c
+     5 pango/pangocoretext-fontmap.c
 
 Colin Walters is mostly responsible for:
      5 pango/pango-utils.c
-     1 pango/pangoft2.c
-     1 pango/pango-fontmap.h
+     1 pango/pango-fontmap-private.h
 
 Darin Adler is mostly responsible for:
-     8 pango/pango-markup.c
+     7 pango/pango-markup.c
      6 pango/pango-utils.c
      3 pango/fonts.c
      2 pango/pangoft2.h
 
-Dominic Lachowicz is mostly responsible for:
-     1 pango/pangofc-fontmap.c
+Dominique Quatravaux is mostly responsible for:
+     2 pango/pangocoretext-fontmap.c
+
+Ebrahim Byagowi is mostly responsible for:
+     2 pango/pango-ot-tag.c
+     1 pango/shape.c
+     1 pango/pango-ot-private.h
+
+Egmont Koblinger is mostly responsible for:
+     2 pango/pango-font.h
 
 Elliot Lee is mostly responsible for:
-    18 pango/pango-layout.c
-     6 pango/pango-modules.h
+    16 pango/pango-layout.c
+     4 pango/pango-modules.h
      4 pango/modules.c
-     3 pango/pango-coverage.c
-     3 pango/pango-attributes.c
      1 pango/pango-layout.h
+     1 pango/pango-fontmap.h
      1 pango/pango-font.h
      1 pango/pango-coverage.h
+     1 pango/pango-coverage.c
      1 pango/pango-context.h
-     1 pango/break.c
+     1 pango/pango-attributes.c
+
+Elliott Sales de Andrade is mostly responsible for:
+    87 tests/testmisc.c
+    52 tests/test-font.c
+    37 tests/test-fonts.c
+    29 tests/test-layout.c
+    29 tests/test-bidi.c
+    26 tests/testserialize.c
+    15 tests/test-ellipsize.c
+    12 tests/testiter.c
+    12 tests/test-itemize.c
+    10 tests/test-no-fonts.c
+
+Emmanuele Bassi is mostly responsible for:
+    49 pango/pango-version-macros.h
+    32 pango/pango-ot.h
+    31 tests/gen-all-unicode.py
+    30 tests/test-itemize.c
+    28 tests/testboundaries.c
+    27 tests/test-break.c
+    23 pango/pango-ot-tag.c
+    22 tests/test-layout.c
+    22 tests/test-fonts.c
+    22 build-aux/meson/dist-docs.py
 
 Eric Mader is mostly responsible for:
      2 pango/pango-ot-ruleset.c
@@ -771,273 +1356,489 @@ Evan Nemerson is mostly responsible for:
      2 pango/pango-attributes.h
      1 pango/pango-fontset.h
 
+Evgenii Gurianov is mostly responsible for:
+     9 pango/pangowin32-fontmap.c
+
 Fabian Groffen is mostly responsible for:
-     1 pango/pango-utils.h
+     1 pango/pango-utils-private.h
+
+Fabrice Fontaine is mostly responsible for:
+     1 utils/viewer-cairo.c
 
 Federico Mena Quintero is mostly responsible for:
-     9 pango/pangofc-font.c
+    18 pango/pangofc-fontmap.c
+    12 pango/pangofc-font.c
      3 pango/pango-script.c
      1 pango/pangofc-private.h
      1 pango/pangocairo-font.c
      1 pango/pangocairo-fcfont.c
 
 Hans Breuer is mostly responsible for:
-   315 examples/pangowin32tobmp.c
-   127 pango/pangowin32-fontmap.c
-    55 pango/pangowin32.c
-     8 pango/pangowin32.h
+   314 examples/pangowin32tobmp.c
+   106 pango/pangowin32-fontmap.c
+    46 pango/pangowin32.c
      7 pango/pangowin32-private.h
+     6 pango/pangowin32.h
      4 pango/pango-coverage.c
      3 pango/pango-gravity.c
-     2 pango/shape.c
-     2 pango/pango-renderer.c
+     2 pango/pangofc-decoder.c
      2 pango/fonts.c
+     1 pango/shape.c
 
 Havoc Pennington is mostly responsible for:
-   985 pango/pango-markup.c
-   983 pango/pango-layout.c
-   879 pango/break.c
-   285 tests/testboundaries.c
-   218 pango/pango-tabs.c
+   977 pango/pango-markup.c
+   844 pango/pango-layout.c
+   310 pango/break.c
+   239 tests/testboundaries.c
+   225 pango/pango-tabs.c
     95 tests/dump-boundaries.c
-    93 pango/pango-attributes.c
-    77 pango/pango-context.c
-    74 pango/pango-layout.h
-    42 pango/pango-break.h
+    80 pango/pango-attributes.c
+    63 pango/pango-layout.h
+    46 tests/validate-log-attrs.c
+    40 pango/pango-tabs.h
+
+Hugo Herbelin is mostly responsible for:
+     1 pango/pangocoretext-fontmap.c
 
 James Henstridge is mostly responsible for:
-    15 pango/glyphstring.c
+    13 pango/glyphstring.c
      6 pango/pango-language.c
      4 pango/pango-font.h
      3 pango/pango-glyph.h
      2 pango/pango-tabs.h
+     2 pango/pango-language.h
      1 pango/pango-types.h
      1 pango/pango-tabs.c
-     1 pango/pango-language.h
      1 pango/fonts.c
 
+Jan Alexander Steffens (heftig) is mostly responsible for:
+     2 pango/pango-layout.c
+     1 tests/test-font.c
+
+Jared Wahlstrand is mostly responsible for:
+     1 pango/pangowin32-dwrite-fontmap.cpp
+
 Jasper St. Pierre is mostly responsible for:
-    77 pango/pango-markup.c
-     2 pango/pango-attributes.h
+    64 pango/pango-markup.c
+     2 pango/pango-markup.h
 
 Javier Jardón is mostly responsible for:
-    35 pango/pango-engine.c
-    13 pango/pangofc-fontmap.c
-    10 pango/pango-fontset.c
+    29 pango/pango-engine.c
+     8 pango/pangofc-fontmap.c
      6 pango/pango-ot-info.c
+     6 pango/pango-fontset.c
      5 pango/pangocairo-fontmap.c
      4 pango/pangocairo-font.c
      4 pango/pango-ot-ruleset.c
-     1 pango/pangocoretext-fontmap.c
+     4 pango/pango-fontset-simple.c
+     3 pango/pangocoretext-fontmap.c
      1 pango/pango-renderer.c
+
+Jean Abou Samra is mostly responsible for:
+     3 pango/pangoxft-fontmap.c
+     2 pango/pangoft2-fontmap.c
 
 Jean Brefort is mostly responsible for:
      1 pango/pango-attributes.c
 
-Jehan is mostly responsible for:
-     4 pango/pango-markup.c
+Jeremy Tan is mostly responsible for:
+    13 pango/pangocoretext-fontmap.c
 
 Jody Goldberg is mostly responsible for:
     11 pango/pango-layout.c
 
 Johan Dahlin is mostly responsible for:
+     1 utils/viewer-x.c
+     1 utils/viewer-render.c
+     1 utils/viewer-pangoxft.c
+     1 utils/viewer-pangoft2.c
+     1 utils/viewer-pangocairo.c
+     1 utils/viewer-main.c
+     1 utils/viewer-cairo.c
+     1 utils/pango-view.c
      1 tools/gen-script-for-lang.c
-     1 pango/shape.c
-     1 pango/reorder-items.c
-     1 pango/pangoxft-render.c
-     1 pango/pangoxft-fontmap.c
-     1 pango/pangoxft-font.c
-     1 pango/pangowin32.c
-     1 pango/pangowin32-shape.c
-     1 pango/pangowin32-fontmap.c
-     1 pango/pangowin32-fontcache.c
+     1 tests/validate-log-attrs.c
 
 John Ralls is mostly responsible for:
-    84 pango/pangocoretext-fontmap.c
-     8 pango/pangocoretext.c
+    99 pango/pangocoretext-fontmap.c
+    17 pango/pangocairo-coretextfont.c
+     5 pango/pangocoretext.c
      4 pango/pangocairo-fontmap.c
-     4 pango/pango-font.h
+     3 pango/pango-font.h
+     2 pango/pangocoretext-private.h
+     2 pango/pangocairo-coretextfontmap.c
      2 pango/pango-language-sample-table.h
-     1 pango/pangocairo-coretextfontmap.c
+     1 tests/test-shape.c
+     1 tests/test-no-fonts.c
+
+Jonas Dreßler is mostly responsible for:
+    41 pango/pango-attributes.c
+     4 pango/pango-attributes.h
 
 Jonathan Blandford is mostly responsible for:
-    83 pango/pango-attributes.c
+    39 pango/pango-attributes.c
 
-Kalev Lember is mostly responsible for:
-     1 pango/pango-engine.c
+Jordan Petridis is mostly responsible for:
+     3 tests/testmatrix.c
+
+Jordi Mas is mostly responsible for:
+    22 pango/break-latin.c
+     6 pango/break.c
 
 Keith Packard is mostly responsible for:
-     9 pango-view/viewer-x.c
+     9 utils/viewer-x.c
      1 pango/pangoxft-font.c
-     1 pango/pangofc-font.c
 
 Khaled Hosny is mostly responsible for:
-    12 pango/pango-utils.h
-     8 pango/mini-fribidi/fribidi.c
-     7 pango/pango-layout.c
-     2 pango/pangofc-shape.c
-     2 pango/pango-utils.c
-     1 pango-view/viewer-render.c
+   123 pango/pangocairo-font.c
+   113 pango/pangocairo-coretextfont.c
+   105 pango/pango-impl-utils.h
+    74 pango/pangocoretext-fontmap.c
+    57 pango/pangocoretext.c
+    45 pango/pango-bidi-type.c
+    30 utils/viewer-cocoa.h
+    18 utils/viewer-cairo.c
+    17 pango/pangofc-fontmap.c
+    15 pango/pango-script.c
+
+Kim Woelders is mostly responsible for:
+     4 pango/pangoxft-fontmap.c
 
 Kristian Rietveld is mostly responsible for:
-  1416 pango/pangocoretext-fontmap.c
-   347 pango/pangocoretext-shape.c
-   205 pango/pangocoretext.c
-   167 pango/pangocairo-coretextfont.c
-   131 pango/pangocairo-coretextfontmap.c
-    85 pango/pangocoretext-private.h
-    35 pango/pangocoretext.h
+  1377 pango/pangocoretext-fontmap.c
+   203 pango/pangocoretext.c
+   132 pango/pangocairo-coretextfont.c
+   130 pango/pangocairo-coretextfontmap.c
+    97 pango/pangocoretext-private.h
     25 pango/pangocairo-coretext.h
     23 pango/pango-layout.c
-    21 pango/pango-language.c
+    20 pango/pangocoretext.h
+    20 pango/pango-language.c
+    14 pango/pangocairo-coretextfont.h
+
+Luca Bacci is mostly responsible for:
+   110 pango/pangowin32-fontmap.c
+    33 pango/pangowin32.c
+    13 pango/pangowin32-dwrite-fontmap.cpp
+     6 pango/pangowin32-private.h
+     5 pango/pangocairo-win32font.c
+     1 pango/shape.c
 
 Manish Singh is mostly responsible for:
-   125 pango/pangofc-fontmap.c
+    75 pango/pangofc-fontmap.c
      9 examples/cairotwisted.c
      9 examples/cairosimple.c
      8 examples/cairoshape.c
-     4 pango/pangowin32.c
-     4 pango/pango-layout.c
-     4 pango/pango-context.c
+     3 pango/pango-layout.c
+     3 pango/pango-context.c
      3 examples/pangowin32tobmp.c
+     2 pango/pangowin32.c
      2 pango/pangocairo-fcfont.c
      2 pango/pango-ot.h
+
+Marco Trevisan (Treviño) is mostly responsible for:
+     4 pango/pango-markup.c
+     4 pango/pango-attributes.c
+     3 pango/pangofc-fontmap.c
+     3 pango/itemize.c
 
 Matej Knopp is mostly responsible for:
      3 pango/pangocoretext-fontmap.c
 
 Mathias Hasselmann is mostly responsible for:
-    15 pango-view/viewer-render.c
+    19 utils/viewer-render.c
      1 pango/break.c
 
-Matthias Clasen is mostly responsible for:
-   596 tests/testattributes.c
-   355 tests/test-layout.c
-   236 tests/markup-parse.c
-   181 tests/test-common.c
-    77 pango/pango-color.c
-    73 pango/pango-markup.c
-    71 tests/test-font.c
-    65 tests/testcolor.c
-    58 tests/testboundaries_ucd.c
-    35 pango/pango-renderer.c
+Matt Turner is mostly responsible for:
+     5 pango/pango-layout.c
+     2 pango/pangofc-fontmap.c
 
-Max is mostly responsible for:
-     4 pango/pangowin32.c
+Matthias Clasen is mostly responsible for:
+  1722 pango/serializer.c
+  1722 pango/pango-layout.c
+  1663 pango/json/gtkjsonparser.c
+  1338 tests/testattributes.c
+  1315 pango/pangofc-fontmap.c
+  1174 tests/test-font.c
+   906 pango/pango-attributes.c
+   848 pango/itemize.c
+   830 pango/fonts.c
+   760 tests/testmisc.c
+
+Michael Catanzaro is mostly responsible for:
+     9 pango/pango-script.h
+
+Mike FABIAN is mostly responsible for:
+    17 pango/pango-emoji-table.h
+
+Miloš Komarčević is mostly responsible for:
+     1 pango/pango-layout.c
 
 Morten Welinder is mostly responsible for:
-     8 pango/pango-attributes.c
+     7 pango/pango-attributes.c
      1 pango/pangoxft-font.c
 
-Murray Cumming is mostly responsible for:
-     1 pango/pango-attributes.h
+Naveen M K is mostly responsible for:
+     1 pango/pangowin32-fontmap.c
+     1 pango/pangocairo-fontmap.c
+
+Nicolas Hake is mostly responsible for:
+    54 pango/pangowin32.c
+
+Niels De Graef is mostly responsible for:
+     2 pango/pangofc-fontmap.c
 
 Noah Levitt is mostly responsible for:
-   120 pango/pangofc-fontmap.c
-    90 pango/mini-fribidi/fribidi_types.h
-    79 pango/mini-fribidi/fribidi.c
-    60 pango/mini-fribidi/fribidi_types.c
-    43 pango/pango-context.c
+   106 pango/pangofc-fontmap.c
+    42 pango/itemize.c
     31 pango/fonts.c
     16 pango/pangowin32-fontmap.c
-    15 pango/pango-layout.c
-    13 pango/pango-attributes.c
+    14 pango/pango-layout.c
     13 pango/break.c
+     9 pango/pango-attributes.c
+     7 pango/pango-font.h
+     6 pango/pango-markup.c
+     4 pango/pangoxft-render.c
+
+ONO Yoshio is mostly responsible for:
+    49 tools/gen-vertical-orientation-U-table.py
+    47 pango/itemize.c
 
 Owen Taylor is mostly responsible for:
-  2471 pango/pango-layout.c
-  1118 pango/pango-attributes.c
-   856 pango/pango-renderer.c
-   813 pango/pangofc-fontmap.c
-   790 pango/pango-context.c
-   763 pango/fonts.c
-   673 pango/pangoxft-render.c
+  2179 pango/pango-layout.c
+  1036 pango/pango-attributes.c
+   865 pango/pango-renderer.c
+   777 pango/pangofc-fontmap.c
+   768 pango/fonts.c
    669 pango/pango-color-table.h
-   535 pango/ellipsize.c
-   529 pango/mini-fribidi/fribidi.c
+   664 pango/pangoxft-render.c
+   517 pango/ellipsize.c
+   414 pango/pangoxft-font.c
+   408 pango/pango-glyph-item.c
 
 Owen W. Taylor is mostly responsible for:
     10 pango/pango-utils.c
-     5 pango/pango-attributes.c
+     4 pango/pango-attributes.c
+     2 pango/itemize.c
 
 Padraig O'Briain is mostly responsible for:
      6 pango/break.c
      1 pango/fonts.c
 
+Patrick Griffis is mostly responsible for:
+     4 utils/viewer-cairo.c
+     1 pango/pangocairo-win32.h
+
+Peng Wu is mostly responsible for:
+  1951 pango/pango-break-table.h
+   904 pango/break.c
+   148 tools/gen-break-table.py
+    59 pango/pango-emoji-table.h
+    41 tests/testboundaries_ucd.c
+    20 pango/itemize.c
+    12 pango/pango-emoji.c
+     8 pango/break-thai.c
+     6 utils/viewer-main.c
+     6 pango/pango-emoji-private.h
+
 Philip Withnall is mostly responsible for:
-     8 pango/pango-utils.c
+    10 pango/pango-utils.c
+     6 pango/pango-context.c
+     4 pango/pangofc-font.c
+     1 pango/pango-layout.c
+
+Pierre SOUCHAY is mostly responsible for:
+     3 pango/pangocoretext-fontmap.c
+
+Pravdomil Toman is mostly responsible for:
+    20 pango/pangocoretext-fontmap.c
 
 Richard Hult is mostly responsible for:
-    28 pango/pangocoretext-fontmap.c
-    11 pango/pangocoretext.h
-    10 pango/pangocairo-coretextfont.c
+    10 pango/pangocoretext-private.h
+     8 pango/pangocairo-coretextfont.c
+     3 pango/pangocoretext-fontmap.c
+
+Rico Tzschichholz is mostly responsible for:
+     1 pango/fonts.c
 
 Roozbeh Pournader is mostly responsible for:
     17 pango/break-arabic.c
-     1 pango/pango-script.h
      1 pango/pango-language.c
 
+Ross Burton is mostly responsible for:
+     5 tests/markup-parse.c
+     1 tests/test-common.c
+
+Rudi Heitbaum is mostly responsible for:
+    30 pango/pango-attributes.c
+     2 tests/test-fonts.c
+     1 pango/pango-color.c
+
 Ryan Lortie is mostly responsible for:
-     4 pango/pango-utils.h
      3 pango/pango-language.h
      3 pango/pango-language.c
      3 pango/pango-font.h
      3 pango/fonts.c
      2 pango/pangocairo-context.c
+     2 pango/pango-utils.h
      2 pango/pango-utils.c
+     2 pango/pango-utils-private.h
      2 pango/pango-script.h
      2 pango/pango-script.c
-     2 pango/pango-layout.c
+
+Ryan Schmidt is mostly responsible for:
+     2 pango/pangocoretext-fontmap.c
 
 Sebastian Dröge is mostly responsible for:
      8 pango/pango-language.c
-     1 pango-view/pango-view.c
+     1 utils/pango-view.c
+
+Sebastian Keller is mostly responsible for:
+    10 tests/testmisc.c
+     6 pango/pango-types.h
+     4 pango/pangocairo-font.c
 
 Sebastian Wilhelmi is mostly responsible for:
-    31 pango/pango-attributes.c
+    39 pango/pango-attributes.c
      2 pango/pango-attributes.h
      1 pango/pango-font.h
      1 pango/fonts.c
 
+Sergey Bugaev is mostly responsible for:
+    13 pango/pango-layout.c
+     3 pango/pango-layout.h
+     1 pango/serializer.c
+     1 pango/pango-version-macros.h
+
+Seungha Yang is mostly responsible for:
+     9 pango/pangowin32.c
+
+Simon McVittie is mostly responsible for:
+    11 pango/pango-renderer.c
+     2 pango/pangoxft.h
+     2 pango/pangoft2.h
+     1 pango/json/gtkjsonprinter.c
+
 Soeren Sandmann is mostly responsible for:
     17 pango/pangoft2.c
-    10 pango/pangofc-font.c
-     7 pango/pango-layout.h
-     3 pango/pangofc-font.h
+     9 pango/pango-layout.h
+     3 pango/pangofc-font.c
+     3 pango/pango-glyph.h
      2 tools/gen-script-for-lang.c
      2 pango/pangoxft-font.c
-     2 pango/pango-glyph.h
+     2 pango/pangofc-font.h
      2 pango/pango-coverage.h
-     1 pango/pangofc-shape.c
-     1 pango/pangocoretext.h
+     1 pango/shape.c
+
+Stephan Bergmann is mostly responsible for:
+     6 pango/pango-layout.c
+
+Suyuan Chang is mostly responsible for:
+     3 pango/pangocoretext-fontmap.c
 
 Sven Neumann is mostly responsible for:
-    54 pango/pangoft2-render.c
+    52 pango/pangoft2-render.c
     20 pango/pangoft2.c
-    20 pango/pangofc-font.c
-    15 pango/pangowin32.c
-    14 pango/pango-renderer.c
-    10 pango/pangocairo-font.c
+    19 pango/pangofc-font.c
+    14 pango/pangowin32.c
      8 pango/pangoft2-fontmap.c
      5 pango/pangofc-private.h
+     3 pango/pango-renderer.c
+     3 pango/fonts.c
      2 pango/pangoft2-private.h
-     2 pango/fonts.c
+     1 pango/pangoxft-private.h
 
-Tim Janik is mostly responsible for:
-     3 pango/pangowin32.c
+Szunti is mostly responsible for:
+     3 tests/test-shape.c
+     1 utils/pango-list.c
+     1 tests/testboundaries_ucd.c
+     1 tests/test-font.c
+
+Tavmjong Bah is mostly responsible for:
+     2 pango/shape.c
+
+Thomas Haller is mostly responsible for:
+    15 pango/pangofc-font.c
+     7 pango/pangocoretext.c
+     6 pango/pangowin32-fontmap.c
+     5 pango/pangocairo-win32font.c
+     2 pango/pangowin32.c
+     1 pango/pangofc-font.h
+
+Tim-Philipp Müller is mostly responsible for:
+     6 pango/pango-layout.c
+
+Timm Bäder is mostly responsible for:
+   207 pango/pango-attributes.c
+   151 pango/pango-layout.c
+    65 tests/testattributes.c
+    31 pango/pango-attributes-private.h
+    16 pango/break.c
+    14 pango/pango-layout-private.h
+    11 pango/pango-glyph-item.c
+     9 pango/pango-renderer.c
+     9 pango/ellipsize.c
+     8 pango/pangocairo-context.c
+
+Ting-Wei Lan is mostly responsible for:
+     2 utils/pango-list.c
+     1 pango/fonts.c
 
 Tor Lillqvist is mostly responsible for:
-   972 pango/pangowin32-fontmap.c
-   910 pango/pangowin32.c
-   548 pango/pangowin32-shape.c
-   251 pango/pangowin32-fontcache.c
-   170 pango/pangowin32-private.h
-   127 pango/pangoft2.c
-    96 pango/pangocairo-win32font.c
-    63 pango/pangowin32.h
-    43 examples/pangowin32tobmp.c
-    39 pango/pangoft2-fontmap.c
+   464 pango/pangowin32-fontmap.c
+   423 pango/pangowin32.c
+   246 pango/pangowin32-fontcache.c
+    95 pango/pangoft2.c
+    92 pango/pangowin32-private.h
+    69 pango/pangocairo-win32font.c
+    60 pango/pangowin32.h
+    40 examples/pangowin32tobmp.c
+    38 pango/pangoft2.h
+    37 pango/pangoft2-fontmap.c
+
+Weng Xuetian is mostly responsible for:
+    12 tests/testmisc.c
+
+Werner Lemberg is mostly responsible for:
+     2 examples/pangowin32tobmp.c
+
+Xavid Pretzer is mostly responsible for:
+    53 pango/pangocoretext-fontmap.c
+     2 pango/pangocoretext.c
+     2 pango/pangocoretext-private.h
+
+Yongsu Park is mostly responsible for:
+    21 pango/pangowin32.c
+     3 pango/pangowin32-private.h
+     2 pango/pangowin32-fontmap.c
+
+Zander Brown is mostly responsible for:
+    21 pango/fonts.c
+
+correctmost is mostly responsible for:
+     1 pango/fonts.c
+     1 pango/break.c
+
+kramo is mostly responsible for:
+     2 pango/pango-language-sample-table.h
+
+milotype is mostly responsible for:
+     2 pango/pango-language-sample-table.h
+
+misos1 is mostly responsible for:
+     8 pango/shape.c
+
+msizanoen1 is mostly responsible for:
+    10 pango/shape.c
+
+sshil is mostly responsible for:
+    30 pango/pango-language-sample-table.h
+    12 pango/pangofc-fontmap.c
+
+two is mostly responsible for:
+     2 pango/pango-script.h
+     1 pango/break.c
 
 The extensions below were found in the repository history (extensions used
 during statistical analysis are marked):
-* 1 C FTL GPL README TXT ac aliases am bat bdf [c] cI [cc] def defs doap docs eps expected fig filters filtersin [h] [hh] i in l m4 mak markup mingw mk modules msc msvcproj patch pl pre-1-0 pre-1-10 pre-1-14 pre-1-16 pre-1-18 pre-1-2 pre-1-20 pre-1-4 pre-1-6 pre-1-8 props propsin [py] sgml sh sln template txt types utf utf8 vcproj vcprojin vcxproj vcxprojin vsprops vspropsin win32 xml y 
+* 1 C Dockerfile FTL GPL README TXT ac aliases am bat bdf break build [c] cI [cc] conf [cpp] def defs doap docs eps expected fig filters filtersin [h] [hh] [hpp] i in items [js] l layout m m4 mak markup md meson mingw mk modules msc msvc-introspection msvcproj options patch pl pre-1-0 pre-1-10 pre-1-12 pre-1-14 pre-1-16 pre-1-18 pre-1-2 pre-1-20 pre-1-23 pre-1-4 pre-1-6 pre-1-8 props propsin [py] rl rst sgml sh sln supp svg template toml ttx txt types utf utf8 vcproj vcprojin vcxproj vcxprojin vsprops vspropsin win32 wrap xml y yml 
