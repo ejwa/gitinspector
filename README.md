@@ -28,11 +28,12 @@ A full [Documentation](https://github.com/ejwa/gitinspector/wiki/Documentation) 
   * Runs on Python 2.7 and on Python 3.5 and later; see [docs/REQUIREMENTS.txt](docs/REQUIREMENTS.txt) for the supported versions.
 
 ### Example outputs
-Below are some example outputs for a number of famous open source projects. All the statistics were generated using the *"-HTlrm"* flags.
+Below are some example outputs for a number of famous open source projects, as well as for gitinspector itself. All the statistics were generated using the *"-HTlrm"* flags.
 
 | Project name | | | | |
 |---|---|---|---|---|
 | Django | [HTML](https://ejwa.github.io/gitinspector/examples/django_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/django_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/django_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/django_output.xml) |
+| Gitinspector | [HTML](https://ejwa.github.io/gitinspector/examples/gitinspector_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/gitinspector_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/gitinspector_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/gitinspector_output.xml) |
 | JQuery | [HTML](https://ejwa.github.io/gitinspector/examples/jquery_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/jquery_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/jquery_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/jquery_output.xml) |
 | Pango | [HTML](https://ejwa.github.io/gitinspector/examples/pango_output.html) | [HTML Embedded](https://ejwa.github.io/gitinspector/examples/pango_output.emb.html) | [Plain Text](https://ejwa.github.io/gitinspector/examples/pango_output.txt) | [XML](https://ejwa.github.io/gitinspector/examples/pango_output.xml) |
 
