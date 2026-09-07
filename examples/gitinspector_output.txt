@@ -1,0 +1,204 @@
+Statistical information for the repository 'gitinspector' was gathered on
+2026/09/08. The analyzed branch was 'master'.
+The following historical commit information, by author, was found in the
+repository:
+
+Author                     Commits    Insertions      Deletions    % of changes
+Adam Waldenberg                403         10300           4657           95.15
+Alexander Chernoskut             1             1              1            0.01
+Alexander Kradenkov              1             9              6            0.10
+Bart van Andel                   1            29              0            0.18
+Bill Wang                        1             2              2            0.03
+Chris Barry                      1             3              3            0.04
+Chris Ring                       2            11              4            0.10
+Christian Kastner                2             9              5            0.09
+Diomidis Spinellis               2             3              3            0.04
+Dmitry Dzhus                     1             3              3            0.04
+Georgios Andreadis               1             1              1            0.01
+Gregrs                           1             3              3            0.04
+GuillermoMI                      1             1              1            0.01
+Jon Warghed                      1             1              0            0.01
+Kamila Chyla                     1             2              2            0.03
+Maksym Sobolyev                  5            93             34            0.81
+Marc Harper                      3           172            144            2.01
+Matthew Moulton                  1            16             16            0.20
+Remi Rampin                      3            75             75            0.95
+Sam Sendelbach                   1             5              3            0.05
+Tomi Kokkonen                    1             5              5            0.06
+Yannick Moy                      1             4              3            0.04
+Total                          435         10748           4971          100.00
+
+Below are the number of lines from each author that have survived and are still
+intact in the current revision:
+
+Author                    Lines      Stability          Age       % in comments
+Adam Waldenberg            6612           64.2         42.0               16.06
+Alexander Kradenkov           4           44.4          0.0                0.00
+Bart van Andel               29          100.0        117.2               24.14
+Bill Wang                     1           50.0        130.5                0.00
+Chris Barry                   1           33.3        143.0                0.00
+Chris Ring                    1            9.1        157.5                0.00
+Christian Kastner             2           22.2        141.8                0.00
+Georgios Andreadis            1          100.0        120.5                0.00
+GuillermoMI                   1          100.0        113.1                0.00
+Kamila Chyla                  1           50.0        136.9                0.00
+Maksym Sobolyev              57           61.3        131.9                0.00
+Marc Harper                  59           34.3        130.7                0.00
+Matthew Moulton               7           43.8         31.9                0.00
+Remi Rampin                  40           53.3        123.3                0.00
+Sam Sendelbach                2           40.0          0.0                0.00
+
+The following monthly history timeline has been gathered from the repository:
+
+Author                  2012-05    2012-10    2012-11    2013-03    2013-04 
+Adam Waldenberg       --+++++++   -+++++++   --++++++   ---+++++   -+++++++ 
+Modified Lines:            1854        320        237        319        153 
+
+Author                  2013-05    2013-06    2013-07    2013-08    2013-09 
+Adam Waldenberg       ---++++++   --++++++   ---+++++   ------++  ----+++++ 
+Chris Ring                                          .          .            
+Modified Lines:             234        474       1926        159         11 
+
+Author                  2013-10    2013-12    2014-01    2014-02    2014-03 
+Adam Waldenberg        ----++++   ----++++   -+++++++   --++++++         -+ 
+Maksym Sobolyev                                                    --++++++ 
+Modified Lines:              21         22        170        387         30 
+
+Author                  2014-11    2014-12    2015-02    2015-08    2015-09 
+Adam Waldenberg       ----+++++  --+++++++   -+++++++   ----++++  ---++++++ 
+Chris Barry                   .                                             
+Christian Kastner             .                                             
+Diomidis Spinellis            .                                             
+Dmitry Dzhus                             .                                  
+Jon Warghed                   .                                             
+Kamila Chyla                                                   .            
+Yannick Moy                   .                                             
+Modified Lines:             223         64          7         24        306 
+
+Author                  2015-10    2015-11    2015-12    2016-01    2016-02 
+Adam Waldenberg        -----+++   ---+++++  ----+++++   ----++++          . 
+Bill Wang                     .                                             
+Gregrs                                              .                       
+Maksym Sobolyev                                                    --++++++ 
+Marc Harper                   .                                             
+Modified Lines:            2665        632         47          2        117 
+
+Author                  2016-08    2017-05    2017-10    2020-02    2024-01 
+Adam Waldenberg                   ---+++++                                  
+Alexander Chernoskut                                    ----++++            
+Bart van Andel                        ++++                                  
+Georgios Andreadis     ----++++                                             
+GuillermoMI                              .                                  
+Matthew Moulton                                                    ----++++ 
+Remi Rampin                                  ----++++                       
+Tomi Kokkonen                                       .                       
+Modified Lines:               2         91        160          2         32 
+
+Author                  2026-09 
+Adam Waldenberg        -+++++++ 
+Alexander Kradenkov           . 
+Sam Sendelbach                . 
+Modified Lines:            5028 
+
+The following files have an elevated cyclomatic complexity (in order of severity):
+gitinspector/metrics.py (90 in cyclomatic complexity)
+gitinspector/gitinspector.py (89 in cyclomatic complexity)
+tests/test_repositories.py (84 in cyclomatic complexity)
+gitinspector/output/timelineoutput.py (70 in cyclomatic complexity)
+gitinspector/changes.py (69 in cyclomatic complexity)
+gitinspector/terminal.py (64 in cyclomatic complexity)
+tests/reference.py (53 in cyclomatic complexity)
+gitinspector/output/metricsoutput.py (53 in cyclomatic complexity)
+gitinspector/blame.py (51 in cyclomatic complexity)
+
+The following files have an elevated cognitive complexity (in order of severity):
+gitinspector/metrics.py (75 in cognitive complexity)
+gitinspector/output/timelineoutput.py (63 in cognitive complexity)
+gitinspector/gitinspector.py (62 in cognitive complexity)
+tests/test_repositories.py (51 in cognitive complexity)
+
+The following responsibilities, by author, were found in the current revision of
+the repository (comments are excluded from the line count, if possible):
+
+Adam Waldenberg is mostly responsible for:
+   328 tests/test_repositories.py
+   244 tests/test_workers.py
+   239 gitinspector/changes.py
+   231 tests/test_output.py
+   210 gitinspector/output/timelineoutput.py
+   201 gitinspector/html/report.js
+   197 gitinspector/gitinspector.py
+   180 tests/test_changes.py
+   177 gitinspector/output/changesoutput.py
+   176 gitinspector/terminal.py
+
+Alexander Kradenkov is mostly responsible for:
+     2 gitinspector/metrics.py
+     2 gitinspector/comment.py
+
+Bart van Andel is mostly responsible for:
+    22 gitinspector.js
+
+Bill Wang is mostly responsible for:
+     1 gitinspector/output/responsibilitiesoutput.py
+
+Chris Barry is mostly responsible for:
+     1 gitinspector/gravatar.py
+
+Chris Ring is mostly responsible for:
+     1 gitinspector/gitinspector.py
+
+Christian Kastner is mostly responsible for:
+     1 gitinspector/format.py
+     1 gitinspector/basedir.py
+
+Georgios Andreadis is mostly responsible for:
+     1 gitinspector/output/changesoutput.py
+
+GuillermoMI is mostly responsible for:
+     1 gitinspector/comment.py
+
+Kamila Chyla is mostly responsible for:
+     1 gitinspector/blame.py
+
+Maksym Sobolyev is mostly responsible for:
+    24 gitinspector/output/blameoutput.py
+    16 gitinspector/blame.py
+    10 gitinspector/gitinspector.py
+     6 gitinspector/output/timelineoutput.py
+     1 gitinspector/config.py
+
+Marc Harper is mostly responsible for:
+    13 gitinspector/output/filteringoutput.py
+    12 gitinspector/gitinspector.py
+     4 gitinspector/metrics.py
+     4 gitinspector/help.py
+     4 gitinspector/gravatar.py
+     3 gitinspector/output/responsibilitiesoutput.py
+     3 gitinspector/output/extensionsoutput.py
+     2 gitinspector/version.py
+     2 gitinspector/output/changesoutput.py
+     2 gitinspector/output/blameoutput.py
+
+Matthew Moulton is mostly responsible for:
+     3 gitinspector/basedir.py
+     1 gitinspector/metrics.py
+     1 gitinspector/config.py
+     1 gitinspector/clone.py
+     1 gitinspector/changes.py
+
+Remi Rampin is mostly responsible for:
+    12 gitinspector/blame.py
+    11 gitinspector/output/timelineoutput.py
+    10 gitinspector/output/blameoutput.py
+     3 gitinspector/responsibilities.py
+     2 gitinspector/output/responsibilitiesoutput.py
+     1 gitinspector/terminal.py
+     1 gitinspector/help.py
+
+Sam Sendelbach is mostly responsible for:
+     2 gitinspector/metrics.py
+
+The extensions below were found in the repository history (extensions used
+during statistical analysis are marked):
+* 1 cfg [cpp] css csv footer [go] header html in [js] json md [php] po pot [py] [rs] spec [swift] template tex tsv txt yml 
