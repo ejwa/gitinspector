@@ -177,8 +177,9 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 
 /* Timeline -------------------------------------------------------------------------------------- */
 .gi-band { --gi-name: 170px; display: flex; flex-direction: column; gap: 6px; }
-/* The bands keep a readable cell width and scroll sideways rather than shrinking to nothing. */
-.gi-band { min-width: 620px; }
+/* The bands keep a readable cell width and scroll sideways rather than shrinking to nothing. The
+   inline padding keeps the ring around the row avatars clear of the scrolling edge. */
+.gi-band { min-width: 620px; padding: 0 4px; }
 .gi-band + .gi-band { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--border); }
 .gi-grid { display: grid; gap: 4px; align-items: center; grid-template-columns: var(--gi-name) repeat(var(--gi-cols), minmax(0, 1fr)); }
 .gi-week { height: 72px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
@@ -192,7 +193,7 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 .gi-axis { padding: 7px 8px; border-radius: var(--radius-s); background: var(--surface2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; color: var(--muted); white-space: nowrap; }
 .gi-axis > div { text-align: center; font-size: 11px; overflow: hidden; }
 .gi-axis > div.gi-range { text-align: left; text-overflow: ellipsis; }
-.gi-heat { height: 28px; display: flex; align-items: center; gap: 8px; white-space: nowrap; border-radius: var(--radius-s); padding: 0 6px; margin: 0 -6px; min-width: 0; }
+.gi-heat { height: 28px; display: flex; align-items: center; gap: 8px; white-space: nowrap; min-width: 0; }
 .gi-heat span { overflow: hidden; text-overflow: ellipsis; }
 .gi-heat .gi-avatar { width: 18px; height: 18px; font-size: 9px; }
 .gi-cell { height: 28px; border-radius: var(--radius-s); background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-family: var(--mono); }
