@@ -23,7 +23,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gitinspector 0.5.0dev\n"
+"Project-Id-Version: gitinspector 0.5.0\n"
 "Report-Msgid-Bugs-To: gitinspector@ejwa.se\n"
 "POT-Creation-Date: 2026-09-06 18:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"

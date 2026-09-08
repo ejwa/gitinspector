@@ -22,7 +22,7 @@ from __future__ import unicode_literals
 from . import localization
 localization.init()
 
-__version__ = "0.5.0dev"
+__version__ = "0.5.0"
 
 __doc__ = _("""Copyright © 2012-2026 Ejwa Hosting AB. All rights reserved.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
