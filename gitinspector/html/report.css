@@ -105,6 +105,8 @@ a:hover { text-decoration: underline; }
 .gi-btn:hover, .gi-seg button:hover { background: var(--surface2); }
 .gi-moon { width: 10px; height: 10px; border-radius: 50%; background: var(--text); display: inline-block; box-shadow: inset 3px -3px 0 0 var(--surface); }
 [data-mode="dark"] .gi-moon { box-shadow: none; }
+.gi-tick { width: 14px; height: 14px; border: 1px solid var(--border); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 10px; line-height: 1; color: transparent; }
+[data-gi-minor-toggle][aria-pressed="true"] .gi-tick { border-color: var(--accent); background: var(--accent); color: var(--surface); }
 
 .gi-search { display: flex; border: 1px solid var(--border); border-radius: var(--radius-s); background: var(--surface); overflow: hidden; width: 320px; max-width: 100%; }
 .gi-search:focus-within { border-color: var(--accent); }
@@ -221,6 +223,10 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 
 .gi-foot { color: var(--muted); font-size: 12px; border-top: 1px solid var(--border); padding-top: 16px; }
 .gi-hidden { display: none !important; }
+/* The authors with a share of the changes too small to be worth a row of their own, until asked for.
+   One of the two is always in the table: the folded row stands in for the rows it replaces. */
+:root[data-minor="hidden"] [data-gi-minor] { display: none; }
+:root[data-minor="shown"] [data-gi-minor-summary] { display: none; }
 
 /* Narrow screens ---------------------------------------------------------------------------------- */
 @media (max-width: 960px) {

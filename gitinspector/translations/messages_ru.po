@@ -148,6 +148,9 @@ msgstr "Статистика репозитория для '{0}'"
 msgid "Search"
 msgstr "Поиск"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "Стабильность"
 

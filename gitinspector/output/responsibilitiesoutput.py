@@ -24,7 +24,8 @@ from xml.sax.saxutils import escape
 from ..localization import N_
 from .. import format, gravatar, terminal
 from .. import responsibilities as resp
-from .outputable import (Outputable, author_color, author_indices, html_avatar, html_card, html_file_row)
+from .outputable import (Outputable, author_color, author_indices, html_avatar, html_card, html_file_row,
+                         html_minor_attribute, minor_authors)
 
 RESPONSIBILITIES_INFO_TEXT = N_("The following responsibilities, by author, were found in the current "
                                 "revision of the repository (comments are excluded from the line count, "
@@ -65,6 +66,7 @@ class ResponsibilitiesOutput(Outputable):
 
 	def output_html(self):
 		indices = author_indices(self.changes.get_authorinfo_list())
+		minor = minor_authors(self.changes.get_authorinfo_list())
 		rows = ""
 
 		for author in sorted(set(i[0] for i in self.blame.blames)):
@@ -81,13 +83,14 @@ class ResponsibilitiesOutput(Outputable):
 			files = [html_file_row(name, "{0} eloc".format(eloc), eloc, shown[0][0], author_color(index))
 			         for (eloc, name) in shown]
 
-			rows += ("<div class=\"gi-resp-row\" data-gi-searchable=\"authors\">"
+			rows += ("<div class=\"gi-resp-row\" data-gi-searchable=\"authors\"{5}>"
 			         "<button type=\"button\" data-gi-toggle=\"{0}\" aria-expanded=\"false\">"
 			         "<span class=\"gi-chev\">▸</span>{1}<span class=\"gi-resp-name\">{2}</span>"
 			         "<span class=\"gi-resp-summary\">{3}</span></button>"
 			         "<div class=\"gi-resp-files gi-hidden\" id=\"{0}\">{4}</div></div>".format(
 			         panel, html_avatar(author, index, url), escape(author),
-			         escape(__summary__(responsibilities)), "".join(files)))
+			         escape(__summary__(responsibilities)), "".join(files),
+			         html_minor_attribute(author, minor)))
 
 		print(html_card(_(RESPONSIBILITIES_INFO_TEXT), rows))
 

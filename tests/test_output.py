@@ -19,6 +19,7 @@
 
 from __future__ import unicode_literals
 import json
+import re
 import os
 import subprocess
 import sys
@@ -29,6 +30,7 @@ try:
 except ImportError:
 	import unittest
 
+from gitinspector.output.outputable import grouped
 from .harness import NAMES_ARE_UNRESTRICTED, Repository
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -47,10 +49,11 @@ def read_all(descriptor):
 
 	return output
 
-def gitinspector_process(stdout, encoding, output_format, locations):
+def gitinspector_process(stdout, encoding, output_format, locations, options=()):
 	env = dict(os.environ)
 	env["PYTHONIOENCODING"] = encoding
-	command = [sys.executable, "-m", "gitinspector.gitinspector", "-F", output_format, "-f", "**"] + list(locations)
+	command = ([sys.executable, "-m", "gitinspector.gitinspector", "-F", output_format, "-f", "**"] +
+	           list(options) + list(locations))
 	return subprocess.Popen(command, cwd=PROJECT_ROOT, env=env, stdout=stdout, stderr=subprocess.PIPE)
 
 class OutputEncodingTest(unittest.TestCase):
@@ -254,3 +257,182 @@ class HtmlReportTest(unittest.TestCase):
 
 		self.assertIn("a&amp;b&quot;c", report)
 		self.assertNotIn("a&b\"c", report)
+
+class MinorAuthorTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("bulk", {"a.py": "".join("line {0}\n".format(i) for i in range(200))},
+		                       "Major Author", "major@example.com")
+		self.repository.commit("crumb", {"b.py": "one\n"}, "Minor Author", "minor@example.com",
+		                       "2015-02-01T12:00:00+0000")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def report(self, output_format, *options):
+		process = gitinspector_process(subprocess.PIPE, "utf-8", output_format,
+		                               [self.repository.location], options)
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		return output.decode("utf-8")
+
+	def rows_of(self, report, marked):
+		attribute = " data-gi-minor=\"true\"" if marked else ""
+		return [row for row in report.split("data-gi-searchable=\"authors\"")[1:]
+		        if row.startswith(attribute) and (marked or not row.startswith(" data-gi-minor"))]
+
+	def test_both_html_formats_offer_the_minor_author_filter(self):
+		for output_format in ("html", "htmlembedded"):
+			report = self.report(output_format)
+
+			self.assertIn("data-gi-minor-toggle=\"true\"", report)
+			self.assertIn("Show minor authors", report)
+
+	def test_the_filter_starts_off_and_the_stylesheet_hides_what_it_marks(self):
+		report = self.report("html")
+
+		self.assertIn("data-minor=\"hidden\"", report.split("<head>")[0])
+		self.assertIn("aria-pressed=\"false\"", report.split("data-gi-minor-toggle=\"true\"")[1].split(">")[0])
+		self.assertIn(":root[data-minor=\"hidden\"] [data-gi-minor] { display: none; }", report)
+
+	def test_an_author_below_the_minor_share_is_marked_in_every_section(self):
+		#Four sections list authors: the changes, the blame, the timeline heat map and the
+		#responsibilities. The minor author writes one line out of two hundred and one.
+		report = self.report("html", "-T", "-r")
+
+		self.assertEqual(len(self.rows_of(report, True)), 4)
+		self.assertEqual(len(self.rows_of(report, False)), 4)
+
+	def test_an_author_above_the_minor_share_is_never_marked(self):
+		report = self.report("html", "-T", "-r")
+
+		for row in self.rows_of(report, False):
+			self.assertIn("Major Author", row[:600])
+
+		for row in self.rows_of(report, True):
+			self.assertIn("Minor Author", row[:600])
+
+	def test_hiding_the_minor_authors_leaves_the_totals_alone(self):
+		report = self.report("html")
+		foot = report.split("<tfoot>")[1].split("</tfoot>")[0]
+
+		self.assertNotIn("data-gi-minor", foot)
+		self.assertIn(">+201<", foot)
+
+	def summary_row(self, report, table):
+		body = report.split("<table id=\"" + table + "\"")[1].split("</tbody>")[0]
+		rows = [row for row in body.split("<tr ") if "data-gi-minor-summary=\"true\"" in row]
+
+		self.assertEqual(len(rows), 1)
+		return rows[0]
+
+	def test_the_hidden_authors_are_folded_into_one_row(self):
+		report = self.report("html")
+
+		for table in ("changes", "blame"):
+			self.assertIn("Minor Authors (1)", self.summary_row(report, table))
+
+	def test_the_folded_row_carries_the_numbers_of_the_authors_it_stands_for(self):
+		row = self.summary_row(self.report("html"), "changes")
+
+		self.assertIn("data-gi-value=\"1\"", row)
+		self.assertIn(">+1<", row)
+		self.assertIn(">−0<", row)
+		self.assertIn("data-gi-value=\"0.50\"", row)
+
+	def test_the_folded_row_of_the_blame_sums_the_surviving_lines(self):
+		row = self.summary_row(self.report("html"), "blame")
+
+		self.assertIn("data-gi-value=\"1\"", row)
+		self.assertIn("data-gi-value=\"0.50\"", row)
+
+	def test_the_folded_row_gives_way_when_the_minor_authors_are_shown(self):
+		self.assertIn(":root[data-minor=\"shown\"] [data-gi-minor-summary] { display: none; }",
+		              self.report("html"))
+
+	def test_nothing_is_folded_away_when_every_author_is_a_major_one(self):
+		solo = Repository()
+		solo.commit("only", {"a.py": "one\ntwo\n"}, "Sole Author", "sole@example.com")
+
+		try:
+			process = gitinspector_process(subprocess.PIPE, "utf-8", "html", [solo.location])
+			(output, errors) = process.communicate()
+		finally:
+			solo.remove()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		table = output.decode("utf-8").split("<table id=\"changes\"")[1].split("</table>")[0]
+
+		self.assertNotIn("data-gi-minor", table)
+
+class StatCardTest(unittest.TestCase):
+	def test_a_number_below_a_thousand_keeps_its_digits_together(self):
+		self.assertEqual(grouped(0), "0")
+		self.assertEqual(grouped(999), "999")
+
+	def test_larger_numbers_are_split_into_groups_of_three(self):
+		self.assertEqual(grouped(1000), "1 000")
+		self.assertEqual(grouped(10748), "10 748")
+		self.assertEqual(grouped(1234567), "1 234 567")
+
+	def test_the_separator_is_never_read_as_a_decimal_point(self):
+		self.assertNotIn(",", grouped(1234567))
+		self.assertNotIn(".", grouped(1234567))
+
+	def test_the_top_cards_of_the_report_group_their_digits(self):
+		repository = Repository()
+		repository.commit("bulk", {"a.py": "".join("line {0}\n".format(i) for i in range(1200))},
+		                  "Bulk Author", "bulk@example.com")
+
+		try:
+			process = gitinspector_process(subprocess.PIPE, "utf-8", "html", [repository.location])
+			(output, errors) = process.communicate()
+		finally:
+			repository.remove()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		stats = output.decode("utf-8").split("class=\"gi-stats\"")[1].split("</section>")[0]
+
+		self.assertIn("+1 200", stats)
+
+class MinorAuthorAgreementTest(unittest.TestCase):
+	def setUp(self):
+		#Edge Author writes enough to stay out of the fold, but keeps so little of it that a share
+		#counted over the surviving lines would gather them in anyway.
+		self.repository = Repository()
+		self.repository.commit("bulk", {"a.py": "".join("line {0}\n".format(i) for i in range(200))},
+		                       "Major Author", "major@example.com")
+		self.repository.commit("crumb", {"b.py": "one\n"}, "Minor Author", "minor@example.com",
+		                       "2015-02-01T12:00:00+0000")
+		self.repository.commit("edge", {"c.py": "one\ntwo\nthree\n"}, "Edge Author", "edge@example.com",
+		                       "2015-03-01T12:00:00+0000")
+		self.repository.commit("trim", {"c.py": "one\n"}, "Major Author", "major@example.com",
+		                       "2015-04-01T12:00:00+0000")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def report(self):
+		process = gitinspector_process(subprocess.PIPE, "utf-8", "html", [self.repository.location])
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		return output.decode("utf-8")
+
+	def card(self, report, table):
+		return report.split("<table id=\"" + table + "\"")[0].split("<div class=\"gi-share\">")[-1]
+
+	def test_the_legend_folds_the_same_authors_as_the_table(self):
+		report = self.report()
+
+		for table in ("changes", "blame"):
+			body = report.split("<table id=\"" + table + "\"")[1].split("</tbody>")[0]
+			folded = [row for row in body.split("<tr ") if "data-gi-minor-summary=\"true\"" in row]
+
+			self.assertEqual(len(folded), 1)
+			self.assertIn("Minor Authors (1)", folded[0])
+			self.assertIn("Edge Author", body)
+
+			share = re.search(r"Minor Authors ([\d.]+)%", self.card(report, table)).group(1)
+			self.assertEqual(re.findall(r"data-gi-value=\"([\d.]+)\"", folded[0])[-1], share)

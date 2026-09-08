@@ -40,17 +40,48 @@ class Outputable(object):
 AUTHOR_COLORS = 12
 
 #Authors below this share of the work are gathered into a single entry in the legends, which would
-#otherwise grow longer than the chart they explain in a repository with many contributors.
+#otherwise grow longer than the chart they explain in a repository with many contributors. The HTML
+#report hides their rows behind a filter for the same reason.
 MINOR_AUTHOR_PERCENTAGE = 1.00
 
 def author_indices(names):
 	return dict((name, index) for (index, name) in enumerate(sorted(names)))
+
+def minor_authors(authorinfo_list):
+	"""The authors whose share of the changes is too small to list by default.
+
+	Every section of the report asks this of the same list, so that an author hidden in one of them
+	is hidden in all of them, however large their share of that particular section is."""
+	changes = float(sum(info.insertions + info.deletions for info in authorinfo_list.values()))
+	return set(author for (author, info) in authorinfo_list.items()
+	           if percentage(info.insertions + info.deletions, changes) < MINOR_AUTHOR_PERCENTAGE)
+
+def html_minor_attribute(author, minor):
+	return " data-gi-minor=\"true\"" if author in minor else ""
+
+def html_minor_summary_cell(label, count):
+	"""The author cell of the row that stands in for the hidden authors, so that none of them go
+	missing while the filter is off."""
+	return ("<td class=\"gi-author\"><div><span class=\"gi-avatar\" style=\"--gi-c:var(--muted)\">⋯</span>"
+	        "<span>{0} ({1})</span></div></td>".format(escape(label), count))
 
 def author_color(index):
 	return "var(--a{0})".format(index % AUTHOR_COLORS)
 
 def percentage(part, whole):
 	return 0.0 if not whole else 100.0 * part / whole
+
+def grouped(number):
+	"""Digits in groups of three. The separator is a no-break space rather than a comma or a dot,
+	neither of which the reader of a translated report can tell from a decimal point."""
+	digits = "{0}".format(number)
+	groups = []
+
+	while len(digits) > 3:
+		groups.insert(0, digits[-3:])
+		digits = digits[:-3]
+
+	return "\u00a0".join([digits] + groups)
 
 def attribute(value):
 	"""escape() leaves the quote alone, which is fine in an element but not in an attribute."""
@@ -118,13 +149,16 @@ def html_cards(cards):
 def html_table(identifier, body):
 	return "<div class=\"gi-scroll\"><table id=\"{0}\" class=\"gi-table\">{1}</table></div>".format(identifier, body)
 
-def html_share(entries, minor_text):
-	"""Turn (label, percentage, colour) triples into the coloured bar and the legend below it."""
-	minor = sum(entry[1] for entry in entries if entry[1] < MINOR_AUTHOR_PERCENTAGE)
-	shown = [entry for entry in entries if entry[1] >= MINOR_AUTHOR_PERCENTAGE]
+def html_share(entries, minor_text, minor):
+	"""Turn (label, percentage, colour) triples into the coloured bar and the legend below it.
 
-	if minor:
-		shown.append((minor_text, minor, "var(--muted)"))
+	The legend gathers the same authors the table folds into one row, so that the two never stand
+	for different sets under the same name."""
+	folded = sum(entry[1] for entry in entries if entry[0] in minor)
+	shown = [entry for entry in entries if entry[0] not in minor]
+
+	if folded:
+		shown.append((minor_text, folded, "var(--muted)"))
 
 	bar = "".join("<div style=\"width:{0:.2f}%;background:{1}\" title=\"{2}\"></div>".format(
 	              part, color, attribute(label)) for (label, part, color) in shown)

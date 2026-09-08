@@ -154,6 +154,9 @@ msgstr "Estatísticas do repositório para '{0}'"
 msgid "Search"
 msgstr "Pesquisar"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "Estabilidade"
 

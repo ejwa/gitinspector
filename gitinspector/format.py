@@ -70,6 +70,7 @@ TERMINAL_THEME_TEXT = N_("Terminal")
 MODE_TEXT = N_("Toggle light and dark")
 DARK_TEXT = N_("Dark")
 LIGHT_TEXT = N_("Light")
+MINOR_AUTHORS_TEXT = N_("Show minor authors")
 SEARCH_TEXT = N_("Search")
 AUTHORS_TEXT = N_("Authors")
 FILES_TEXT = N_("Files")
@@ -125,6 +126,7 @@ def output_header(repos):
 		                         mode_text=_(MODE_TEXT),
 		                         dark_text=_(DARK_TEXT),
 		                         light_text=_(LIGHT_TEXT),
+		                         minor_text=_(MINOR_AUTHORS_TEXT),
 		                         search_text=_(SEARCH_TEXT),
 		                         authors_text=_(AUTHORS_TEXT),
 		                         files_text=_(FILES_TEXT)))

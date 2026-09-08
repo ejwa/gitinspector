@@ -146,6 +146,9 @@ msgstr "关于'{0}'代码库统计数据"
 msgid "Search"
 msgstr "搜索"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "稳定性"
 

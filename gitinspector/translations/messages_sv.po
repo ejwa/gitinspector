@@ -147,6 +147,9 @@ msgstr "Statistik för förrådet '{0}'"
 msgid "Search"
 msgstr "Sök"
 
+msgid "Show minor authors"
+msgstr "Visa mindre upphovsmän"
+
 msgid "Stability"
 msgstr "Stabilitet"
 

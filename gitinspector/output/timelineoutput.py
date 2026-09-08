@@ -24,7 +24,8 @@ import textwrap
 from xml.sax.saxutils import escape
 from ..localization import N_
 from .. import format, gravatar, terminal, timeline
-from .outputable import Outputable, attribute, author_indices, html_avatar, html_card, percentage
+from .outputable import (Outputable, attribute, author_indices, html_avatar, html_card,
+                         html_minor_attribute, minor_authors, percentage)
 
 TIMELINE_INFO_TEXT_M = N_("The following monthly history timeline has been gathered from the repository")
 TIMELINE_INFO_TEXT_W = N_("The following weekly history timeline has been gathered from the repository")
@@ -90,7 +91,7 @@ def __html_cell__(title, insertions, deletions, busiest):
 	        "color-mix(in oklch, var(--del) {0:.0f}%, var(--surface)) {1:.0f}% 100%);color:{2}\">{4}</div>".format(
 	        weight, split, "var(--surface)" if weight > 70 else "var(--text)", title, __compact__(changes)))
 
-def __output_band__html__(timeline_data, periods, names, indices, busiest):
+def __output_band__html__(timeline_data, periods, names, indices, minor, busiest):
 	#Every band keeps the full number of columns, so that a short last band is not blown up.
 	columns = " style=\"--gi-cols:{0}\"".format(PERIODS_PER_BAND)
 	tallest = max([timeline_data.get_total_changes_in_period(period)[2] for period in periods])
@@ -122,7 +123,8 @@ def __output_band__html__(timeline_data, periods, names, indices, busiest):
 
 		index = indices.get(name[0], 0)
 		url = gravatar.get_url(name[1], size=18) if format.get_selected() == "html" else None
-		heat += "<div class=\"gi-grid\" data-gi-searchable=\"authors\"" + columns + ">"
+		heat += ("<div class=\"gi-grid\" data-gi-searchable=\"authors\"" +
+		         html_minor_attribute(name[0], minor) + columns + ">")
 		heat += "<div class=\"gi-heat\">{0}<span>{1}</span></div>".format(html_avatar(name[0], index, url), escape(name[0]))
 
 		for period in periods:
@@ -164,13 +166,14 @@ class TimelineOutput(Outputable):
 			periods = timeline_data.get_periods()
 			names = timeline_data.get_authors()
 			indices = author_indices(self.changes.get_authorinfo_list())
+			minor = minor_authors(self.changes.get_authorinfo_list())
 			#One scale for every cell in the report, so that a quiet week stays visibly quiet.
 			busiest = max([sum(timeline_data.get_author_changes_in_period(name[0], period))
 			               for name in names for period in periods])
 			bands = ""
 
 			for i in range(0, len(periods), PERIODS_PER_BAND):
-				bands += __output_band__html__(timeline_data, periods[i:i+PERIODS_PER_BAND], names, indices, busiest)
+				bands += __output_band__html__(timeline_data, periods[i:i+PERIODS_PER_BAND], names, indices, minor, busiest)
 
 			print(html_card(self.get_tinfo_txt(), "<div class=\"gi-scroll\">" + bands + "</div>", pad=True))
 

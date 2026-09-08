@@ -142,6 +142,9 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr ""
 

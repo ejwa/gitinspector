@@ -150,6 +150,9 @@ msgstr "'{0}'에 대한 저장소 통계"
 msgid "Search"
 msgstr "검색"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "안정성"
 

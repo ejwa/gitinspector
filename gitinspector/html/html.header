@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="default" data-mode="light">
+<html lang="en" data-theme="default" data-mode="light" data-minor="hidden">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +26,9 @@
 					<button type="button" class="gi-btn" data-gi-mode-toggle="true" title="{mode_text}">
 						<span class="gi-moon"></span>
 						<span data-gi-mode-label="true" data-gi-dark-text="{dark_text}" data-gi-light-text="{light_text}">{dark_text}</span>
+					</button>
+					<button type="button" class="gi-btn" data-gi-minor-toggle="true" aria-pressed="false">
+						<span class="gi-tick">✓</span>{minor_text}
 					</button>
 					<div class="gi-search">
 						<select data-gi-scope="true" aria-label="{search_text}">

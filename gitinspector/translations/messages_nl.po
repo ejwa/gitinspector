@@ -151,6 +151,9 @@ msgstr "Repository statistieken voor '{0}'"
 msgid "Search"
 msgstr "Zoeken"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "Stabiliteit"
 

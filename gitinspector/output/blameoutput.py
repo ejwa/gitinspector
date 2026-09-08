@@ -26,10 +26,17 @@ from xml.sax.saxutils import escape
 from .. import format, gravatar, terminal
 from ..blame import Blame
 from .outputable import (Outputable, author_color, author_indices, html_author_cell, html_card,
-                         html_header_cell, html_meter_cell, html_number_cell, html_share, html_table, percentage)
+                         html_header_cell, html_meter_cell, html_minor_attribute, html_minor_summary_cell,
+                         html_number_cell, html_share, html_table, minor_authors, percentage)
 
 BLAME_INFO_TEXT = N_("Below are the number of lines from each author that have survived and are still "
                      "intact in the current revision")
+
+def __folded_stability__(authors, lines, changes):
+	"""The ratio Blame.get_stability reports per author, over the authors the summary row stands for."""
+	authorinfo_list = changes.get_authorinfo_list()
+	insertions = sum(info.insertions for (author, info) in authorinfo_list.items() if author in authors)
+	return 100 if insertions == 0 else 100.0 * lines / insertions
 
 class BlameOutput(Outputable):
 	def __init__(self, changes, blame, forcemonths):
@@ -46,6 +53,7 @@ class BlameOutput(Outputable):
 		total_blames = sum(entry[1].lines for entry in blames)
 		months = self.forcemonths and self.blame.useweeks
 		indices = author_indices(self.changes.get_authorinfo_list())
+		minor = minor_authors(self.changes.get_authorinfo_list())
 		rows = ""
 		shares = []
 
@@ -55,7 +63,7 @@ class BlameOutput(Outputable):
 			url = gravatar.get_url(self.changes.get_latest_email_by_author(author)) if format.get_selected() == "html" else None
 			shares.append((author, work_percentage, author_color(index)))
 
-			rows += "<tr data-gi-searchable=\"authors\">"
+			rows += "<tr data-gi-searchable=\"authors\"" + html_minor_attribute(author, minor) + ">"
 			rows += html_author_cell(author, index, url)
 			rows += html_number_cell(_("Lines"), blame.lines)
 			rows += html_number_cell(_("Stability"), "{0:.1f}".format(Blame.get_stability(author, blame.lines, self.changes)))
@@ -68,6 +76,32 @@ class BlameOutput(Outputable):
 			rows += html_meter_cell(_("% of total"), work_percentage, author_color(index))
 			rows += "</tr>"
 
+		folded = [(author, blame) for (author, blame) in blames if author in minor]
+
+		if folded:
+			#The hidden authors keep their place in the table as one row. Every column of it is a sum
+			#over the same lines the individual rows report, never an average of their averages.
+			names = set(author for (author, blame) in folded)
+			entries = [blame for (author, blame) in folded]
+			lines = sum(blame.lines for blame in entries)
+			work_percentage = percentage(lines, total_blames)
+
+			rows += ("<tr data-gi-searchable=\"authors\" data-gi-minor-summary=\"true\">" +
+			         html_minor_summary_cell(_("Minor Authors"), len(folded)) +
+			         html_number_cell(_("Lines"), lines) +
+			         html_number_cell(_("Stability"), "{0:.1f}".format(
+			         __folded_stability__(names, lines, self.changes))))
+
+			if months:
+				rows += html_number_cell(_("Age, months"), "{0:.1f}".format(
+				        float(sum(blame.get_skew(True) for blame in entries)) / lines))
+
+			rows += (html_number_cell(_("Age, weeks") if months else _("Age"), "{0:.1f}".format(
+			         float(sum(blame.get_skew() for blame in entries)) / lines)) +
+			         html_number_cell(_("% in comments"), "{0:.2f}".format(
+			         percentage(sum(blame.comments for blame in entries), lines))) +
+			         html_meter_cell(_("% of total"), work_percentage, "var(--muted)") + "</tr>")
+
 		headers = "<thead><tr>" + html_header_cell(_("Author")) + html_header_cell(_("Lines"), True) + \
 		          html_header_cell(_("Stability"), True)
 
@@ -77,7 +111,8 @@ class BlameOutput(Outputable):
 		headers += html_header_cell(_("Age, weeks") if months else _("Age"), True) + \
 		           html_header_cell(_("% in comments"), True) + html_header_cell(_("% of total"), True) + "</tr></thead>"
 
-		body = html_share(shares, _("Minor Authors")) + html_table("blame", headers + "<tbody>" + rows + "</tbody>")
+		body = html_share(shares, _("Minor Authors"), minor) + \
+		       html_table("blame", headers + "<tbody>" + rows + "</tbody>")
 		print(html_card(_(BLAME_INFO_TEXT), body))
 
 	def output_json(self):

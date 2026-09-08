@@ -1,14 +1,15 @@
 /*
  * The behaviour of the HTML reports: the theme and light/dark switches, sortable tables, the search
- * box and the collapsible responsibilities. Inlined into the report as it is, so it is never run
- * through str.format. Written without a framework and without any network access, so that a report
- * saved to disk keeps working.
+ * box, the minor author filter and the collapsible responsibilities. Inlined into the report as it
+ * is, so it is never run through str.format. Written without a framework and without any network
+ * access, so that a report saved to disk keeps working.
  */
 (function () {
 	"use strict";
 
 	var STORE_THEME = "gitinspector.theme";
 	var STORE_MODE = "gitinspector.mode";
+	var STORE_MINOR = "gitinspector.minor";
 
 	function remember(key, value) {
 		try { window.localStorage.setItem(key, value); } catch (e) { /* private mode, never mind */ }
@@ -41,6 +42,14 @@
 		if (label) {
 			label.textContent = label.getAttribute(mode === "dark" ? "data-gi-light-text" : "data-gi-dark-text");
 		}
+	}
+
+	function applyMinor(shown) {
+		document.documentElement.setAttribute("data-minor", shown ? "shown" : "hidden");
+
+		each(document.querySelectorAll("[data-gi-minor-toggle]"), function (button) {
+			button.setAttribute("aria-pressed", shown ? "true" : "false");
+		});
 	}
 
 	function each(list, callback) {
@@ -160,6 +169,16 @@
 				var theme = button.getAttribute("data-gi-theme");
 				remember(STORE_THEME, theme);
 				apply(theme, document.documentElement.getAttribute("data-mode"));
+			});
+		});
+
+		applyMinor(recall(STORE_MINOR) === "shown");
+
+		each(document.querySelectorAll("[data-gi-minor-toggle]"), function (button) {
+			button.addEventListener("click", function () {
+				var shown = document.documentElement.getAttribute("data-minor") !== "shown";
+				remember(STORE_MINOR, shown ? "shown" : "hidden");
+				applyMinor(shown);
 			});
 		});
 

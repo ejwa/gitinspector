@@ -146,6 +146,9 @@ msgstr "Statistiques du dépôt '{0}'"
 msgid "Search"
 msgstr "Rechercher"
 
+msgid "Show minor authors"
+msgstr ""
+
 msgid "Stability"
 msgstr "Stabilité"
 

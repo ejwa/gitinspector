@@ -23,8 +23,10 @@ import textwrap
 from ..localization import N_
 from xml.sax.saxutils import escape
 from .. import format, gravatar, terminal
-from .outputable import (Outputable, author_color, html_author_cell, html_card, html_diverging_cell,
-                         html_diverging_header, html_header_cell, html_number_cell, html_share, html_stats, html_table)
+from .outputable import (Outputable, author_color, grouped, html_author_cell, html_card,
+                         html_diverging_cell, html_diverging_header, html_header_cell,
+                         html_minor_attribute, html_minor_summary_cell, html_number_cell, html_share,
+                         html_stats, html_table, minor_authors)
 
 HISTORICAL_INFO_TEXT = N_("The following historical commit information, by author, was found in the repository")
 NO_COMMITED_FILES_TEXT = N_("No commited files with the specified extensions were found")
@@ -64,6 +66,7 @@ class ChangesOutput(Outputable):
 		#The diverging bars share one scale so that the insertions of one author can be compared to
 		#the deletions of another, and not only to the ones next to them.
 		widest = max([max(authorinfo_list[author].insertions, authorinfo_list[author].deletions) for author in authors])
+		minor = minor_authors(authorinfo_list)
 		rows = ""
 		shares = []
 
@@ -72,12 +75,27 @@ class ChangesOutput(Outputable):
 			percentage = __get_percentage__(authorinfo.insertions, authorinfo.deletions, total_changes)
 			shares.append((entry, percentage, author_color(i)))
 
-			rows += "<tr data-gi-searchable=\"authors\">"
+			rows += "<tr data-gi-searchable=\"authors\"" + html_minor_attribute(entry, minor) + ">"
 			rows += html_author_cell(entry, i, self.__html_avatar_url__(entry))
 			rows += html_number_cell(_("Commits"), authorinfo.commits)
 			rows += html_diverging_cell(authorinfo.deletions, authorinfo.insertions, widest)
 			rows += html_number_cell(_("% of changes"), "{0:.2f}".format(percentage))
 			rows += "</tr>"
+
+		if minor:
+			#The hidden authors keep their place in the table as one row, so that a reader who never
+			#touches the filter still sees how much work they stand for together.
+			folded = [authorinfo_list[author] for author in minor]
+			(commits, insertions, deletions) = (sum(info.commits for info in folded),
+			                                   sum(info.insertions for info in folded),
+			                                   sum(info.deletions for info in folded))
+
+			rows += ("<tr data-gi-searchable=\"authors\" data-gi-minor-summary=\"true\">" +
+			         html_minor_summary_cell(_("Minor Authors"), len(minor)) +
+			         html_number_cell(_("Commits"), commits) +
+			         html_diverging_cell(deletions, insertions, widest) +
+			         html_number_cell(_("% of changes"), "{0:.2f}".format(
+			         __get_percentage__(insertions, deletions, total_changes))) + "</tr>")
 
 		headers = ("<thead><tr>" + html_header_cell(_("Author")) + html_header_cell(_("Commits"), True) +
 		           html_diverging_header(_("Deletions"), _("Insertions")) +
@@ -90,12 +108,13 @@ class ChangesOutput(Outputable):
 		         "<span class=\"gi-spacer\"></span><span class=\"gi-ins-num\">+" + str(total_insertions) + "</span></div></td>" +
 		         html_number_cell(_("% of changes"), "{0:.2f}".format(total_percentage)) + "</tr></tfoot>")
 
-		body = html_share(shares, _("Minor Authors")) + html_table("changes", headers + "<tbody>" + rows + "</tbody>" + total)
+		body = html_share(shares, _("Minor Authors"), minor) + \
+		       html_table("changes", headers + "<tbody>" + rows + "</tbody>" + total)
 
-		print(html_stats(((_("Commits"), total_commits),
-		                  (_("Insertions"), "<span class=\"gi-add\">+{0}</span>".format(total_insertions)),
-		                  (_("Deletions"), "<span class=\"gi-del\">−{0}</span>".format(total_deletions)),
-		                  (_(format.AUTHORS_TEXT), len(authors)))))
+		print(html_stats(((_("Commits"), grouped(total_commits)),
+		                  (_("Insertions"), "<span class=\"gi-add\">+{0}</span>".format(grouped(total_insertions))),
+		                  (_("Deletions"), "<span class=\"gi-del\">−{0}</span>".format(grouped(total_deletions))),
+		                  (_(format.AUTHORS_TEXT), grouped(len(authors))))))
 		print(html_card(_(HISTORICAL_INFO_TEXT), body))
 
 	def output_json(self):
