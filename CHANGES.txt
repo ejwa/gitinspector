@@ -10,6 +10,11 @@ gitinspector (0.5.0)
 	  default and a terminal look, sortable tables, a search box and
 	  diverging bars, timeline heat maps and file rails in place of the
 	  pie charts. It carries no third party libraries at all.
+	* Authors below one percent of the changes are folded into a single
+	  row in the HTML report until the reader asks to see them.
+	* A report opens in a given theme, mode and minor author setting
+	  straight from the link, through ?theme=, ?mode= and ?minor=
+	  parameters in the address.
 	* New -M/--forcemonths option that shows both monthly and weekly
 	  statistics together with -w.
 	* Go, PHP, Rust, Swift and TypeScript source files are analyzed by
@@ -64,6 +69,9 @@ gitinspector (0.5.0)
 	* Example reports are published on GitHub Pages.
 	* A Dockerfile that analyzes a repository mounted on /repo, for those
 	  who would rather not install gitinspector.
+	* Native executables for Linux, macOS and Windows, carrying the
+	  interpreter, the templates and the translations, for those who
+	  would rather not install Python.
 	* Running out of memory while starting git no longer aborts the
 	  analysis with an exception: gitinspector waits for its other git
 	  processes to finish, continues with fewer of them and only gives up,
