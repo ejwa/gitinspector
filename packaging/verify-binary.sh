@@ -59,7 +59,7 @@ expect xml "</gitinspector>"
 # The stricter parse only runs where an interpreter happens to be installed. The executables are
 # tested where none is as well, that being the whole point of them.
 if command -v python3 > /dev/null 2>&1; then
-	python3 -c "import json, sys; json.load(open(sys.argv[1]))" "$reports/report.json"
+	python3 -c "import io, json, sys; json.load(io.open(sys.argv[1], encoding='utf-8'))" "$reports/report.json"
 fi
 
 if LANGUAGE=C "$binary" --nonsense "$repository" > /dev/null 2>&1; then
