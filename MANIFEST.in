@@ -1,3 +1,4 @@
 include gitinspector/html/*
 include gitinspector/translations/*
 include *.txt
+include packaging/*
