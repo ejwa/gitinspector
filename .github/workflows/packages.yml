@@ -71,6 +71,13 @@ jobs:
             dpkg-deb -c "$package" | head -20
           done
 
+      # Warnings are left to be read; only what lintian counts as an error fails the build.
+      - name: Check the package with lintian
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install --no-install-recommends --yes lintian
+          lintian --fail-on error --no-tag-display-limit deb_dist/*.deb
+
       - uses: actions/upload-artifact@v4
         with:
           name: debian-${{ matrix.flavour }}
