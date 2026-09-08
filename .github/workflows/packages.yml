@@ -34,6 +34,10 @@ jobs:
             interpreter: python
             packages: python-stdeb python-setuptools python-all dh-python
             revision: "1~python2"
+            # Lintian judges the python2 package by todays Debian, where /usr/bin/python is gone
+            # and nothing depends on it any more. The package exists for the releases where it is
+            # still what there is, so those two verdicts are not ones it can act on.
+            suppress: script-uses-unversioned-python-in-shebang,python-package-missing-depends-on-python
     steps:
       - uses: actions/checkout@v4
 
@@ -73,10 +77,12 @@ jobs:
 
       # Warnings are left to be read; only what lintian counts as an error fails the build.
       - name: Check the package with lintian
+        env:
+          SUPPRESS: ${{ matrix.suppress }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install --no-install-recommends --yes lintian
-          lintian --fail-on error --no-tag-display-limit deb_dist/*.deb
+          lintian --fail-on error --tag-display-limit 0 ${SUPPRESS:+--suppress-tags "$SUPPRESS"} deb_dist/*.deb
 
       - uses: actions/upload-artifact@v4
         with:
