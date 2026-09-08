@@ -14,12 +14,15 @@
 	<h1>gitinspector example outputs</h1>
 	<p>Example reports for a number of open source projects, generated with the <code>-HTlrm</code> flags.
 	   See the <a href="https://github.com/ejwa/gitinspector">gitinspector repository</a> for the tool itself.</p>
+	<p>Every HTML link opens its report in a view of its own, picked by the parameters in the address;
+	   the theme, the light or dark mode and whether the minor authors are listed. Strip them off to get
+	   the view you last chose yourself.</p>
 	<table>
 		<tr><th>Project</th><th>HTML</th><th>HTML embedded</th><th>Plain text</th><th>XML</th></tr>
-		<tr><td>Django</td><td><a href="examples/django_output.html">HTML</a></td><td><a href="examples/django_output.emb.html">HTML embedded</a></td><td><a href="examples/django_output.txt">Plain text</a></td><td><a href="examples/django_output.xml">XML</a></td></tr>
-		<tr><td>gitinspector</td><td><a href="examples/gitinspector_output.html">HTML</a></td><td><a href="examples/gitinspector_output.emb.html">HTML embedded</a></td><td><a href="examples/gitinspector_output.txt">Plain text</a></td><td><a href="examples/gitinspector_output.xml">XML</a></td></tr>
-		<tr><td>jQuery</td><td><a href="examples/jquery_output.html">HTML</a></td><td><a href="examples/jquery_output.emb.html">HTML embedded</a></td><td><a href="examples/jquery_output.txt">Plain text</a></td><td><a href="examples/jquery_output.xml">XML</a></td></tr>
-		<tr><td>Pango</td><td><a href="examples/pango_output.html">HTML</a></td><td><a href="examples/pango_output.emb.html">HTML embedded</a></td><td><a href="examples/pango_output.txt">Plain text</a></td><td><a href="examples/pango_output.xml">XML</a></td></tr>
+		<tr><td>Django</td><td><a href="examples/django_output.html?theme=terminal&amp;mode=dark">HTML</a></td><td><a href="examples/django_output.emb.html?theme=terminal&amp;mode=dark">HTML embedded</a></td><td><a href="examples/django_output.txt">Plain text</a></td><td><a href="examples/django_output.xml">XML</a></td></tr>
+		<tr><td>gitinspector</td><td><a href="examples/gitinspector_output.html?minor=shown">HTML</a></td><td><a href="examples/gitinspector_output.emb.html?minor=shown">HTML embedded</a></td><td><a href="examples/gitinspector_output.txt">Plain text</a></td><td><a href="examples/gitinspector_output.xml">XML</a></td></tr>
+		<tr><td>jQuery</td><td><a href="examples/jquery_output.html?mode=dark">HTML</a></td><td><a href="examples/jquery_output.emb.html?mode=dark">HTML embedded</a></td><td><a href="examples/jquery_output.txt">Plain text</a></td><td><a href="examples/jquery_output.xml">XML</a></td></tr>
+		<tr><td>Pango</td><td><a href="examples/pango_output.html?theme=terminal">HTML</a></td><td><a href="examples/pango_output.emb.html?theme=terminal">HTML embedded</a></td><td><a href="examples/pango_output.txt">Plain text</a></td><td><a href="examples/pango_output.xml">XML</a></td></tr>
 	</table>
 </body>
 </html>

@@ -327,6 +327,20 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 	var STORE_MODE = "gitinspector.mode";
 	var STORE_MINOR = "gitinspector.minor";
 
+	var THEMES = {"default": "default", terminal: "terminal"};
+	var MODES = {light: "light", dark: "dark"};
+	var MINORS = {shown: "shown", hidden: "hidden", "true": "shown", "false": "hidden", yes: "shown", no: "hidden"};
+
+	/* A link can carry ?theme=terminal&mode=dark&minor=shown to open the report in a given view. The
+	   parameter only steers this visit and is never stored, so it cannot outlive the link and turn
+	   into the choice the reader made themselves. */
+	function parameter(name, values) {
+		var match = new RegExp("[?&]" + name + "=([^&]*)").exec(window.location.search);
+		var value = match ? decodeURIComponent(match[1].replace(/\+/g, " ")).toLowerCase() : "";
+
+		return values.hasOwnProperty(value) ? values[value] : null;
+	}
+
 	function remember(key, value) {
 		try { window.localStorage.setItem(key, value); } catch (e) { /* private mode, never mind */ }
 	}
@@ -336,10 +350,10 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 	}
 
 	function preferredMode() {
-		var stored = recall(STORE_MODE);
+		var chosen = parameter("mode", MODES) || recall(STORE_MODE);
 
-		if (stored) {
-			return stored;
+		if (chosen) {
+			return chosen;
 		}
 		return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 	}
@@ -478,7 +492,7 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 	/* Wiring -------------------------------------------------------------------------------- */
 
 	function ready() {
-		apply(recall(STORE_THEME) || "default", preferredMode());
+		apply(parameter("theme", THEMES) || recall(STORE_THEME) || "default", preferredMode());
 
 		each(document.querySelectorAll("[data-gi-theme]"), function (button) {
 			button.addEventListener("click", function () {
@@ -488,7 +502,7 @@ table.gi-table { width: 100%; border-collapse: collapse; font-variant-numeric: t
 			});
 		});
 
-		applyMinor(recall(STORE_MINOR) === "shown");
+		applyMinor((parameter("minor", MINORS) || recall(STORE_MINOR)) === "shown");
 
 		each(document.querySelectorAll("[data-gi-minor-toggle]"), function (button) {
 			button.addEventListener("click", function () {
