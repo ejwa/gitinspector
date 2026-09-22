@@ -61,6 +61,10 @@ class RustMetricsTest(unittest.TestCase):
 	def test_match_arms_and_loops_are_counted_and_keywords_inside_words_are_not(self):
 		self.assertEqual(measure("metrics_sample.rs", "rs"), (31, 45))
 
+class GroovyMetricsTest(unittest.TestCase):
+	def test_string_range_and_arrow_cases_are_counted_and_keywords_inside_words_are_not(self):
+		self.assertEqual(measure("metrics_sample.groovy", "groovy"), (30, 46))
+
 class PhpMetricsTest(unittest.TestCase):
 	def test_elseif_and_string_cases_are_counted_once(self):
 		self.assertEqual(measure("metrics_sample.php", "php"), (22, 34))
@@ -77,6 +81,7 @@ class CognitiveComplexityTest(unittest.TestCase):
 		self.assertEqual(cognitive("metrics_sample.ts", "tsx"), 7)
 		self.assertEqual(cognitive("metrics_sample.php", "php"), 8)
 		self.assertEqual(cognitive("metrics_sample.rs", "rs"), 13)
+		self.assertEqual(cognitive("metrics_sample.groovy", "groovy"), 9)
 
 	def test_a_language_without_a_token_set_is_left_alone(self):
 		self.assertEqual(cognitive("commented_file.tex", "tex"), -1)

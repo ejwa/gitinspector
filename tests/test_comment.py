@@ -58,6 +58,11 @@ class RustFileTest(unittest.TestCase):
 		comment_counter = __test_extension__("/resources/commented_file.rs", "rs")
 		self.assertEqual(comment_counter, 16)
 
+class GroovyFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.groovy", "groovy")
+		self.assertEqual(comment_counter, 14)
+
 class CsvFileTest(unittest.TestCase):
 	def test(self):
 		comment_counter = __test_extension__("/resources/commented_file.csv", "csv")

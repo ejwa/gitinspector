@@ -20,7 +20,7 @@
 from __future__ import unicode_literals
 
 DEFAULT_EXTENSIONS = ["java", "c", "cc", "cpp", "h", "hh", "hpp", "php", "py", "glsl", "rb", "js", "sql", "go", "swift",
-                      "ts", "tsx", "rs"]
+                      "ts", "tsx", "rs", "groovy"]
 
 __extensions__ = DEFAULT_EXTENSIONS
 __located_extensions__ = set()

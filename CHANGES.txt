@@ -1,3 +1,8 @@
+gitinspector (0.5.1)
+
+	* Groovy source files are analyzed by default and get comment
+	  recognition and metrics.
+
 gitinspector (0.5.0)
 
 	Major release with a new HTML theme, support for multiple repositories

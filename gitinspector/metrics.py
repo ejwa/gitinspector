@@ -27,9 +27,9 @@ __metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp"
                    "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500,
                    "rs": 500, "groovy": 500}
 
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "groovy"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)",
-                                                                             r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
-                                                                            ["assert", "break", "continue", "return"]],
+__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)",
+                                                                   r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
+                                                                  ["assert", "break", "continue", "return"]],
                        [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
                                  "default:", r"while\s+\(.*\)"],
                                 ["assert", "break", "continue", "return"]],
@@ -44,11 +44,15 @@ __metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "groovy"]
                                  ["assert", "break", "continue", "return"]],
                        #Rust branches on the arms of a match rather than on case labels, hence the fat arrow.
                        [["rs"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{", "=>"],
-                                [r"\bassert", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]]]
+                                [r"\bassert", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]],
+                       #Groovy matches cases on strings, ranges and lists, and switch expressions use arrows.
+                       [["groovy"], [r"\belse\b", r"\bfor\s*\(.*\)", r"\bif\s*\(.*\)", r"\bcase\s+.*(:|->)",
+                                     r"\bdefault\s*(:|->)", r"\bwhile\s*\(.*\)"],
+                                    [r"\bassert\b", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]]]
 
 #Cognitive complexity charges a structure for how deeply it is nested, so the tokens are split into
 #the ones that open a nested structure and the ones that merely continue an already counted one.
-__metric_cognitive_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "cs"],
+__metric_cognitive_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "cs", "groovy"],
                                 [r"\bif\s*\(", r"\bfor\s*\(", r"\bforeach\s*\(", r"\bwhile\s*\(", r"\bswitch\s*\(",
                                  r"\bcatch\s*\(", r"\bdo\s*\{"],
                                 [r"\belse\b"]],
