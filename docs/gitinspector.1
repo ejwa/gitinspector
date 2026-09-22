@@ -2,12 +2,12 @@
 .\"     Title: gitinspector
 .\"    Author: [see the "AUTHOR" section]
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 09/22/2026
+.\"      Date: 09/23/2026
 .\"    Manual: The gitinspector Manual
 .\"    Source: gitinspector 0.5.0
 .\"  Language: English
 .\"
-.TH "GITINSPECTOR" "1" "09/22/2026" "gitinspector 0\&.5\&.0" "The gitinspector Manual"
+.TH "GITINSPECTOR" "1" "09/23/2026" "gitinspector 0\&.5\&.0" "The gitinspector Manual"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -317,7 +317,7 @@ Sometimes, sub\-string matching (as described above) is simply not enough\&. The
 .sp -1
 .IP \(bu 2.3
 .\}
-\fBgitinspector \-x "author:\e^(?!(John Smith))"\fR, only show statistics from author "John Smith"
+\fBgitinspector \-x "author:^(?!(John Smith))"\fR, only show statistics from author "John Smith"
 .RE
 .sp
 .RS 4
@@ -328,7 +328,7 @@ Sometimes, sub\-string matching (as described above) is simply not enough\&. The
 .sp -1
 .IP \(bu 2.3
 .\}
-\fBgitinspector \-x "author:\e^(?!([A\-C]))"\fR, only show statistics from authors starting with the letters A/B/C
+\fBgitinspector \-x "author:^(?!([A\-C]))"\fR, only show statistics from authors starting with the letters A/B/C
 .RE
 .sp
 .RS 4
@@ -340,6 +340,30 @@ Sometimes, sub\-string matching (as described above) is simply not enough\&. The
 .IP \(bu 2.3
 .\}
 \fBgitinspector \-x "email:\&.com$"\fR, filter out statistics from all email addresses ending with "\&.com"
+.RE
+.sp
+The same works for file paths, which limits the statistics to one or more sub directories of a repository:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x "^(?!(subdir/))"\fR, only show statistics from files in the directory "subdir"
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fBgitinspector \-x "^(?!(src/|lib/))"\fR, only show statistics from files in the directories "src" and "lib"
 .RE
 .SH "USING GIT TO CONFIGURE GITINSPECTOR"
 .sp

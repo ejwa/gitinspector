@@ -132,9 +132,14 @@ The gitinspector command also lets you add multiple filtering rules by simply sp
 
 Sometimes, sub-string matching (as described above) is simply not enough. Therefore, gitinspector let's you specify regular expressions as filtering rules. This makes filtering much more flexible:
 
-* *gitinspector -x "author:\^(?!(John Smith))"*, only show statistics from author "John Smith"
-* *gitinspector -x "author:\^(?!([A-C]))"*, only show statistics from authors starting with the letters A/B/C
+* *gitinspector -x "author:^(?!(John Smith))"*, only show statistics from author "John Smith"
+* *gitinspector -x "author:^(?!([A-C]))"*, only show statistics from authors starting with the letters A/B/C
 * *gitinspector -x "email:.com$"*, filter out statistics from all email addresses ending with ".com"
+
+The same works for file paths, which limits the statistics to one or more sub directories of a repository:
+
+* *gitinspector -x "^(?!(subdir/))"*, only show statistics from files in the directory "subdir"
+* *gitinspector -x "^(?!(src/|lib/))"*, only show statistics from files in the directories "src" and "lib"
 
 
 USING GIT TO CONFIGURE GITINSPECTOR
