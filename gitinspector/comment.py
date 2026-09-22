@@ -23,17 +23,18 @@ __comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "cs": 
                         "hs": "{-", "html": "<!--", "php": "/*", "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*",
                         "jspx": "<!--", "scala": "/*", "sql": "/*", "tex": "\\begin{comment}", "xhtml": "<!--",
 			"xml": "<!--", "ml": "(*", "mli": "(*", "go": "/*", "ly": "%{", "ily": "%{", "ts": "/*", "tsx": "/*", "jsx": "/*",
-			"swift": "/*", "rs": "/*"}
+			"swift": "/*", "rs": "/*", "groovy": "/*"}
 
 __comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "hs": "-}",
                    "html": "-->", "php": "*/", "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->",
                    "scala": "*/", "sql": "*/", "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->", "ml": "*)", "mli": "*)",
-		   "go": "*/", "ly": "%}", "ily": "%}", "ts": "*/", "tsx": "*/", "jsx": "*/", "swift": "*/", "rs": "*/"}
+		   "go": "*/", "ly": "%}", "ily": "%}", "ts": "*/", "tsx": "*/", "jsx": "*/", "swift": "*/", "rs": "*/", "groovy": "*/"}
 
 __comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
                "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "robot": "#", "rs": "//", "rlib": "//", "js": "//",
                "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#", "go": "//",
-	       "ly": "%", "ily": "%", "ts": "//", "tsx": "//", "jsx": "//", "csv": "#", "tsv": "#", "swift": "//"}
+	       "ly": "%", "ily": "%", "ts": "//", "tsx": "//", "jsx": "//", "csv": "#", "tsv": "#", "swift": "//",
+	       "groovy": "//"}
 
 __comment_markers_must_be_at_begining__ = {"tex": True}
 
