@@ -163,7 +163,7 @@ class Statistics(object):
 			pool.join()
 
 	def __blame__(self, path):
-		arguments = ["blame", "--porcelain", "-w"] + (["--since=" + self.since] if self.since else [])
+		arguments = ["blame", "--porcelain", "--root", "-w"] + (["--since=" + self.since] if self.since else [])
 
 		try:
 			porcelain = git(self.location, *arguments + [self.ref, "--", path])

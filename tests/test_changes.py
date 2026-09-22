@@ -25,13 +25,16 @@ except ImportError:
 	import unittest
 
 from gitinspector import changes
-from .harness import NAMES_ARE_UNRESTRICTED, Repository, analyze_changes
+from .harness import NAMES_ARE_UNRESTRICTED, Repository, analyze_blame, analyze_changes
 
 WINDOW_START = "2018-05-07T15:02:00+0000"
 WINDOW_END = "2018-05-07T15:03:00+0000"
 
 def authors_of(analyzed_changes):
 	return [commit.author for commit in analyzed_changes.get_commits()]
+
+def blamed_lines(analyzed_blame):
+	return dict((author, entry.lines) for (author, entry) in analyzed_blame.get_summed_blames().items())
 
 class EncodingTest(unittest.TestCase):
 	def setUp(self):
@@ -170,6 +173,34 @@ class IntervalTest(unittest.TestCase):
 
 		result = analyze_changes(self.repository)
 		self.assertEqual(authors_of(result), ["Zero Author", "First Author", "Second Author"])
+
+	def test_an_interval_open_at_either_end_is_bounded_by_the_other(self):
+		self.repository.commit("before", {"a.py": "a\n"}, "Zero Author", "zero@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.commit("after", {"b.py": "b\n"}, "Third Author", "third@example.com", "2018-05-07T15:04:00+0000")
+
+		self.assertEqual(authors_of(analyze_changes(self.repository, since=WINDOW_START)), ["Third Author"])
+		self.assertEqual(authors_of(analyze_changes(self.repository, until=WINDOW_END)), ["Zero Author"])
+
+	def test_the_blame_leaves_out_lines_from_before_the_interval(self):
+		self.repository.commit("before", {"a.py": "1\n2\n"}, "Zero Author", "zero@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.commit("inside", {"a.py": "1\n2\n3\n"}, "First Author", "first@example.com", "2018-05-07T15:02:30+0000")
+
+		result = analyze_changes(self.repository, since=WINDOW_START)
+		self.assertEqual(blamed_lines(analyze_blame(self.repository, result)), {"First Author": 1})
+
+	def test_the_blame_is_read_at_the_end_of_the_interval(self):
+		self.repository.commit("before", {"b.py": "b\n"}, "Zero Author", "zero@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.commit("inside", {"a.py": "1\n2\n"}, "First Author", "first@example.com", "2018-05-07T15:02:30+0000")
+		self.repository.commit("after", {"a.py": "1\n"}, "Third Author", "third@example.com", "2018-05-07T15:04:00+0000")
+
+		result = analyze_changes(self.repository, WINDOW_START, WINDOW_END)
+		self.assertEqual(blamed_lines(analyze_blame(self.repository, result)), {"First Author": 2})
+
+	def test_the_blame_counts_the_lines_of_a_first_commit_inside_the_interval(self):
+		self.repository.commit("inside", {"a.py": "1\n2\n"}, "First Author", "first@example.com", "2018-05-07T15:02:30+0000")
+
+		result = analyze_changes(self.repository, since=WINDOW_START)
+		self.assertEqual(blamed_lines(analyze_blame(self.repository, result)), {"First Author": 2})
 
 class ThreadingTest(unittest.TestCase):
 	def setUp(self):
