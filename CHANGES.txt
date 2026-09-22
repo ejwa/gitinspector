@@ -2,6 +2,8 @@ gitinspector (0.5.1)
 
 	* Groovy source files are analyzed by default and get comment
 	  recognition and metrics.
+	* Dart source files get comment recognition and metrics when asked
+	  for with -f.
 	* Leaving out the last commit of an interval with -x no longer
 	  rewinds the blame to before that commit.
 	* The lines of a first commit inside the interval given with --since

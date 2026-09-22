@@ -63,6 +63,11 @@ class GroovyFileTest(unittest.TestCase):
 		comment_counter = __test_extension__("/resources/commented_file.groovy", "groovy")
 		self.assertEqual(comment_counter, 14)
 
+class DartFileTest(unittest.TestCase):
+	def test(self):
+		comment_counter = __test_extension__("/resources/commented_file.dart", "dart")
+		self.assertEqual(comment_counter, 14)
+
 class CsvFileTest(unittest.TestCase):
 	def test(self):
 		comment_counter = __test_extension__("/resources/commented_file.csv", "csv")

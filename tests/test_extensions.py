@@ -45,6 +45,9 @@ class DefaultExtensionsTest(unittest.TestCase):
 	def test_php_is_analyzed_without_asking_for_it(self):
 		self.assertIn("php", DEFAULT_EXTENSIONS)
 
+	def test_dart_is_only_analyzed_when_asked_for(self):
+		self.assertNotIn("dart", DEFAULT_EXTENSIONS)
+
 	def test_every_document_lists_the_default_extensions(self):
 		for document in __documents__:
 			listed = documented_in(document)
