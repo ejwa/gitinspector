@@ -66,7 +66,8 @@ def set_filtered(string, filter_type="file"):
 	string = string.strip()
 
 	if len(string) > 0:
-		for i in __filters__[filter_type][0]:
+		#A matching message adds a revision rule while other threads may be going through the rules.
+		for i in list(__filters__[filter_type][0]):
 			search_for = string
 
 			if filter_type == "message":
