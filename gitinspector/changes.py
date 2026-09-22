@@ -181,6 +181,10 @@ class Changes(object):
 				progress_text = "[%s] " % repo.name + progress_text
 
 			hashes = [entry.decode("utf-8", "replace").strip() for entry in lines]
+
+			if interval.has_interval():
+				interval.set_ref(hashes[-1])
+
 			chunks = [hashes[i:i + CHANGES_PER_THREAD] for i in range(0, len(hashes), CHANGES_PER_THREAD)]
 			self.commits = [None] * len(chunks)
 
@@ -194,9 +198,6 @@ class Changes(object):
 		self.commits = [item for sublist in self.commits for item in sublist]
 
 		if len(self.commits) > 0:
-			if interval.has_interval():
-				interval.set_ref(self.commits[-1].sha)
-
 			self.first_commit_date = datetime.date(int(self.commits[0].date[0:4]), int(self.commits[0].date[5:7]),
 			                                       int(self.commits[0].date[8:10]))
 			self.last_commit_date = datetime.date(int(self.commits[-1].date[0:4]), int(self.commits[-1].date[5:7]),

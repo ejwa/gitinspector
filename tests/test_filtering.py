@@ -131,6 +131,21 @@ class AnalysisTest(unittest.TestCase):
 
 		self.assertEqual(list(analyze_metrics(self.repository).eloc), ["big.py"])
 
+class IntervalTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("add", {"a.py": "1\n2\n3\n4\n"}, "Alice", "alice@example.com", "2018-05-01T10:00:00+0000")
+		self.repository.commit("cut", {"a.py": "1\n"}, "Bob", "bob@example.com", "2018-05-02T10:00:00+0000")
+
+	def tearDown(self):
+		filtering.clear()
+		self.repository.remove()
+
+	def test_the_blame_is_read_at_the_end_of_the_interval_even_when_its_last_commit_is_left_out(self):
+		for exclude in ["author:Bob", "email:bob@", "message:cut"]:
+			analyzed_changes = analyze_changes(self.repository, until="2018-05-03", exclude=exclude)
+			self.assertEqual(blamed_lines(analyze_blame(self.repository, analyzed_changes)), {"Alice": 1}, exclude)
+
 #Threading the analysis of the changes once broke every rule without any test noticing, so the rules are
 #checked again with the commits spread over several threads.
 class ThreadedAnalysisTest(AnalysisTest):
