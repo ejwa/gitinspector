@@ -47,6 +47,8 @@ def add(string):
 def clear():
 	for i in __filters__:
 		__filters__[i][0] = set()
+		if __filters__[i][1] is not None:
+			__filters__[i][1] = set()
 
 def get_filered(filter_type="file"):
 	return __filters__[filter_type][1]

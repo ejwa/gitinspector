@@ -24,7 +24,7 @@ import stat
 import subprocess
 import sys
 import tempfile
-from gitinspector import blame, changes, extensions, filtering, format, interval
+from gitinspector import blame, changes, extensions, filtering, format, interval, metrics
 
 #Windows rejects " < > | and a few more in a file or branch name, whatever git makes of them.
 NAMES_ARE_UNRESTRICTED = sys.platform != "win32"
@@ -131,3 +131,6 @@ def analyze_changes(repository, since=None, until=None, file_types="**", hard=Fa
 
 def analyze_blame(repository, analyzed_changes, hard=False, useweeks=False):
 	return __inside__(repository, lambda: blame.Blame(None, hard, useweeks, analyzed_changes))
+
+def analyze_metrics(repository):
+	return __inside__(repository, metrics.MetricsLogic)
