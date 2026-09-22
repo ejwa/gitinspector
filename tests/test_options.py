@@ -18,6 +18,7 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+import json
 import os
 import shutil
 import subprocess
@@ -144,3 +145,41 @@ class ExclusionPatternTest(unittest.TestCase):
 
 		self.assertEqual(status, 2)
 		self.assertIn("invalid regular expression", errors)
+
+class ExclusionAndIntervalTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("add a", {"a.py": "a\n", "c.py": "c\n"}, "Alice", "alice@example.com",
+		                       "2018-05-01T10:00:00+0000")
+		self.repository.commit("add b", {"b.py": "b\n"}, "Bob", "bob@example.com", "2018-06-01T10:00:00+0000")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def report(self, *options):
+		(status, output, errors) = run_inside(self.repository.location, "-F", "json", *options)
+		self.assertEqual(status, 0, errors)
+		return json.loads(output)["gitinspector"]
+
+	def authors(self, *options):
+		return sorted(author["name"] for author in self.report(*options)["changes"]["authors"])
+
+	def test_what_the_rules_left_out_is_listed_by_kind(self):
+		filtering = self.report("-x", "author:Bob", "-x", "a.py")["filtering"]
+		self.assertEqual((filtering["authors"]["entries"], filtering["files"]["entries"]), (["Bob"], ["a.py"]))
+
+	def test_the_rules_of_the_git_configuration_are_applied(self):
+		self.repository.git("config", "inspector.exclude", "author:Bob")
+		self.assertEqual(self.authors(), ["Alice"])
+
+	def test_rules_on_the_command_line_replace_those_of_the_git_configuration(self):
+		self.repository.git("config", "inspector.exclude", "author:Bob")
+		self.assertEqual(self.authors("-x", "author:Alice"), ["Bob"])
+
+	def test_the_interval_of_the_git_configuration_is_applied(self):
+		self.repository.git("config", "inspector.since", "2018-05-15")
+		self.assertEqual(self.authors(), ["Bob"])
+
+		self.repository.git("config", "--unset", "inspector.since")
+		self.repository.git("config", "inspector.until", "2018-05-15")
+		self.assertEqual(self.authors(), ["Alice"])
