@@ -230,6 +230,32 @@ class IntervalTest(unittest.TestCase):
 	def test_blame_is_limited_to_the_interval(self):
 		assert_blame_agrees(self, self.json, self.expected)
 
+class ExclusionTest(unittest.TestCase):
+	EMAIL = "kennethreitz"
+	SINCE = "2016-01-01"
+	UNTIL = "2017-12-31"
+
+	@classmethod
+	def setUpClass(cls):
+		cls.location = REQUESTS.prepare()
+		cls.json = json_report("py", [cls.location], "-x", "email:" + cls.EMAIL)
+		cls.expected = reference.Statistics(cls.location, "py", excluded_email=cls.EMAIL)
+		cls.interval_json = json_report("py", [cls.location], "-x", "email:" + cls.EMAIL,
+		                                "--since=" + cls.SINCE, "--until=" + cls.UNTIL)
+		cls.interval_expected = reference.Statistics(cls.location, "py", cls.SINCE, cls.UNTIL, cls.EMAIL)
+
+	def test_the_excluded_author_is_gone_from_the_changes(self):
+		self.assertNotIn("Kenneth Reitz", reported_changes(self.json))
+		assert_changes_agree(self, self.json, self.expected)
+
+	def test_the_excluded_author_is_gone_from_the_blame(self):
+		self.assertNotIn("Kenneth Reitz", reported_blame(self.json))
+		assert_blame_agrees(self, self.json, self.expected)
+
+	def test_the_exclusion_holds_inside_an_interval(self):
+		assert_changes_agree(self, self.interval_json, self.interval_expected)
+		assert_blame_agrees(self, self.interval_json, self.interval_expected)
+
 class SeveralRepositoriesTest(unittest.TestCase):
 	FILE_TYPES = "py,c,h"
 

@@ -65,10 +65,11 @@ class Author(object):
 		self.emails = set()
 
 class Statistics(object):
-	def __init__(self, location, file_types, since=None, until=None):
+	def __init__(self, location, file_types, since=None, until=None, excluded_email=None):
 		self.location = location
 		self.file_types = file_types.split(",")
 		self.since = since
+		self.excluded_email = excluded_email
 		self.ref = "HEAD"
 		self.authors = {}
 		self.names_by_email = defaultdict(set)
@@ -81,6 +82,9 @@ class Statistics(object):
 
 	def wants(self, extension):
 		return "**" in self.file_types or extension in self.file_types
+
+	def is_excluded(self, email):
+		return self.excluded_email is not None and re.search(self.excluded_email, email) is not None
 
 	def contributors(self):
 		return dict((name, author) for (name, author) in self.authors.items() if author.commits > 0)
@@ -133,6 +137,14 @@ class Statistics(object):
 					continue
 
 				extension = extension_of(changed_path(path))
+
+				#The blame of an interval is read at its newest commit, whether that commit is excluded or not.
+				if self.wants(extension):
+					newest = max(newest, (int(timestamp), sha))
+
+				if self.is_excluded(email):
+					continue
+
 				self.located.add(extension)
 
 				if self.wants(extension):
@@ -140,7 +152,6 @@ class Statistics(object):
 						counted = True
 						author.commits += 1
 						self.authors_by_period[date[0:7]].add(name)
-						newest = max(newest, (int(timestamp), sha))
 
 					author.insertions += int(added)
 					author.deletions += int(deleted)
@@ -157,7 +168,8 @@ class Statistics(object):
 		try:
 			for (path, lines_by_email) in zip(paths, pool.map(self.__blame__, paths)):
 				for (email, lines) in lines_by_email.items():
-					self.lines_by_email_and_file[(email, path)] += lines
+					if not self.is_excluded(email):
+						self.lines_by_email_and_file[(email, path)] += lines
 		finally:
 			pool.close()
 			pool.join()
