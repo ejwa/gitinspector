@@ -26,6 +26,7 @@ class TimelineData(object):
 		self.changes = changes
 		self.entries = {}
 		self.total_changes_by_period = {}
+		self.multipliers = {}
 		self.useweeks = useweeks
 
 		for i in authordateinfo_list:
@@ -73,7 +74,16 @@ class TimelineData(object):
 		else:
 			return (0, 0)
 
+	#The output asks for the multiplier of a period once for every author in it.
 	def get_multiplier(self, period, max_width):
+		key = (period, max_width)
+
+		if key not in self.multipliers:
+			self.multipliers[key] = self.__find_multiplier__(period, max_width)
+
+		return self.multipliers[key]
+
+	def __find_multiplier__(self, period, max_width):
 		multiplier = 0
 
 		while True:
