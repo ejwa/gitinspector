@@ -59,6 +59,7 @@ class BlameThread(workers.Worker):
 
 		self.is_inside_comment = False
 		self.author_blames = {}
+		self.revision_authors = {}
 
 	def __clear_blamechunk_info__(self):
 		self.blamechunk_email = None
@@ -67,21 +68,36 @@ class BlameThread(workers.Worker):
 		self.blamechunk_revision = None
 		self.blamechunk_time = None
 
+	def __unfiltered_author_of_blamechunk__(self):
+		try:
+			author = self.changes.get_latest_author_by_email(self.blamechunk_email)
+		except KeyError:
+			return None
+
+		if filtering.set_filtered(author, "author") or filtering.set_filtered(self.blamechunk_email, "email") or \
+		   filtering.set_filtered(self.blamechunk_revision, "revision"):
+			return None
+
+		return author
+
+	#Every line of a revision shares its author and its fate in the filters, so they are only looked up once.
+	def __author_of_blamechunk__(self):
+		revision = (self.blamechunk_email, self.blamechunk_revision)
+
+		if revision not in self.revision_authors:
+			self.revision_authors[revision] = self.__unfiltered_author_of_blamechunk__()
+
+		return self.revision_authors[revision]
+
 	def __handle_blamechunk_content__(self, content):
-		author = None
 		(comments, self.is_inside_comment) = comment.handle_comment_block(self.is_inside_comment, self.extension, content)
 
 		if self.blamechunk_is_prior and interval.get_since():
 			return
-		try:
-			author = self.changes.get_latest_author_by_email(self.blamechunk_email)
-		except KeyError:
-			return
 
-		if not filtering.set_filtered(author, "author") and not \
-		       filtering.set_filtered(self.blamechunk_email, "email") and not \
-		       filtering.set_filtered(self.blamechunk_revision, "revision"):
+		author = self.__author_of_blamechunk__()
 
+		if author is not None:
 			if author not in self.author_blames:
 				self.author_blames[author] = BlameEntry(self.useweeks)
 

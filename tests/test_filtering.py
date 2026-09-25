@@ -118,6 +118,10 @@ class AnalysisTest(unittest.TestCase):
 		self.assertEqual(self.analyze("revision:" + self.first[0:10]), ({"Alice": 1, "Bob": 3}, {"Alice": 1, "Bob": 3}))
 		self.assertEqual(filtering.get_filered("revision"), set([self.first]))
 
+	def test_a_revision_rule_leaves_out_only_its_own_lines_of_a_file(self):
+		self.repository.commit("grow a", {"a.py": "1\n2\n3\n4\n5\n"}, "Alice", "alice@example.com")
+		self.assertEqual(self.analyze("revision:" + self.first[0:10])[1], {"Alice": 4, "Bob": 3})
+
 	def test_a_message_rule_leaves_out_the_commit_and_its_lines(self):
 		self.assertEqual(self.analyze("message:^wip"), ({"Alice": 2, "Bob": 3}, {"Alice": 2, "Bob": 3}))
 		self.assertEqual(rules("revision"), set([self.third]))
