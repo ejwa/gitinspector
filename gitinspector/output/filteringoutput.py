@@ -39,7 +39,7 @@ class FilteringOutput(Outputable):
 		if not filtered:
 			return ""
 
-		chips = "".join("<span class=\"gi-chip\">" + escape(i) + "</span>" for i in filtered)
+		chips = "".join("<span class=\"gi-chip\">" + escape(i) + "</span>" for i in sorted(filtered))
 		return html_card(info_string, "<div class=\"gi-chips\">" + chips + "</div>", pad=True)
 
 	def output_html(self):
@@ -54,7 +54,7 @@ class FilteringOutput(Outputable):
 	def __output_json_section__(info_string, filtered, container_tagname):
 		if filtered:
 			message_json = "\t\t\t\t\"message\": " + format.json_string(info_string) + ",\n"
-			entries_json = ",\n".join("\t\t\t\t\t" + format.json_string(i) for i in filtered)
+			entries_json = ",\n".join("\t\t\t\t\t" + format.json_string(i) for i in sorted(filtered))
 
 			return "\n\t\t\t\"{0}\": {{\n".format(container_tagname) + message_json + \
 			"\t\t\t\t\"entries\": [\n" + entries_json + "\n\t\t\t\t]\n\t\t\t},"
@@ -77,7 +77,7 @@ class FilteringOutput(Outputable):
 		if filtered:
 			print("\n" + textwrap.fill(info_string + ":", width=terminal.get_size()[0]))
 
-			for i in filtered:
+			for i in sorted(filtered):
 				(width, _unused) = terminal.get_size()
 				print("...%s" % i[-width+3:] if len(i) > width else i)
 
@@ -93,7 +93,7 @@ class FilteringOutput(Outputable):
 			message_xml = "\t\t\t<message>" + escape(info_string) + "</message>\n"
 			filtering_xml = ""
 
-			for i in filtered:
+			for i in sorted(filtered):
 				filtering_xml += "\t\t\t\t<entry>" + escape(i) + "</entry>\n"
 
 			print("\t\t<{0}>".format(container_tagname))

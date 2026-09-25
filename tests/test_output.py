@@ -208,6 +208,36 @@ class ChangesTotalTest(unittest.TestCase):
 		self.assertIn(">−" + str(total["deletions"]) + "<", foot)
 		self.assertIn(">" + str(total["commits"]) + "<", foot)
 
+class FilteringReportTest(unittest.TestCase):
+	EXCLUDED = ["x_%02d.py" % i for i in range(12)]
+
+	def setUp(self):
+		files = dict((name, "x = 1\n") for name in FilteringReportTest.EXCLUDED)
+		files["kept.py"] = "y = 2\n"
+		self.repository = Repository()
+		self.repository.commit("add", files)
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def report(self, output_format):
+		process = gitinspector_process(subprocess.PIPE, "utf-8", output_format, [self.repository.location],
+		                               ["-x", "^x_"])
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		return output.decode("utf-8")
+
+	def test_the_excluded_files_are_listed_in_order_in_every_format(self):
+		files = json.loads(self.report("json"))["gitinspector"]["filtering"]["files"]["entries"]
+		xml_files = ElementTree.fromstring(self.report("xml").encode("utf-8")).find("filtering").find("files")
+		text = self.report("text").splitlines()
+
+		self.assertEqual(files, FilteringReportTest.EXCLUDED)
+		self.assertEqual([entry.text for entry in xml_files.find("entries")], FilteringReportTest.EXCLUDED)
+		self.assertEqual([line for line in text if line.startswith("x_")], FilteringReportTest.EXCLUDED)
+		self.assertEqual(re.findall(r"x_\d\d\.py", self.report("html").split("gi-chips")[-1]), FilteringReportTest.EXCLUDED)
+
 class HtmlReportTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
