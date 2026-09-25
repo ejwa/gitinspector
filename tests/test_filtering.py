@@ -126,6 +126,23 @@ class AnalysisTest(unittest.TestCase):
 		self.assertEqual(self.analyze("message:^wip"), ({"Alice": 2, "Bob": 3}, {"Alice": 2, "Bob": 3}))
 		self.assertEqual(rules("revision"), set([self.third]))
 
+	def test_the_message_of_a_commit_is_read_once_for_all_message_rules(self):
+		find_commit_message = filtering.__find_commit_message__
+		read_messages = []
+
+		def counting_find_commit_message(sha):
+			read_messages.append(sha)
+			return find_commit_message(sha)
+
+		filtering.__find_commit_message__ = counting_find_commit_message
+
+		try:
+			self.assertEqual(self.analyze("message:^wip,message:^never")[0], {"Alice": 2, "Bob": 3})
+		finally:
+			filtering.__find_commit_message__ = find_commit_message
+
+		self.assertEqual(sorted(read_messages), sorted([self.first, self.second, self.third]))
+
 	def test_rules_of_different_kinds_are_combined(self):
 		self.assertEqual(self.analyze("a.py,author:Bob"), ({"Alice": 1}, {"Alice": 1}))
 

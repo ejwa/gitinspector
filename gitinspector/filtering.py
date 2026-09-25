@@ -67,11 +67,10 @@ def set_filtered(string, filter_type="file"):
 
 	if len(string) > 0:
 		#A matching message adds a revision rule while other threads may be going through the rules.
-		for i in list(__filters__[filter_type][0]):
-			search_for = string
+		rules = list(__filters__[filter_type][0])
+		search_for = __find_commit_message__(string) if rules and filter_type == "message" else string
 
-			if filter_type == "message":
-				search_for = __find_commit_message__(string)
+		for i in rules:
 			try:
 				if re.search(i, search_for) != None:
 					if filter_type == "message":
