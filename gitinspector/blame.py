@@ -58,6 +58,7 @@ class BlameThread(workers.Worker):
 		self.filename = filename
 
 		self.is_inside_comment = False
+		self.author_blames = {}
 
 	def __clear_blamechunk_info__(self):
 		self.blamechunk_email = None
@@ -81,17 +82,17 @@ class BlameThread(workers.Worker):
 		       filtering.set_filtered(self.blamechunk_email, "email") and not \
 		       filtering.set_filtered(self.blamechunk_revision, "revision"):
 
-			with __blame_lock__:
-				if self.blames.get((author, self.filename), None) == None:
-					self.blames[(author, self.filename)] = BlameEntry(self.useweeks)
+			if author not in self.author_blames:
+				self.author_blames[author] = BlameEntry(self.useweeks)
 
-				self.blames[(author, self.filename)].comments += comments
-				self.blames[(author, self.filename)].lines += 1
+			entry = self.author_blames[author]
+			entry.comments += comments
+			entry.lines += 1
 
-				if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
-					skew = (self.changes.last_commit_date - self.blamechunk_time).days
-					self.blames[(author, self.filename)].skew_w += (skew / 7.0)
-					self.blames[(author, self.filename)].skew_m += (skew / AVG_DAYS_PER_MONTH)
+			if (self.blamechunk_time - self.changes.first_commit_date).days > 0:
+				skew = (self.changes.last_commit_date - self.blamechunk_time).days
+				entry.skew_w += (skew / 7.0)
+				entry.skew_m += (skew / AVG_DAYS_PER_MONTH)
 
 	def work(self):
 		lines = workers.lines_of(self.blame_command)
@@ -115,6 +116,10 @@ class BlameThread(workers.Worker):
 				self.blamechunk_is_last = True
 			elif Blame.is_revision(keyval[0]):
 				self.blamechunk_revision = keyval[0]
+
+		with __blame_lock__:
+			for (author, entry) in self.author_blames.items():
+				self.blames[(author, self.filename)] = entry
 
 PROGRESS_TEXT = N_("Checking how many lines belong to each author (2 of 2): {0:.0f}%")
 
