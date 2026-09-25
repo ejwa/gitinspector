@@ -40,6 +40,7 @@ class FileDiff(object):
 
 		if commit_line.__len__() == 2:
 			self.name = FileDiff.get_filename(string)
+			self.extension = FileDiff.__extension_of__(self.name)
 			self.insertions = commit_line[1].count("+")
 			self.deletions = commit_line[1].count("-")
 
@@ -54,8 +55,12 @@ class FileDiff(object):
 		return string.__len__() == 2 and string[1].find("Bin") == -1 and ('+' in string[1] or '-' in string[1])
 
 	@staticmethod
+	def __extension_of__(filename):
+		return os.path.splitext(filename)[1][1:]
+
+	@staticmethod
 	def get_extension(string):
-		return os.path.splitext(FileDiff.get_filename(string))[1][1:]
+		return FileDiff.__extension_of__(FileDiff.get_filename(string))
 
 	@staticmethod
 	def get_filename(string):
@@ -63,8 +68,10 @@ class FileDiff(object):
 
 	@staticmethod
 	def is_valid_extension(string):
-		extension = FileDiff.get_extension(string)
+		return FileDiff.is_valid(FileDiff.get_extension(string))
 
+	@staticmethod
+	def is_valid(extension):
 		for i in extensions.get():
 			if (extension == "" and i == "*") or extension == i or i == '**':
 				return True
@@ -145,14 +152,15 @@ class ChangesThread(workers.Worker):
 					   filtering.set_filtered(commit.sha, "message"):
 						is_filtered = True
 
-				if FileDiff.is_filediff_line(j) and not \
-				   filtering.set_filtered(FileDiff.get_filename(j)) and not is_filtered:
-					extensions.add_located(FileDiff.get_extension(j))
+				if FileDiff.is_filediff_line(j):
+					filediff = FileDiff(j)
 
-					if FileDiff.is_valid_extension(j):
-						found_valid_extension = True
-						filediff = FileDiff(j)
-						commit.add_filediff(filediff)
+					if not filtering.set_filtered(filediff.name) and not is_filtered:
+						extensions.add_located(filediff.extension)
+
+						if FileDiff.is_valid(filediff.extension):
+							found_valid_extension = True
+							commit.add_filediff(filediff)
 
 			if found_valid_extension:
 				bisect.insort(commits, commit)
