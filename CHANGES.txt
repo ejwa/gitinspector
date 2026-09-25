@@ -8,6 +8,13 @@ gitinspector (0.5.1)
 	  rewinds the blame to before that commit.
 	* The lines of a first commit inside the interval given with --since
 	  are no longer left out of the blame.
+	* Faster analysis: the blame and the changes are parsed with less
+	  locking, the metrics of each file are measured in parallel and a
+	  commit message is read once however many message rules there are.
+	* An invalid regular expression given with -x is reported before the
+	  analysis starts.
+	* The excluded files, authors, emails and revisions are listed in
+	  order, so the same run always gives the same report.
 
 gitinspector (0.5.0)
 
