@@ -79,6 +79,17 @@ METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
 METRIC_COGNITIVE_COMPLEXITY_THRESHOLD = 45
 
+class MetricsThread(workers.Worker):
+	def __init__(self, metrics, filename):
+		workers.Worker.__init__(self)
+
+		self.metrics = metrics
+		self.filename = filename
+
+	def work(self):
+		file_r = workers.lines_of(["git", "show", interval.get_ref() + ":{0}".format(self.filename)])
+		self.metrics.measure(self.filename, MetricsLogic.decode_lines(file_r))
+
 class MetricsLogic(object):
 	def __init__(self):
 		self.eloc = {}
@@ -95,26 +106,29 @@ class MetricsLogic(object):
 				i = git.decode(i)
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
-					file_r = workers.lines_of(["git", "show", interval.get_ref() + ":{0}".format(i)])
-					file_lines = MetricsLogic.decode_lines(file_r)
+					MetricsThread(self, i).start()
 
-					extension = FileDiff.get_extension(i)
-					code_lines = MetricsLogic.get_code_lines(file_lines, extension)
-					eloc = len(code_lines)
-					cycc = MetricsLogic.get_cyclomatic_complexity(code_lines, extension)
-					cogc = MetricsLogic.get_cognitive_complexity(file_lines, extension)
+			workers.join()
 
-					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < eloc:
-						self.eloc[i.strip()] = eloc
+	def measure(self, filename, file_lines):
+		extension = FileDiff.get_extension(filename)
+		code_lines = MetricsLogic.get_code_lines(file_lines, extension)
+		eloc = len(code_lines)
+		cycc = MetricsLogic.get_cyclomatic_complexity(code_lines, extension)
+		cogc = MetricsLogic.get_cognitive_complexity(file_lines, extension)
+		filename = filename.strip()
 
-					if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
-						self.cyclomatic_complexity[i.strip()] = cycc
+		if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < eloc:
+			self.eloc[filename] = eloc
 
-					if eloc > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(eloc):
-						self.cyclomatic_complexity_density[i.strip()] = cycc / float(eloc)
+		if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
+			self.cyclomatic_complexity[filename] = cycc
 
-					if METRIC_COGNITIVE_COMPLEXITY_THRESHOLD < cogc:
-						self.cognitive_complexity[i.strip()] = cogc
+		if eloc > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(eloc):
+			self.cyclomatic_complexity_density[filename] = cycc / float(eloc)
+
+		if METRIC_COGNITIVE_COMPLEXITY_THRESHOLD < cogc:
+			self.cognitive_complexity[filename] = cogc
 
 	def __iadd__(self, other):
 		try:

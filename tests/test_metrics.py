@@ -26,6 +26,7 @@ except ImportError:
 	import unittest
 
 from gitinspector.metrics import MetricsLogic
+from .harness import Repository, analyze_changes, analyze_metrics
 
 def lines_of(sample):
 	with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "resources", sample), "rb") as source:
@@ -84,3 +85,17 @@ class CognitiveComplexityTest(unittest.TestCase):
 
 	def test_a_language_without_a_token_set_is_left_alone(self):
 		self.assertEqual(cognitive("commented_file.tex", "tex"), -1)
+
+class RepositoryMetricsTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_every_file_over_a_threshold_is_named(self):
+		files = dict(("file_%d.py" % i, "x = 1\n" * (501 + i)) for i in range(20))
+		self.repository.commit("add", files)
+		analyze_changes(self.repository)
+
+		self.assertEqual(analyze_metrics(self.repository).eloc, dict((name, 501 + int(name[5:-3])) for name in files))
