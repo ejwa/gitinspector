@@ -96,20 +96,22 @@ class MetricsLogic(object):
 
 				if FileDiff.is_valid_extension(i) and not filtering.set_filtered(FileDiff.get_filename(i)):
 					file_r = workers.lines_of(["git", "show", interval.get_ref() + ":{0}".format(i)])
+					file_lines = MetricsLogic.decode_lines(file_r)
 
 					extension = FileDiff.get_extension(i)
-					lines = MetricsLogic.get_eloc(file_r, extension)
-					cycc = MetricsLogic.get_cyclomatic_complexity(file_r, extension)
-					cogc = MetricsLogic.get_cognitive_complexity(file_r, extension)
+					code_lines = MetricsLogic.get_code_lines(file_lines, extension)
+					eloc = len(code_lines)
+					cycc = MetricsLogic.get_cyclomatic_complexity(code_lines, extension)
+					cogc = MetricsLogic.get_cognitive_complexity(file_lines, extension)
 
-					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < lines:
-						self.eloc[i.strip()] = lines
+					if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < eloc:
+						self.eloc[i.strip()] = eloc
 
 					if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
 						self.cyclomatic_complexity[i.strip()] = cycc
 
-					if lines > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(lines):
-						self.cyclomatic_complexity_density[i.strip()] = cycc / float(lines)
+					if eloc > 0 and METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD < cycc / float(eloc):
+						self.cyclomatic_complexity_density[i.strip()] = cycc / float(eloc)
 
 					if METRIC_COGNITIVE_COMPLEXITY_THRESHOLD < cogc:
 						self.cognitive_complexity[i.strip()] = cogc
@@ -125,8 +127,24 @@ class MetricsLogic(object):
 			return other
 
 	@staticmethod
-	def get_cyclomatic_complexity(file_r, extension):
+	def decode_lines(file_r):
+		return [i.decode("utf-8", "replace") for i in file_r]
+
+	@staticmethod
+	def get_code_lines(file_lines, extension):
 		is_inside_comment = False
+		code_lines = []
+
+		for i in file_lines:
+			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
+
+			if not is_inside_comment and not comment.is_comment(extension, i):
+				code_lines.append(i)
+
+		return code_lines
+
+	@staticmethod
+	def get_cyclomatic_complexity(code_lines, extension):
 		cc_counter = 0
 
 		entry_tokens = None
@@ -138,23 +156,19 @@ class MetricsLogic(object):
 				exit_tokens = i[2]
 
 		if entry_tokens or exit_tokens:
-			for i in file_r:
-				i = i.decode("utf-8", "replace")
-				(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
-
-				if not is_inside_comment and not comment.is_comment(extension, i):
-					for j in entry_tokens:
-						if re.search(j, i, re.DOTALL):
-							cc_counter += 2
-					for j in exit_tokens:
-						if re.search(j, i, re.DOTALL):
-							cc_counter += 1
+			for i in code_lines:
+				for j in entry_tokens:
+					if re.search(j, i, re.DOTALL):
+						cc_counter += 2
+				for j in exit_tokens:
+					if re.search(j, i, re.DOTALL):
+						cc_counter += 1
 			return cc_counter
 
 		return -1
 
 	@staticmethod
-	def get_cognitive_complexity(file_r, extension):
+	def get_cognitive_complexity(file_lines, extension):
 		is_inside_comment = False
 		cognitive_counter = 0
 		open_structures = []
@@ -170,8 +184,8 @@ class MetricsLogic(object):
 		if not nesting_tokens:
 			return -1
 
-		for i in file_r:
-			i = i.decode("utf-8", "replace").expandtabs()
+		for i in file_lines:
+			i = i.expandtabs()
 			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
 
 			if is_inside_comment or comment.is_comment(extension, i) or not i.strip():
@@ -196,17 +210,3 @@ class MetricsLogic(object):
 				open_structures.append(indentation)
 
 		return cognitive_counter
-
-	@staticmethod
-	def get_eloc(file_r, extension):
-		is_inside_comment = False
-		eloc_counter = 0
-
-		for i in file_r:
-			i = i.decode("utf-8", "replace")
-			(_, is_inside_comment) = comment.handle_comment_block(is_inside_comment, extension, i)
-
-			if not is_inside_comment and not comment.is_comment(extension, i):
-				eloc_counter += 1
-
-		return eloc_counter

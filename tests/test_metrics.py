@@ -27,22 +27,16 @@ except ImportError:
 
 from gitinspector.metrics import MetricsLogic
 
+def lines_of(sample):
+	with open(os.path.join(os.path.dirname(os.path.realpath(__file__)), "resources", sample), "rb") as source:
+		return MetricsLogic.decode_lines(source)
+
 def measure(sample, extension):
-	base = os.path.dirname(os.path.realpath(__file__))
-
-	with open(os.path.join(base, "resources", sample), "rb") as source:
-		cyclomatic_complexity = MetricsLogic.get_cyclomatic_complexity(source, extension)
-
-	with open(os.path.join(base, "resources", sample), "rb") as source:
-		eloc = MetricsLogic.get_eloc(source, extension)
-
-	return (cyclomatic_complexity, eloc)
+	code_lines = MetricsLogic.get_code_lines(lines_of(sample), extension)
+	return (MetricsLogic.get_cyclomatic_complexity(code_lines, extension), len(code_lines))
 
 def cognitive(sample, extension):
-	base = os.path.dirname(os.path.realpath(__file__))
-
-	with open(os.path.join(base, "resources", sample), "rb") as source:
-		return MetricsLogic.get_cognitive_complexity(source, extension)
+	return MetricsLogic.get_cognitive_complexity(lines_of(sample), extension)
 
 class SwiftMetricsTest(unittest.TestCase):
 	def test_branches_are_counted_once_and_words_containing_keywords_are_not(self):
