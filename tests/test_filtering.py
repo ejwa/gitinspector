@@ -81,8 +81,8 @@ class RuleTest(unittest.TestCase):
 		self.assertTrue(filtering.has_filtered())
 
 	def test_an_invalid_rule_raises(self):
-		filtering.add("author:[")
-		self.assertRaises(filtering.InvalidRegExpError, filtering.set_filtered, "Bob", "author")
+		self.assertRaises(filtering.InvalidRegExpError, filtering.add, "author:[")
+		self.assertEqual(rules("author"), set())
 
 class AnalysisTest(unittest.TestCase):
 	def setUp(self):

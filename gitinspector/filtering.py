@@ -32,12 +32,23 @@ class InvalidRegExpError(ValueError):
 def get():
 	return __filters__
 
+#Compiled once, when a rule is added, so that an invalid rule is reported before any analysis starts.
+__patterns__ = {}
+
+def __add_rule__(filter_type, rule):
+	try:
+		__patterns__[rule] = re.compile(rule)
+	except re.error:
+		raise InvalidRegExpError(_("invalid regular expression specified"))
+
+	__filters__[filter_type][0].add(rule)
+
 def __add_one__(string):
 	for i in __filters__:
 		if (i + ":").lower() == string[0:len(i) + 1].lower():
-			__filters__[i][0].add(string[len(i) + 1:])
+			__add_rule__(i, string[len(i) + 1:])
 			return
-	__filters__["file"][0].add(string)
+	__add_rule__("file", string)
 
 def add(string):
 	rules = string.split(",")
@@ -71,13 +82,10 @@ def set_filtered(string, filter_type="file"):
 		search_for = __find_commit_message__(string) if rules and filter_type == "message" else string
 
 		for i in rules:
-			try:
-				if re.search(i, search_for) != None:
-					if filter_type == "message":
-						__add_one__("revision:" + string)
-					else:
-						__filters__[filter_type][1].add(string)
-					return True
-			except:
-				raise InvalidRegExpError(_("invalid regular expression specified"))
+			if __patterns__[i].search(search_for):
+				if filter_type == "message":
+					__add_rule__("revision", string)
+				else:
+					__filters__[filter_type][1].add(string)
+				return True
 	return False
