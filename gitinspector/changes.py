@@ -133,39 +133,41 @@ class ChangesThread(workers.Worker):
 		is_filtered = False
 		commits = []
 
-		with __changes_lock__:
-			for i in lines:
-				j = git.decode(i.strip())
+		for i in lines:
+			j = git.decode(i.strip())
 
-				if Commit.is_commit_line(j):
-					if found_valid_extension:
-						bisect.insort(commits, commit)
+			if Commit.is_commit_line(j):
+				if found_valid_extension:
+					bisect.insort(commits, commit)
 
-					found_valid_extension = False
-					is_filtered = False
-					commit = Commit(j)
+				found_valid_extension = False
+				is_filtered = False
+				commit = Commit(j)
+
+				#The filters and the located extensions only grow by single set additions and need no lock.
+				with __changes_lock__:
 					self.changes.remember_author(commit)
 
-					if filtering.set_filtered(commit.author, "author") or \
-					   filtering.set_filtered(commit.email, "email") or \
-					   filtering.set_filtered(commit.sha, "revision") or \
-					   filtering.set_filtered(commit.sha, "message"):
-						is_filtered = True
+				if filtering.set_filtered(commit.author, "author") or \
+				   filtering.set_filtered(commit.email, "email") or \
+				   filtering.set_filtered(commit.sha, "revision") or \
+				   filtering.set_filtered(commit.sha, "message"):
+					is_filtered = True
 
-				if FileDiff.is_filediff_line(j):
-					filediff = FileDiff(j)
+			if FileDiff.is_filediff_line(j):
+				filediff = FileDiff(j)
 
-					if not filtering.set_filtered(filediff.name) and not is_filtered:
-						extensions.add_located(filediff.extension)
+				if not filtering.set_filtered(filediff.name) and not is_filtered:
+					extensions.add_located(filediff.extension)
 
-						if FileDiff.is_valid(filediff.extension):
-							found_valid_extension = True
-							commit.add_filediff(filediff)
+					if FileDiff.is_valid(filediff.extension):
+						found_valid_extension = True
+						commit.add_filediff(filediff)
 
-			if found_valid_extension:
-				bisect.insort(commits, commit)
+		if found_valid_extension:
+			bisect.insort(commits, commit)
 
-			self.changes.commits[self.index] = commits
+		self.changes.commits[self.index] = commits
 
 PROGRESS_TEXT = N_("Fetching and calculating primary statistics (1 of 2): {0:.0f}%")
 
