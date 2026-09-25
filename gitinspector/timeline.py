@@ -43,18 +43,11 @@ class TimelineData(object):
 				self.entries[key].insertions += i[1].insertions
 				self.entries[key].deletions += i[1].deletions
 
-		for period in self.get_periods():
-			total_insertions = 0
-			total_deletions = 0
-
-			for author in self.get_authors():
-				entry = self.entries.get((author[0], period), None)
-				if entry != None:
-					total_insertions += entry.insertions
-					total_deletions += entry.deletions
-
-			self.total_changes_by_period[period] = (total_insertions, total_deletions,
-			                                        total_insertions + total_deletions)
+		for ((author, period), entry) in self.entries.items():
+			totals = self.total_changes_by_period.get(period, (0, 0, 0))
+			insertions = totals[0] + entry.insertions
+			deletions = totals[1] + entry.deletions
+			self.total_changes_by_period[period] = (insertions, deletions, insertions + deletions)
 
 	def get_periods(self):
 		return sorted(set([i[1] for i in self.entries]))
