@@ -19,8 +19,10 @@
 
 from __future__ import unicode_literals
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 
 try:
 	import unittest2 as unittest
@@ -85,10 +87,14 @@ class ReleaseTest(unittest.TestCase):
 
 		self.start = self.repository.commit("Initial", files)
 
-	def release(self, *arguments):
+	def release(self, *arguments, **environment):
 		env = dict(os.environ)
-		env[str("PYTHON")] = sys.executable
+		# The script discovers tests with "unittest discover", which Python 2.6 does not have.
+		if sys.version_info >= (2, 7):
+			env[str("PYTHON")] = sys.executable
+
 		env[str("PYTHONDONTWRITEBYTECODE")] = str("1")
+		env.update((str(name), str(value)) for name, value in environment.items())
 
 		with open(os.devnull) as nothing:
 			process = subprocess.Popen([str("bash"), str("create-release.sh")] + [str(argument) for argument in arguments],
@@ -252,3 +258,45 @@ class ReleaseTest(unittest.TestCase):
 		self.assertEqual(self.repository.git("rev-parse", "HEAD"), before)
 		self.assertEqual(self.repository.git("tag"), "")
 		self.assertEqual(self.repository.git("status", "--porcelain"), "")
+
+	def install_hook(self, name, body):
+		path = os.path.join(self.repository.location, ".git", "hooks", name)
+
+		with open(path, "w") as hook:
+			hook.write("#!/bin/sh\n" + body)
+
+		os.chmod(path, 0o755)
+
+	def test_a_commit_that_fails_leaves_everything_as_it_was(self):
+		self.prepare()
+		self.install_hook("pre-commit", "exit 1\n")
+		(status, output) = self.release("--skip-tests")
+
+		self.assertNotEqual(status, 0)
+		self.assertEqual(self.repository.git("status", "--porcelain"), "")
+		self.assert_nothing_changed()
+
+	def test_a_failed_development_commit_takes_the_release_back_too(self):
+		self.prepare()
+		self.install_hook("commit-msg", 'grep -q "dev" "$1" && exit 1\nexit 0\n')
+		(status, output) = self.release("--skip-tests")
+
+		self.assertNotEqual(status, 0)
+		self.assertEqual(self.repository.git("status", "--porcelain"), "")
+		self.assert_nothing_changed()
+
+	def test_a_sed_that_wants_a_backup_suffix_is_satisfied(self):
+		self.prepare()
+		directory = tempfile.mkdtemp(prefix="gitinspector-test-")
+
+		try:
+			with open(os.path.join(directory, "sed"), "w") as stub:
+				stub.write('#!/bin/sh\n[ "$1" = "-i" ] && { echo "sed: -i needs a suffix" >&2; exit 1; }\nPATH="${PATH#*:}"\nexec sed "$@"\n')
+
+			os.chmod(os.path.join(directory, "sed"), 0o755)
+			(status, output) = self.release("--skip-tests", PATH=directory + os.pathsep + os.environ["PATH"])
+		finally:
+			shutil.rmtree(directory)
+
+		self.assertEqual(status, 0, output)
+		self.assert_spelled("HEAD", "0.5.3dev", "0.5.3-dev-1")

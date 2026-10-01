@@ -77,22 +77,28 @@ bumped() {
 
 expect() { grep -qF -- "$2" "$1" || die "$1 did not take the version."; }
 
+# BSD sed insists on a backup suffix after -i and GNU sed accepts one, so one is always given.
+rewrite() {
+	sed -i.orig "$2" "$1"
+	rm -f "$1.orig"
+}
+
 # Rewrites the version in every file that carries it, then reads each one back, so a pattern that
 # matched nothing is caught rather than committed. The compiled catalogs follow their sources.
 set_version() {
 	local version="$1" package="$2" catalog
 
-	sed -i "s/^__version__ = \".*\"/__version__ = \"$version\"/" "$VERSION_PY"
+	rewrite "$VERSION_PY" "s/^__version__ = \".*\"/__version__ = \"$version\"/"
 	expect "$VERSION_PY" "__version__ = \"$version\""
 
-	sed -i "s/^:man version: .*/:man version: $version/" "$MAN_PAGE"
+	rewrite "$MAN_PAGE" "s/^:man version: .*/:man version: $version/"
 	expect "$MAN_PAGE" ":man version: $version"
 
-	sed -i "s/^\(  \"version\": \"\)[^\"]*/\1$package/" "$PACKAGE_JSON"
+	rewrite "$PACKAGE_JSON" "s/^\(  \"version\": \"\)[^\"]*/\1$package/"
 	expect "$PACKAGE_JSON" "\"version\": \"$package\""
 
 	for catalog in "$TRANSLATIONS"/messages.pot "$TRANSLATIONS"/messages_*.po; do
-		sed -i 's/\(Project-Id-Version: gitinspector \)[^\]*/\1'"$version"'/' "$catalog"
+		rewrite "$catalog" 's/\(Project-Id-Version: gitinspector \)[^\]*/\1'"$version"'/'
 		expect "$catalog" "Project-Id-Version: gitinspector $version"'\n"'
 	done
 
@@ -134,10 +140,20 @@ else
 	printf '\n'
 fi
 
-# The tree was clean when this started, so putting it back is a plain checkout. The trap comes after
-# the checks above so that a refusal never touches what somebody else was editing.
+# Whatever fails from here on, the tree, the branch and the tags end up as they were found. The tree
+# was clean and on $start when this began, so a hard reset is safe, and the tag is only deleted when
+# this run made it. The trap comes after the checks above so that a refusal never touches what
+# somebody else was editing.
+start="$(git rev-parse HEAD)"
+tagged="no"
 finished="no"
-trap '[ "$finished" = yes ] || git checkout -q -- .' EXIT
+roll_back() {
+	[ "$finished" = yes ] && return
+	git reset -q --hard "$start"
+	if [ "$tagged" = yes ]; then git tag -d "$tag" >/dev/null; fi
+	printf '\nThe release failed; everything it did has been taken back.\n' >&2
+}
+trap roll_back EXIT
 
 step "Setting the version to $version"
 set_version "$version" "$version"
@@ -156,6 +172,7 @@ step "Recording the release"
 git add -u
 git commit -q -m "Bump the version number to $version"
 git tag "$tag"
+tagged="yes"
 
 step "Opening the next development version"
 set_version "$next" "$next_package"
