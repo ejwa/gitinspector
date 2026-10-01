@@ -162,3 +162,93 @@ class ReleaseTest(unittest.TestCase):
 		self.assertNotEqual(status, 0)
 		self.assertIn("Tag v0.5.2 already exists", output)
 		self.assertEqual(self.repository.git("rev-parse", "HEAD"), self.start)
+
+	def assert_spelled(self, revision, version, package):
+		self.assertIn('__version__ = "{0}"'.format(version).encode("utf-8"), self.file_at(revision, "gitinspector/version.py"))
+		self.assertIn(":man version: {0}\n".format(version).encode("utf-8"), self.file_at(revision, "docs/gitinspector.txt"))
+		self.assertIn('"version": "{0}"'.format(package).encode("utf-8"), self.file_at(revision, "package.json"))
+
+		for path in CATALOGS:
+			self.assertIn("Project-Id-Version: gitinspector {0}\\n\"".format(version).encode("utf-8"), self.file_at(revision, path))
+		for path in COMPILED:
+			self.assertIn("gitinspector {0}\n".format(version).encode("utf-8"), self.file_at(revision, path))
+
+	def test_a_release_makes_the_release_commit_the_tag_and_the_next_commit(self):
+		self.prepare()
+		(status, output) = self.release()
+
+		self.assertEqual(status, 0, output)
+		self.assertEqual(self.repository.git("log", "--format=%s").splitlines(),
+		                 ["Bump the version number to 0.5.3dev", "Bump the version number to 0.5.2", "Initial"])
+		self.assertEqual(self.repository.git("tag"), "v0.5.2")
+		self.assertEqual(self.repository.git("rev-parse", "v0.5.2"), self.repository.git("rev-parse", "HEAD~1"))
+		self.assertEqual(self.repository.git("cat-file", "-t", "v0.5.2"), "commit")
+		self.assertEqual(self.repository.git("status", "--porcelain"), "")
+
+	def test_the_release_commit_carries_the_release_version_everywhere(self):
+		self.prepare()
+		self.release()
+
+		self.assert_spelled("v0.5.2", "0.5.2", "0.5.2")
+
+	def test_the_next_commit_carries_the_development_version_everywhere(self):
+		self.prepare()
+		self.release()
+
+		self.assert_spelled("HEAD", "0.5.3dev", "0.5.3-dev-1")
+
+	def test_the_revision_bump_raises_the_second_number(self):
+		self.prepare()
+		(status, output) = self.release("--bump=revision")
+
+		self.assertEqual(status, 0, output)
+		self.assert_spelled("HEAD", "0.6.0dev", "0.6.0-dev-1")
+
+	def test_the_version_bump_raises_the_first_number(self):
+		self.prepare()
+		(status, output) = self.release("--bump=version")
+
+		self.assertEqual(status, 0, output)
+		self.assert_spelled("HEAD", "1.0.0dev", "1.0.0-dev-1")
+
+	def test_the_third_number_is_raised_as_a_number(self):
+		self.prepare(version="0.5.9dev", package="0.5.9-dev-1")
+		(status, output) = self.release()
+
+		self.assertEqual(status, 0, output)
+		self.assertEqual(self.repository.git("tag"), "v0.5.9")
+		self.assert_spelled("HEAD", "0.5.10dev", "0.5.10-dev-1")
+
+	def test_the_push_commands_are_printed_but_not_run(self):
+		self.prepare()
+		(status, output) = self.release()
+
+		self.assertIn("git push && git push origin v0.5.2", output)
+		self.assertEqual(self.repository.git("remote"), "")
+
+	def test_failing_tests_leave_everything_as_it_was(self):
+		self.prepare(passing=False)
+		(status, output) = self.release()
+
+		self.assertNotEqual(status, 0)
+		self.assertEqual(self.repository.git("status", "--porcelain"), "")
+		self.assert_nothing_changed()
+
+	def test_skipping_the_tests_releases_despite_a_failing_suite(self):
+		self.prepare(passing=False)
+		(status, output) = self.release("--skip-tests")
+
+		self.assertEqual(status, 0, output)
+		self.assertEqual(self.repository.git("tag"), "v0.5.2")
+
+	def test_a_file_without_a_version_line_aborts_and_restores(self):
+		self.prepare()
+		self.repository.commit("Drop the man version", {"docs/gitinspector.txt": ":doctype: manpage\n"})
+		before = self.repository.git("rev-parse", "HEAD")
+		(status, output) = self.release("--skip-tests")
+
+		self.assertNotEqual(status, 0)
+		self.assertIn("docs/gitinspector.txt did not take the version", output)
+		self.assertEqual(self.repository.git("rev-parse", "HEAD"), before)
+		self.assertEqual(self.repository.git("tag"), "")
+		self.assertEqual(self.repository.git("status", "--porcelain"), "")

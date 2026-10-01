@@ -75,6 +75,32 @@ bumped() {
 	esac
 }
 
+expect() { grep -qF -- "$2" "$1" || die "$1 did not take the version."; }
+
+# Rewrites the version in every file that carries it, then reads each one back, so a pattern that
+# matched nothing is caught rather than committed. The compiled catalogs follow their sources.
+set_version() {
+	local version="$1" package="$2" catalog
+
+	sed -i "s/^__version__ = \".*\"/__version__ = \"$version\"/" "$VERSION_PY"
+	expect "$VERSION_PY" "__version__ = \"$version\""
+
+	sed -i "s/^:man version: .*/:man version: $version/" "$MAN_PAGE"
+	expect "$MAN_PAGE" ":man version: $version"
+
+	sed -i "s/^\(  \"version\": \"\)[^\"]*/\1$package/" "$PACKAGE_JSON"
+	expect "$PACKAGE_JSON" "\"version\": \"$package\""
+
+	for catalog in "$TRANSLATIONS"/messages.pot "$TRANSLATIONS"/messages_*.po; do
+		sed -i 's/\(Project-Id-Version: gitinspector \)[^\]*/\1'"$version"'/' "$catalog"
+		expect "$catalog" "Project-Id-Version: gitinspector $version"'\n"'
+	done
+
+	for catalog in "$TRANSLATIONS"/messages_*.po; do
+		msgfmt -o "${catalog%.po}.mo" "$catalog"
+	done
+}
+
 cd "$ROOT"
 
 git rev-parse --git-dir >/dev/null 2>&1 || die "Not a git repository."
@@ -107,3 +133,38 @@ if [ -t 0 ]; then
 else
 	printf '\n'
 fi
+
+# The tree was clean when this started, so putting it back is a plain checkout. The trap comes after
+# the checks above so that a refusal never touches what somebody else was editing.
+finished="no"
+trap '[ "$finished" = yes ] || git checkout -q -- .' EXIT
+
+step "Setting the version to $version"
+set_version "$version" "$version"
+
+case "$tests" in
+	run)
+		step "Running the tests"
+		LC_ALL=C.UTF-8 LANGUAGE=C PYTHONIOENCODING=utf-8 "$python" -m unittest discover
+		;;
+	skip)
+		step "Skipping the tests; nothing is verified"
+		;;
+esac
+
+step "Recording the release"
+git add -u
+git commit -q -m "Bump the version number to $version"
+git tag "$tag"
+
+step "Opening the next development version"
+set_version "$next" "$next_package"
+git add -u
+git commit -q -m "Bump the version number to $next"
+finished="yes"
+
+printf '\n\033[1mReleased %s\033[0m\n' "$version"
+printf '  tag    %s\n' "$tag"
+printf '  next   %s\n' "$next"
+printf '\nNothing was pushed. When you are ready:\n'
+printf '  git push && git push origin %s\n' "$tag"
