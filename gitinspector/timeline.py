@@ -26,7 +26,7 @@ class TimelineData(object):
 		self.changes = changes
 		self.entries = {}
 		self.total_changes_by_period = {}
-		self.multipliers = {}
+		self.busiest_by_period = {}
 		self.useweeks = useweeks
 
 		for i in authordateinfo_list:
@@ -49,6 +49,7 @@ class TimelineData(object):
 			insertions = totals[0] + entry.insertions
 			deletions = totals[1] + entry.deletions
 			self.total_changes_by_period[period] = (insertions, deletions, insertions + deletions)
+			self.busiest_by_period[period] = max(self.busiest_by_period.get(period, 0), entry.insertions + entry.deletions)
 
 	def get_periods(self):
 		return sorted(set([i[1] for i in self.entries]))
@@ -63,39 +64,17 @@ class TimelineData(object):
 		entry = self.entries.get((author, period), None)
 		return (entry.insertions, entry.deletions) if entry else (0, 0)
 
-	def get_author_signs_in_period(self, author, period, multiplier):
-		authorinfo = self.entries.get((author, period), None)
-		total = float(self.total_changes_by_period[period][2])
+	#Scales by the smallest quarter step that takes the busiest author past max_width, which leaves that
+	#author with max_width signs, or one less when both its counts round down. Integers avoid float rounding.
+	def get_author_signs_in_period(self, author, period, max_width):
+		entry = self.entries.get((author, period), None)
+		total = self.total_changes_by_period[period][2]
 
-		if authorinfo:
-			i = multiplier * (self.entries[(author, period)].insertions / total)
-			j = multiplier * (self.entries[(author, period)].deletions / total)
-			return (int(i), int(j))
-		else:
+		if not entry or total == 0:
 			return (0, 0)
 
-	#The output asks for the multiplier of a period once for every author in it.
-	def get_multiplier(self, period, max_width):
-		key = (period, max_width)
-
-		if key not in self.multipliers:
-			self.multipliers[key] = self.__find_multiplier__(period, max_width)
-
-		return self.multipliers[key]
-
-	def __find_multiplier__(self, period, max_width):
-		multiplier = 0
-
-		while True:
-			for i in self.entries:
-				entry = self.entries.get(i)
-
-				if period == i[1]:
-					changes_in_period = float(self.total_changes_by_period[i[1]][2])
-					if multiplier * (entry.insertions + entry.deletions) / changes_in_period > max_width:
-						return multiplier
-
-					multiplier += 0.25
+		quarter_steps = 4 * max_width * total // self.busiest_by_period[period] + 1
+		return (quarter_steps * entry.insertions // (4 * total), quarter_steps * entry.deletions // (4 * total))
 
 	def is_author_in_period(self, period, author):
 		return self.entries.get((author, period), None) != None

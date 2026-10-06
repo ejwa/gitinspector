@@ -47,8 +47,7 @@ def __output_line__text__(timeline_data, periods, names):
 			print(terminal.ljust(name[0], 20)[0:20 - terminal.get_excess_column_count(name[0])], end=" ")
 
 			for period in periods:
-				multiplier = timeline_data.get_multiplier(period, 9)
-				signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
+				signs = timeline_data.get_author_signs_in_period(name[0], period, 9)
 				signs_str = (signs[1] * "-" + signs[0] * "+")
 				print (("." if timeline_data.is_author_in_period(period, name[0]) and
 				               len(signs_str) == 0 else signs_str).rjust(10), end=" ")
@@ -194,8 +193,7 @@ class TimelineOutput(Outputable):
 
 				for name in names:
 					if timeline_data.is_author_in_period(period, name[0]):
-						multiplier = timeline_data.get_multiplier(period, 24)
-						signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
+						signs = timeline_data.get_author_signs_in_period(name[0], period, 24)
 						signs_str = (signs[1] * "-" + signs[0] * "+")
 
 						if len(signs_str) == 0:
@@ -233,8 +231,7 @@ class TimelineOutput(Outputable):
 
 				for name in names:
 					if timeline_data.is_author_in_period(period, name[0]):
-						multiplier = timeline_data.get_multiplier(period, 24)
-						signs = timeline_data.get_author_signs_in_period(name[0], period, multiplier)
+						signs = timeline_data.get_author_signs_in_period(name[0], period, 24)
 						signs_str = (signs[1] * "-" + signs[0] * "+")
 
 						if len(signs_str) == 0:
