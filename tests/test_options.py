@@ -176,6 +176,27 @@ class ExclusionAndIntervalTest(unittest.TestCase):
 		self.repository.git("config", "inspector.exclude", "author:Bob")
 		self.assertEqual(self.authors("-x", "author:Alice"), ["Bob"])
 
+	def test_revisions_bound_the_interval(self):
+		self.repository.git("tag", "start", "HEAD~1")
+		self.assertEqual(self.authors("--since=rev:start", "--until=rev:start"), ["Alice"])
+		self.assertEqual(self.authors("--since=rev:HEAD", "--until=rev:HEAD"), ["Bob"])
+
+	def __assert_rejected__(self, message, *options):
+		(status, _unused, errors) = run_inside(self.repository.location, "-F", "json", *options)
+
+		self.assertEqual(status, 2)
+		self.assertIn(message, errors)
+
+	def test_an_unknown_revision_is_reported(self):
+		self.__assert_rejected__("revision missing was not found", "--since=rev:missing")
+		self.__assert_rejected__("revision missing was not found", "--until=rev:missing")
+
+	def test_a_since_after_the_until_is_reported(self):
+		self.repository.git("tag", "start", "HEAD~1")
+		self.__assert_rejected__("lies after", "--since=2018-06-15", "--until=2018-05-15")
+		self.__assert_rejected__("lies after", "--since=rev:HEAD", "--until=rev:start")
+		self.__assert_rejected__("lies after", "--since=rev:HEAD", "--until=2018-05-15")
+
 	def test_the_interval_of_the_git_configuration_is_applied(self):
 		self.repository.git("config", "inspector.since", "2018-05-15")
 		self.assertEqual(self.authors(), ["Bob"])

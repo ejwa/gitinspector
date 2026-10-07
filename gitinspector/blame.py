@@ -160,7 +160,7 @@ class Blame(object):
 				   FileDiff.is_valid_extension(line) and not filtering.set_filtered(FileDiff.get_filename(line)):
 					blame_command = filter(None, ["git", "blame", "--line-porcelain", "--root", "-w"] + \
 							(["-C", "-C", "-M"] if hard else []) +
-					                [interval.get_since(), interval.get_ref(), "--", line])
+					                interval.get_blame_arguments() + ["--", line])
 					BlameThread(useweeks, changes, blame_command, FileDiff.get_extension(line), self.blames, line).start()
 
 					if format.is_interactive_format():

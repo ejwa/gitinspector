@@ -179,8 +179,8 @@ class Changes(object):
 		self.latest_commit_by_email = {}
 		self.latest_commit_by_author = {}
 		interval.set_ref("HEAD")
-		git_rev_list_p = subprocess.Popen(filter(None, ["git", "rev-list", "--reverse", "--no-merges",
-		                                  interval.get_since(), interval.get_until(), "HEAD"]),
+		git_rev_list_p = subprocess.Popen(["git", "rev-list", "--reverse", "--no-merges"] +
+		                                  interval.get_rev_list_arguments(),
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()

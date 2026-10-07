@@ -58,11 +58,12 @@ Boolean arguments can only be given to long options.
                                    when -w is used
   -r, --responsibilities[=BOOL]  show which files the different authors seem
                                    most responsible for
-      --since=DATE               only show statistics for commits more recent
-                                   than a specific date
+      --since=DATE|rev:REV       only show statistics for commits more recent
+                                   than a specific date, or from a specific
+                                   revision on
   -T, --timeline[=BOOL]          show commit timeline, including author names
-      --until=DATE               only show statistics for commits made up to
-                                   a specific date
+      --until=DATE|rev:REV       only show statistics for commits made up to
+                                   a specific date or revision
   -w, --weeks[=BOOL]             show all statistical information in weeks
                                    instead of in months
   -x, --exclude=PATTERN          an exclusion pattern describing the file

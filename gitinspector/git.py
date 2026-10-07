@@ -44,6 +44,14 @@ def is_available():
 	except OSError:
 		return False
 
+def get_commit_time(revision):
+	time = __output_of__(["git", "show", "-s", "--format=%ct", revision + "^{commit}", "--"], None)
+	return int(time) if time else None
+
+#git answers with the timestamp it reads the date as, in the same way rev-list would.
+def get_date_time(date_argument):
+	return int(__output_of__(["git", "rev-parse", date_argument], None).split("=")[1])
+
 def get_branch(location):
 	branch = __output_of__(["git", "symbolic-ref", "--short", "-q", "HEAD"], location)
 

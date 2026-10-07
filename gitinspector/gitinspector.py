@@ -67,6 +67,7 @@ class Runner(object):
 
 		for repo in repos:
 			os.chdir(repo.location)
+			interval.check(repo.name)
 			repo = repo if len(repos) > 1 else None
 			changes = Changes(repo, self.hard)
 			summed_blames += Blame(repo, self.hard, self.useweeks, changes)

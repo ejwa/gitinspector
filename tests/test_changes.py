@@ -202,6 +202,49 @@ class IntervalTest(unittest.TestCase):
 		result = analyze_changes(self.repository, since=WINDOW_START)
 		self.assertEqual(blamed_lines(analyze_blame(self.repository, result)), {"First Author": 2})
 
+class RevisionIntervalTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.first = self.repository.commit("first", {"a.py": "1\n"}, "Zero Author", "zero@example.com",
+		                                    "2018-05-07T15:01:00+0000")
+		self.second = self.repository.commit("second", {"a.py": "1\n2\n"}, "First Author", "first@example.com",
+		                                     "2018-05-07T15:02:30+0000")
+		self.repository.git("tag", "start")
+		self.third = self.repository.commit("third", {"b.py": "b\n"}, "Third Author", "third@example.com",
+		                                    "2018-05-07T15:04:00+0000")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_a_since_revision_keeps_itself_and_leaves_out_what_came_before(self):
+		for since in ("rev:start", "rev:" + self.second):
+			self.assertEqual(authors_of(analyze_changes(self.repository, since=since)), ["First Author", "Third Author"])
+
+	def test_a_since_revision_at_the_root_keeps_everything(self):
+		result = analyze_changes(self.repository, since="rev:" + self.first)
+		self.assertEqual(authors_of(result), ["Zero Author", "First Author", "Third Author"])
+
+	def test_an_until_revision_keeps_itself(self):
+		result = analyze_changes(self.repository, until="rev:" + self.second)
+		self.assertEqual(authors_of(result), ["Zero Author", "First Author"])
+
+	def test_revisions_bound_the_interval_at_both_ends(self):
+		result = analyze_changes(self.repository, "rev:start", "rev:" + self.second)
+		self.assertEqual(authors_of(result), ["First Author"])
+
+	def test_the_same_revision_at_both_ends_keeps_only_itself(self):
+		result = analyze_changes(self.repository, "rev:start", "rev:start")
+		self.assertEqual(authors_of(result), ["First Author"])
+
+	def test_a_revision_and_a_date_bound_the_interval_together(self):
+		self.assertEqual(authors_of(analyze_changes(self.repository, "rev:start", WINDOW_END)), ["First Author"])
+		self.assertEqual(authors_of(analyze_changes(self.repository, WINDOW_START, "rev:" + self.third)),
+		                 ["First Author", "Third Author"])
+
+	def test_the_blame_leaves_out_lines_from_the_since_revision_and_before(self):
+		result = analyze_changes(self.repository, "rev:start", "rev:" + self.second)
+		self.assertEqual(blamed_lines(analyze_blame(self.repository, result)), {"First Author": 1})
+
 class ThreadingTest(unittest.TestCase):
 	def setUp(self):
 		self.repository = Repository()
