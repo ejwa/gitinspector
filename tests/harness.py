@@ -105,7 +105,7 @@ class Repository(object):
 		self.git("merge", "-q", "--no-ff", "-m", message, name, GIT_AUTHOR_DATE=date, GIT_COMMITTER_DATE=date)
 		return self.git("rev-parse", "HEAD")
 
-def __inside__(repository, analysis):
+def inside(repository, analysis):
 	previous_directory = os.getcwd()
 	os.chdir(repository.location)
 
@@ -130,10 +130,10 @@ def analyze_changes(repository, since=None, until=None, file_types="**", hard=Fa
 	if exclude:
 		filtering.add(exclude)
 
-	return __inside__(repository, lambda: changes.Changes(None, hard))
+	return inside(repository, lambda: changes.Changes(None, hard))
 
 def analyze_blame(repository, analyzed_changes, hard=False, useweeks=False):
-	return __inside__(repository, lambda: blame.Blame(None, hard, useweeks, analyzed_changes))
+	return inside(repository, lambda: blame.Blame(None, hard, useweeks, analyzed_changes))
 
 def analyze_metrics(repository):
-	return __inside__(repository, metrics.MetricsLogic)
+	return inside(repository, metrics.MetricsLogic)

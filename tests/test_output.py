@@ -135,6 +135,7 @@ class OutputEncodingTest(unittest.TestCase):
 		self.repository.branch("feature")
 		self.repository.commit("feature", {"feature.py": "print(2)\n"}, "Feature Author", "feature@example.com")
 		self.repository.checkout(self.repository.default_branch)
+		self.repository.commit("main", {"main.py": "print(3)\n"}, "Main Author", "main@example.com")
 		given = [self.repository.location + ":feature", self.repository.location]
 
 		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json", *given)
@@ -144,9 +145,9 @@ class OutputEncodingTest(unittest.TestCase):
 		report = json.loads(output.decode("utf-8"))["gitinspector"]
 		self.assertEqual(report["branches"], ["feature", self.repository.default_branch])
 		self.assertEqual(sorted(author["name"] for author in report["changes"]["authors"]),
-		                 ["Feature Author", "Jörg Müller"])
+		                 ["Feature Author", "Jörg Müller", "Main Author"])
 
-	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "a file URL is not built from a Windows path here")
+	@unittest.skipIf(sys.platform == "win32", "a file URL is not built from a Windows path here")
 	def test_a_cloned_repository_is_analyzed_on_the_given_branch(self):
 		self.repository.branch("feature")
 		self.repository.commit("feature", {"feature.py": "print(2)\n"}, "Feature Author", "feature@example.com")

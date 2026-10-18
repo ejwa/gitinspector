@@ -25,7 +25,7 @@ except ImportError:
 	import unittest
 
 from gitinspector import git
-from .harness import Repository, __inside__
+from .harness import Repository, inside
 
 class DecodingTest(unittest.TestCase):
 	def test_utf8_is_decoded(self):
@@ -60,14 +60,14 @@ class BranchTest(unittest.TestCase):
 
 	def test_an_ancestor_of_a_branch_is_recognized(self):
 		branch = self.repository.default_branch
-		self.assertTrue(__inside__(self.repository, lambda: git.is_ancestor(self.first, branch)))
-		self.assertTrue(__inside__(self.repository, lambda: git.is_ancestor(branch, branch)))
+		self.assertTrue(inside(self.repository, lambda: git.is_ancestor(self.first, branch)))
+		self.assertTrue(inside(self.repository, lambda: git.is_ancestor(branch, branch)))
 
 	def test_a_descendant_of_a_branch_is_not_its_ancestor(self):
 		self.repository.git("branch", "old", self.first)
 		branch = self.repository.default_branch
-		self.assertFalse(__inside__(self.repository, lambda: git.is_ancestor(branch, "old")))
-		self.assertFalse(__inside__(self.repository, lambda: git.is_ancestor("missing", "old")))
+		self.assertFalse(inside(self.repository, lambda: git.is_ancestor(branch, "old")))
+		self.assertFalse(inside(self.repository, lambda: git.is_ancestor("missing", "old")))
 
 	def test_a_detached_head_reports_the_commit(self):
 		self.repository.checkout(self.first)

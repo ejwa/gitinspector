@@ -28,6 +28,7 @@ except ImportError:
 	import unittest
 
 from gitinspector import clone
+from .harness import NAMES_ARE_UNRESTRICTED
 
 class SplitBranchTest(unittest.TestCase):
 	def test_a_branch_is_split_off_a_path(self):
@@ -60,6 +61,7 @@ class SplitBranchTest(unittest.TestCase):
 		self.assertEqual(clone.split_branch("https://host/x.git:feature"), ("https://host/x.git", "feature"))
 		self.assertEqual(clone.split_branch("ssh://host:22/x.git:issue/28"), ("ssh://host:22/x.git", "issue/28"))
 
+	@unittest.skipUnless(NAMES_ARE_UNRESTRICTED, "Windows does not allow a colon in a file name")
 	def test_a_path_that_exists_is_never_split(self):
 		directory = tempfile.mkdtemp(prefix="gitinspector-test-")
 		colon = os.path.join(directory, "repo:feature")
