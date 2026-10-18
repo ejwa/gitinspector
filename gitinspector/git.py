@@ -48,6 +48,10 @@ def get_commit_time(revision):
 	time = __output_of__(["git", "show", "-s", "--format=%ct", revision + "^{commit}", "--"], None)
 	return int(time) if time else None
 
+def is_ancestor(revision, descendant):
+	with open(os.devnull, "w") as devnull:
+		return subprocess.call(["git", "merge-base", "--is-ancestor", revision, descendant], stdout=devnull, stderr=devnull) == 0
+
 #git answers with the timestamp it reads the date as, in the same way rev-list would.
 def get_date_time(date_argument):
 	return int(__output_of__(["git", "rev-parse", date_argument], None).split("=")[1])

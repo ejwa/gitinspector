@@ -95,7 +95,22 @@ def __time_of__(option, bound, repository):
 
 	return time
 
+def __check_branch__(repository):
+	if git.get_commit_time(__branch__) is None:
+		raise optval.InvalidOptionArgument(_("branch {0} was not found in {1}.").format(__branch__, repository))
+
+	for bound in (__since__, __until__):
+		revision = __revision_of__(bound)
+
+		if revision is not None and not git.is_ancestor(revision, __branch__):
+			raise optval.InvalidOptionArgument(
+				_("revision {0} is not on branch {1} of {2}.").format(revision, __branch__, repository))
+
+#A revision bound is only held to the branch when one was asked for, as it otherwise replaces HEAD as the tip.
 def check(repository):
+	if __branch__ != "HEAD":
+		__check_branch__(repository)
+
 	since_time = __time_of__("--since", __since__, repository)
 	until_time = __time_of__("--until", __until__, repository)
 

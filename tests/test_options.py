@@ -197,6 +197,24 @@ class ExclusionAndIntervalTest(unittest.TestCase):
 		self.__assert_rejected__("lies after", "--since=rev:HEAD", "--until=rev:start")
 		self.__assert_rejected__("lies after", "--since=rev:HEAD", "--until=2018-05-15")
 
+	def test_a_branch_after_the_repository_is_analyzed(self):
+		self.repository.git("branch", "old", "HEAD~1")
+		self.assertEqual(self.authors(".:old"), ["Alice"])
+		self.assertEqual(self.authors(), ["Alice", "Bob"])
+
+	def test_an_unknown_branch_is_reported(self):
+		self.__assert_rejected__("branch missing was not found", ".:missing")
+
+	def test_a_revision_bound_must_lie_on_the_branch(self):
+		self.repository.git("branch", "old", "HEAD~1")
+		self.__assert_rejected__("revision HEAD is not on branch old", "--until=rev:HEAD", ".:old")
+		self.__assert_rejected__("revision HEAD is not on branch old", "--since=rev:HEAD", ".:old")
+		self.assertEqual(self.authors("--since=rev:HEAD~1", ".:old"), ["Alice"])
+
+	def test_a_branch_as_the_until_bound_replaces_head_without_a_branch_after_the_repository(self):
+		self.repository.git("branch", "old", "HEAD~1")
+		self.assertEqual(self.authors("--until=rev:old"), ["Alice"])
+
 	def test_the_interval_of_the_git_configuration_is_applied(self):
 		self.repository.git("config", "inspector.since", "2018-05-15")
 		self.assertEqual(self.authors(), ["Bob"])
