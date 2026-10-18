@@ -33,8 +33,13 @@ __cloned_paths__ = []
 
 #A colon in the host, a drive letter or a path that really exists is part of the repository, not a branch.
 def split_branch(argument):
+	path_start = 0
 	scheme_end = argument.find("://")
-	path_start = 0 if scheme_end < 0 else argument.find("/", scheme_end + 3) + 1 or len(argument)
+
+	if scheme_end >= 0:
+		authority_end = argument.find("/", scheme_end + 3)
+		path_start = len(argument) if authority_end < 0 else authority_end
+
 	separator = argument.rfind(":", path_start)
 	branch = argument[separator + 1:]
 
@@ -58,11 +63,11 @@ def create(url, ref=None):
 		path = tempfile.mkdtemp(suffix=".gitinspector")
 		git_clone = subprocess.Popen(["git", "clone"] + (["--branch", ref] if ref else []) + [url, path], stdout=sys.stderr)
 		git_clone.wait()
+		__cloned_paths__.append(path)
 
 		if git_clone.returncode != 0:
 			sys.exit(git_clone.returncode)
 
-		__cloned_paths__.append(path)
 		return Repository(os.path.basename(parsed_url.path), path)
 
 	return Repository(None, os.path.abspath(url))

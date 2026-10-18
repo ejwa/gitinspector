@@ -88,17 +88,19 @@ def __time_of__(option, bound, repository):
 	elif revision is None:
 		return git.get_date_time(__date_argument__(option, bound)[0])
 
-	time = git.get_commit_time(revision)
+	#git would take a name starting with a dash for an option, and cannot create such a branch anyway.
+	time = None if revision.startswith("-") else git.get_commit_time(revision)
 
 	if time is None:
 		raise optval.InvalidOptionArgument(_("revision {0} was not found in {1}.").format(revision, repository))
 
 	return time
 
-def __check_branch__(repository):
-	if git.get_commit_time(__branch__) is None:
+def __check_branch_exists__(repository):
+	if __branch__.startswith("-") or git.get_commit_time(__branch__) is None:
 		raise optval.InvalidOptionArgument(_("branch {0} was not found in {1}.").format(__branch__, repository))
 
+def __check_bounds_on_branch__(repository):
 	for bound in (__since__, __until__):
 		revision = __revision_of__(bound)
 
@@ -108,14 +110,19 @@ def __check_branch__(repository):
 
 #A revision bound is only held to the branch when one was asked for, as it otherwise replaces HEAD as the tip.
 def check(repository):
-	if __branch__ != "HEAD":
-		__check_branch__(repository)
+	has_branch = __branch__ != "HEAD"
+
+	if has_branch:
+		__check_branch_exists__(repository)
 
 	since_time = __time_of__("--since", __since__, repository)
 	until_time = __time_of__("--until", __until__, repository)
 
 	if since_time is not None and until_time is not None and since_time > until_time:
 		raise optval.InvalidOptionArgument(_("the --since bound lies after the --until bound."))
+
+	if has_branch:
+		__check_bounds_on_branch__(repository)
 
 def get_branch():
 	return __branch__

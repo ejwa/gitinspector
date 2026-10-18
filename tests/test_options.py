@@ -211,6 +211,15 @@ class ExclusionAndIntervalTest(unittest.TestCase):
 		self.__assert_rejected__("revision HEAD is not on branch old", "--since=rev:HEAD", ".:old")
 		self.assertEqual(self.authors("--since=rev:HEAD~1", ".:old"), ["Alice"])
 
+	def test_an_unknown_revision_is_not_reported_as_lying_off_the_branch(self):
+		self.__assert_rejected__("revision missing was not found", "--until=rev:missing", ".:HEAD~1")
+
+	def test_a_name_that_git_would_take_for_an_option_is_reported(self):
+		self.__assert_rejected__("branch -n1 was not found", ".:-n1")
+		self.__assert_rejected__("branch --output=moved was not found", ".:--output=moved")
+		self.__assert_rejected__("revision --output=moved was not found", "--until=rev:--output=moved")
+		self.assertEqual(os.listdir(self.repository.location).count("moved^{commit}"), 0)
+
 	def test_a_branch_as_the_until_bound_replaces_head_without_a_branch_after_the_repository(self):
 		self.repository.git("branch", "old", "HEAD~1")
 		self.assertEqual(self.authors("--until=rev:old"), ["Alice"])

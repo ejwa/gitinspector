@@ -303,5 +303,11 @@ class BranchTest(unittest.TestCase):
 		self.assertEqual(analyze_metrics(self.repository).eloc, {"big.py": 501})
 
 	def test_a_date_bound_cuts_the_history_of_the_branch(self):
-		result = analyze_changes(self.repository, until="2018-05-07T15:01:30+0000", branch="feature")
-		self.assertEqual(authors_of(result), ["Zero Author"])
+		until = "2018-05-07T15:02:10+0000"
+		self.assertEqual(authors_of(analyze_changes(self.repository, until=until)), ["Zero Author"])
+		self.assertEqual(authors_of(analyze_changes(self.repository, until=until, branch="feature")),
+		                 ["Zero Author", "Feature Author"])
+
+	def test_a_branch_named_after_a_path_of_the_working_tree_is_found(self):
+		self.repository.git("branch", "main.py")
+		self.assertEqual(authors_of(analyze_changes(self.repository, branch="main.py")), ["Zero Author", "Main Author"])

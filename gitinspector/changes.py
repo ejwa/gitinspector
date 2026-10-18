@@ -180,7 +180,7 @@ class Changes(object):
 		self.latest_commit_by_author = {}
 		interval.set_ref(interval.get_branch())
 		git_rev_list_p = subprocess.Popen(["git", "rev-list", "--reverse", "--no-merges"] +
-		                                  interval.get_rev_list_arguments(),
+		                                  interval.get_rev_list_arguments() + ["--"],
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 		lines = git_rev_list_p.communicate()[0].splitlines()
 		git_rev_list_p.stdout.close()
