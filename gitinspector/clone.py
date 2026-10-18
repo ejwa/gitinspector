@@ -43,19 +43,20 @@ def split_branch(argument):
 
 	return (argument[:separator], branch)
 
-def create(url):
+def create(url, ref=None):
 	class Repository(object):
 		def __init__(self, name, location):
 			self.name = name
 			self.location = location
 			self.branch = None
+			self.ref = ref
 
 	parsed_url = urlparse(url)
 
 	if parsed_url.scheme == "file" or parsed_url.scheme == "git" or parsed_url.scheme == "http" or \
 	   parsed_url.scheme == "https" or parsed_url.scheme == "ssh":
 		path = tempfile.mkdtemp(suffix=".gitinspector")
-		git_clone = subprocess.Popen(["git", "clone", url, path], stdout=sys.stderr)
+		git_clone = subprocess.Popen(["git", "clone"] + (["--branch", ref] if ref else []) + [url, path], stdout=sys.stderr)
 		git_clone.wait()
 
 		if git_clone.returncode != 0:

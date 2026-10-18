@@ -25,7 +25,7 @@ except ImportError:
 	import unittest
 
 from gitinspector import changes
-from .harness import NAMES_ARE_UNRESTRICTED, Repository, analyze_blame, analyze_changes
+from .harness import NAMES_ARE_UNRESTRICTED, Repository, analyze_blame, analyze_changes, analyze_metrics
 
 WINDOW_START = "2018-05-07T15:02:00+0000"
 WINDOW_END = "2018-05-07T15:03:00+0000"
@@ -272,3 +272,36 @@ class ThreadingTest(unittest.TestCase):
 		self.assertEqual(sorted(authorinfo), ["Five", "Four", "One", "Three", "Two"])
 		self.assertEqual([authorinfo[author].commits for author in sorted(authorinfo)], [1, 1, 1, 1, 1])
 		self.assertEqual(sum(authorinfo[author].insertions for author in authorinfo), 6)
+
+class BranchTest(unittest.TestCase):
+	def setUp(self):
+		self.repository = Repository()
+		self.repository.commit("base", {"base.py": "base\n"}, "Zero Author", "zero@example.com", "2018-05-07T15:01:00+0000")
+		self.repository.branch("feature")
+		self.repository.commit("feature", {"big.py": "x = 1\n" * 501}, "Feature Author", "feature@example.com",
+		                       "2018-05-07T15:02:05+0000")
+		self.repository.checkout(self.repository.default_branch)
+		self.repository.commit("main", {"main.py": "m\n"}, "Main Author", "main@example.com", "2018-05-07T15:02:30+0000")
+
+	def tearDown(self):
+		self.repository.remove()
+
+	def test_the_commits_of_the_branch_are_found_instead_of_those_of_head(self):
+		self.assertEqual(authors_of(analyze_changes(self.repository)), ["Zero Author", "Main Author"])
+		self.assertEqual(authors_of(analyze_changes(self.repository, branch="feature")), ["Zero Author", "Feature Author"])
+
+	def test_the_branch_is_not_checked_out(self):
+		analyze_changes(self.repository, branch="feature")
+		self.assertEqual(self.repository.git("symbolic-ref", "--short", "HEAD"), self.repository.default_branch)
+
+	def test_the_lines_of_the_branch_are_blamed(self):
+		result = analyze_blame(self.repository, analyze_changes(self.repository, branch="feature"))
+		self.assertEqual(blamed_lines(result), {"Zero Author": 1, "Feature Author": 501})
+
+	def test_the_files_of_the_branch_are_measured(self):
+		analyze_changes(self.repository, branch="feature")
+		self.assertEqual(analyze_metrics(self.repository).eloc, {"big.py": 501})
+
+	def test_a_date_bound_cuts_the_history_of_the_branch(self):
+		result = analyze_changes(self.repository, until="2018-05-07T15:01:30+0000", branch="feature")
+		self.assertEqual(authors_of(result), ["Zero Author"])

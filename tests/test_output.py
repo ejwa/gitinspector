@@ -131,6 +131,21 @@ class OutputEncodingTest(unittest.TestCase):
 		self.assertEqual(json.loads(output.decode("utf-8"))["gitinspector"]["branches"],
 		                 [self.repository.default_branch, "develop"])
 
+	def test_the_header_names_the_branch_given_after_the_repository(self):
+		self.repository.branch("feature")
+		self.repository.commit("feature", {"feature.py": "print(2)\n"}, "Feature Author", "feature@example.com")
+		self.repository.checkout(self.repository.default_branch)
+		given = [self.repository.location + ":feature", self.repository.location]
+
+		process = self.run_gitinspector(subprocess.PIPE, "utf-8", "json", *given)
+		(output, errors) = process.communicate()
+
+		self.assertEqual(process.returncode, 0, errors.decode("utf-8", "replace"))
+		report = json.loads(output.decode("utf-8"))["gitinspector"]
+		self.assertEqual(report["branches"], ["feature", self.repository.default_branch])
+		self.assertEqual(sorted(author["name"] for author in report["changes"]["authors"]),
+		                 ["Feature Author", "Jörg Müller"])
+
 	def test_redirected_output_is_utf8_whatever_the_terminal_encoding(self):
 		process = self.run_gitinspector(subprocess.PIPE, "ascii")
 		(output, errors) = process.communicate()

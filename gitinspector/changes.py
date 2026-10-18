@@ -178,7 +178,7 @@ class Changes(object):
 		self.authors_dateinfo = {}
 		self.latest_commit_by_email = {}
 		self.latest_commit_by_author = {}
-		interval.set_ref("HEAD")
+		interval.set_ref(interval.get_branch())
 		git_rev_list_p = subprocess.Popen(["git", "rev-list", "--reverse", "--no-merges"] +
 		                                  interval.get_rev_list_arguments(),
 		                                  stdout=subprocess.PIPE, stderr=subprocess.STDOUT)

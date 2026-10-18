@@ -67,6 +67,7 @@ class Runner(object):
 
 		for repo in repos:
 			os.chdir(repo.location)
+			interval.set_branch(repo.ref or "HEAD")
 			interval.check(repo.name)
 			repo = repo if len(repos) > 1 else None
 			changes = Changes(repo, self.hard)
@@ -122,13 +123,13 @@ def __get_validated_git_repos__(repos_relative):
 
 	#Try to clone the repos or return the same directory and bail out.
 	for repo in repos_relative:
-		cloned_repo = clone.create(repo)
+		cloned_repo = clone.create(*clone.split_branch(repo))
 
 		if cloned_repo.name == None:
 			cloned_repo.location = basedir.get_basedir_git(cloned_repo.location)
 			cloned_repo.name = os.path.basename(cloned_repo.location)
 
-		cloned_repo.branch = git.get_branch(cloned_repo.location)
+		cloned_repo.branch = cloned_repo.ref or git.get_branch(cloned_repo.location)
 		repos.append(cloned_repo)
 
 	return repos

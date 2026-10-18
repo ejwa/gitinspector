@@ -33,13 +33,17 @@ __until__ = ""
 
 __ref__ = "HEAD"
 
+__branch__ = "HEAD"
+
 def clear():
 	global __since__
 	global __until__
 	global __ref__
+	global __branch__
 	__since__ = ""
 	__until__ = ""
 	__ref__ = "HEAD"
+	__branch__ = "HEAD"
 
 def has_interval():
 	return __since__ + __until__ != ""
@@ -71,7 +75,7 @@ def __since_arguments__():
 
 def get_rev_list_arguments():
 	until_revision = __revision_of__(__until__)
-	return __since_arguments__() + __date_argument__("--until", __until__) + [until_revision or "HEAD"]
+	return __since_arguments__() + __date_argument__("--until", __until__) + [until_revision or __branch__]
 
 def get_blame_arguments():
 	return __since_arguments__() + [__ref__]
@@ -97,6 +101,13 @@ def check(repository):
 
 	if since_time is not None and until_time is not None and since_time > until_time:
 		raise optval.InvalidOptionArgument(_("the --since bound lies after the --until bound."))
+
+def get_branch():
+	return __branch__
+
+def set_branch(branch):
+	global __branch__
+	__branch__ = branch
 
 def get_ref():
 	return __ref__

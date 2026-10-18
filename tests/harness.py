@@ -114,11 +114,14 @@ def __inside__(repository, analysis):
 	finally:
 		os.chdir(previous_directory)
 
-def analyze_changes(repository, since=None, until=None, file_types="**", hard=False, exclude=None):
+def analyze_changes(repository, since=None, until=None, file_types="**", hard=False, exclude=None, branch=None):
 	interval.clear()
 	filtering.clear()
 	extensions.define(file_types)
 	format.select("xml")
+
+	if branch:
+		interval.set_branch(branch)
 
 	if since:
 		interval.set_since(since)
