@@ -215,6 +215,12 @@ msgstr ""
 msgid "revision {0} was not found in {1}."
 msgstr ""
 
+msgid "branch {0} was not found in {1}."
+msgstr ""
+
+msgid "revision {0} is not on branch {1} of {2}."
+msgstr ""
+
 msgid "the --since bound lies after the --until bound."
 msgstr ""
 
@@ -246,7 +252,9 @@ msgid ""
 "Usage: {0} [OPTION]... [REPOSITORY]...\n"
 "List information about the repository in REPOSITORY. If no repository is\n"
 "specified, the current directory is used. If multiple repositories are\n"
-"given, information will be merged into a unified statistical report.\n"
+"given, information will be merged into a unified statistical report. Give\n"
+"REPOSITORY:BRANCH to analyze a branch other than the checked out one; it is\n"
+"read as it is and never checked out.\n"
 "\n"
 "Mandatory arguments to long options are mandatory for short options too.\n"
 "Boolean arguments can only be given to long options.\n"

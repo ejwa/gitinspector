@@ -27,7 +27,9 @@ from .format import __available_formats__
 __doc__ = _("""Usage: {0} [OPTION]... [REPOSITORY]...
 List information about the repository in REPOSITORY. If no repository is
 specified, the current directory is used. If multiple repositories are
-given, information will be merged into a unified statistical report.
+given, information will be merged into a unified statistical report. Give
+REPOSITORY:BRANCH to analyze a branch other than the checked out one; it is
+read as it is and never checked out.
 
 Mandatory arguments to long options are mandatory for short options too.
 Boolean arguments can only be given to long options.
