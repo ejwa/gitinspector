@@ -31,6 +31,18 @@ except:
 
 __cloned_paths__ = []
 
+#A colon in the host, a drive letter or a path that really exists is part of the repository, not a branch.
+def split_branch(argument):
+	scheme_end = argument.find("://")
+	path_start = 0 if scheme_end < 0 else argument.find("/", scheme_end + 3) + 1 or len(argument)
+	separator = argument.rfind(":", path_start)
+	branch = argument[separator + 1:]
+
+	if separator < 1 or not branch or branch[0] in "/\\" or os.path.exists(argument):
+		return (argument, None)
+
+	return (argument[:separator], branch)
+
 def create(url):
 	class Repository(object):
 		def __init__(self, name, location):
