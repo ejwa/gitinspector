@@ -18,49 +18,40 @@
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 
 from __future__ import unicode_literals
+from . import languages
 
-__comment_begining__ = {"java": "/*", "c": "/*", "cc": "/*", "cpp": "/*", "cs": "/*", "h": "/*", "hh": "/*", "hpp": "/*",
-                        "hs": "{-", "html": "<!--", "php": "/*", "py": "\"\"\"", "glsl": "/*", "rb": "=begin", "js": "/*",
-                        "jspx": "<!--", "scala": "/*", "sql": "/*", "tex": "\\begin{comment}", "xhtml": "<!--",
-			"xml": "<!--", "ml": "(*", "mli": "(*", "go": "/*", "ly": "%{", "ily": "%{", "ts": "/*", "tsx": "/*", "jsx": "/*",
-			"swift": "/*", "rs": "/*", "groovy": "/*", "dart": "/*"}
-
-__comment_end__ = {"java": "*/", "c": "*/", "cc": "*/", "cpp": "*/", "cs": "*/", "h": "*/", "hh": "*/", "hpp": "*/", "hs": "-}",
-                   "html": "-->", "php": "*/", "py": "\"\"\"", "glsl": "*/", "rb": "=end", "js": "*/", "jspx": "-->",
-                   "scala": "*/", "sql": "*/", "tex": "\\end{comment}", "xhtml": "-->", "xml": "-->", "ml": "*)", "mli": "*)",
-		   "go": "*/", "ly": "%}", "ily": "%}", "ts": "*/", "tsx": "*/", "jsx": "*/", "swift": "*/", "rs": "*/", "groovy": "*/",
-		   "dart": "*/"}
-
-__comment__ = {"java": "//", "c": "//", "cc": "//", "cpp": "//", "cs": "//", "h": "//", "hh": "//", "hpp": "//", "hs": "--",
-               "pl": "#", "php": "//", "py": "#", "glsl": "//", "rb": "#", "robot": "#", "rs": "//", "rlib": "//", "js": "//",
-               "scala": "//", "sql": "--", "tex": "%", "ada": "--", "ads": "--", "adb": "--", "pot": "#", "po": "#", "go": "//",
-	       "ly": "%", "ily": "%", "ts": "//", "tsx": "//", "jsx": "//", "csv": "#", "tsv": "#", "swift": "//",
-	       "groovy": "//", "dart": "//"}
-
-__comment_markers_must_be_at_begining__ = {"tex": True}
+def __get_comment__(extension):
+	return languages.get(extension).get("comment", {})
 
 def __has_comment_begining__(extension, string):
-	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
-		return string.find(__comment_begining__[extension]) == 0
-	elif __comment_begining__.get(extension, None) != None and string.find(__comment_end__[extension], 2) == -1:
-		return string.find(__comment_begining__[extension]) != -1
+	comment = __get_comment__(extension)
+
+	if comment.get("at_line_start"):
+		return string.find(comment["block"][0]) == 0
+	elif "block" in comment and string.find(comment["block"][1], 2) == -1:
+		return string.find(comment["block"][0]) != -1
 
 	return False
 
 def __has_comment_end__(extension, string):
-	if __comment_markers_must_be_at_begining__.get(extension, None) == True:
-		return string.find(__comment_end__[extension]) == 0
-	elif __comment_end__.get(extension, None) != None:
-		return string.find(__comment_end__[extension]) != -1
+	comment = __get_comment__(extension)
+
+	if comment.get("at_line_start"):
+		return string.find(comment["block"][1]) == 0
+	elif "block" in comment:
+		return string.find(comment["block"][1]) != -1
 
 	return False
 
 def is_comment(extension, string):
-	if __comment_begining__.get(extension, None) != None and string.strip().startswith(__comment_begining__[extension]):
+	comment = __get_comment__(extension)
+	stripped = string.strip()
+
+	if "block" in comment and stripped.startswith(comment["block"][0]):
 		return True
-	if __comment_end__.get(extension, None) != None and string.strip().endswith(__comment_end__[extension]):
+	if "block" in comment and stripped.endswith(comment["block"][1]):
 		return True
-	if __comment__.get(extension, None) != None and string.strip().startswith(__comment__[extension]):
+	if "line" in comment and stripped.startswith(comment["line"]):
 		return True
 
 	return False
