@@ -1,0 +1,5 @@
+{
+	"extensions": ["rb"],
+	"comment": {"block": ["=begin", "=end"], "line": "#"},
+	"eloc": 500
+}

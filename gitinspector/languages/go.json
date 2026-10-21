@@ -1,0 +1,13 @@
+{
+	"extensions": ["go"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 500,
+	"cyclomatic": {
+		"branches": ["else", "for\\s+.*\\{", "if\\s+.*\\{", "case\\s+\\w+:", "default:", "goto\\s+\\w+"],
+		"exits": ["break", "continue", "return"]
+	},
+	"cognitive": {
+		"nesting": ["\\bif\\s+.*\\{", "\\bfor\\b.*\\{", "\\bswitch\\b.*\\{", "\\bselect\\s*\\{"],
+		"continuation": ["\\belse\\b"]
+	}
+}

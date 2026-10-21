@@ -1,0 +1,5 @@
+{
+	"extensions": ["glsl"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 1000
+}

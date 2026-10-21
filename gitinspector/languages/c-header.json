@@ -1,0 +1,6 @@
+{
+	"extensions": ["h", "hh", "hpp"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 300,
+	"overrides": {"hh": {"eloc": null}}
+}

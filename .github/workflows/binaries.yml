@@ -10,7 +10,8 @@ on:
 
 # One executable per platform for the people who would rather not install Python at all. Each is
 # built on the runner it targets, since PyInstaller cannot cross compile, and carries the html
-# templates and the compiled translations beside the interpreter it bundles.
+# templates, the compiled translations and the language definitions beside the interpreter it
+# bundles.
 jobs:
   binary:
     strategy:

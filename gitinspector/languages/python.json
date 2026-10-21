@@ -1,0 +1,13 @@
+{
+	"extensions": ["py"],
+	"comment": {"block": ["\"\"\"", "\"\"\""], "line": "#"},
+	"eloc": 500,
+	"cyclomatic": {
+		"branches": ["^\\s+elif .*:$", "^\\s+else:$", "^\\s+for .*:", "^\\s+if .*:$", "^\\s+while .*:$"],
+		"exits": ["^\\s+assert", "break", "continue", "return"]
+	},
+	"cognitive": {
+		"nesting": ["\\bif\\s+.*:", "\\bfor\\s+.*:", "\\bwhile\\s+.*:", "\\bexcept\\b"],
+		"continuation": ["\\belif\\b", "\\belse\\b"]
+	}
+}

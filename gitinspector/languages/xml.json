@@ -1,0 +1,5 @@
+{
+	"extensions": ["xml"],
+	"comment": {"block": ["<!--", "-->"]},
+	"eloc": 1000
+}

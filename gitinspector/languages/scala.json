@@ -1,0 +1,4 @@
+{
+	"extensions": ["scala"],
+	"comment": {"block": ["/*", "*/"], "line": "//"}
+}

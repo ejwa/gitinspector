@@ -1,0 +1,4 @@
+{
+	"extensions": ["ly", "ily"],
+	"comment": {"block": ["%{", "%}"], "line": "%"}
+}

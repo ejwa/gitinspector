@@ -1,0 +1,15 @@
+{
+	"extensions": ["rs", "rlib"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 500,
+	"cyclomatic": {
+		"branches": ["\\belse\\b", "\\bfor\\s+.*\\{", "\\bif\\s+.*\\{", "\\bwhile\\s+.*\\{", "\\bloop\\s*\\{", "=>"],
+		"exits": ["\\bassert", "\\bbreak\\b", "\\bcontinue\\b", "\\breturn\\b"]
+	},
+	"cognitive": {
+		"nesting": ["\\bif\\s+.*\\{", "\\bfor\\s+.*\\{", "\\bwhile\\s+.*\\{", "\\bloop\\s*\\{", "\\bmatch\\s+.*\\{"],
+		"continuation": ["\\belse\\b"]
+	},
+	"overrides": {"rlib": {"comment": {"line": "//"}, "eloc": null, "cyclomatic": null, "cognitive": null}},
+	"note": "Rust branches on the arms of a match rather than on case labels, hence the fat arrow."
+}

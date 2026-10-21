@@ -22,8 +22,8 @@ import subprocess
 import sys
 
 def get_basedir():
-	#A frozen build carries the html templates and the translations beside the interpreter it
-	#bundles. PyInstaller names that directory in sys._MEIPASS; py2exe only sets sys.prefix.
+	#A frozen build carries the html templates, the translations and the language definitions beside the
+	#interpreter it bundles. PyInstaller names that directory in sys._MEIPASS; py2exe only sets sys.prefix.
 	if hasattr(sys, "frozen"):
 		return getattr(sys, "_MEIPASS", sys.prefix)
 

@@ -1,0 +1,4 @@
+{
+	"extensions": ["po", "pot"],
+	"comment": {"line": "#"}
+}

@@ -1,0 +1,4 @@
+{
+	"extensions": ["csv", "tsv"],
+	"comment": {"line": "#"}
+}

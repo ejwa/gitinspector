@@ -1,0 +1,4 @@
+{
+	"extensions": ["tex"],
+	"comment": {"block": ["\\begin{comment}", "\\end{comment}"], "line": "%", "at_line_start": true}
+}

@@ -17,8 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with gitinspector. If not, see <http://www.gnu.org/licenses/>.
 #
-# One executable carrying the interpreter, the html templates and the compiled translations, for
-# the people who want to run gitinspector without installing Python. Build it with
+# One executable carrying the interpreter, the html templates, the compiled translations and the
+# language definitions, for the people who want to run gitinspector without installing
+# Python. Build it with
 #
 #   pyinstaller --clean --noconfirm packaging/pyinstaller.spec
 #
@@ -34,7 +35,8 @@ TRANSLATIONS = [(catalog, "translations")
 
 analysis = Analysis([os.path.join(ROOT, "gitinspector.py")],
                     pathex=[ROOT],
-                    datas=[(os.path.join(ROOT, "gitinspector", "html"), "html")] + TRANSLATIONS,
+                    datas=[(os.path.join(ROOT, "gitinspector", "html"), "html"),
+                           (os.path.join(ROOT, "gitinspector", "languages"), "languages")] + TRANSLATIONS,
                     excludes=["tkinter", "unittest"],
                     noarchive=False)
 

@@ -1,0 +1,5 @@
+{
+	"extensions": ["sql"],
+	"comment": {"block": ["/*", "*/"], "line": "--"},
+	"eloc": 1000
+}

@@ -1,0 +1,4 @@
+{
+	"extensions": ["html", "xhtml", "jspx"],
+	"comment": {"block": ["<!--", "-->"]}
+}

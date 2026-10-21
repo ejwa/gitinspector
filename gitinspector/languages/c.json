@@ -1,0 +1,14 @@
+{
+	"extensions": ["c", "cc", "cpp"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 500,
+	"cyclomatic": {
+		"branches": ["else", "for\\s+\\(.*\\)", "if\\s+\\(.*\\)", "case\\s+\\w+:", "default:", "while\\s+\\(.*\\)"],
+		"exits": ["assert", "break", "continue", "return"]
+	},
+	"cognitive": {
+		"nesting": ["\\bif\\s*\\(", "\\bfor\\s*\\(", "\\bforeach\\s*\\(", "\\bwhile\\s*\\(", "\\bswitch\\s*\\(", "\\bcatch\\s*\\(", "\\bdo\\s*\\{"],
+		"continuation": ["\\belse\\b"]
+	},
+	"overrides": {"cc": {"eloc": null}}
+}

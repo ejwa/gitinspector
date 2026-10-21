@@ -45,7 +45,7 @@ setup(
 		"Topic :: Utilities"
 	],
 	packages = find_packages(exclude = ['tests']),
-	package_data = {"": ["html/*", "translations/*"]},
+	package_data = {"": ["html/*", "languages/*", "translations/*"]},
 	data_files = [("share/doc/gitinspector", glob("*.txt"))],
 	entry_points = {"console_scripts": ["gitinspector = gitinspector.gitinspector:main"]},
 	zip_safe = False

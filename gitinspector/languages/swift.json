@@ -1,0 +1,13 @@
+{
+	"extensions": ["swift"],
+	"comment": {"block": ["/*", "*/"], "line": "//"},
+	"eloc": 500,
+	"cyclomatic": {
+		"branches": ["\\belse\\b", "\\bfor\\s+.*\\{", "\\bif\\s+.*\\{", "\\bcase\\s+.*:", "\\bdefault\\s*:", "\\bwhile\\s+"],
+		"exits": ["assert", "break", "continue", "return"]
+	},
+	"cognitive": {
+		"nesting": ["\\bif\\s+.*\\{", "\\bfor\\s+.*\\{", "\\bwhile\\s+.*\\{", "\\bswitch\\s+.*\\{", "\\brepeat\\s*\\{", "\\bguard\\s+.*\\{", "\\bcatch\\b"],
+		"continuation": ["\\belse\\b"]
+	}
+}

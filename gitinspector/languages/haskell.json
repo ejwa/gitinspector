@@ -1,0 +1,4 @@
+{
+	"extensions": ["hs"],
+	"comment": {"block": ["{-", "-}"], "line": "--"}
+}
