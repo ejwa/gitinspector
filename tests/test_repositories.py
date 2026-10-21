@@ -31,6 +31,7 @@ try:
 except ImportError:
 	import unittest
 
+from gitinspector import languages
 from gitinspector import metrics
 from . import reference
 
@@ -167,7 +168,7 @@ class ReportChecks(object):
 			self.assertIn(violation["file_name"], files)
 
 			if violation["type"] == "estimated-lines-of-code":
-				threshold = metrics.__metric_eloc__[reference.extension_of(violation["file_name"])]
+				threshold = languages.get(reference.extension_of(violation["file_name"]))["eloc"]
 			elif violation["type"] == "cyclomatic-complexity":
 				threshold = metrics.METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD
 			elif violation["type"] == "cognitive-complexity":

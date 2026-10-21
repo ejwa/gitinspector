@@ -21,59 +21,7 @@ from __future__ import unicode_literals
 import re
 import subprocess
 from .changes import FileDiff
-from . import comment, filtering, git, interval, workers
-
-__metric_eloc__ = {"java": 500, "c": 500, "cpp": 500, "cs": 500, "h": 300, "hpp": 300, "php": 500, "py": 500, "glsl": 1000,
-                   "rb": 500, "js": 500, "sql": 1000, "xml": 1000, "go": 500, "swift": 500, "ts": 500, "tsx": 500,
-                   "rs": 500, "groovy": 500, "dart": 500}
-
-__metric_cc_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx"], ["else", r"for\s+\(.*\)", r"if\s+\(.*\)",
-                                                                   r"case\s+\w+:", "default:", r"while\s+\(.*\)"],
-                                                                  ["assert", "break", "continue", "return"]],
-                       [["cs"], ["else", r"for\s+\(.*\)", r"foreach\s+\(.*\)", r"goto\s+\w+:", r"if\s+\(.*\)", r"case\s+\w+:",
-                                 "default:", r"while\s+\(.*\)"],
-                                ["assert", "break", "continue", "return"]],
-                       [["py"], [r"^\s+elif .*:$", r"^\s+else:$", r"^\s+for .*:", r"^\s+if .*:$", r"^\s+while .*:$"],
-                                [r"^\s+assert", "break", "continue", "return"]],
-                       [["go"], ["else", r"for\s+.*\{", r"if\s+.*\{", r"case\s+\w+:", "default:", r"goto\s+\w+"],
-                                ["break", "continue", "return"]],
-                       [["swift"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bcase\s+.*:", r"\bdefault\s*:", r"\bwhile\s+"],
-                                   ["assert", "break", "continue", "return"]],
-                       [["php"], [r"\belse\b", r"\belseif\s*\(.*\)", r"\bfor\s*\(.*\)", r"\bforeach\s*\(.*\)", r"\bif\s*\(.*\)",
-                                  r"\bcase\s+.*:", r"\bdefault\s*:", r"\bwhile\s*\(.*\)"],
-                                 ["assert", "break", "continue", "return"]],
-                       #Rust branches on the arms of a match rather than on case labels, hence the fat arrow.
-                       [["rs"], [r"\belse\b", r"\bfor\s+.*\{", r"\bif\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{", "=>"],
-                                [r"\bassert", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]],
-                       #Groovy matches cases on strings, ranges and lists, and switch expressions use arrows.
-                       [["groovy"], [r"\belse\b", r"\bfor\s*\(.*\)", r"\bif\s*\(.*\)", r"\bcase\s+.*(:|->)",
-                                     r"\bdefault\s*(:|->)", r"\bwhile\s*\(.*\)"],
-                                    [r"\bassert\b", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]],
-                       #The arms of a Dart switch expression are left uncounted, as their fat arrow is just as
-                       #often the body of a function.
-                       [["dart"], [r"\belse\b", r"\bfor\s*\(.*\)", r"\bif\s*\(.*\)", r"\bcase\s+.*:", r"\bdefault\s*:",
-                                   r"\bwhile\s*\(.*\)"],
-                                  [r"\bassert\b", r"\bbreak\b", r"\bcontinue\b", r"\breturn\b"]]]
-
-#Cognitive complexity charges a structure for how deeply it is nested, so the tokens are split into
-#the ones that open a nested structure and the ones that merely continue an already counted one.
-__metric_cognitive_tokens__ = [[["java", "js", "c", "cc", "cpp", "ts", "tsx", "cs", "groovy", "dart"],
-                                [r"\bif\s*\(", r"\bfor\s*\(", r"\bforeach\s*\(", r"\bwhile\s*\(", r"\bswitch\s*\(",
-                                 r"\bcatch\s*\(", r"\bdo\s*\{"],
-                                [r"\belse\b"]],
-                               [["py"], [r"\bif\s+.*:", r"\bfor\s+.*:", r"\bwhile\s+.*:", r"\bexcept\b"],
-                                        [r"\belif\b", r"\belse\b"]],
-                               [["go"], [r"\bif\s+.*\{", r"\bfor\b.*\{", r"\bswitch\b.*\{", r"\bselect\s*\{"],
-                                        [r"\belse\b"]],
-                               [["swift"], [r"\bif\s+.*\{", r"\bfor\s+.*\{", r"\bwhile\s+.*\{", r"\bswitch\s+.*\{",
-                                            r"\brepeat\s*\{", r"\bguard\s+.*\{", r"\bcatch\b"],
-                                           [r"\belse\b"]],
-                               [["php"], [r"\bif\s*\(", r"\bfor\s*\(", r"\bforeach\s*\(", r"\bwhile\s*\(", r"\bswitch\s*\(",
-                                          r"\bcatch\s*\("],
-                                         [r"\belseif\b", r"\belse\b"]],
-                               [["rs"], [r"\bif\s+.*\{", r"\bfor\s+.*\{", r"\bwhile\s+.*\{", r"\bloop\s*\{",
-                                         r"\bmatch\s+.*\{"],
-                                        [r"\belse\b"]]]
+from . import comment, filtering, git, interval, languages, workers
 
 METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD = 50
 METRIC_CYCLOMATIC_COMPLEXITY_DENSITY_THRESHOLD = 0.75
@@ -118,7 +66,9 @@ class MetricsLogic(object):
 		cogc = MetricsLogic.get_cognitive_complexity(file_lines, extension)
 		filename = filename.strip()
 
-		if __metric_eloc__.get(extension, None) != None and __metric_eloc__[extension] < eloc:
+		eloc_threshold = languages.get(extension).get("eloc")
+
+		if eloc_threshold is not None and eloc_threshold < eloc:
 			self.eloc[filename] = eloc
 
 		if METRIC_CYCLOMATIC_COMPLEXITY_THRESHOLD < cycc:
@@ -161,13 +111,9 @@ class MetricsLogic(object):
 	def get_cyclomatic_complexity(code_lines, extension):
 		cc_counter = 0
 
-		entry_tokens = None
-		exit_tokens = None
-
-		for i in __metric_cc_tokens__:
-			if extension in i[0]:
-				entry_tokens = i[1]
-				exit_tokens = i[2]
+		cyclomatic = languages.get(extension).get("cyclomatic", {})
+		entry_tokens = cyclomatic.get("branches")
+		exit_tokens = cyclomatic.get("exits")
 
 		if entry_tokens or exit_tokens:
 			for i in code_lines:
@@ -187,13 +133,11 @@ class MetricsLogic(object):
 		cognitive_counter = 0
 		open_structures = []
 
-		nesting_tokens = None
-		continuation_tokens = None
-
-		for i in __metric_cognitive_tokens__:
-			if extension in i[0]:
-				nesting_tokens = i[1]
-				continuation_tokens = i[2]
+		#Cognitive complexity charges a structure for how deeply it is nested, so the nesting tokens open a
+		#nested structure while the continuation tokens merely continue one that has already been counted.
+		cognitive = languages.get(extension).get("cognitive", {})
+		nesting_tokens = cognitive.get("nesting")
+		continuation_tokens = cognitive.get("continuation")
 
 		if not nesting_tokens:
 			return -1
